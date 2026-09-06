@@ -127,6 +127,15 @@ def deterministic_sample(labels: np.ndarray, cap: int, seed: int) -> np.ndarray:
     return np.array(sorted(selected), dtype=int)
 
 
+QC_UNLABELED = '__SPATEO_QC_UNLABELED__'
+
+
+def annotation_qc_enabled(args: argparse.Namespace) -> bool:
+    mode = getattr(args, 'representation', 'annotation-onehot')
+    setting = getattr(args, 'annotation_qc', None) or ('provided' if mode == 'annotation-onehot' else 'off')
+    return setting == 'provided'
+
+
 def load_slices(args: argparse.Namespace) -> list[SliceData]:
     paths = sorted(args.slice_dir.glob("*.h5ad"), key=slice_number)
     if len(paths) < 2:
@@ -140,16 +149,19 @@ def load_slices(args: argparse.Namespace) -> list[SliceData]:
                 raise RuntimeError(f"Blind input contains forbidden obsm['spatial_3d']: {path}")
             if args.spatial_key not in model.obsm:
                 raise KeyError(f"Missing obsm[{args.spatial_key!r}] in {path}")
-            if args.annotation_key not in model.obs:
+            if annotation_qc_enabled(args) and args.annotation_key not in model.obs:
                 raise KeyError(f"Missing obs[{args.annotation_key!r}] in {path}")
             if not model.obs_names.is_unique:
                 raise RuntimeError(f"Non-unique obs_names in {path}")
-            cell_ids = model.obs_names.astype(str).to_numpy(copy=True)
-            annotations = model.obs[args.annotation_key].astype(str).to_numpy(copy=True)
+            cell_ids = model.obs_names.astype(str).to_numpy(copy=True).astype('U')
+            if len(cell_ids) == 0 or np.any(np.char.strip(cell_ids) == ''):
+                raise RuntimeError(f'Cell IDs must be nonempty: {path}')
+            annotations = (model.obs[args.annotation_key].astype(str).to_numpy(copy=True).astype('U')
+                           if annotation_qc_enabled(args) else np.repeat(np.asarray(QC_UNLABELED), len(cell_ids)))
             xy = np.asarray(model.obsm[args.spatial_key], dtype=np.float64).copy()
         finally:
             model.file.close()
-        if xy.ndim != 2 or xy.shape[1] < 2 or len(xy) != len(cell_ids):
+        if xy.ndim != 2 or xy.shape[1] != 2 or len(xy) != len(cell_ids):
             raise RuntimeError(f"Invalid XY array in {path}: {xy.shape}")
         xy = xy[:, :2]
         if not np.isfinite(xy).all():
@@ -351,8 +363,10 @@ def write_coordinates(
         for slice_data, transform in zip(slices, transforms):
             aligned = apply_matrix(slice_data.xy, transform)
             for cell_id, annotation, xy in zip(slice_data.cell_ids, slice_data.annotations, aligned):
+                # Keep the legacy CSV schema without exporting an invented label.
+                output_annotation = '' if annotation == QC_UNLABELED else str(annotation)
                 writer.writerow(
-                    [str(cell_id), slice_data.slice_id, str(annotation), f"{xy[0]:.10f}", f"{xy[1]:.10f}"]
+                    [str(cell_id), slice_data.slice_id, output_annotation, f"{xy[0]:.10f}", f"{xy[1]:.10f}"]
                 )
                 count += 1
     return count

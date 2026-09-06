@@ -20,7 +20,9 @@ import numpy as np
 import _core as core
 
 
-PIPELINE_VERSION = "spateo-continuity-v3.7.0"
+PIPELINE_VERSION = "continuity-guided"
+ANONYMOUS_POLICY_SHA256 = '05d84dd012aa95f2942844385a523ec0573f4b99351d0cfc642a2a18b3279e55'
+_LEGACY_PRIORITY_RESCUE = None
 
 
 def parse_args() -> argparse.Namespace:
@@ -31,12 +33,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--annotation-key", default="anno")
     parser.add_argument("--spatial-key", default="spatial")
     parser.add_argument("--representation-key", default="X_pca")
+    parser.add_argument('--representation', choices=['annotation-onehot', 'expression-pca', 'spatial-only'], default='annotation-onehot')
+    parser.add_argument('--annotation-qc', choices=['off', 'provided'], default=None)
+    parser.add_argument('--pca-provenance', type=Path)
+    parser.add_argument('--profile', choices=['generalized', 'legacy'], default='legacy',
+                        help='legacy preserves earlier behavior; generalized is an explicitly selected candidate')
     parser.add_argument("--sample-cap", type=int, default=1800)
     parser.add_argument("--seed", type=int, default=20260817)
     parser.add_argument("--max-iter", type=int, default=300)
     parser.add_argument("--batch-size", type=int, default=800)
     parser.add_argument("--device", default="0")
-    parser.add_argument("--priority-annotation", default="ROD")
+    parser.add_argument("--priority-annotation", default=None)
     parser.add_argument("--terminal-passes", type=int, default=2)
     parser.add_argument("--internal-block-passes", type=int, default=2)
     parser.add_argument("--internal-block-min-side-slices", type=int, default=3)
@@ -58,7 +65,34 @@ def parse_args() -> argparse.Namespace:
         default="auto",
         help="apply blind interface and annotation-continuity repairs after the Spateo baseline",
     )
-    return parser.parse_args()
+    args = parser.parse_args()
+    args.annotation_qc = args.annotation_qc or ('provided' if args.representation == 'annotation-onehot' else 'off')
+    if args.representation == 'annotation-onehot' and args.annotation_qc != 'provided':
+        parser.error('annotation-onehot requires --annotation-qc provided')
+    if args.profile == 'generalized':
+        if args.repair_policy == 'learned_probe':
+            parser.error('generalized profile forbids the learned_probe acceptance bypass')
+        if args.priority_annotation:
+            parser.error('generalized profile selects anonymous label support automatically; a fixed priority requires legacy')
+        args.priority_annotation = ''
+    elif args.priority_annotation is None:
+        args.priority_annotation = 'ROD'
+    return args
+
+
+def configure_profile(args):
+    global _LEGACY_PRIORITY_RESCUE, priority_lineage_terminal_rescue
+    if _LEGACY_PRIORITY_RESCUE is None:
+        _LEGACY_PRIORITY_RESCUE = priority_lineage_terminal_rescue
+    priority_lineage_terminal_rescue = _LEGACY_PRIORITY_RESCUE
+    if getattr(args, 'profile', 'legacy') == 'generalized':
+        if args.repair_policy != 'auto':
+            raise ValueError('generalized profile requires auto acceptance gates')
+        import _universal_policy as policy
+        if core.sha256_file(Path(policy.__file__)) != ANONYMOUS_POLICY_SHA256:
+            raise ValueError('Frozen anonymous policy hash mismatch')
+        args.priority_annotation = ''
+        policy.install(sys.modules[__name__])
 
 
 def load_models(
@@ -68,6 +102,8 @@ def load_models(
     annotation_vectors: dict[str, np.ndarray] = {}
     for slice_data in slices:
         model = ad.read_h5ad(slice_data.path)
+        if not np.array_equal(model.obs_names.astype(str).to_numpy(), slice_data.cell_ids):
+            raise RuntimeError('Cell identity/order changed between native loaders')
         if "spatial_3d" in model.obsm:
             raise RuntimeError(f"Blind input contains forbidden obsm['spatial_3d']: {slice_data.path}")
         if args.representation_key not in model.obsm:
@@ -79,8 +115,22 @@ def load_models(
             raise RuntimeError(f"Invalid representation in {slice_data.path}: {representation.shape}")
         if not np.isfinite(representation).all():
             raise RuntimeError(f"Non-finite representation in {slice_data.path}")
-        labels = model.obs[args.annotation_key].astype(str).to_numpy()
-        for label in np.unique(labels):
+        mode = getattr(args, 'representation', 'annotation-onehot')
+        if representation.shape[1] < 1 or np.any(np.linalg.norm(representation.astype(np.float64), axis=1) == 0):
+            raise RuntimeError('Representation must have finite nonzero rows')
+        onehot = np.isin(representation, [0, 1]).all() and np.all(representation.sum(axis=1) == 1)
+        if mode == 'expression-pca' and (onehot or (len(representation) > 1 and np.all(representation == representation[0]))):
+            raise RuntimeError('Expression PCA cannot be one-hot or constant')
+        if mode == 'spatial-only' and (representation.shape[1] != 30 or not np.all(representation == 1)):
+            raise RuntimeError('spatial-only requires ones30')
+        if mode == 'annotation-onehot' and not onehot:
+            raise RuntimeError('annotation-onehot requires exact one-hot rows')
+        # This replaces only the in-memory selected QC column, never the input H5AD.
+        labels = slice_data.annotations.copy()
+        if core.annotation_qc_enabled(args) and not np.array_equal(model.obs[args.annotation_key].astype(str).to_numpy(), labels):
+            raise RuntimeError('Annotation changed between native loaders')
+        model.obs[args.annotation_key] = labels
+        for label in np.unique(labels) if mode == 'annotation-onehot' else []:
             group = representation[labels == label]
             representative = group[0]
             if np.max(np.abs(group - representative)) > 1e-6:
@@ -139,7 +189,7 @@ def run_spateo_serial(
         use_hvg=False,
         SVI_mode=True,
         pre_compute_dist=True,
-        nn_init=True,
+        nn_init=getattr(args, 'profile', 'legacy') == 'legacy',
         init_transform=True,
         init_layer=args.representation_key,
         init_field="obsm",
@@ -831,9 +881,13 @@ def automatic_continuity_repairs(
         operations.append(operation)
         terminal = list(range(0, anchor))
         try:
-            transforms, operation = priority_lineage_terminal_rescue(
-                slices, models, transforms, terminal, args
-            )
+            if core.annotation_qc_enabled(args):
+                transforms, operation = priority_lineage_terminal_rescue(
+                    slices, models, transforms, terminal, args
+                )
+            else:
+                operation = {'operation': 'priority_lineage_terminal_spateo', 'accepted': False,
+                             'reason': 'annotation_qc_disabled; no biological labels used'}
         except Exception as error:
             operation = {
                 "operation": "priority_lineage_terminal_spateo",
@@ -931,13 +985,19 @@ def extract_transforms(
     return transforms, rows
 
 
-def main() -> None:
-    args = parse_args()
+def main(args=None) -> None:
+    args = args or parse_args()
     if args.output_dir.exists():
         raise FileExistsError(
             f"Output directory already exists; use a new immutable path: {args.output_dir}"
         )
+    from validate_inputs import validate_inputs
+    input_audit, _ = validate_inputs(args.slice_dir, args.representation, args.annotation_key,
+                                    args.spatial_key, args.representation_key, 'continuity',
+                                    args.annotation_qc, args.pca_provenance)
+    configure_profile(args)
     args.output_dir.mkdir(parents=True)
+    (args.output_dir/'input_preflight.json').write_text(json.dumps(input_audit, indent=2)+'\n')
     slices = core.load_slices(args)
     models = load_models(slices, args)
     aligned_models, assignments = run_spateo_serial(models, args)
@@ -984,8 +1044,8 @@ def main() -> None:
     edges = core.compute_edge_scores(slices, transforms)
     core.plot_edge_scores(edge_plot_path, slices, baseline_edges, edges)
 
-    parameters = {key: value for key, value in vars(args).items() if key != "output_dir"}
-    parameters["slice_dir"] = str(parameters["slice_dir"])
+    parameters = {key: str(value) if isinstance(value, Path) else value
+                  for key, value in vars(args).items() if key != "output_dir"}
     assignment_shapes = [list(item.shape) for item in assignments]
     qc = {
         "pipeline_version": PIPELINE_VERSION,
@@ -996,7 +1056,10 @@ def main() -> None:
             "ground_truth_used_for_generation": False,
             "ground_truth_used_for_selection": False,
             "identity_source": "obs_names",
-            "annotation_source": f"obsm[{args.representation_key}] derived from obs[{args.annotation_key}]",
+            "feature_source": (f"annotation one-hot of obs[{args.annotation_key}]" if args.representation == 'annotation-onehot'
+                               else 'verified joint expression PCA' if args.representation == 'expression-pca' else 'constant ones30'),
+            "annotation_source": (f"obs[{args.annotation_key}] explicitly used for QC" if core.annotation_qc_enabled(args)
+                                  else 'QC off; internal non-biological geometry sentinel only; no biological annotation used'),
             "coordinate_source": f"obsm[{args.spatial_key}]",
         },
         "n_slices": len(slices),
@@ -1005,6 +1068,9 @@ def main() -> None:
         "anchor_slice": slices[0].slice_id,
         "continuity_anchor_slice": slices[continuity_anchor].slice_id,
         "parameters": parameters,
+        "input_preflight": input_audit,
+        "initial_nn_init": args.profile == 'legacy',
+        "anonymous_policy_sha256": ANONYMOUS_POLICY_SHA256 if args.profile == 'generalized' else None,
         "assignment_shapes": assignment_shapes,
         "baseline_edge_score_mean": float(np.mean([row["total"] for row in baseline_edges])),
         "edge_score_mean": float(np.mean([row["total"] for row in edges])),
@@ -1024,6 +1090,9 @@ def main() -> None:
         "edges": edges,
     }
     qc_path.write_text(json.dumps(qc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    for entry in input_audit['inputs']:
+        if core.sha256_file(Path(entry['path'])) != entry['sha256']:
+            raise RuntimeError('Input H5AD changed during alignment')
 
     frozen = {
         "pipeline_version": PIPELINE_VERSION,
@@ -1045,6 +1114,9 @@ def main() -> None:
             for item in slices
         ],
         "parameters": parameters,
+        "input_preflight_sha256": core.sha256_file(args.output_dir/'input_preflight.json'),
+        "initial_nn_init": args.profile == 'legacy',
+        "anonymous_policy_sha256": ANONYMOUS_POLICY_SHA256 if args.profile == 'generalized' else None,
         "artifacts": {
             "spateo_pair_summary": str(pair_path),
             "interface_operations": str(operation_path),

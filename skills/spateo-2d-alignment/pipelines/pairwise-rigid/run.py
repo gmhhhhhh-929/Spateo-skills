@@ -52,6 +52,7 @@ def main():
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--representation", choices=["expression-pca", "annotation-onehot", "spatial-only"], required=True)
     parser.add_argument("--annotation-key", default="anno")
+    parser.add_argument("--pca-provenance", type=Path)
     parser.add_argument("--max-iter", type=int, default=300)
     parser.add_argument("--batch-size", type=int, default=800)
     parser.add_argument("--seed", type=int, default=20260817)
@@ -71,7 +72,7 @@ def main():
     from validate_inputs import sha, validate_inputs
     import numpy as np
     import pandas as pd
-    summary, records = validate_inputs(args.slice_dir, args.representation, args.annotation_key)
+    summary, records = validate_inputs(args.slice_dir, args.representation, args.annotation_key, pca_provenance=args.pca_provenance)
     args.output_dir.mkdir(parents=True, exist_ok=False)
     invocation = {"preset": "full-data-sns", "command": command, "parameters": parameters,
                   "runner_sha256": sha(runner), "wrapper_sha256": sha(__file__), "input_audit": summary,

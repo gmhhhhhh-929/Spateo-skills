@@ -1,0 +1,64 @@
+{
+  "schema": "skill-enhancement-validation-v1",
+  "status": "validated_with_accuracy_limitations",
+  "date": "2026-09-06",
+  "profile_default": "legacy",
+  "generalized_profile": "opt-in; mixed frozen validation, no universal improvement claim",
+  "synthetic": {
+    "expression_preparation": 13,
+    "expression_modes_and_provenance": 10,
+    "legacy_packaging_smoke": 8,
+    "universal_policy_and_runner": 18
+  },
+  "runtime_validation": {
+    "expression_no_annotation": {
+      "completed": 2,
+      "total_cells": 148576,
+      "slices_by_specimen": [
+        14,
+        16
+      ],
+      "iterations": 300,
+      "hvg_per_specimen": 2000,
+      "pcs_per_specimen": 50,
+      "all_cell_identity_coverage": true,
+      "input_xy_unchanged": true,
+      "input_physical_z_retained": true,
+      "reference_read": false,
+      "max_transform_replay_abs_error": 5.093170329928398e-11,
+      "scope": "functional validation only; no expression A2/A5 claim"
+    },
+    "annotation_packaging_equivalence": {
+      "completed": 2,
+      "all_cell_xy_exact_to_frozen_candidate": true,
+      "max_transform_serialization_difference": 5.684341886080802e-14,
+      "reference_read": false,
+      "scope": "two development specimens; not every possible input"
+    },
+    "runtime_engine_sha256": "2c071c56485648476b6da08eebe705932268d1e4837b69cb650b984646ec7165",
+    "runtime_pca_preparer_sha256": "317a285a72cbca89729b493b3cad50fa2ba6c39a8ddcd3a54d5f4f03ea1c06ed",
+    "post_runtime_changes": [
+      "CLI default restored to legacy; runtime validations explicitly selected generalized. Pipeline identifier changed to its functional name. No explicit-profile scientific computation changed.",
+      "PCA preparation added all-slices-no-Z ordering support and rejects conflicting simultaneous Z columns; 13 synthetic tests pass. No PCA numerical algorithm changed; real runtime snapshots and their inputs remain immutable."
+    ]
+  },
+  "frozen_annotation_accuracy": {
+    "policy_lock_sha256": "cc834b1f9251d6d8e2b2338411546693059c55b0bb145cf8de462af803b1759a",
+    "anonymous_policy_sha256": "05d84dd012aa95f2942844385a523ec0573f4b99351d0cfc642a2a18b3279e55",
+    "historical_17_specimens": "retrospective; generalized Drosophila mean improves, Planarian mean regresses",
+    "independent_cases": 28,
+    "method_outcomes_success": 55,
+    "method_outcomes_failure": 1,
+    "accuracy_document": "references/validation.md"
+  },
+  "evidence_sha256": {
+    "expression_validation/runtime_alignment_validation.json": "dff4cfee64da4ea9fa4220e19931ecd450d2bc0b1e0a200026f19074e0bef889",
+    "expression_validation/annotation_packaging_validation/validation_report.json": "b2f6fed081abd61895abf35b08f6982c3b95ffc78621676f18c596bd8fe97e68",
+    "expression_validation/no_z_compatibility_validation.json": "24358a329aee001e5648bc0400e7a0f434f39926f5a9ff95e046d29e70630589",
+    "expression_validation/final_expression_mode_validation.json": "6b639653d5e8da0be913a730cce0c3131dbe76d90435553350544e253b61971e",
+    "results/final_compact_summary/summary_validation.json": "5e7a5fcf302daa52b19194570f94b2759e418516da4e7ce71d7ab780a64dfd46",
+    "expression_validation/runtime_to_release_code_audit.json": "12fd978bc5e22cb0e0d93ff2495a0dc2ee2f4ac1acebc0a84a4f5ef05878af67"
+  },
+  "evidence_location": "Private study artifacts retained by the user; only their hashes and aggregate validation are included here.",
+  "scope": "No benchmark input, cell coordinates, private server paths or reference arrays are distributed in this skill."
+}

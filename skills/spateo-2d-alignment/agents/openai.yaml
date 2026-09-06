@@ -1,4 +1,4 @@
 interface:
   display_name: "Spateo 2D Alignment"
-  short_description: "Align serial slices with two preserved Spateo pipelines"
+  short_description: "Align slices with shared PCA or annotation features"
   default_prompt: "Use $spateo-2d-alignment to validate my slice inputs and run the appropriate alignment pipeline."

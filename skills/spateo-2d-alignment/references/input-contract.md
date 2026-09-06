@@ -16,7 +16,7 @@ The H5AD contains `obsm['spatial']` as finite N×2 unaligned XY and `obsm['X_pca
 
 | Representation | Contract |
 | --- | --- |
-| `expression-pca` | One joint PCA basis across the specimen's slices, fitted from documented expression/count preprocessing and a common ordered gene space. Save gene selection, normalization and fitted-basis provenance. Independent PCA fits per slice and annotation one-hot stored under `X_pca` are invalid. |
+| `expression-pca` | One joint PCA basis across all the specimen's slices, fitted from documented expression/count preprocessing and a common ordered gene space. The basis and feature hashes must match `expression_pca_manifest.json`. Independent fits per slice or adjacent pair, and annotation one-hot stored under `X_pca`, are invalid. Annotation columns are optional. |
 | `annotation-onehot` | Exact 0/1 one-hot rows with a single active column. One dictionary across all slices; the same `obs[annotation_key]` label always has the same vector and distinct labels have distinct vectors. Labels must be nonblank and nonmissing. UTF-8 cell IDs and labels are supported. Choose the annotation field requested for the task. |
 | `spatial-only` | Every cell has the identical 30-dimensional vector of ones. Pairwise spatial-only mode also constructs this representation inside the original loader; the preflight makes the input contract explicit. |
 
@@ -29,4 +29,6 @@ python /path/to/spateo-2d-alignment/pipelines/pairwise-rigid/validate_inputs.py 
   --slice-dir /path/to/blind-slices --representation annotation-onehot --annotation-key anno
 ```
 
-For the continuity directory's equivalent checker, use `--filename-style continuity`. Both public run CLIs perform preflight automatically. Preflight cannot reconstruct undocumented expression PCA provenance; regenerate PCA from the authorized expression source when that provenance is missing or contradictory.
+For the continuity directory's equivalent checker, use `--filename-style continuity`. Both public run CLIs perform preflight automatically. Expression mode finds `expression_pca_manifest.json` in the slice directory's parent, or accepts `--pca-provenance`. It verifies a shared fitted basis and per-slice feature/identity/file hashes. Preflight cannot reconstruct undocumented PCA provenance; use `scripts/prepare_expression_pca.py` and the authorized expression source when it is missing or contradictory.
+
+The PCA preparation script accepts multiple input slice H5ADs and a single expression source spanning their cell IDs. It fits only the requested cells together, maps by ID rather than row position, writes new files and preserves XY and available physical Z. The expression source may contain additional cells; those do not participate in the PCA fit. For separately stored expression sources, first construct one common-gene expression table with globally unique IDs and a recorded gene intersection; do not join independent PC scores.

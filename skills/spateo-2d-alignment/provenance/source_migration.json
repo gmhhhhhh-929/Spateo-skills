@@ -38,13 +38,14 @@
       "source_relative": "run_pipeline.py",
       "path": "pipelines/continuity-guided/_core.py",
       "source_sha256": "aca70bd109dfab38a9ceebd2f02810aae80991fe9f72e3715d72d9d3ece6d487",
-      "migrated_sha256": "96ea32a017f18899ba614d81f5c2308dd7dd7a93b2eb71e3239175ad0badbd71",
+      "migrated_sha256": "2dddf799fdbd3bf3220ac4595ec2e8914b3742763128a59a3696b15e936f8bee",
       "changes": [
         "Retain only transitive scientific helper closure; remove unreachable standalone parser/main/older workflow functions and their CLI guard/version constant.",
         "Replace implicit ASCII content-hash conversion with explicit UTF-8 encoding for international cell IDs and annotation labels.",
-        "Normalize the extracted module to a single trailing newline; AST unchanged."
+        "Normalize the extracted module to a single trailing newline; AST unchanged.",
+        "Add explicit representation and annotation-QC modes, no-annotation geometry handling, and generalized/legacy profiles. Generalized initialization disables nn_init and uses anonymous cross-label terminal acceptance; legacy remains available."
       ],
-      "scientific_ast_preserved": true,
+      "scientific_ast_preserved": false,
       "preserved_symbols_ast_sha256": {
         "SliceData": "4217975e3d52c412b485e34b1954db942871c01f810a2cc1164845c3352cae2b",
         "aligned_sample": "bf0a3379953bd1c443461c976a5715d43560e157f76ac90e3d29f65d2837dd46",
@@ -64,7 +65,6 @@
         "sha256_file": "0f866dedf6ff701ca1026b51861cb12b946bc8ebc6de0e6351246f04db049247",
         "slice_number": "ee4c7ce5e019c316bd726369fdff94eb04ce6a756bed102c780db18e85ff0f40",
         "trimmed_mean": "7255bb2b4041e37bdc6d3cbabc678b7d2cfba7de942b3ff252fffc4e2efa090a",
-        "write_coordinates": "fc1f718825c02da5bd1135750d71d776ce848eef9572337bb312c8436ae26fae",
         "write_csv": "a1f20f7bc9f0988e6854ea6f6cd7c33cef2c72f4f9360955603e56b3b2a40e54"
       },
       "excluded_symbols": [
@@ -81,7 +81,22 @@
         "try_spateo_refinement",
         "weighted_geometric_median"
       ],
-      "packaging_only_modified_symbols": {
+      "previous_packaged_sha256": "96ea32a017f18899ba614d81f5c2308dd7dd7a93b2eb71e3239175ad0badbd71",
+      "enhanced_symbols": {
+        "annotation_qc_enabled": {
+          "previous_ast_sha256": null,
+          "current_ast_sha256": "bc566e659bc7cd0bd3993cb6f4fc709958dcbc7b88f20f1230333810a1d2f5ce"
+        },
+        "load_slices": {
+          "previous_ast_sha256": "91a59ee4047c2d22ca63681ec0b08a2f4562dff66f40f5642204b1e1b9fae901",
+          "current_ast_sha256": "1f2c9702ace055c9f20958ade540be613691d78e1fdfa7a9b2bacf47cc1a40b9"
+        },
+        "write_coordinates": {
+          "previous_ast_sha256": "fc1f718825c02da5bd1135750d71d776ce848eef9572337bb312c8436ae26fae",
+          "current_ast_sha256": "865f2f8ca2a4d20844100f4a736ae97c9dec98539075730004b0a2d05790e601"
+        }
+      },
+      "historical_packaging_only_modified_symbols": {
         "load_slices": {
           "source_ast_sha256": "f01903f49bbbe17ef589126bfbae4bda7eca00ba7048f4c5c00bb9c8554dd5dd",
           "migrated_ast_sha256": "91a59ee4047c2d22ca63681ec0b08a2f4562dff66f40f5642204b1e1b9fae901",
@@ -143,36 +158,179 @@
       "source_relative": "run_spateo_continuity_pipeline.py",
       "path": "pipelines/continuity-guided/engine.py",
       "source_sha256": "5ad0d91af96030f0517606dbe99e01a836856925d530e5b298035121255f2c77",
-      "migrated_sha256": "fb14912aaff612a3e184714ff0eccde6689695b22f7e7c6ea008eb82bd52ee60",
+      "migrated_sha256": "7784bc4fddd92b244d75d29922a0d320b87e829a78bddb8ea38d7a53147e7b50",
       "changes": [
         "import run_pipeline as core -> import _core as core (local private module relocation only)",
-        "import run_pose_graph_pipeline as pose -> import _continuity_scoring as pose (local private module relocation only)"
+        "import run_pose_graph_pipeline as pose -> import _continuity_scoring as pose (local private module relocation only)",
+        "Add explicit representation and annotation-QC modes, no-annotation geometry handling, and generalized/legacy profiles. Generalized initialization disables nn_init and uses anonymous cross-label terminal acceptance; legacy remains available.",
+        "Keep legacy as the compatibility CLI default; generalized remains explicit. Report the functional pipeline name in new manifests."
       ],
-      "scientific_ast_preserved": true,
+      "scientific_ast_preserved": false,
       "preserved_symbols_ast_sha256": {
         "aligned_points": "85637fad7ae41a5580f07104eba7f7d69fffd509b338c5a7bd7c46050b2a23d5",
-        "automatic_continuity_repairs": "8e23026c26aaf8b97ecb14f3fd3660337235c0162afa1df9e067b9d8138dd96f",
-        "endpoint_balanced_block_translation": "296ac5014215a16fe4e5b9bb704ca61c9bf385d09da27a7811058344fdb3544f",
         "extract_transforms": "9edcafa3954597a7e7e3e48233ca314b2b249b4ce219694eb4ae45dea86f57fc",
         "fractional_rigid": "e6dc34ab5c8eeb3c8346ed6e34e8bc7438af9d3c068f7a80104884ed241f5d05",
         "internal_block_translation_repairs": "14bc238edfab25902a1562356aff1880d6994a9dacdc4c285e9e1103308ee9ff",
         "lineage_pair_distance": "bb3f85b6361716eef490850b5825589c780fb2743888e14ab2fc50276e5f7db3",
-        "load_models": "70314c590961bc5f451a27dc57b58850dc987c608d52dc889cef9b05628e8e9d",
         "local_objective": "9533d9a5f77ab164493fa948f2138cc81fc63918eb1bbaa4a354ec099067aa0f",
-        "main": "4314215ccfa799666165eb222b0d0bb315098c8eb7da567869a6617f76985500",
         "make_work_model": "db12ed5b8391398d5e4ab30e231ea6ff2a4968b5e4e0cb98e9202b782ee60de1",
         "normalize_rows": "50e146ee06b83f2b174d069ba77cfab0e0d4a0dc00fa71adcc03c314a6e4a47f",
-        "parse_args": "d7d45ef59225d899532553098d4f9f29c319a69f1a994180b4f10d04cb1f5112",
         "priority_lineage_terminal_rescue": "302329b5cbee22a3b49f24034d08992ab9b66dc05ef7c796688ec868368ff177",
         "reverse_boundary_fractional_rescue": "46219e3dd1b712882ff022a1c2cabd3f59a4250a1e15f07e83d8fa569a98437b",
         "robust_high_threshold": "39c18eef6d4129e2d1a844c7d32257eb4a459bd35895b5e93b82030125e7d01f",
         "run_spateo_candidate_models": "e912b657774f2ad563b5bb6c3460e0b89198c33f1129039a1da474353d8d7a2d",
-        "run_spateo_serial": "126be6f3fbde73c6d2e8c1733bd3d941782cfb8ad109cbb2c5253a004e4094da",
-        "sampled_pair_score": "0a0a63ef2f812acab3a0fca382aa5f039d6368d84085197df619adcb80f47adf",
         "sparse_terminal_singleton_rescue": "581760cf488626fd92007771431c1a88819ec18380d0024937a2f4b862e8b843",
         "terminal_candidate_score": "34340bdb67b7f105fb0e831d216826f0424415962f668fe8a6ff47ff2db893dc"
       },
-      "excluded_symbols": []
+      "excluded_symbols": [],
+      "previous_packaged_sha256": "fb14912aaff612a3e184714ff0eccde6689695b22f7e7c6ea008eb82bd52ee60",
+      "enhanced_symbols": {
+        "parse_args": {
+          "previous_ast_sha256": "d7d45ef59225d899532553098d4f9f29c319a69f1a994180b4f10d04cb1f5112",
+          "current_ast_sha256": "bf49c0b3410517d76e768e721e84ca31cd3d72f92017795058ef27ecbbcbf843"
+        },
+        "configure_profile": {
+          "previous_ast_sha256": null,
+          "current_ast_sha256": "eeeb0f7c602edf1e2fa15000f3e88ef0bd95847f9325c20894a92338ac08d216"
+        },
+        "load_models": {
+          "previous_ast_sha256": "70314c590961bc5f451a27dc57b58850dc987c608d52dc889cef9b05628e8e9d",
+          "current_ast_sha256": "1f3df78617782e64be7057b823a6b2073ae8f1f734d6529b7471b72550392a68"
+        },
+        "run_spateo_serial": {
+          "previous_ast_sha256": "126be6f3fbde73c6d2e8c1733bd3d941782cfb8ad109cbb2c5253a004e4094da",
+          "current_ast_sha256": "b6a76b139d3f9c7453e945605c2ceef1ddeb79d2ed2883a11e9ba56311672397"
+        },
+        "automatic_continuity_repairs": {
+          "previous_ast_sha256": "8e23026c26aaf8b97ecb14f3fd3660337235c0162afa1df9e067b9d8138dd96f",
+          "current_ast_sha256": "0d115688df35659c2a9c4c2aab1f87959bfda9a84898029076c04b51c0d1050f"
+        },
+        "main": {
+          "previous_ast_sha256": "4314215ccfa799666165eb222b0d0bb315098c8eb7da567869a6617f76985500",
+          "current_ast_sha256": "ae27b375b50f0501dbb67c941e6c57733b3f10846c99621a97716b22cb0c2a69"
+        }
+      }
+    },
+    {
+      "source_version": "generalized-expression-enhancement",
+      "path": "pipelines/continuity-guided/_universal_policy.py",
+      "source_relative": null,
+      "source_sha256": null,
+      "migrated_sha256": "05d84dd012aa95f2942844385a523ec0573f4b99351d0cfc642a2a18b3279e55",
+      "changes": [
+        "Package implementation or validation helper"
+      ],
+      "scientific_ast_preserved": false
+    },
+    {
+      "source_version": "generalized-expression-enhancement",
+      "path": "pipelines/continuity-guided/run.py",
+      "source_relative": null,
+      "source_sha256": null,
+      "migrated_sha256": "154bf686ee7d4beb5178a1302c6cf5e80f1e26cde46c622d32568c8ed9067d71",
+      "changes": [
+        "Package implementation or validation helper"
+      ],
+      "scientific_ast_preserved": false
+    },
+    {
+      "source_version": "generalized-expression-enhancement",
+      "path": "pipelines/continuity-guided/validate_inputs.py",
+      "source_relative": null,
+      "source_sha256": null,
+      "migrated_sha256": "0b408c02120d7e4f276ba57d50f9571b6044266a6d1d827a98acc1ea5d7177a4",
+      "changes": [
+        "Package implementation or validation helper"
+      ],
+      "scientific_ast_preserved": false
+    },
+    {
+      "source_version": "generalized-expression-enhancement",
+      "path": "pipelines/pairwise-rigid/run.py",
+      "source_relative": null,
+      "source_sha256": null,
+      "migrated_sha256": "438d8b5b492506a26c1d95eaa5106a1da2bc40bdce39a091fc51f1e084ba7cc5",
+      "changes": [
+        "Package implementation or validation helper"
+      ],
+      "scientific_ast_preserved": false
+    },
+    {
+      "source_version": "generalized-expression-enhancement",
+      "path": "pipelines/pairwise-rigid/validate_inputs.py",
+      "source_relative": null,
+      "source_sha256": null,
+      "migrated_sha256": "0b408c02120d7e4f276ba57d50f9571b6044266a6d1d827a98acc1ea5d7177a4",
+      "changes": [
+        "Package implementation or validation helper"
+      ],
+      "scientific_ast_preserved": false
+    },
+    {
+      "source_version": "generalized-expression-enhancement",
+      "path": "scripts/check_runtime.py",
+      "source_relative": null,
+      "source_sha256": null,
+      "migrated_sha256": "5b2cc152ee2eea9bcfd63b35a5a82537df3657f5ab9cee6efb63c6bde93f7526",
+      "changes": [
+        "Package implementation or validation helper"
+      ],
+      "scientific_ast_preserved": false
+    },
+    {
+      "source_version": "generalized-expression-enhancement",
+      "path": "scripts/prepare_expression_pca.py",
+      "source_relative": null,
+      "source_sha256": null,
+      "migrated_sha256": "dc0c12c4287a970e37f91b0f440d7074c4ac95a511bee09a260055d0be6c4bdd",
+      "changes": [
+        "Package implementation or validation helper"
+      ],
+      "scientific_ast_preserved": false
+    },
+    {
+      "source_version": "generalized-expression-enhancement",
+      "path": "scripts/smoke_test.py",
+      "source_relative": null,
+      "source_sha256": null,
+      "migrated_sha256": "2395890ed4f10eaa946389b52955137118ed3306864cb88d4a0acaef1094e86a",
+      "changes": [
+        "Package implementation or validation helper"
+      ],
+      "scientific_ast_preserved": false
+    },
+    {
+      "source_version": "generalized-expression-enhancement",
+      "path": "scripts/test_prepare_expression_pca.py",
+      "source_relative": null,
+      "source_sha256": null,
+      "migrated_sha256": "148d565ceb0ec0b41a521b4e0248e228e2df39aee55d30a95f9ae92009fda955",
+      "changes": [
+        "Package implementation or validation helper"
+      ],
+      "scientific_ast_preserved": false
+    },
+    {
+      "source_version": "generalized-expression-enhancement",
+      "path": "scripts/tests_expression_mode.py",
+      "source_relative": null,
+      "source_sha256": null,
+      "migrated_sha256": "8ef4dc1c8955bdbef5717440724698ccd254782404004787d547fd7f3771cf22",
+      "changes": [
+        "Package implementation or validation helper"
+      ],
+      "scientific_ast_preserved": false
+    },
+    {
+      "source_version": "generalized-expression-enhancement",
+      "path": "scripts/verify_bundle.py",
+      "source_relative": null,
+      "source_sha256": null,
+      "migrated_sha256": "1648832351c81b2ca80ee62366bce451e2007140c67281c0e6cf136870d9ad58",
+      "changes": [
+        "Package implementation or validation helper"
+      ],
+      "scientific_ast_preserved": false
     }
   ],
   "excluded_source_files": [
@@ -446,5 +604,18 @@
       "relative": "validation_v3_7_0/",
       "reason": "Historical benchmark results, not executable dependencies"
     }
-  ]
+  ],
+  "enhancement": {
+    "created_at": "2026-09-06T14:43:32.212052+00:00",
+    "joint_pca": "one shared basis for all requested slices",
+    "annotation_optional_for_expression": true,
+    "pipeline_directories": [
+      "pairwise-rigid",
+      "continuity-guided"
+    ],
+    "reference_coordinates_used_by_inference": false,
+    "publication_note": "This manifest preserves previous source hashes and explicitly marks changed scientific/runtime functions. It is not an accuracy claim."
+  },
+  "enhancement_validation": "provenance/enhancement_validation.json",
+  "profile_release_policy": "legacy remains default; generalized is opt-in due to mixed frozen validation results; no post-test parameter tuning"
 }
