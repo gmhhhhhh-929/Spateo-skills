@@ -1,0 +1,4 @@
+interface:
+  display_name: "Setup Spateo Environment"
+  short_description: "Create and verify a compatible Spateo Python environment"
+  default_prompt: "Use $setup-spateo-environment to create and verify a Spateo environment from a separate source checkout."

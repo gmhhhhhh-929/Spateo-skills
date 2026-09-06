@@ -1,0 +1,450 @@
+{
+  "schema": "spateo-2d-source-migration-v1",
+  "sources": {
+    "v0.2.3": {
+      "repository_label": "user-provided-spatial-alignment-snapshot",
+      "source_relative_root": "pipeline/releases/v0.2.3"
+    },
+    "v3.7.0": {
+      "repository_label": "user-provided-spatial-alignment-snapshot",
+      "source_relative_root": "pipeline/experimental/spateo-continuity-v3.7.0"
+    }
+  },
+  "license_audit": {
+    "explicit_license_found_at_source_repository_roots": false,
+    "inherited_license_not_assumed": true
+  },
+  "files": [
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "runners/spateo_rigid_sns_alignment.py",
+      "path": "pipelines/pairwise-rigid/runners/spateo_rigid_sns_alignment.py",
+      "source_sha256": "a315967b0b171a337c55070a4ad1360fa792903f2cbf95bbee641cfed4506a1c",
+      "migrated_sha256": "a315967b0b171a337c55070a4ad1360fa792903f2cbf95bbee641cfed4506a1c",
+      "changes": [],
+      "scientific_ast_preserved": true
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "runners/spateo_rigid_sns_alignment_spatial_only.py",
+      "path": "pipelines/pairwise-rigid/runners/spateo_rigid_sns_alignment_spatial_only.py",
+      "source_sha256": "cd5e2edc77add2017b4959ac4b224062395500d2239c570ffd7b10bd551cabe8",
+      "migrated_sha256": "cd5e2edc77add2017b4959ac4b224062395500d2239c570ffd7b10bd551cabe8",
+      "changes": [],
+      "scientific_ast_preserved": true
+    },
+    {
+      "source_version": "v3.7.0",
+      "source_relative": "run_pipeline.py",
+      "path": "pipelines/continuity-guided/_core.py",
+      "source_sha256": "aca70bd109dfab38a9ceebd2f02810aae80991fe9f72e3715d72d9d3ece6d487",
+      "migrated_sha256": "96ea32a017f18899ba614d81f5c2308dd7dd7a93b2eb71e3239175ad0badbd71",
+      "changes": [
+        "Retain only transitive scientific helper closure; remove unreachable standalone parser/main/older workflow functions and their CLI guard/version constant.",
+        "Replace implicit ASCII content-hash conversion with explicit UTF-8 encoding for international cell IDs and annotation labels.",
+        "Normalize the extracted module to a single trailing newline; AST unchanged."
+      ],
+      "scientific_ast_preserved": true,
+      "preserved_symbols_ast_sha256": {
+        "SliceData": "4217975e3d52c412b485e34b1954db942871c01f810a2cc1164845c3352cae2b",
+        "aligned_sample": "bf0a3379953bd1c443461c976a5715d43560e157f76ac90e3d29f65d2837dd46",
+        "apply_matrix": "3c0fe69f41310a1911b542b6de74a4b9113517a8a2767d51ed759386cc6c0d4e",
+        "compute_edge_scores": "3f43a2ba77f39d5557d799f861226758c297ae0b72fd71dd6bf227684e8f757c",
+        "deterministic_sample": "d75efdc5fc4945541d3b3a285f473aa8b79f8202163b9315632afa03d343f990",
+        "endpoint_landmarks": "90a369bc4f404a7deed028f1377b8273be31b6a85c7a1db488f1138d076443bb",
+        "fit_proper_rigid": "f052830316f1b9a4ba1202215cfb83231803874501878fa332c2a403ee8f0cc5",
+        "label_stats": "cfc607d58ccd8ad80585d69e990cd12a4d9c7e57a9607aa0580ef2abc2b2efd2",
+        "matrix_rotation_deg": "9390d6e086cf5fc7352062012c730a868c96340055dc730baf223cd05d09464b",
+        "plot_edge_scores": "9ab7eeaa9cf473470cc702dec604b9cd2ec1c4e648370dc34702aa67d2f95651",
+        "plot_overview": "bdc7aafe5fdcc2ccfda545a76849d4545a37d325807b881ee3e52166bfd49393",
+        "rigid_matrix": "04f7f6eeae53b0ab5140426742bc465ea6e9fe6f492c7fef8f70622a30cb91a9",
+        "robust_diagonal": "2be187712a7172de3fad47d79c0000cb0028825bbeca4cfa491cdd94f864d223",
+        "score_alignment": "972f5163789f816390177b8c2c7b9eda5984daed7cab071a39c53d0de73fd24c",
+        "sha256_arrays": "5ab7663e2246c0117fd0e4ea785ecdc3be7dcffa8b8891f47fa7f4faf1621f57",
+        "sha256_file": "0f866dedf6ff701ca1026b51861cb12b946bc8ebc6de0e6351246f04db049247",
+        "slice_number": "ee4c7ce5e019c316bd726369fdff94eb04ce6a756bed102c780db18e85ff0f40",
+        "trimmed_mean": "7255bb2b4041e37bdc6d3cbabc678b7d2cfba7de942b3ff252fffc4e2efa090a",
+        "write_coordinates": "fc1f718825c02da5bd1135750d71d776ce848eef9572337bb312c8436ae26fae",
+        "write_csv": "a1f20f7bc9f0988e6854ea6f6cd7c33cef2c72f4f9360955603e56b3b2a40e54"
+      },
+      "excluded_symbols": [
+        "annotation_centers",
+        "block_rescue",
+        "candidate_for_angle",
+        "estimate_pair",
+        "interface_context_score",
+        "main",
+        "parse_args",
+        "robust_offset",
+        "rotation_about",
+        "trajectory_penalty",
+        "try_spateo_refinement",
+        "weighted_geometric_median"
+      ],
+      "packaging_only_modified_symbols": {
+        "load_slices": {
+          "source_ast_sha256": "f01903f49bbbe17ef589126bfbae4bda7eca00ba7048f4c5c00bb9c8554dd5dd",
+          "migrated_ast_sha256": "91a59ee4047c2d22ca63681ec0b08a2f4562dff66f40f5642204b1e1b9fae901",
+          "reason": "Encode IDs and labels explicitly as UTF-8 only for the content hash. Preserves original returned strings, coordinates and all scientific computation; ASCII hashes are identical."
+        }
+      }
+    },
+    {
+      "source_version": "v3.7.0",
+      "source_relative": "run_pose_graph_pipeline.py",
+      "path": "pipelines/continuity-guided/_continuity_scoring.py",
+      "source_sha256": "b5d4cd63a7153bd48b8c8aace288e92703a8af4d25dbf668bea496bfe6fd5a7e",
+      "migrated_sha256": "6dda22615b6caacdd9fef77d8caf52e18666ef7d5a8d9b8941edf3694f700661",
+      "changes": [
+        "Retain only transitive scientific helper closure; remove unreachable standalone parser/main/older workflow functions and their CLI guard/version constant.",
+        "import run_pipeline as core -> import _core as core (local private module relocation only)",
+        "Normalize the extracted module to a single trailing newline; AST unchanged."
+      ],
+      "scientific_ast_preserved": true,
+      "preserved_symbols_ast_sha256": {
+        "annotation_shape_score": "a7898cef8fa34e0bcfa90e1493d34d2f74925aeb063c5bcbb1339c2c3ae25e17",
+        "balanced_endpoint_offset": "470c18afcf11d195b08e0ac4a6e360d1298769b518e28eb7fdaacfbabd140fd7",
+        "longitudinal_endpoint_score": "e893a7279239af9e8287dad4e42b9740be0c93164eb1d65fc6783efdf32c340e",
+        "longitudinal_endpoints": "662d094942c6eef165a37810e59045b6564eb2bc592387d596d6d1bea63f7658",
+        "score_alignment_v2": "5eed3938c124f22efaacf146bc2acb9cfcc78e82f6166899383641f05fe0a27c"
+      },
+      "excluded_symbols": [
+        "Candidate",
+        "Edge",
+        "add_spateo_candidates",
+        "angular_distance_degrees",
+        "annotation_icp_offset",
+        "boundary_objective",
+        "build_edges",
+        "candidate_for_angle_v2",
+        "candidate_rows",
+        "consensus_block_rescue",
+        "cycle_rows",
+        "edge_reliability",
+        "enumerate_pair_candidates",
+        "graph_residuals",
+        "graph_rounds",
+        "initial_tree_transforms",
+        "main",
+        "matrix_angle_radians",
+        "optimize_selected_graph",
+        "pack_transforms",
+        "parse_args",
+        "plot_cycles",
+        "select_cycle_consistent_candidates",
+        "transformed_edge_score",
+        "unpack_transforms",
+        "weighted_median",
+        "wrap_radians"
+      ]
+    },
+    {
+      "source_version": "v3.7.0",
+      "source_relative": "run_spateo_continuity_pipeline.py",
+      "path": "pipelines/continuity-guided/engine.py",
+      "source_sha256": "5ad0d91af96030f0517606dbe99e01a836856925d530e5b298035121255f2c77",
+      "migrated_sha256": "fb14912aaff612a3e184714ff0eccde6689695b22f7e7c6ea008eb82bd52ee60",
+      "changes": [
+        "import run_pipeline as core -> import _core as core (local private module relocation only)",
+        "import run_pose_graph_pipeline as pose -> import _continuity_scoring as pose (local private module relocation only)"
+      ],
+      "scientific_ast_preserved": true,
+      "preserved_symbols_ast_sha256": {
+        "aligned_points": "85637fad7ae41a5580f07104eba7f7d69fffd509b338c5a7bd7c46050b2a23d5",
+        "automatic_continuity_repairs": "8e23026c26aaf8b97ecb14f3fd3660337235c0162afa1df9e067b9d8138dd96f",
+        "endpoint_balanced_block_translation": "296ac5014215a16fe4e5b9bb704ca61c9bf385d09da27a7811058344fdb3544f",
+        "extract_transforms": "9edcafa3954597a7e7e3e48233ca314b2b249b4ce219694eb4ae45dea86f57fc",
+        "fractional_rigid": "e6dc34ab5c8eeb3c8346ed6e34e8bc7438af9d3c068f7a80104884ed241f5d05",
+        "internal_block_translation_repairs": "14bc238edfab25902a1562356aff1880d6994a9dacdc4c285e9e1103308ee9ff",
+        "lineage_pair_distance": "bb3f85b6361716eef490850b5825589c780fb2743888e14ab2fc50276e5f7db3",
+        "load_models": "70314c590961bc5f451a27dc57b58850dc987c608d52dc889cef9b05628e8e9d",
+        "local_objective": "9533d9a5f77ab164493fa948f2138cc81fc63918eb1bbaa4a354ec099067aa0f",
+        "main": "4314215ccfa799666165eb222b0d0bb315098c8eb7da567869a6617f76985500",
+        "make_work_model": "db12ed5b8391398d5e4ab30e231ea6ff2a4968b5e4e0cb98e9202b782ee60de1",
+        "normalize_rows": "50e146ee06b83f2b174d069ba77cfab0e0d4a0dc00fa71adcc03c314a6e4a47f",
+        "parse_args": "d7d45ef59225d899532553098d4f9f29c319a69f1a994180b4f10d04cb1f5112",
+        "priority_lineage_terminal_rescue": "302329b5cbee22a3b49f24034d08992ab9b66dc05ef7c796688ec868368ff177",
+        "reverse_boundary_fractional_rescue": "46219e3dd1b712882ff022a1c2cabd3f59a4250a1e15f07e83d8fa569a98437b",
+        "robust_high_threshold": "39c18eef6d4129e2d1a844c7d32257eb4a459bd35895b5e93b82030125e7d01f",
+        "run_spateo_candidate_models": "e912b657774f2ad563b5bb6c3460e0b89198c33f1129039a1da474353d8d7a2d",
+        "run_spateo_serial": "126be6f3fbde73c6d2e8c1733bd3d941782cfb8ad109cbb2c5253a004e4094da",
+        "sampled_pair_score": "0a0a63ef2f812acab3a0fca382aa5f039d6368d84085197df619adcb80f47adf",
+        "sparse_terminal_singleton_rescue": "581760cf488626fd92007771431c1a88819ec18380d0024937a2f4b862e8b843",
+        "terminal_candidate_score": "34340bdb67b7f105fb0e831d216826f0424415962f668fe8a6ff47ff2db893dc"
+      },
+      "excluded_symbols": []
+    }
+  ],
+  "excluded_source_files": [
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "README.md",
+      "source_sha256": "445b8068ebeed8df891ff2ad873b712267212e37769b86228568c1d4992e3eca",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "release_manifest.sha256",
+      "source_sha256": "70f825353d41b268da0553376ab6657b4f974340c161f52c4c119b138a86a947",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "runners/spateo_rigid_sns_alignment_spatial_only_roi.py",
+      "source_sha256": "59fe42e1d5d3d2d157db740f875cbaf45c90e1711ec40b14297f283abf02228b",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "schemas/skill_lock.schema.json",
+      "source_sha256": "4ab2f42125c8ae254d56e0cda2da6397d2c5a257070afd9524727798a77b8947",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/components/component_group_align_preview.py",
+      "source_sha256": "61543edd3e2939c8f7d50ce580586e785319727d89d31c9cdb2cc96a87b22afe",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/components/detect_components.py",
+      "source_sha256": "9bbc3b354eb606eef737b1dee741c0888fba5c230eb1f17549cd5777c65da6f2",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/components/triad_component_scan.py",
+      "source_sha256": "ccddaf899d0cc942570a3ba92da88bf4be0a2e5f1c7028c3de30431c51a77a47",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/components/triad_mid_slice_rigid_preview.py",
+      "source_sha256": "4c33c2ee896c06473cf312919337072f3374318b96325692d2e540335b8a5325",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/core/apply_recipe.py",
+      "source_sha256": "148534b23a5d392cfad70ed0be08e58b37a529a76459823011d75e410003cc2c",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/core/build_h5ad_cell_id_map.py",
+      "source_sha256": "cc53fe412a0946712c03fcb69c6cbc5d00c718929a4efaf0c44208429698e516",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/core/compose_alignment_recipes.py",
+      "source_sha256": "850cf1a7a846afcca7498f9a648aec0bc2b0474994f3b9a0f15b033d53f20e47",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/core/export_clean_coordinates.py",
+      "source_sha256": "9a2d43283ead4af60196dca6e37aec3cbd0ef7e204598b801f72b5ee07fe1829",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/core/extract_pairwise_transform.py",
+      "source_sha256": "cef1b0538178ea945cd804c2997a880dff1ca7cc55974c68145a6c1c2177984d",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/core/make_pairwise_spateo_refine_plan.py",
+      "source_sha256": "711203031590a92b42bef4d2bbfbf564a1e7e5d95bc39042e93d9f1592d3f7c6",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/core/make_spateo_pairwise_initial_plan.py",
+      "source_sha256": "9299bcfee3dc360b1b9db84d7a1e729505c4721662dfbf5ba906a6c97a594bf6",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/core/pairwise_core.py",
+      "source_sha256": "6ed350b8e44ae2e191bd5041ff875e2addb487665df5757211682388223b368d",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/core/propose_pairwise_refine_candidates.py",
+      "source_sha256": "8b89756608573eeb856e5afa2aa3c48f7826d8729028e8543499c92f0aec8fd2",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/core/qc_pairwise_celltype_edges.py",
+      "source_sha256": "4c84f36328f6cc4fb5da894f59adc15296f4eadc846adf37d27717c2c5fc946b",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/core/render_pairwise_visual_qc.py",
+      "source_sha256": "df5661a571d9de83154425592b8c3f2adbedda1b57eb2615be6e5edec0dd3ec6",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/core/summarize_pairwise_initial_run.py",
+      "source_sha256": "9233924a1b88c4417f841a01490aadb9cc3a141ecd464f6d9916242c55a7443e",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/core/summarize_pairwise_refine_run.py",
+      "source_sha256": "9f36d8554a5fe5cb30d49e666a996844f9bc94aa5627a946aab1e2e4c2667e2a",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/core/validate_clean_coordinates.py",
+      "source_sha256": "0d9ccfe2f8a41c7776096fcb73fd3041a21abb6da99a47e9d5ea4b59c257119d",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/sampling/create_balanced_spatial_sample.py",
+      "source_sha256": "d2bce232c2966e4547ac92949606cbcd74f47a5b88524b9eb093a82e8d959ddb",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/sampling/validate_sample_recipe_full_replay.py",
+      "source_sha256": "4902328689b9c818d7b79d68b781ed2f552deed300ecfb6ee15505fa675f83da",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/viewers/make_spatial_before_after_viewer.py",
+      "source_sha256": "44253c5ab0f8c6d8576637900063ebb774c4c5658e89910faba7feda5c4043f0",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/viewers/make_st_pointcloud_viewer.py",
+      "source_sha256": "2f31c9ad7cc585c584783e50df150b3fd2614dc365d8edcab9f623697b9f0da6",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/viewers/make_triad_component_review_viewer.py",
+      "source_sha256": "fc643e28a821436bad14d548e538903da7cffa828593ca9f86e6846eb3c73801",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/workflow/build_workflow_dashboard.py",
+      "source_sha256": "e5acef17a2b17aaebe1e431beb5d57b89bd0625b59e0a204947decb7b1a3cb38",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/workflow/init_project_run.py",
+      "source_sha256": "d7b1e3036fd295dce8f0f81738738c4c05648d39b449f57b77cbcfd542f3c555",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/workflow/update_state_pointer.py",
+      "source_sha256": "00147c2b403dee1880c533b44c98844cbf6a09d261850280dc6bdc53056f4f2f",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/workflow/validate_project_layout.py",
+      "source_sha256": "bfa520258cffcdb8890ae0bef7d651a09f1ef64d1b7cf52ecdcbf9efbe55baf2",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "scripts/workflow/write_workflow_record.py",
+      "source_sha256": "7bad03ae695ed5a69aa85b2112a52a6c120bb953ddee039515c1f4c36d09ae1a",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "skill.lock.yaml",
+      "source_sha256": "26e128eb5928773459119f8af2674111c1965244ed05623f708bda1297df5a01",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "spalign/__init__.py",
+      "source_sha256": "578dc63e5376cb14aa13cbce2897554299557a88c2ac839c787bae55278db050",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "spalign/lock_resolver.py",
+      "source_sha256": "08a6897c88d419c8f9ee83a70e66776c5e93efed7822d9d03a44aaff8e234d56",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "spalign/make_locked_pairwise_plan.py",
+      "source_sha256": "53f393b5e8ac9ec068dd91c435f8a86a2c7897f3184bbda7d18744227a3cac5e",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "spalign/validate_run.py",
+      "source_sha256": "16be75c495425ba560f3406c0aac832f7fb25033bbf1fc65d17e86ad966fa41b",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v0.2.3",
+      "source_relative": "tests/test_lightweight_workflow.py",
+      "source_sha256": "38cdb529dd7149c85ca7400162ba3377b88ff059752c3c38b4133ef08d899178",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v3.7.0",
+      "source_relative": "SKILL.snapshot.md",
+      "source_sha256": "c30b48c59a59a86757b7ed5d7e843530b5add2d5d1711ec9bcdc6654ba9738d9",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v3.7.0",
+      "source_relative": "agents/openai.yaml",
+      "source_sha256": "20c644a0c17f7a889964864769e257e42c7e3d4f86be3145021cdf64a34e462f",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v3.7.0",
+      "source_relative": "evaluate_frozen.py",
+      "source_sha256": "f6e7e5c3185cffacd4621a93a60b73bb788dc979e735d3f0184e7b8a51a0a5e3",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v3.7.0",
+      "source_relative": "references/selection-contract.md",
+      "source_sha256": "8391c41db9720836ec007a3be468a1b72fb97d18ccf497e26ab5f5729aad064e",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    },
+    {
+      "source_version": "v3.7.0",
+      "source_relative": "release_manifest.json",
+      "source_sha256": "df54cfdba16b2ded85cc472d684264903545796a2c4e617302718402de108893",
+      "reason": "Not a transitive dependency of the two selected execution paths; excludes old workflows, ROI/components, evaluation, UI snapshots and legacy release locking."
+    }
+  ],
+  "excluded_directories": [
+    {
+      "source_version": "v3.7.0",
+      "relative": "validation/",
+      "reason": "Historical benchmark results, not executable dependencies"
+    },
+    {
+      "source_version": "v3.7.0",
+      "relative": "validation_v3_7_0/",
+      "reason": "Historical benchmark results, not executable dependencies"
+    }
+  ]
+}

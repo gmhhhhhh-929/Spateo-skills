@@ -1,0 +1,98 @@
+{
+  "schema": "spateo-2d-api-compatibility-v1",
+  "inspected_repository": "gmhhhhhh-929/spateo-release",
+  "inspected_commit": "d6aa68addc475dd0b56f69cebe7823b1f79933a9",
+  "validation": "static signatures and import paths only",
+  "new_source_runtime_alignment_executed": false,
+  "external_dynamo_required_by_packaged_closure": false,
+  "direct_imports": [
+    "anndata",
+    "h5py",
+    "numpy",
+    "pandas",
+    "scipy",
+    "matplotlib",
+    "torch",
+    "ot",
+    "spateo"
+  ],
+  "files": [
+    {
+      "path": "spateo/alignment/morpho_alignment.py",
+      "sha256": "2ada926c74d2019f75b371274e0104a6f5475f452fbc0368cd530dd53981df7a"
+    },
+    {
+      "path": "spateo/alignment/methods/morpho_class.py",
+      "sha256": "94d2456bea3c2d9c8044ccc22ff8a7f8d1d10c6c8ab8782b25d5dacce2f39cdc"
+    },
+    {
+      "path": "spateo/alignment/utils.py",
+      "sha256": "eb708f9c7856dbef8987e71c816ad4ddc4c508ffc68c69da0a50da5d8b28132b"
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "b20e65159edbb50cae44ccd8ebf769cf49bffa70e684464bfcbbfefe25f0092b"
+    }
+  ],
+  "constructor_keywords_checked": [
+    "K",
+    "SVI_mode",
+    "allow_flip",
+    "batch_size",
+    "beta",
+    "chunk_capacity",
+    "init_field",
+    "init_layer",
+    "init_transform",
+    "lambdaVF",
+    "nn_init",
+    "nonrigid_start_iter",
+    "partial_robust_level",
+    "pre_compute_dist",
+    "sigma2_end",
+    "sigma2_init_scale",
+    "sparse_calculation_mode",
+    "sparse_top_k",
+    "use_chunk",
+    "use_hvg"
+  ],
+  "all_constructor_keywords_supported": true,
+  "public_functions": {
+    "morpho_align": [
+      "models",
+      "rep_layer",
+      "rep_field",
+      "genes",
+      "spatial_key",
+      "key_added",
+      "iter_key_added",
+      "vecfld_key_added",
+      "mode",
+      "dissimilarity",
+      "max_iter",
+      "dtype",
+      "device",
+      "verbose"
+    ],
+    "morpho_align_ref": [
+      "models",
+      "models_ref",
+      "n_sampling",
+      "sampling_method",
+      "rep_layer",
+      "rep_field",
+      "genes",
+      "spatial_key",
+      "key_added",
+      "iter_key_added",
+      "vecfld_key_added",
+      "mode",
+      "dissimilarity",
+      "max_iter",
+      "dtype",
+      "device",
+      "verbose"
+    ]
+  },
+  "additional_runtime_check": "scripts/check_runtime.py"
+}

@@ -1,0 +1,85 @@
+{
+  "scope": "Bounded synthetic CPU execution in the pre-existing validated Spateo interpreter; not a GPU benchmark or verification of a different main checkout",
+  "production_inputs_read": false,
+  "original_server_files_modified": false,
+  "package_versions": {
+    "spateo-release": "1.1.2",
+    "torch": "2.5.1+cu121",
+    "POT": "0.9.7.post1",
+    "numpy": "1.26.4",
+    "scipy": "1.13.1",
+    "anndata": "0.10.9"
+  },
+  "runs": [
+    {
+      "mode": "expression-pca",
+      "returncode": 0,
+      "runtime_seconds": 6.587537527084351,
+      "n_input_slices": 2,
+      "n_input_cells": 160,
+      "max_iter": 3,
+      "batch_size": 40,
+      "device": "cpu",
+      "n_output_cells": 160,
+      "ids_unique": true,
+      "ids_complete": true,
+      "coordinates_finite": true,
+      "frozen_status": "frozen",
+      "ambient_environment_removed": true,
+      "effective_max_iter": 3,
+      "effective_mode": "SN-S"
+    },
+    {
+      "mode": "spatial-only",
+      "returncode": 0,
+      "runtime_seconds": 4.066688776016235,
+      "n_input_slices": 2,
+      "n_input_cells": 160,
+      "max_iter": 3,
+      "batch_size": 40,
+      "device": "cpu",
+      "n_output_cells": 160,
+      "ids_unique": true,
+      "ids_complete": true,
+      "coordinates_finite": true,
+      "frozen_status": "frozen",
+      "ambient_environment_removed": true,
+      "effective_max_iter": 3,
+      "effective_mode": "SN-S"
+    },
+    {
+      "mode": "continuity-guided",
+      "returncode": 0,
+      "runtime_seconds": 6.304216146469116,
+      "n_input_slices": 2,
+      "n_input_cells": 160,
+      "max_iter": 3,
+      "batch_size": 40,
+      "device": "cpu",
+      "n_output_cells": 160,
+      "ids_unique": true,
+      "ids_complete": true,
+      "coordinates_finite": true,
+      "frozen_status": "frozen_before_reference_evaluation"
+    }
+  ],
+  "runtime_import_signature_check": {
+    "status": "passed",
+    "versions": {
+      "numpy": "1.26.4",
+      "pandas": "2.2.3",
+      "scipy": "1.13.1",
+      "anndata": "0.10.9",
+      "h5py": "3.11.0",
+      "matplotlib": "3.10.9",
+      "torch": "2.5.1+cu121",
+      "POT": "0.9.7.post1",
+      "spateo-release": "1.1.2"
+    },
+    "errors": [],
+    "alignment_executed": false,
+    "scope": "Import and signature checks only; not a complete pipeline/GPU accuracy test"
+  },
+  "status": "passed",
+  "validation_boundary": "The CPU executions preceded the final nested-file and blank-label preflight hardening and UTF-8 metadata-hash fix. Those packaging-only fixes subsequently passed local synthetic checks; scientific alignment code did not change. This does not validate the pinned newer main checkout or GPU accuracy."
+}

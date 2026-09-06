@@ -1,0 +1,32 @@
+{
+  "status": "pass",
+  "source_commit": "d6aa68addc475dd0b56f69cebe7823b1f79933a9",
+  "python": "3.9.6 (default, Nov 11 2024, 03:15:38) \n[Clang 16.0.0 (clang-1600.0.26.6)]",
+  "supported_install_python": ">=3.10,<3.13",
+  "packages": {
+    "anndata": "0.10.9",
+    "numpy": "2.0.2",
+    "scipy": "1.13.1",
+    "pandas": "2.3.3",
+    "h5py": "3.14.0",
+    "matplotlib": "3.9.4",
+    "Pillow": "11.3.0"
+  },
+  "tests": [
+    "10x_h5_gene_cell_orientation_no_invented_spatial",
+    "visium_id_join_xy_axis_images_scalefactors_auto_provenance",
+    "h5ad_roundtrip_ids_counts_xy_image",
+    "nonfinite_coordinates_rejected",
+    "native_xyz_preserved_but_2d_handoff_rejects_three_columns",
+    "onehot_expression_confusion_category_order_and_zero_cosine_rejected",
+    "atera_preview_detection_id_order_units_not_rescaled",
+    "bgi_agg_vs_gene_matrix_counts_centroids_exclusive_modes",
+    "seqscope_barcode_order_and_bin_mass_conservation",
+    "auto_hd_ambiguity_explicit_mode_and_subdirectory",
+    "general_csv_returns_dataframe",
+    "cli_detect_convert_roundtrip_readonly_validate_and_no_overwrite",
+    "cli_native_xyz_roundtrip_without_truncation"
+  ],
+  "n_tests": 13,
+  "reader_mocks_used": false
+}

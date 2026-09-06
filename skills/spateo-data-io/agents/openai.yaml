@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spateo Data IO → AnnData"
+  short_description: "Read platform outputs into AnnData with spatial contracts"
+  default_prompt: "Use $spateo-data-io to inspect this platform dataset, choose the source-backed reader, and save a validated AnnData without changing the original data."

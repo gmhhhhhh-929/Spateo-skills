@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+.venv/
+.env
+outputs/
+runs/
+*.h5ad
+*.h5
+*.loom
+*.npy
+*.npz
+*.pt
+*.log

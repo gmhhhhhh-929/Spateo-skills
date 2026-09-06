@@ -1,0 +1,136 @@
+{
+  "repository": "https://github.com/gmhhhhhh-929/spateo-release",
+  "commit": "d6aa68addc475dd0b56f69cebe7823b1f79933a9",
+  "basis": "source implementation plus tests/io, not legacy installed skills",
+  "python_support": ">=3.10,<3.13",
+  "files": [
+    {
+      "path": "spateo/data_io.py",
+      "sha256": "4485a716b723ca4336d33dd141f1c43b02bc8f7746d7e113bc42648fed636fe6"
+    },
+    {
+      "path": "spateo/io/__init__.py",
+      "sha256": "3449a058ae54be6cfdb7acf502889a460f225e2cff779220b8f6678d181575fa"
+    },
+    {
+      "path": "spateo/io/general/__init__.py",
+      "sha256": "12298e5edd2e8189475efb52ca4650ba1d14435b8255ff7bfe00ee2593378b0e"
+    },
+    {
+      "path": "spateo/io/general/_serialization.py",
+      "sha256": "1cbe82e0a0e9d77fb8d9e6430563edcab64cdab2aee71a62afcddbbd0c44f01c"
+    },
+    {
+      "path": "spateo/io/general/_tabular.py",
+      "sha256": "2d4f22b1f92efcd76713ac9e23ee324a7c2afd67ba5b63f28fd0c0f22be9da82"
+    },
+    {
+      "path": "spateo/io/single/__init__.py",
+      "sha256": "2f100307e27a01e03c4883cb82caac0e4f5f76d697d01dcc14851163cf998e4f"
+    },
+    {
+      "path": "spateo/io/single/_formats.py",
+      "sha256": "91f81dc777ed608d7d45581084eb4dace771a7b759cd458be2b622031b0065e5"
+    },
+    {
+      "path": "spateo/io/single/_read.py",
+      "sha256": "717d0f779af6e14ca69c29e27eb95b395b1295b352524ed153f6583c42efc0ee"
+    },
+    {
+      "path": "spateo/io/spatial/__init__.py",
+      "sha256": "e465ab2f2e66e2b88b288b0f3e35800ab32672f0e8b89576e6f184e22ab551b1"
+    },
+    {
+      "path": "spateo/io/spatial/_atera.py",
+      "sha256": "67e1a33b81411fdadc0dcca6997396023787a5292ed26b6f20e3edad818e6e72"
+    },
+    {
+      "path": "spateo/io/spatial/_geometry.py",
+      "sha256": "0e08302dcc6b0eeee1d5b9878ac9f965df3f14307dc661980a884412cccebc2e"
+    },
+    {
+      "path": "spateo/io/spatial/_image.py",
+      "sha256": "63e10b90581e8913bb9641bf33779bb66f8e320839221c3bd78143e26112b07f"
+    },
+    {
+      "path": "spateo/io/spatial/_merfish.py",
+      "sha256": "bea8ba62e2d4ac3b1024e7cb15792f955e3d3c9789d568a3904abea94ed07e20"
+    },
+    {
+      "path": "spateo/io/spatial/_nanostring.py",
+      "sha256": "d3d51697bae519549d8b30a55ed132cf0abf56bae78db3ced6d548e885e08191"
+    },
+    {
+      "path": "spateo/io/spatial/_provenance.py",
+      "sha256": "304e372b1496d43c5f2fa8e3f31f06dd842babae950a997b2d9ede9ece096af9"
+    },
+    {
+      "path": "spateo/io/spatial/_seqfish.py",
+      "sha256": "00b219934d96c4b20046f3762af46523dda170a9c24f68960b4891c46ecc5d35"
+    },
+    {
+      "path": "spateo/io/spatial/_seqscope.py",
+      "sha256": "db8e7c6a2f169fa564097953816b8fa7419ef318a8642c46ae79ec1c31581a05"
+    },
+    {
+      "path": "spateo/io/spatial/_slideseq.py",
+      "sha256": "bce8651783d45e9e40aec62f72e3bb311c80ce3c6de2e041551ef333eadab8b1"
+    },
+    {
+      "path": "spateo/io/spatial/_starmap_plus.py",
+      "sha256": "751dfc58faad24f5987cf2ab1ced578743c76dfe0b2e5f477e2a4df3ccc7bde6"
+    },
+    {
+      "path": "spateo/io/spatial/_stereoseq.py",
+      "sha256": "c23d2d147b8bdaeb93a359ab3f7bc70fcfc566f18163ae0a6aecef220dec35c2"
+    },
+    {
+      "path": "spateo/io/spatial/_utils.py",
+      "sha256": "3f8b5e2fc84b97379d6006f5ef45b885a1d54c2886260910c6b62d41d47f1857"
+    },
+    {
+      "path": "spateo/io/spatial/_visium.py",
+      "sha256": "f31c9002e435386ec56ea719b6d9bc269948eb73007ae616d7bed7ad5a096bfb"
+    },
+    {
+      "path": "spateo/io/spatial/_visium_hd.py",
+      "sha256": "5ebbfce8f90c7d75d6190998af3e6c3cef1620422eb59dc518ee4f0d766b0ca0"
+    },
+    {
+      "path": "spateo/io/spatial/_xenium.py",
+      "sha256": "0523e68e0c26532fb2d82ac62bdf51e068747b14cf39539d2ef016d7708246b9"
+    },
+    {
+      "path": "spateo/io/spatial/auto/__init__.py",
+      "sha256": "44a472f70e4c50d603214d2739dcaec0b6f906bc0de83f82b9e691f2a981c5da"
+    },
+    {
+      "path": "tests/io/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tests/io/test_atera_visium.py",
+      "sha256": "bc4600267208c621ffe9fd7e1badc3c5e01298f8e7605159628f02a00ef810ad"
+    },
+    {
+      "path": "tests/io/test_bgi.py",
+      "sha256": "ca1a07f97cd93bc0ba431e51e09d8965bb479bfb15ac0ed1b85b329de5490d75"
+    },
+    {
+      "path": "tests/io/test_image.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tests/io/test_io_layout.py",
+      "sha256": "8f9795f0d3037b6b840f4f0c5fe066bc587c2a09d469c5c5317e84aad3b72784"
+    },
+    {
+      "path": "tests/io/test_spatial_auto.py",
+      "sha256": "3cd99771913e8b6b4410e6f4631cb19014739bd2a9abbfd4bed5fe1939fe84bc"
+    },
+    {
+      "path": "tests/io/test_utils.py",
+      "sha256": "56a8b850d6d8ed208231301fe4b91d89aa105051ef6802b1d30d4b8bdd2b123b"
+    }
+  ]
+}
