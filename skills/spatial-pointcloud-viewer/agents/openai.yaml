@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spatial Point Cloud Viewer"
+  short_description: "Render local HTML from checked coordinates"
+  default_prompt: "Use $spatial-pointcloud-viewer to generate a local self-contained 3D ST HTML viewer from a checked local replay output or coordinate cache."

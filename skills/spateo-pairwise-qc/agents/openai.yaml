@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spateo Pairwise QC"
+  short_description: "Run remote QC for pairwise alignment edges"
+  default_prompt: "Use $spateo-pairwise-qc to run remote QC, identify suspicious pairwise alignment edges, and hand confirmed recipes to compose for checked replay."

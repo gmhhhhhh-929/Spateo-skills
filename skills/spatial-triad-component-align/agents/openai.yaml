@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spatial Triad Component Align"
+  short_description: "Review three-slice component consistency"
+  default_prompt: "Use $spatial-triad-component-align to scan three-slice windows, flag middle-slice component outliers, and generate triad review HTML."

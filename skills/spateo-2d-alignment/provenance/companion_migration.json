@@ -1,0 +1,881 @@
+{
+  "schema": "spateo-companion-completeness-v1",
+  "baseline_personal_commit": "89bbd1a20414908feb380b2e28730607349a5fce",
+  "baseline_organization_commit": "c44091bbfad102fc76844467eba6f4b4fe6942da",
+  "source_label": "user-provided spatial-alignment-skills-main server snapshot",
+  "cutoff_policy": "Keep published alignment code unchanged; restore fixed v0.2.3 support identical to the September 6 archive. Remote skill documents carry September 2–3 mtimes. No claim of git ancestry: server source has no .git directory.",
+  "excluded_scope": [
+    "zebrafish/ZESTA adaptations",
+    "image priors",
+    "later initialization or endpoint experiments",
+    "later evaluation changes",
+    "biological data and result viewers"
+  ],
+  "source_skill_count": 14,
+  "total_skill_count": 17,
+  "inventory": [
+    {
+      "skill": "detect-spatial-components",
+      "previously_published_entrypoint": false,
+      "status": "restored",
+      "path": "skills/detect-spatial-components/SKILL.md"
+    },
+    {
+      "skill": "lightweight-spatial-alignment-workflow",
+      "previously_published_entrypoint": false,
+      "status": "restored",
+      "path": "skills/lightweight-spatial-alignment-workflow/SKILL.md"
+    },
+    {
+      "skill": "remote-workflow-intake",
+      "previously_published_entrypoint": false,
+      "status": "restored",
+      "path": "skills/remote-workflow-intake/SKILL.md"
+    },
+    {
+      "skill": "spateo-continuity-first-serial-alignment",
+      "previously_published_entrypoint": false,
+      "status": "canonical-pipeline alias",
+      "path": "skills/spateo-continuity-first-serial-alignment/SKILL.md"
+    },
+    {
+      "skill": "spateo-pairwise-qc",
+      "previously_published_entrypoint": false,
+      "status": "restored",
+      "path": "skills/spateo-pairwise-qc/SKILL.md"
+    },
+    {
+      "skill": "spateo-pairwise-run",
+      "previously_published_entrypoint": false,
+      "status": "restored",
+      "path": "skills/spateo-pairwise-run/SKILL.md"
+    },
+    {
+      "skill": "spateo-roi-refine",
+      "previously_published_entrypoint": false,
+      "status": "restored",
+      "path": "skills/spateo-roi-refine/SKILL.md"
+    },
+    {
+      "skill": "spatial-alignment-compose",
+      "previously_published_entrypoint": false,
+      "status": "restored",
+      "path": "skills/spatial-alignment-compose/SKILL.md"
+    },
+    {
+      "skill": "spatial-balanced-sample",
+      "previously_published_entrypoint": false,
+      "status": "restored",
+      "path": "skills/spatial-balanced-sample/SKILL.md"
+    },
+    {
+      "skill": "spatial-before-after-viewer",
+      "previously_published_entrypoint": false,
+      "status": "restored",
+      "path": "skills/spatial-before-after-viewer/SKILL.md"
+    },
+    {
+      "skill": "spatial-component-align",
+      "previously_published_entrypoint": false,
+      "status": "restored",
+      "path": "skills/spatial-component-align/SKILL.md"
+    },
+    {
+      "skill": "spatial-pointcloud-viewer",
+      "previously_published_entrypoint": false,
+      "status": "restored",
+      "path": "skills/spatial-pointcloud-viewer/SKILL.md"
+    },
+    {
+      "skill": "spatial-triad-component-align",
+      "previously_published_entrypoint": false,
+      "status": "restored",
+      "path": "skills/spatial-triad-component-align/SKILL.md"
+    },
+    {
+      "skill": "spatial-workflow-record",
+      "previously_published_entrypoint": false,
+      "status": "restored",
+      "path": "skills/spatial-workflow-record/SKILL.md"
+    }
+  ],
+  "files": [
+    {
+      "source": "pipeline/releases/v0.2.3/README.md",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/README.md",
+      "source_sha256": "445b8068ebeed8df891ff2ad873b712267212e37769b86228568c1d4992e3eca",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "445b8068ebeed8df891ff2ad873b712267212e37769b86228568c1d4992e3eca",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/release_manifest.sha256",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/release_manifest.sha256",
+      "source_sha256": "70f825353d41b268da0553376ab6657b4f974340c161f52c4c119b138a86a947",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "e2076eba0056df3f96d6355378df6f94b8b5d195ac887b440a2ef24ee881feb6",
+      "packaging_change": true,
+      "change_note": "Update only the test-fixture hash after portable shell quoting; runtime entrypoint hashes stay unchanged."
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/runners/spateo_rigid_sns_alignment.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/runners/spateo_rigid_sns_alignment.py",
+      "source_sha256": "a315967b0b171a337c55070a4ad1360fa792903f2cbf95bbee641cfed4506a1c",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "a315967b0b171a337c55070a4ad1360fa792903f2cbf95bbee641cfed4506a1c",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/runners/spateo_rigid_sns_alignment_spatial_only.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/runners/spateo_rigid_sns_alignment_spatial_only.py",
+      "source_sha256": "cd5e2edc77add2017b4959ac4b224062395500d2239c570ffd7b10bd551cabe8",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "cd5e2edc77add2017b4959ac4b224062395500d2239c570ffd7b10bd551cabe8",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/runners/spateo_rigid_sns_alignment_spatial_only_roi.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/runners/spateo_rigid_sns_alignment_spatial_only_roi.py",
+      "source_sha256": "59fe42e1d5d3d2d157db740f875cbaf45c90e1711ec40b14297f283abf02228b",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "59fe42e1d5d3d2d157db740f875cbaf45c90e1711ec40b14297f283abf02228b",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/schemas/skill_lock.schema.json",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/schemas/skill_lock.schema.json",
+      "source_sha256": "4ab2f42125c8ae254d56e0cda2da6397d2c5a257070afd9524727798a77b8947",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "4ab2f42125c8ae254d56e0cda2da6397d2c5a257070afd9524727798a77b8947",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/components/component_group_align_preview.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/components/component_group_align_preview.py",
+      "source_sha256": "61543edd3e2939c8f7d50ce580586e785319727d89d31c9cdb2cc96a87b22afe",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "61543edd3e2939c8f7d50ce580586e785319727d89d31c9cdb2cc96a87b22afe",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/components/detect_components.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/components/detect_components.py",
+      "source_sha256": "9bbc3b354eb606eef737b1dee741c0888fba5c230eb1f17549cd5777c65da6f2",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "9bbc3b354eb606eef737b1dee741c0888fba5c230eb1f17549cd5777c65da6f2",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/components/triad_component_scan.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/components/triad_component_scan.py",
+      "source_sha256": "ccddaf899d0cc942570a3ba92da88bf4be0a2e5f1c7028c3de30431c51a77a47",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "ccddaf899d0cc942570a3ba92da88bf4be0a2e5f1c7028c3de30431c51a77a47",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/components/triad_mid_slice_rigid_preview.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/components/triad_mid_slice_rigid_preview.py",
+      "source_sha256": "4c33c2ee896c06473cf312919337072f3374318b96325692d2e540335b8a5325",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "4c33c2ee896c06473cf312919337072f3374318b96325692d2e540335b8a5325",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/core/apply_recipe.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/apply_recipe.py",
+      "source_sha256": "148534b23a5d392cfad70ed0be08e58b37a529a76459823011d75e410003cc2c",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "148534b23a5d392cfad70ed0be08e58b37a529a76459823011d75e410003cc2c",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/core/build_h5ad_cell_id_map.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/build_h5ad_cell_id_map.py",
+      "source_sha256": "cc53fe412a0946712c03fcb69c6cbc5d00c718929a4efaf0c44208429698e516",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "cc53fe412a0946712c03fcb69c6cbc5d00c718929a4efaf0c44208429698e516",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/core/compose_alignment_recipes.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/compose_alignment_recipes.py",
+      "source_sha256": "850cf1a7a846afcca7498f9a648aec0bc2b0474994f3b9a0f15b033d53f20e47",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "850cf1a7a846afcca7498f9a648aec0bc2b0474994f3b9a0f15b033d53f20e47",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/core/export_clean_coordinates.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/export_clean_coordinates.py",
+      "source_sha256": "9a2d43283ead4af60196dca6e37aec3cbd0ef7e204598b801f72b5ee07fe1829",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "9a2d43283ead4af60196dca6e37aec3cbd0ef7e204598b801f72b5ee07fe1829",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/core/extract_pairwise_transform.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/extract_pairwise_transform.py",
+      "source_sha256": "cef1b0538178ea945cd804c2997a880dff1ca7cc55974c68145a6c1c2177984d",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "cef1b0538178ea945cd804c2997a880dff1ca7cc55974c68145a6c1c2177984d",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/core/make_pairwise_spateo_refine_plan.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/make_pairwise_spateo_refine_plan.py",
+      "source_sha256": "711203031590a92b42bef4d2bbfbf564a1e7e5d95bc39042e93d9f1592d3f7c6",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "711203031590a92b42bef4d2bbfbf564a1e7e5d95bc39042e93d9f1592d3f7c6",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/core/make_spateo_pairwise_initial_plan.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/make_spateo_pairwise_initial_plan.py",
+      "source_sha256": "9299bcfee3dc360b1b9db84d7a1e729505c4721662dfbf5ba906a6c97a594bf6",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "9299bcfee3dc360b1b9db84d7a1e729505c4721662dfbf5ba906a6c97a594bf6",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/core/pairwise_core.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/pairwise_core.py",
+      "source_sha256": "6ed350b8e44ae2e191bd5041ff875e2addb487665df5757211682388223b368d",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "6ed350b8e44ae2e191bd5041ff875e2addb487665df5757211682388223b368d",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/core/propose_pairwise_refine_candidates.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/propose_pairwise_refine_candidates.py",
+      "source_sha256": "8b89756608573eeb856e5afa2aa3c48f7826d8729028e8543499c92f0aec8fd2",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "8b89756608573eeb856e5afa2aa3c48f7826d8729028e8543499c92f0aec8fd2",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/core/qc_pairwise_celltype_edges.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/qc_pairwise_celltype_edges.py",
+      "source_sha256": "4c84f36328f6cc4fb5da894f59adc15296f4eadc846adf37d27717c2c5fc946b",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "4c84f36328f6cc4fb5da894f59adc15296f4eadc846adf37d27717c2c5fc946b",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/core/render_pairwise_visual_qc.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/render_pairwise_visual_qc.py",
+      "source_sha256": "df5661a571d9de83154425592b8c3f2adbedda1b57eb2615be6e5edec0dd3ec6",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "df5661a571d9de83154425592b8c3f2adbedda1b57eb2615be6e5edec0dd3ec6",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/core/summarize_pairwise_initial_run.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/summarize_pairwise_initial_run.py",
+      "source_sha256": "9233924a1b88c4417f841a01490aadb9cc3a141ecd464f6d9916242c55a7443e",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "9233924a1b88c4417f841a01490aadb9cc3a141ecd464f6d9916242c55a7443e",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/core/summarize_pairwise_refine_run.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/summarize_pairwise_refine_run.py",
+      "source_sha256": "9f36d8554a5fe5cb30d49e666a996844f9bc94aa5627a946aab1e2e4c2667e2a",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "9f36d8554a5fe5cb30d49e666a996844f9bc94aa5627a946aab1e2e4c2667e2a",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/core/validate_clean_coordinates.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/validate_clean_coordinates.py",
+      "source_sha256": "0d9ccfe2f8a41c7776096fcb73fd3041a21abb6da99a47e9d5ea4b59c257119d",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "0d9ccfe2f8a41c7776096fcb73fd3041a21abb6da99a47e9d5ea4b59c257119d",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/sampling/create_balanced_spatial_sample.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/sampling/create_balanced_spatial_sample.py",
+      "source_sha256": "d2bce232c2966e4547ac92949606cbcd74f47a5b88524b9eb093a82e8d959ddb",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "d2bce232c2966e4547ac92949606cbcd74f47a5b88524b9eb093a82e8d959ddb",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/sampling/validate_sample_recipe_full_replay.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/sampling/validate_sample_recipe_full_replay.py",
+      "source_sha256": "4902328689b9c818d7b79d68b781ed2f552deed300ecfb6ee15505fa675f83da",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "4902328689b9c818d7b79d68b781ed2f552deed300ecfb6ee15505fa675f83da",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/viewers/make_spatial_before_after_viewer.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/viewers/make_spatial_before_after_viewer.py",
+      "source_sha256": "44253c5ab0f8c6d8576637900063ebb774c4c5658e89910faba7feda5c4043f0",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "44253c5ab0f8c6d8576637900063ebb774c4c5658e89910faba7feda5c4043f0",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/viewers/make_st_pointcloud_viewer.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/viewers/make_st_pointcloud_viewer.py",
+      "source_sha256": "2f31c9ad7cc585c584783e50df150b3fd2614dc365d8edcab9f623697b9f0da6",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "2f31c9ad7cc585c584783e50df150b3fd2614dc365d8edcab9f623697b9f0da6",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/viewers/make_triad_component_review_viewer.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/viewers/make_triad_component_review_viewer.py",
+      "source_sha256": "fc643e28a821436bad14d548e538903da7cffa828593ca9f86e6846eb3c73801",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "fc643e28a821436bad14d548e538903da7cffa828593ca9f86e6846eb3c73801",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/workflow/build_workflow_dashboard.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/workflow/build_workflow_dashboard.py",
+      "source_sha256": "e5acef17a2b17aaebe1e431beb5d57b89bd0625b59e0a204947decb7b1a3cb38",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "e5acef17a2b17aaebe1e431beb5d57b89bd0625b59e0a204947decb7b1a3cb38",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/workflow/init_project_run.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/workflow/init_project_run.py",
+      "source_sha256": "d7b1e3036fd295dce8f0f81738738c4c05648d39b449f57b77cbcfd542f3c555",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "d7b1e3036fd295dce8f0f81738738c4c05648d39b449f57b77cbcfd542f3c555",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/workflow/update_state_pointer.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/workflow/update_state_pointer.py",
+      "source_sha256": "00147c2b403dee1880c533b44c98844cbf6a09d261850280dc6bdc53056f4f2f",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "00147c2b403dee1880c533b44c98844cbf6a09d261850280dc6bdc53056f4f2f",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/workflow/validate_project_layout.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/workflow/validate_project_layout.py",
+      "source_sha256": "bfa520258cffcdb8890ae0bef7d651a09f1ef64d1b7cf52ecdcbf9efbe55baf2",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "bfa520258cffcdb8890ae0bef7d651a09f1ef64d1b7cf52ecdcbf9efbe55baf2",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/workflow/write_workflow_record.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/scripts/workflow/write_workflow_record.py",
+      "source_sha256": "7bad03ae695ed5a69aa85b2112a52a6c120bb953ddee039515c1f4c36d09ae1a",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "7bad03ae695ed5a69aa85b2112a52a6c120bb953ddee039515c1f4c36d09ae1a",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/skill.lock.yaml",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/skill.lock.yaml",
+      "source_sha256": "26e128eb5928773459119f8af2674111c1965244ed05623f708bda1297df5a01",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "26e128eb5928773459119f8af2674111c1965244ed05623f708bda1297df5a01",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/spalign/__init__.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/spalign/__init__.py",
+      "source_sha256": "578dc63e5376cb14aa13cbce2897554299557a88c2ac839c787bae55278db050",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "578dc63e5376cb14aa13cbce2897554299557a88c2ac839c787bae55278db050",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/spalign/lock_resolver.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/spalign/lock_resolver.py",
+      "source_sha256": "08a6897c88d419c8f9ee83a70e66776c5e93efed7822d9d03a44aaff8e234d56",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "08a6897c88d419c8f9ee83a70e66776c5e93efed7822d9d03a44aaff8e234d56",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/spalign/make_locked_pairwise_plan.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/spalign/make_locked_pairwise_plan.py",
+      "source_sha256": "53f393b5e8ac9ec068dd91c435f8a86a2c7897f3184bbda7d18744227a3cac5e",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "53f393b5e8ac9ec068dd91c435f8a86a2c7897f3184bbda7d18744227a3cac5e",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/spalign/validate_run.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/spalign/validate_run.py",
+      "source_sha256": "16be75c495425ba560f3406c0aac832f7fb25033bbf1fc65d17e86ad966fa41b",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "16be75c495425ba560f3406c0aac832f7fb25033bbf1fc65d17e86ad966fa41b",
+      "packaging_change": false
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/tests/test_lightweight_workflow.py",
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/tests/test_lightweight_workflow.py",
+      "source_sha256": "38cdb529dd7149c85ca7400162ba3377b88ff059752c3c38b4133ef08d899178",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "7b5ba241398225cb7750b81d9463577673fb98966ee6cdd445294e10c459f3e5",
+      "packaging_change": true,
+      "change_note": "Quote test fixture RUNNER_SCRIPT with shlex.quote for checkout paths containing spaces; no runtime code changes."
+    },
+    {
+      "source": "skills/detect-spatial-components/SKILL.md",
+      "path": "skills/detect-spatial-components/SKILL.md",
+      "source_sha256": "48baa5ffec6cde369ead08a0472880e3d1e8f8ff468400559b7e66028fb17966",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "f2aca64b213c13f22e2cde9d5340546d80ba22510cc8037ac6ba43dbb93813fd",
+      "packaging_change": true
+    },
+    {
+      "source": "skills/detect-spatial-components/agents/openai.yaml",
+      "path": "skills/detect-spatial-components/agents/openai.yaml",
+      "source_sha256": "a6811fa1ae794f17faf97f0143dd538dbc007a477da4f56a40ee40a8da40051e",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "a6811fa1ae794f17faf97f0143dd538dbc007a477da4f56a40ee40a8da40051e",
+      "packaging_change": false
+    },
+    {
+      "source": "skills/lightweight-spatial-alignment-workflow/SKILL.md",
+      "path": "skills/lightweight-spatial-alignment-workflow/SKILL.md",
+      "source_sha256": "5b7236cc462bdc521c767490a5b2d9a351153fef5a4b6bb6fdf23528c6db72e2",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "5e05c0f53b9fc020cd530c24c97c88f34ad577fe0db4a4ea59b47bd9efa48ff6",
+      "packaging_change": true
+    },
+    {
+      "source": "skills/lightweight-spatial-alignment-workflow/agents/openai.yaml",
+      "path": "skills/lightweight-spatial-alignment-workflow/agents/openai.yaml",
+      "source_sha256": "f20303042ad5f72a1a01de7463ed95f401b9c4a31c59bb3d067bd3852a13b1d0",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "f20303042ad5f72a1a01de7463ed95f401b9c4a31c59bb3d067bd3852a13b1d0",
+      "packaging_change": false
+    },
+    {
+      "source": "skills/remote-workflow-intake/SKILL.md",
+      "path": "skills/remote-workflow-intake/SKILL.md",
+      "source_sha256": "5148107d6ec56a809527c0aa96096311ac48a2163a22c29cb5658987958f8353",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "8b1e0c4316d3133a7c638a64e422055f5f03068c686d4ac0e5afbbf783228200",
+      "packaging_change": true
+    },
+    {
+      "source": "skills/remote-workflow-intake/agents/openai.yaml",
+      "path": "skills/remote-workflow-intake/agents/openai.yaml",
+      "source_sha256": "492f7182c0ea3c90ddc738914d418159cdbccdfcdd57d744e774d470ff96b94c",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "492f7182c0ea3c90ddc738914d418159cdbccdfcdd57d744e774d470ff96b94c",
+      "packaging_change": false
+    },
+    {
+      "source": "skills/spateo-pairwise-qc/SKILL.md",
+      "path": "skills/spateo-pairwise-qc/SKILL.md",
+      "source_sha256": "e36337a491bc0c3006e053de51e3d86c8a8da00725ac841fef30e88b3ba7a485",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "49d891fb2a8126932c29d9b9c50a2bf2fac1bf46ee07b2d6f28e2457ba9d760a",
+      "packaging_change": true
+    },
+    {
+      "source": "skills/spateo-pairwise-qc/agents/openai.yaml",
+      "path": "skills/spateo-pairwise-qc/agents/openai.yaml",
+      "source_sha256": "d03fec4b6f65f550a0dca78e07e61057241a589846134ddd0d5cecbd5aca135d",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "d03fec4b6f65f550a0dca78e07e61057241a589846134ddd0d5cecbd5aca135d",
+      "packaging_change": false
+    },
+    {
+      "source": "skills/spateo-pairwise-run/SKILL.md",
+      "path": "skills/spateo-pairwise-run/SKILL.md",
+      "source_sha256": "bf422f56415479c0a3bb02e50085b59250ae647a9075095722f83e5df50681ff",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "8c1f30881c872db9b18485d42b9660a414cf02543abe36aaf801ef090e84a6bf",
+      "packaging_change": true
+    },
+    {
+      "source": "skills/spateo-pairwise-run/agents/openai.yaml",
+      "path": "skills/spateo-pairwise-run/agents/openai.yaml",
+      "source_sha256": "d3e28f09472d5b151b204d57865caa782fbf0e115ce9a54ab8715e0fc9eb0885",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "d3e28f09472d5b151b204d57865caa782fbf0e115ce9a54ab8715e0fc9eb0885",
+      "packaging_change": false
+    },
+    {
+      "source": "skills/spateo-roi-refine/SKILL.md",
+      "path": "skills/spateo-roi-refine/SKILL.md",
+      "source_sha256": "c52b9b17641296d102f33fec8610985ceb14aa89f268d2aa910cce283ac9d6c5",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "a378375074d731471e783527e599ac3bb53f9a8aea1873e6c49b6a2fabf3ef78",
+      "packaging_change": true
+    },
+    {
+      "source": "skills/spateo-roi-refine/agents/openai.yaml",
+      "path": "skills/spateo-roi-refine/agents/openai.yaml",
+      "source_sha256": "ddc8b48d453ef876673aa3529e3737ce3a70c61333e91514ab24b3d6b946a0a6",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "ddc8b48d453ef876673aa3529e3737ce3a70c61333e91514ab24b3d6b946a0a6",
+      "packaging_change": false
+    },
+    {
+      "source": "skills/spatial-alignment-compose/SKILL.md",
+      "path": "skills/spatial-alignment-compose/SKILL.md",
+      "source_sha256": "f3a8e730a473989d68d0d2d5624a5ea361a91df1297d5b5b05a0cb873e70d3dd",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "f908da8dac654cc52d1399bcc131275a07720b20b4bb46d23fdc28f75e5a94ea",
+      "packaging_change": true
+    },
+    {
+      "source": "skills/spatial-alignment-compose/agents/openai.yaml",
+      "path": "skills/spatial-alignment-compose/agents/openai.yaml",
+      "source_sha256": "f39dad08490119b8a5e0f5ffa7f374a0ee5f7adf811abad350927aeaabc6ada2",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "f39dad08490119b8a5e0f5ffa7f374a0ee5f7adf811abad350927aeaabc6ada2",
+      "packaging_change": false
+    },
+    {
+      "source": "skills/spatial-balanced-sample/SKILL.md",
+      "path": "skills/spatial-balanced-sample/SKILL.md",
+      "source_sha256": "5c5644d61ed6cc0db1c018d29845cc6a1ca1c6527b74d1f8a318b16f3ca6331d",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "0eadaf13fd79bf783f8a886bffc9929b8ae20f7f3b86096fd8015a705cd24abe",
+      "packaging_change": true
+    },
+    {
+      "source": "skills/spatial-balanced-sample/agents/openai.yaml",
+      "path": "skills/spatial-balanced-sample/agents/openai.yaml",
+      "source_sha256": "8ea4e3a5fd21802b72cac914b7f7ac772b0b816f55eb527f17a21b1e0eefbe84",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "8ea4e3a5fd21802b72cac914b7f7ac772b0b816f55eb527f17a21b1e0eefbe84",
+      "packaging_change": false
+    },
+    {
+      "source": "skills/spatial-before-after-viewer/SKILL.md",
+      "path": "skills/spatial-before-after-viewer/SKILL.md",
+      "source_sha256": "0f1adca55baf4e1220abed51eb292b229fc92c7944fdb645da5b405ee680ecc1",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "0ca781374ab660278d4949e07f3e18c7683da2887c55e7dc5e1a54268caa5df4",
+      "packaging_change": true
+    },
+    {
+      "source": "skills/spatial-before-after-viewer/agents/openai.yaml",
+      "path": "skills/spatial-before-after-viewer/agents/openai.yaml",
+      "source_sha256": "c92821c994fe8d1ceaf561f9224809bd246df9eeaa1f48723928a0499ec25f85",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "c92821c994fe8d1ceaf561f9224809bd246df9eeaa1f48723928a0499ec25f85",
+      "packaging_change": false
+    },
+    {
+      "source": "skills/spatial-component-align/SKILL.md",
+      "path": "skills/spatial-component-align/SKILL.md",
+      "source_sha256": "f35fd6925d2c73637974c50de28d4c14a511aaac202061c97e479e312f2b9c3e",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "f014c43c7bd4138516053eea140fc1d3885b45ce86cb99332c5d761acc3c4571",
+      "packaging_change": true
+    },
+    {
+      "source": "skills/spatial-component-align/agents/openai.yaml",
+      "path": "skills/spatial-component-align/agents/openai.yaml",
+      "source_sha256": "64d77062b1773b4c47b04af2306670fab5e34dc77ca2c87acf340ed6c66dfd63",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "64d77062b1773b4c47b04af2306670fab5e34dc77ca2c87acf340ed6c66dfd63",
+      "packaging_change": false
+    },
+    {
+      "source": "skills/spatial-pointcloud-viewer/SKILL.md",
+      "path": "skills/spatial-pointcloud-viewer/SKILL.md",
+      "source_sha256": "9b57d2383530d58e4718396842521770eadce5b34303d4c7d1d08f2c2cd7004e",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "7575146a5e972ee32aaeaef302cba1947ef893e28a4f25a123498daa15bcd585",
+      "packaging_change": true
+    },
+    {
+      "source": "skills/spatial-pointcloud-viewer/agents/openai.yaml",
+      "path": "skills/spatial-pointcloud-viewer/agents/openai.yaml",
+      "source_sha256": "5af519c3f8b87c5d1323ea8013abcbc8e39121228741a92938e23b535ade33c3",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "5af519c3f8b87c5d1323ea8013abcbc8e39121228741a92938e23b535ade33c3",
+      "packaging_change": false
+    },
+    {
+      "source": "skills/spatial-pointcloud-viewer/scripts/make_st_pointcloud_viewer.py",
+      "path": "skills/spatial-pointcloud-viewer/scripts/make_st_pointcloud_viewer.py",
+      "source_sha256": "2f31c9ad7cc585c584783e50df150b3fd2614dc365d8edcab9f623697b9f0da6",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "2f31c9ad7cc585c584783e50df150b3fd2614dc365d8edcab9f623697b9f0da6",
+      "packaging_change": false
+    },
+    {
+      "source": "skills/spatial-triad-component-align/SKILL.md",
+      "path": "skills/spatial-triad-component-align/SKILL.md",
+      "source_sha256": "9b3a4516ef33e48ca44da5031f3f836474ea9f6d27bad2fcc9e5b003f4b6f74e",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "fbb423c5c28b0fe38e9689fbb0b8f14bdbab5ba0b42196b4e9afdd92df91df43",
+      "packaging_change": true
+    },
+    {
+      "source": "skills/spatial-triad-component-align/agents/openai.yaml",
+      "path": "skills/spatial-triad-component-align/agents/openai.yaml",
+      "source_sha256": "4f6cfb08258c2326b22393cd3c631a64063d3b375e99811ad4a7a724701e6c74",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "4f6cfb08258c2326b22393cd3c631a64063d3b375e99811ad4a7a724701e6c74",
+      "packaging_change": false
+    },
+    {
+      "source": "skills/spatial-workflow-record/SKILL.md",
+      "path": "skills/spatial-workflow-record/SKILL.md",
+      "source_sha256": "7e3b4ed6dc24ff97784a49c40b2a2be00e2581515b1db6e614da42cf01bb5866",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "212dcb2c71846a66e14ec96c33292da52167bdf8673aad48f997ff293c7a5ec0",
+      "packaging_change": true
+    },
+    {
+      "source": "pipeline/releases/v0.2.3/scripts/viewers/make_spatial_before_after_viewer.py",
+      "path": "skills/spatial-before-after-viewer/scripts/make_spatial_before_after_viewer.py",
+      "source_sha256": "44253c5ab0f8c6d8576637900063ebb774c4c5658e89910faba7feda5c4043f0",
+      "source_mtime_utc": "2026-09-02T06:28:42+00:00",
+      "packaged_sha256": "44253c5ab0f8c6d8576637900063ebb774c4c5658e89910faba7feda5c4043f0",
+      "packaging_change": false
+    },
+    {
+      "source": "docs/workflow.md",
+      "path": "skills/lightweight-spatial-alignment-workflow/references/workflow.md",
+      "source_sha256": "332cbf988883dc3b5131992e01e6c88113e833c76318879accc2f34d5ef89860",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "332cbf988883dc3b5131992e01e6c88113e833c76318879accc2f34d5ef89860",
+      "packaging_change": false
+    },
+    {
+      "source": "docs/project_layout.md",
+      "path": "skills/lightweight-spatial-alignment-workflow/references/project_layout.md",
+      "source_sha256": "ed3c03a2028d8302c15a32019cebddb9b463383c1cccd07c9998509f62e77cff",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "ed3c03a2028d8302c15a32019cebddb9b463383c1cccd07c9998509f62e77cff",
+      "packaging_change": false
+    },
+    {
+      "source": "docs/reproducibility.md",
+      "path": "skills/lightweight-spatial-alignment-workflow/references/reproducibility.md",
+      "source_sha256": "9526295ea52f6507f6d540832282eb9b38bfe070afdcd42eac5758a4f5501f50",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "3872878c561a066e668e50f3e2a6598dd80d7aa56d31a5b33820bf5263217fc9",
+      "packaging_change": true
+    },
+    {
+      "source": "configs/example.project.yaml",
+      "path": "skills/lightweight-spatial-alignment-workflow/references/example.project.yaml",
+      "source_sha256": "35becd5c5c165f73d46317c3565a1dafa62fbb969fe065d1ac4ea15538c9e41a",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "35becd5c5c165f73d46317c3565a1dafa62fbb969fe065d1ac4ea15538c9e41a",
+      "packaging_change": false
+    },
+    {
+      "source": "spateo_interactive/config/project_paths.env.example",
+      "path": "skills/remote-workflow-intake/references/project_paths.env.example",
+      "source_sha256": "ec3a3adb4b8aee4ac2f4cd51561c708eadeb8732360ebc06479e24ad20879a46",
+      "source_mtime_utc": "2026-09-02T06:28:41+00:00",
+      "packaged_sha256": "ec3a3adb4b8aee4ac2f4cd51561c708eadeb8732360ebc06479e24ad20879a46",
+      "packaging_change": false
+    },
+    {
+      "source": "skills/spateo-continuity-first-serial-alignment/SKILL.md",
+      "path": "skills/spateo-continuity-first-serial-alignment/SKILL.md",
+      "source_sha256": "c30b48c59a59a86757b7ed5d7e843530b5add2d5d1711ec9bcdc6654ba9738d9",
+      "source_mtime_utc": "2026-09-03T13:04:53+00:00",
+      "packaged_sha256": "6ac0b87a4990ee061a099ff50707cb0986af6db2ffe143c0d9ab36fb8e52bd23",
+      "packaging_change": true
+    },
+    {
+      "source": "skills/spateo-continuity-first-serial-alignment/agents/openai.yaml",
+      "path": "skills/spateo-continuity-first-serial-alignment/agents/openai.yaml",
+      "source_sha256": "20c644a0c17f7a889964864769e257e42c7e3d4f86be3145021cdf64a34e462f",
+      "source_mtime_utc": "2026-09-03T08:24:05+00:00",
+      "packaged_sha256": "20c644a0c17f7a889964864769e257e42c7e3d4f86be3145021cdf64a34e462f",
+      "packaging_change": false
+    }
+  ],
+  "excluded_source_files": [
+    {
+      "source": "skills/_spatial_alignment_core/scripts/apply_recipe.py",
+      "sha256": "148534b23a5d392cfad70ed0be08e58b37a529a76459823011d75e410003cc2c",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/_spatial_alignment_core/scripts/compose_alignment_recipes.py",
+      "sha256": "ade93e5275330044122aaebd6d1509a7106ab140ef0ca650e32367d04e9c8758",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/_spatial_alignment_core/scripts/extract_pairwise_transform.py",
+      "sha256": "cef1b0538178ea945cd804c2997a880dff1ca7cc55974c68145a6c1c2177984d",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/_spatial_alignment_core/scripts/make_pairwise_spateo_refine_plan.py",
+      "sha256": "711203031590a92b42bef4d2bbfbf564a1e7e5d95bc39042e93d9f1592d3f7c6",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/_spatial_alignment_core/scripts/make_spateo_pairwise_initial_plan.py",
+      "sha256": "9299bcfee3dc360b1b9db84d7a1e729505c4721662dfbf5ba906a6c97a594bf6",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/_spatial_alignment_core/scripts/pairwise_core.py",
+      "sha256": "6ed350b8e44ae2e191bd5041ff875e2addb487665df5757211682388223b368d",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/_spatial_alignment_core/scripts/propose_pairwise_refine_candidates.py",
+      "sha256": "8b89756608573eeb856e5afa2aa3c48f7826d8729028e8543499c92f0aec8fd2",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/_spatial_alignment_core/scripts/qc_pairwise_celltype_edges.py",
+      "sha256": "4c84f36328f6cc4fb5da894f59adc15296f4eadc846adf37d27717c2c5fc946b",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/_spatial_alignment_core/scripts/render_pairwise_visual_qc.py",
+      "sha256": "df5661a571d9de83154425592b8c3f2adbedda1b57eb2615be6e5edec0dd3ec6",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/_spatial_alignment_core/scripts/summarize_pairwise_initial_run.py",
+      "sha256": "9233924a1b88c4417f841a01490aadb9cc3a141ecd464f6d9916242c55a7443e",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/_spatial_alignment_core/scripts/summarize_pairwise_refine_run.py",
+      "sha256": "9f36d8554a5fe5cb30d49e666a996844f9bc94aa5627a946aab1e2e4c2667e2a",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/lightweight-spatial-alignment-workflow/skill.lock.yaml",
+      "sha256": "26e128eb5928773459119f8af2674111c1965244ed05623f708bda1297df5a01",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/spateo-continuity-first-serial-alignment/references/selection-contract.md",
+      "sha256": "8391c41db9720836ec007a3be468a1b72fb97d18ccf497e26ab5f5729aad064e",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/spateo-continuity-first-serial-alignment/release_manifest.v3.6.1.json",
+      "sha256": "617870281a99b09c3e1c10e96019dfb0bc7e827e97dc3e59e08f7edaf2330820",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/spateo-continuity-first-serial-alignment/release_manifest.v3.7.0.json",
+      "sha256": "df54cfdba16b2ded85cc472d684264903545796a2c4e617302718402de108893",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/spateo-continuity-first-serial-alignment/scripts/evaluate_frozen.py",
+      "sha256": "f6e7e5c3185cffacd4621a93a60b73bb788dc979e735d3f0184e7b8a51a0a5e3",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/spateo-continuity-first-serial-alignment/scripts/run_pipeline.py",
+      "sha256": "aca70bd109dfab38a9ceebd2f02810aae80991fe9f72e3715d72d9d3ece6d487",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/spateo-continuity-first-serial-alignment/scripts/run_pose_graph_pipeline.py",
+      "sha256": "b5d4cd63a7153bd48b8c8aace288e92703a8af4d25dbf668bea496bfe6fd5a7e",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    },
+    {
+      "source": "skills/spateo-continuity-first-serial-alignment/scripts/run_spateo_continuity_pipeline.py",
+      "sha256": "5ad0d91af96030f0517606dbe99e01a836856925d530e5b298035121255f2c77",
+      "reason": "Duplicate unlocked core is superseded by restored locked pairwise support; continuity scripts/manifests are superseded by the published continuity-guided pipeline; duplicate skill-local release lock would resolve to the wrong directory."
+    }
+  ],
+  "preserved_published_python": [
+    {
+      "path": "skills/setup-spateo-environment/scripts/test_verify_environment.py",
+      "sha256": "d55e97d3f11dfd829145fa550acebb0bc8542420f912254e6de4d0df6246ffd3"
+    },
+    {
+      "path": "skills/setup-spateo-environment/scripts/verify_environment.py",
+      "sha256": "f9dd141e037361d5ddbdd5a860e689d462df2da373b753e1653cc5cbb74292a5"
+    },
+    {
+      "path": "skills/spateo-2d-alignment/pipelines/continuity-guided/_continuity_scoring.py",
+      "sha256": "6dda22615b6caacdd9fef77d8caf52e18666ef7d5a8d9b8941edf3694f700661"
+    },
+    {
+      "path": "skills/spateo-2d-alignment/pipelines/continuity-guided/_core.py",
+      "sha256": "2dddf799fdbd3bf3220ac4595ec2e8914b3742763128a59a3696b15e936f8bee"
+    },
+    {
+      "path": "skills/spateo-2d-alignment/pipelines/continuity-guided/_universal_policy.py",
+      "sha256": "05d84dd012aa95f2942844385a523ec0573f4b99351d0cfc642a2a18b3279e55"
+    },
+    {
+      "path": "skills/spateo-2d-alignment/pipelines/continuity-guided/engine.py",
+      "sha256": "7784bc4fddd92b244d75d29922a0d320b87e829a78bddb8ea38d7a53147e7b50"
+    },
+    {
+      "path": "skills/spateo-2d-alignment/pipelines/continuity-guided/run.py",
+      "sha256": "154bf686ee7d4beb5178a1302c6cf5e80f1e26cde46c622d32568c8ed9067d71"
+    },
+    {
+      "path": "skills/spateo-2d-alignment/pipelines/continuity-guided/validate_inputs.py",
+      "sha256": "0b408c02120d7e4f276ba57d50f9571b6044266a6d1d827a98acc1ea5d7177a4"
+    },
+    {
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/run.py",
+      "sha256": "438d8b5b492506a26c1d95eaa5106a1da2bc40bdce39a091fc51f1e084ba7cc5"
+    },
+    {
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/runners/spateo_rigid_sns_alignment.py",
+      "sha256": "a315967b0b171a337c55070a4ad1360fa792903f2cbf95bbee641cfed4506a1c"
+    },
+    {
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/runners/spateo_rigid_sns_alignment_spatial_only.py",
+      "sha256": "cd5e2edc77add2017b4959ac4b224062395500d2239c570ffd7b10bd551cabe8"
+    },
+    {
+      "path": "skills/spateo-2d-alignment/pipelines/pairwise-rigid/validate_inputs.py",
+      "sha256": "0b408c02120d7e4f276ba57d50f9571b6044266a6d1d827a98acc1ea5d7177a4"
+    },
+    {
+      "path": "skills/spateo-2d-alignment/scripts/check_runtime.py",
+      "sha256": "5b2cc152ee2eea9bcfd63b35a5a82537df3657f5ab9cee6efb63c6bde93f7526"
+    },
+    {
+      "path": "skills/spateo-2d-alignment/scripts/prepare_expression_pca.py",
+      "sha256": "dc0c12c4287a970e37f91b0f440d7074c4ac95a511bee09a260055d0be6c4bdd"
+    },
+    {
+      "path": "skills/spateo-2d-alignment/scripts/smoke_test.py",
+      "sha256": "2395890ed4f10eaa946389b52955137118ed3306864cb88d4a0acaef1094e86a"
+    },
+    {
+      "path": "skills/spateo-2d-alignment/scripts/test_prepare_expression_pca.py",
+      "sha256": "148d565ceb0ec0b41a521b4e0248e228e2df39aee55d30a95f9ae92009fda955"
+    },
+    {
+      "path": "skills/spateo-2d-alignment/scripts/tests_expression_mode.py",
+      "sha256": "8ef4dc1c8955bdbef5717440724698ccd254782404004787d547fd7f3771cf22"
+    },
+    {
+      "path": "skills/spateo-2d-alignment/scripts/verify_bundle.py",
+      "sha256": "1648832351c81b2ca80ee62366bce451e2007140c67281c0e6cf136870d9ad58"
+    },
+    {
+      "path": "skills/spateo-data-io/scripts/smoke_source.py",
+      "sha256": "9e6255cca724c1ee4b1d6bee4dc8dddcf81b6088012ea46d759c2758af48aa5e"
+    },
+    {
+      "path": "skills/spateo-data-io/scripts/spateo_io.py",
+      "sha256": "93f62cab05900b1522ad8dc70bfd71a8d986a8adea3ef5696e9b6a7c9072a102"
+    },
+    {
+      "path": "skills/spateo-data-io/scripts/validate_anndata.py",
+      "sha256": "3d625faa101530b83fe37371bee65a35ef4a7b78ebcdcbd43d940d40c84ec2f5"
+    }
+  ]
+}

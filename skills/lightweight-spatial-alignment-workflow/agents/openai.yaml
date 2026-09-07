@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lightweight Spatial Alignment Workflow"
+  short_description: "Reproducible spatial alignment runs"
+  default_prompt: "Use $lightweight-spatial-alignment-workflow to set up a reproducible spatial alignment run with full-points manual review, balanced300k post-edit review, and full replay validation."

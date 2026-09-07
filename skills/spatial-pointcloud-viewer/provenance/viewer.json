@@ -1,0 +1,6 @@
+{
+  "script": "scripts/make_st_pointcloud_viewer.py",
+  "sha256": "2f31c9ad7cc585c584783e50df150b3fd2614dc365d8edcab9f623697b9f0da6",
+  "source_snapshot": "v0.2.3, archived before zebrafish work",
+  "scientific_changes": false
+}

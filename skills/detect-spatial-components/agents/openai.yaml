@@ -1,0 +1,4 @@
+interface:
+  display_name: "Detect Spatial Components"
+  short_description: "Label tissue components for HTML review"
+  default_prompt: "Use $detect-spatial-components to detect per-slice connected components, write component labels, and prepare labels for full-points and balanced300k HTML Component viewers."

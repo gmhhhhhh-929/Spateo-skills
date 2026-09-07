@@ -1,0 +1,6 @@
+{
+  "script": "scripts/make_spatial_before_after_viewer.py",
+  "sha256": "44253c5ab0f8c6d8576637900063ebb774c4c5658e89910faba7feda5c4043f0",
+  "source_snapshot": "v0.2.3, archived before zebrafish work",
+  "scientific_changes": false
+}

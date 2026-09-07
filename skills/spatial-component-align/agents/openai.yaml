@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spatial Component Align"
+  short_description: "Preview component-group alignment candidates"
+  default_prompt: "Use $spatial-component-align to build a non-destructive component-group alignment candidate from connected-component labels."

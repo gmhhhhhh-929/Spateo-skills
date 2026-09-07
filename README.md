@@ -12,7 +12,28 @@ Reusable agent skills for preparing a Spateo environment, reading data into AnnD
 | 2 | [spateo-data-io](skills/spateo-data-io/SKILL.md) | Source-backed reader selection, spatial platform detection, AnnData validation, and coordinate/metadata preservation. |
 | 3 | [spateo-2d-alignment](skills/spateo-2d-alignment/SKILL.md) | Two alignment pipelines, shared expression-PCA preparation, optional annotation, strict input validation, and recorded implementation provenance. |
 
-Each skill is a self-contained directory with a `SKILL.md` entrypoint. Supporting scripts and references live inside that directory, so a skill can be copied into an agent's skill search path without copying the entire repository.
+The collection contains **17 discoverable skills**: the three primary entries above and all 14 entries from the requested server skills directory. The companion workflows share the fixed support scripts in `spateo-2d-alignment/pipelines/pairwise-rigid`; install the collection together. Both viewer skills also bundle their own renderer and can be installed independently. Commands in companion skills run from the relevant skill directory.
+
+## Alignment review and workflow companions
+
+| Skill / 技能 | Purpose / 用途 |
+| --- | --- |
+| [detect-spatial-components](skills/detect-spatial-components/SKILL.md) | Connected-component detection · 组织连通分量 |
+| [lightweight-spatial-alignment-workflow](skills/lightweight-spatial-alignment-workflow/SKILL.md) | Workflow orchestration · 工作流 |
+| [remote-workflow-intake](skills/remote-workflow-intake/SKILL.md) | Remote execution context · 远程任务环境 |
+| [spateo-continuity-first-serial-alignment](skills/spateo-continuity-first-serial-alignment/SKILL.md) | Alias to continuity-guided · 连续性配准入口 |
+| [spateo-pairwise-qc](skills/spateo-pairwise-qc/SKILL.md) | Pairwise numeric and visual QC · 成对质控 |
+| [spateo-pairwise-run](skills/spateo-pairwise-run/SKILL.md) | Pairwise job planning · 成对任务计划 |
+| [spateo-roi-refine](skills/spateo-roi-refine/SKILL.md) | ROI/drop refinement · 局部修正 |
+| [spatial-alignment-compose](skills/spatial-alignment-compose/SKILL.md) | Recipe composition and replay · 变换组合与重放 |
+| [spatial-balanced-sample](skills/spatial-balanced-sample/SKILL.md) | Component-balanced sampling · 平衡采样 |
+| [spatial-before-after-viewer](skills/spatial-before-after-viewer/SKILL.md) | Before/after and displacement viewer · 配准前后及位移查看 |
+| [spatial-component-align](skills/spatial-component-align/SKILL.md) | Component candidates · 分量配准候选 |
+| [spatial-pointcloud-viewer](skills/spatial-pointcloud-viewer/SKILL.md) | Full-points 3D, slice/pair/component viewer · 全点三维查看 |
+| [spatial-triad-component-align](skills/spatial-triad-component-align/SKILL.md) | Three-slice QC and candidates · 三切片检查 |
+| [spatial-workflow-record](skills/spatial-workflow-record/SKILL.md) | Records, state pointers and dashboard · 记录与看板 |
+
+This restoration keeps the published alignment core at personal commit `89bbd1a` / organization commit `c44091b` unchanged. It includes no zebrafish image priors, later experimental alignment refinements, or later scoring changes. See the [completeness audit](COMPLETENESS.md).
 
 ## Alignment pipelines
 
@@ -29,7 +50,7 @@ Historical version identifiers, source hashes and subsequent implementation chan
 
 ## Use
 
-Clone this repository and let your agent read the relevant `SKILL.md`. With Codex, individual skills can also be installed by copying their directories into `~/.codex/skills/`.
+Clone this repository and let your agent read the relevant `SKILL.md`. With Codex, copy the contents of `skills/` together into your configured skill directory; keep companion dependencies as siblings. The two viewers may also be copied independently.
 
 ```text
 Use $setup-spateo-environment to prepare and verify a Spateo environment.

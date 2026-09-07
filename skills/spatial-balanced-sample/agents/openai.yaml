@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spatial Balanced Sample"
+  short_description: "Create balanced300k spatial review samples"
+  default_prompt: "Use $spatial-balanced-sample to create a component-balanced 300k review sample."

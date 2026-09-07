@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spatial Alignment Compose"
+  short_description: "Compose corrections with replay checks"
+  default_prompt: "Use $spatial-alignment-compose to apply confirmed alignment recipes locally and remotely, preserve original coordinates, and verify consistency with hashes or numeric tolerances."

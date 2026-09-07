@@ -1,0 +1,77 @@
+sample_id: EXAMPLE_SAMPLE
+source_h5ad: /remote/path/to/source.h5ad
+remote_root: /remote/path/to/spatial_alignment_projects/EXAMPLE_SAMPLE
+local_mirror_root: /local/path/to/EXAMPLE_SAMPLE_mirror
+
+source:
+  h5ad: /remote/path/to/source.h5ad
+  coordinate_cache: /remote/path/to/source_coordinates.csv
+  immutable: true
+
+project_layout:
+  version: v0.2.3
+  canonical_remote: true
+  local_is_mirror_only: true
+
+columns:
+  cell_id: cell_id
+  slice: sl_number
+  celltype: celltype
+  slice_id: slice_id
+  stage: stage
+  chip_id: chip_id
+
+coordinate_columns:
+  input:
+    x: stage1_rigid_x
+    y: stage1_rigid_y
+    z: z_display
+  manual:
+    x: manual_x
+    y: manual_y
+    z: manual_z
+  clean:
+    x: x
+    y: y
+    z: z
+
+z_spacing: 40
+
+clean_export:
+  cell_id_policy: short_slice_cellid
+  workflow_cell_id_policy: audit_sidecar_only
+  h5ad_cell_id_map: source/<sample>.h5ad_cell_id_map.csv
+  schema:
+    - cell_id
+    - slice_id
+    - stage
+    - chip_id
+    - sl_number
+    - celltype
+    - x
+    - y
+    - z
+  forbid_intermediate_columns: true
+  audit_points_are_debug_only: true
+
+balanced300k:
+  target_total_points: 300000
+  component_key: component_id
+  keep_all_below: 300
+  min_per_component: 80
+  max_per_component: 0
+  seed: 13
+
+viewer_policy:
+  manual_review_default: review_full_points
+  post_edit_default: balanced300k
+  all_points_html: manual_review_and_final_debug
+  forbid_full_preview_name: true
+  component_color_mode: true
+  component_label_overlay: true
+  component_label_format: "<slice> rank<rank> id<component_id>"
+
+final_outputs:
+  clean_coordinates: true
+  h5ad: true
+  workflow_html: true

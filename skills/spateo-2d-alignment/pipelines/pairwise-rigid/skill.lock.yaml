@@ -1,0 +1,237 @@
+{
+  "skill_name": "lightweight-spatial-alignment-workflow",
+  "skill_version": "0.2.3",
+  "pipeline_release": "v0.2.3",
+  "release_root": ".",
+  "conda_env": "",
+  "allowed_entrypoints": {
+    "normal_rigid": {
+      "mode": "normal_rigid",
+      "relative_path": "runners/spateo_rigid_sns_alignment.py",
+      "sha256": "a315967b0b171a337c55070a4ad1360fa792903f2cbf95bbee641cfed4506a1c",
+      "required_payload_env": {
+        "EXPRESSION_MODE": "normal"
+      },
+      "required_provenance": {
+        "runner_script_basename": "spateo_rigid_sns_alignment.py",
+        "runner_parameters.expression_mode": "normal"
+      },
+      "forbidden_null_fields": [
+        "runner_parameters.expression_mode"
+      ]
+    },
+    "spatial_only_rigid": {
+      "mode": "spatial_only_rigid",
+      "relative_path": "runners/spateo_rigid_sns_alignment_spatial_only.py",
+      "sha256": "cd5e2edc77add2017b4959ac4b224062395500d2239c570ffd7b10bd551cabe8",
+      "required_payload_env": {
+        "EXPRESSION_MODE": "spatial_only",
+        "SIGMA2_INIT_SCALE": "2.0"
+      },
+      "required_provenance": {
+        "runner_script_basename": "spateo_rigid_sns_alignment_spatial_only.py",
+        "expression_mode": "spatial_only",
+        "sigma2_init_scale": 2.0
+      },
+      "forbidden_null_fields": [
+        "expression_mode",
+        "sigma2_init_scale"
+      ]
+    },
+    "spatial_only_roi": {
+      "mode": "spatial_only_roi",
+      "relative_path": "runners/spateo_rigid_sns_alignment_spatial_only_roi.py",
+      "sha256": "59fe42e1d5d3d2d157db740f875cbaf45c90e1711ec40b14297f283abf02228b",
+      "required_payload_env": {
+        "EXPRESSION_MODE": "spatial_only"
+      },
+      "required_provenance": {
+        "runner_script_basename": "spateo_rigid_sns_alignment_spatial_only_roi.py",
+        "expression_mode": "spatial_only"
+      },
+      "forbidden_null_fields": [
+        "expression_mode"
+      ]
+    },
+    "pairwise_plan": {
+      "mode": "pairwise_plan",
+      "relative_path": "scripts/core/make_spateo_pairwise_initial_plan.py",
+      "sha256": "9299bcfee3dc360b1b9db84d7a1e729505c4721662dfbf5ba906a6c97a594bf6",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": []
+    },
+    "pairwise_extract": {
+      "mode": "pairwise_extract",
+      "relative_path": "scripts/core/extract_pairwise_transform.py",
+      "sha256": "cef1b0538178ea945cd804c2997a880dff1ca7cc55974c68145a6c1c2177984d",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": []
+    },
+    "pairwise_summarize": {
+      "mode": "pairwise_summarize",
+      "relative_path": "scripts/core/summarize_pairwise_initial_run.py",
+      "sha256": "9233924a1b88c4417f841a01490aadb9cc3a141ecd464f6d9916242c55a7443e",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": []
+    },
+    "pairwise_qc": {
+      "mode": "pairwise_qc",
+      "relative_path": "scripts/core/qc_pairwise_celltype_edges.py",
+      "sha256": "4c84f36328f6cc4fb5da894f59adc15296f4eadc846adf37d27717c2c5fc946b",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": []
+    },
+    "compose_alignment": {
+      "mode": "compose_alignment",
+      "relative_path": "scripts/core/compose_alignment_recipes.py",
+      "sha256": "850cf1a7a846afcca7498f9a648aec0bc2b0474994f3b9a0f15b033d53f20e47",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": []
+    },
+    "pointcloud_viewer": {
+      "mode": "pointcloud_viewer",
+      "relative_path": "scripts/viewers/make_st_pointcloud_viewer.py",
+      "sha256": "2f31c9ad7cc585c584783e50df150b3fd2614dc365d8edcab9f623697b9f0da6",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": []
+    },
+    "before_after_viewer": {
+      "mode": "before_after_viewer",
+      "relative_path": "scripts/viewers/make_spatial_before_after_viewer.py",
+      "sha256": "44253c5ab0f8c6d8576637900063ebb774c4c5658e89910faba7feda5c4043f0",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": []
+    },
+    "detect_components": {
+      "mode": "detect_components",
+      "relative_path": "scripts/components/detect_components.py",
+      "sha256": "9bbc3b354eb606eef737b1dee741c0888fba5c230eb1f17549cd5777c65da6f2",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": []
+    },
+    "component_group_align": {
+      "mode": "component_group_align",
+      "relative_path": "scripts/components/component_group_align_preview.py",
+      "sha256": "61543edd3e2939c8f7d50ce580586e785319727d89d31c9cdb2cc96a87b22afe",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": []
+    },
+    "triad_component_scan": {
+      "mode": "triad_component_scan",
+      "relative_path": "scripts/components/triad_component_scan.py",
+      "sha256": "ccddaf899d0cc942570a3ba92da88bf4be0a2e5f1c7028c3de30431c51a77a47",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": []
+    },
+    "triad_component_review_viewer": {
+      "mode": "triad_component_review_viewer",
+      "relative_path": "scripts/viewers/make_triad_component_review_viewer.py",
+      "sha256": "fc643e28a821436bad14d548e538903da7cffa828593ca9f86e6846eb3c73801",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": []
+    },
+    "triad_mid_slice_rigid_preview": {
+      "mode": "triad_mid_slice_rigid_preview",
+      "relative_path": "scripts/components/triad_mid_slice_rigid_preview.py",
+      "sha256": "4c33c2ee896c06473cf312919337072f3374318b96325692d2e540335b8a5325",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": []
+    },
+    "balanced_spatial_sample": {
+      "mode": "balanced_spatial_sample",
+      "relative_path": "scripts/sampling/create_balanced_spatial_sample.py",
+      "sha256": "d2bce232c2966e4547ac92949606cbcd74f47a5b88524b9eb093a82e8d959ddb",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": []
+    },
+    "sample_recipe_full_replay_validator": {
+      "mode": "sample_recipe_full_replay_validator",
+      "relative_path": "scripts/sampling/validate_sample_recipe_full_replay.py",
+      "sha256": "4902328689b9c818d7b79d68b781ed2f552deed300ecfb6ee15505fa675f83da",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": []
+    },
+    "workflow_init_project_run": {
+      "mode": "workflow_init_project_run",
+      "relative_path": "scripts/workflow/init_project_run.py",
+      "sha256": "d7b1e3036fd295dce8f0f81738738c4c05648d39b449f57b77cbcfd542f3c555",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": []
+    },
+    "workflow_write_record": {
+      "mode": "workflow_write_record",
+      "relative_path": "scripts/workflow/write_workflow_record.py",
+      "sha256": "7bad03ae695ed5a69aa85b2112a52a6c120bb953ddee039515c1f4c36d09ae1a",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": []
+    },
+    "workflow_dashboard": {
+      "mode": "workflow_dashboard",
+      "relative_path": "scripts/workflow/build_workflow_dashboard.py",
+      "sha256": "e5acef17a2b17aaebe1e431beb5d57b89bd0625b59e0a204947decb7b1a3cb38",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": []
+    },
+    "clean_coordinates_export": {
+      "mode": "clean_coordinates_export",
+      "relative_path": "scripts/core/export_clean_coordinates.py",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": [],
+      "sha256": "9a2d43283ead4af60196dca6e37aec3cbd0ef7e204598b801f72b5ee07fe1829"
+    },
+    "clean_coordinates_validate": {
+      "mode": "clean_coordinates_validate",
+      "relative_path": "scripts/core/validate_clean_coordinates.py",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": [],
+      "sha256": "0d9ccfe2f8a41c7776096fcb73fd3041a21abb6da99a47e9d5ea4b59c257119d"
+    },
+    "workflow_update_state_pointer": {
+      "mode": "workflow_update_state_pointer",
+      "relative_path": "scripts/workflow/update_state_pointer.py",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": [],
+      "sha256": "00147c2b403dee1880c533b44c98844cbf6a09d261850280dc6bdc53056f4f2f"
+    },
+    "workflow_validate_project_layout": {
+      "mode": "workflow_validate_project_layout",
+      "relative_path": "scripts/workflow/validate_project_layout.py",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": [],
+      "sha256": "bfa520258cffcdb8890ae0bef7d651a09f1ef64d1b7cf52ecdcbf9efbe55baf2"
+    },
+    "h5ad_cell_id_map": {
+      "mode": "h5ad_cell_id_map",
+      "relative_path": "scripts/core/build_h5ad_cell_id_map.py",
+      "required_payload_env": {},
+      "required_provenance": {},
+      "forbidden_null_fields": [],
+      "sha256": "cc53fe412a0946712c03fcb69c6cbc5d00c718929a4efaf0c44208429698e516"
+    }
+  },
+  "validators": {
+    "run_validator": "spalign/validate_run.py",
+    "payload_resolver": "spalign/lock_resolver.py"
+  }
+}

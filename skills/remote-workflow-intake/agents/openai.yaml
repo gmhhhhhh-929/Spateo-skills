@@ -1,0 +1,4 @@
+interface:
+  display_name: "Remote Workflow Intake"
+  short_description: "Collect minimal remote run context"
+  default_prompt: "Use $remote-workflow-intake to collect the SSH host, remote workdir, source h5ad/raw-data path, and conda environment before starting a spatial alignment run."

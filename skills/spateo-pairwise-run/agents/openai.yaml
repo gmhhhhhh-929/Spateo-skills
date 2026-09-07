@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spateo Pairwise Run"
+  short_description: "Plan and run normal or spatial-only pairwise Spateo jobs."
+  default_prompt: "Use $spateo-pairwise-run to run adjacent pairwise Spateo alignment with normal defaults or prepare a spatial-only rescue sweep."

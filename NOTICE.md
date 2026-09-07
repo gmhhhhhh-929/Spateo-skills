@@ -17,3 +17,7 @@ The Data IO instructions and helper code were prepared from a review of that sam
 The imported alignment implementation files are enumerated in [source_migration.json](skills/spateo-2d-alignment/provenance/source_migration.json). They originate from the user-provided pairwise and continuity snapshots. No explicit license file was found at either source repository root, and the selected Python files contained no license header.
 
 Their inclusion preserves that source licensing status; this notice does not assert that the imported snapshot files have been relicensed under the root MIT license. Source identifiers, hashes, preserved scientific symbols, and packaging changes remain available in the migration manifest. Newly authored wrappers and instructions are covered by the root license unless separately noted.
+
+## Restored workflow companions
+
+The 14 restored entrypoints and fixed support tools originate from the user-provided server skill collection. Imported files and their source/package hashes are recorded in [companion_migration.json](skills/spateo-2d-alignment/provenance/companion_migration.json). Their unspecified source licensing status is preserved under the same alignment-snapshot notice above. The continuity-first entry is a new compatibility adapter to the existing published pipeline, not a copy of an additional historical engine.

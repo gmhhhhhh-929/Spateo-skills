@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Spatial alignment skill lock",
+  "type": "object",
+  "required": ["skill_name", "skill_version", "pipeline_release", "release_root", "allowed_entrypoints"],
+  "properties": {
+    "skill_name": {"type": "string"},
+    "skill_version": {"type": "string"},
+    "pipeline_release": {"type": "string"},
+    "release_root": {"type": "string"},
+    "conda_env": {"type": "string"},
+    "allowed_entrypoints": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["mode", "relative_path", "sha256"],
+        "properties": {
+          "mode": {"type": "string"},
+          "relative_path": {"type": "string"},
+          "sha256": {"type": "string"},
+          "required_payload_env": {"type": "object"},
+          "required_provenance": {"type": "object"},
+          "forbidden_null_fields": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    }
+  }
+}

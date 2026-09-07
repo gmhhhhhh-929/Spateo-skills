@@ -59,3 +59,7 @@ Both pipelines write into new output directories and retain native outputs. Chec
 If reference-based accuracy is requested, freeze candidates before evaluation and use the user's convention. Keep reference coordinates and scores out of inference. For authorized method development, designate development and test specimens before scoring, record all tried configurations, and freeze one policy before viewing new test scores. New perturbations of the same specimen test perturbation robustness, not independent biological generalization. This package includes no benchmark data.
 
 Source hashes, dependency extraction and migration changes are in [source_migration.json](provenance/source_migration.json). The small [smoke test](scripts/smoke_test.py) validates packaging and synthetic input/geometry behavior; it does not repeat a GPU accuracy benchmark.
+
+## Review and workflow handoff
+
+For inspection, use [spatial-before-after-viewer](../spatial-before-after-viewer/SKILL.md) and [spatial-pointcloud-viewer](../spatial-pointcloud-viewer/SKILL.md). For pair QC, component review, sampling and recorded replay, use [lightweight-spatial-alignment-workflow](../lightweight-spatial-alignment-workflow/SKILL.md). These companion tools restore the fixed pre-zebrafish support release; they do not change either alignment pipeline's inference code.

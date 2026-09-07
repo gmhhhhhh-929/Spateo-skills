@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spateo Continuity-First Serial Alignment"
+  short_description: "Blind Spateo-first alignment with continuity repair"
+  default_prompt: "Use $spateo-continuity-first-serial-alignment to align unregistered serial spatial slices and validate the frozen result."

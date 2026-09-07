@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spateo ROI Refine"
+  short_description: "Rerun a suspicious Spateo edge using an ROI or drop mask."
+  default_prompt: "Use $spateo-roi-refine to exclude an interfering region and rerun one suspicious pair with spatial-only rigid alignment."

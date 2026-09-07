@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spatial Before/After Viewer"
+  short_description: "Compare candidate coordinates before and after"
+  default_prompt: "Use $spatial-before-after-viewer to build a before/after HTML comparison for a spatial alignment candidate."
