@@ -7,10 +7,9 @@ description: Run a reproducible lightweight spatial transcriptomics alignment wo
 
 ## Package paths
 
-Run the relative commands below from this skill directory. Install this skill
-beside `spateo-2d-alignment` (or keep the complete repository checkout).
+Run the relative commands below from this skill directory. Keep this subskill inside the complete `spateo-2d-alignment` directory.
 The shared support tools are the fixed pre-zebrafish snapshot, located in
-`../spateo-2d-alignment/pipelines/pairwise-rigid`. Verify entrypoints with its `skill.lock.yaml`.
+`../../pipelines/pairwise-rigid`. Verify entrypoints with its `skill.lock.yaml`.
 This packaging restoration does not change alignment algorithms or defaults.
 
 
@@ -32,8 +31,8 @@ CSV/h5ad outputs remain complete and are validated separately.
 
 ## Release Contract
 
-Use `../spateo-2d-alignment/pipelines/pairwise-rigid` from this repository or an immutable deployed
-copy of it. Resolve all scripts through `../spateo-2d-alignment/pipelines/pairwise-rigid/skill.lock.yaml`; do not call copied
+Use `../../pipelines/pairwise-rigid` from this repository or an immutable deployed
+copy of it. Resolve all scripts through `../../pipelines/pairwise-rigid/skill.lock.yaml`; do not call copied
 entrypoints by ad hoc absolute paths unless the lock resolver validated them.
 
 The lock supports relative `release_root: "."` inside the repository. BGI
@@ -42,7 +41,7 @@ path in the run record, but entrypoint sha256 must match.
 
 ## Workflow
 
-1. Initialize a run skeleton with `../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/workflow/init_project_run.py` and a
+1. Initialize a run skeleton with `../../pipelines/pairwise-rigid/scripts/workflow/init_project_run.py` and a
    project config based on `references/example.project.yaml`.
 2. Verify source h5ad identity fields and, when needed, build an h5ad ID map.
    The original h5ad `obs_names`, `obs["cell_id"]`, `obs["CellID"]`, and slice
@@ -54,13 +53,13 @@ path in the run record, but entrypoint sha256 must match.
    labels for balanced300k review; keep per-slice PNGs only as detector QC
    sidecars.
 6. Generate a full-points review HTML from the component-labeled full baseline
-   with `../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/viewers/make_st_pointcloud_viewer.py`; use
+   with `../../pipelines/pairwise-rigid/scripts/viewers/make_st_pointcloud_viewer.py`; use
    `--viewer-kind review_full_points`, `--component-col component_id`, and
    `--component-rank-col component_rank`.
-7. Create balanced300k with `../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/sampling/create_balanced_spatial_sample.py`
+7. Create balanced300k with `../../pipelines/pairwise-rigid/scripts/sampling/create_balanced_spatial_sample.py`
    using `--target-total-points 300000`.
 8. Generate post-edit or candidate review HTML from the balanced300k CSV with
-   `../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/viewers/make_st_pointcloud_viewer.py`; pass source full CSV path,
+   `../../pipelines/pairwise-rigid/scripts/viewers/make_st_pointcloud_viewer.py`; pass source full CSV path,
    full row count, full sha256, sampling method, `--component-balanced`,
    `--component-col auto`, and `--component-rank-col auto`. The HTML viewer is
    the lightweight post-edit component map and should expose `Component` and
@@ -70,13 +69,13 @@ path in the run record, but entrypoint sha256 must match.
    `audit_points.csv`, export `clean_coordinates.csv`, and run validation.
 11. If the source coordinate table uses workflow row-index ids such as
    `slice_id:0`, first build an h5ad ID map with
-   `../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/build_h5ad_cell_id_map.py`, then export clean coordinates with
+   `../../pipelines/pairwise-rigid/scripts/core/build_h5ad_cell_id_map.py`, then export clean coordinates with
    `--cell-id-map`; user-facing `cell_id` must use the short h5ad-derived
    form `<slice>_<CellID>`, for example `SL14_CELL.1`.
 12. Update `states/current_review.yaml`, `states/current_accepted.yaml`, or
    `states/final.yaml` with the clean coordinate path.
-13. Record every substantive operation with `../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/workflow/write_workflow_record.py`
-   and rebuild the compact dashboard with `../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/workflow/build_workflow_dashboard.py`.
+13. Record every substantive operation with `../../pipelines/pairwise-rigid/scripts/workflow/write_workflow_record.py`
+   and rebuild the compact dashboard with `../../pipelines/pairwise-rigid/scripts/workflow/build_workflow_dashboard.py`.
 
 ## Guardrails
 

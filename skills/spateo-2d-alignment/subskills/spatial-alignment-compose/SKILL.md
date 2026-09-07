@@ -7,10 +7,9 @@ description: Compose confirmed spatial alignment recipes into corrected coordina
 
 ## Package paths
 
-Run the relative commands below from this skill directory. Install this skill
-beside `spateo-2d-alignment` (or keep the complete repository checkout).
+Run the relative commands below from this skill directory. Keep this subskill inside the complete `spateo-2d-alignment` directory.
 The shared support tools are the fixed pre-zebrafish snapshot, located in
-`../spateo-2d-alignment/pipelines/pairwise-rigid`. Verify entrypoints with its `skill.lock.yaml`.
+`../../pipelines/pairwise-rigid`. Verify entrypoints with its `skill.lock.yaml`.
 This packaging restoration does not change alignment algorithms or defaults.
 
 
@@ -64,7 +63,7 @@ Use the shared compose script with recipes listed in execution order. First run
 it on the remote server to create the reference output:
 
 ```bash
-python ../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/compose_alignment_recipes.py \
+python ../../pipelines/pairwise-rigid/scripts/core/compose_alignment_recipes.py \
   --input SOURCE_POINTS_CSV \
   --operation RECIPE_001.json \
   --operation RECIPE_002.json \
@@ -78,7 +77,7 @@ python ../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/compose_alig
 Replay an existing chain on the remote server:
 
 ```bash
-python ../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/compose_alignment_recipes.py \
+python ../../pipelines/pairwise-rigid/scripts/core/compose_alignment_recipes.py \
   --input SOURCE_POINTS_CSV \
   --recipe-chain COMPOSE_OUTPUT_DIR/recipe_chain.json \
   --x-col X_COL --y-col Y_COL --z-col Z_COL \

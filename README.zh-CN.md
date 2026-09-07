@@ -10,28 +10,31 @@
 | 2 | [spateo-data-io](skills/spateo-data-io/SKILL.md) | 根据实际源码选择读取接口，处理平台识别与歧义，验证 AnnData 并保留坐标、单位、注释和细胞 ID。 |
 | 3 | [spateo-2d-alignment](skills/spateo-2d-alignment/SKILL.md) | 两套配准 pipeline、共享表达 PCA 准备、可选注释、严格输入预检及实现溯源。 |
 
-本次补齐后共有 **17 个可发现的技能入口**：上面 3 个主技能，以及服务器指定目录的全部 14 个入口。配套工作流共享 `spateo-2d-alignment/pipelines/pairwise-rigid` 下的固定脚本，需一起安装；两个 viewer 均自带绘图脚本，也可独立安装。配套技能中的相对命令从各自技能目录执行。
+顶层只保留 **3 个阶段入口**。14 个配准子技能统一放在
+`spateo-2d-alignment/subskills/`，包括 viewer、质控、采样、ROI 和重放工具。
+查看[配准子技能目录](skills/spateo-2d-alignment/references/companion-skills.md)。
 
-## 配准检查及配套工作流
+```text
+skills/
+├── setup-spateo-environment/
+├── spateo-data-io/
+└── spateo-2d-alignment/
+    ├── SKILL.md
+    ├── pipelines/
+    │   ├── pairwise-rigid/
+    │   └── continuity-guided/
+    ├── subskills/                 # 14 alignment workflow subskills
+    │   ├── spatial-before-after-viewer/
+    │   ├── spatial-pointcloud-viewer/
+    │   └── …
+    ├── scripts/
+    ├── references/
+    └── provenance/
+```
 
-| Skill / 技能 | Purpose / 用途 |
-| --- | --- |
-| [detect-spatial-components](skills/detect-spatial-components/SKILL.md) | Connected-component detection · 组织连通分量 |
-| [lightweight-spatial-alignment-workflow](skills/lightweight-spatial-alignment-workflow/SKILL.md) | Workflow orchestration · 工作流 |
-| [remote-workflow-intake](skills/remote-workflow-intake/SKILL.md) | Remote execution context · 远程任务环境 |
-| [spateo-continuity-first-serial-alignment](skills/spateo-continuity-first-serial-alignment/SKILL.md) | Alias to continuity-guided · 连续性配准入口 |
-| [spateo-pairwise-qc](skills/spateo-pairwise-qc/SKILL.md) | Pairwise numeric and visual QC · 成对质控 |
-| [spateo-pairwise-run](skills/spateo-pairwise-run/SKILL.md) | Pairwise job planning · 成对任务计划 |
-| [spateo-roi-refine](skills/spateo-roi-refine/SKILL.md) | ROI/drop refinement · 局部修正 |
-| [spatial-alignment-compose](skills/spatial-alignment-compose/SKILL.md) | Recipe composition and replay · 变换组合与重放 |
-| [spatial-balanced-sample](skills/spatial-balanced-sample/SKILL.md) | Component-balanced sampling · 平衡采样 |
-| [spatial-before-after-viewer](skills/spatial-before-after-viewer/SKILL.md) | Before/after and displacement viewer · 配准前后及位移查看 |
-| [spatial-component-align](skills/spatial-component-align/SKILL.md) | Component candidates · 分量配准候选 |
-| [spatial-pointcloud-viewer](skills/spatial-pointcloud-viewer/SKILL.md) | Full-points 3D, slice/pair/component viewer · 全点三维查看 |
-| [spatial-triad-component-align](skills/spatial-triad-component-align/SKILL.md) | Three-slice QC and candidates · 三切片检查 |
-| [spatial-workflow-record](skills/spatial-workflow-record/SKILL.md) | Records, state pointers and dashboard · 记录与看板 |
-
-当前发布的配准核心保持个人仓库 `89bbd1a` / 组织仓库 `c44091b` 的内容不变。本次不含斑马鱼影像先验、之后的配准实验优化及评分改动。详见[完整性审计](COMPLETENESS.md)。
+安装配准技能时复制整个 `spateo-2d-alignment/`，保留内部目录结构；
+由主 `SKILL.md` 按任务导航到子技能，无需依赖自动递归发现。
+配准核心不变，不包含斑马鱼阶段的更新。详见[完整性审计](COMPLETENESS.md)。
 
 ## 两套配准 pipeline
 

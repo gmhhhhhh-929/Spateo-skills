@@ -18,85 +18,85 @@
       "skill": "detect-spatial-components",
       "previously_published_entrypoint": false,
       "status": "restored",
-      "path": "skills/detect-spatial-components/SKILL.md"
+      "path": "skills/spateo-2d-alignment/subskills/detect-spatial-components/SKILL.md"
     },
     {
       "skill": "lightweight-spatial-alignment-workflow",
       "previously_published_entrypoint": false,
       "status": "restored",
-      "path": "skills/lightweight-spatial-alignment-workflow/SKILL.md"
+      "path": "skills/spateo-2d-alignment/subskills/lightweight-spatial-alignment-workflow/SKILL.md"
     },
     {
       "skill": "remote-workflow-intake",
       "previously_published_entrypoint": false,
       "status": "restored",
-      "path": "skills/remote-workflow-intake/SKILL.md"
+      "path": "skills/spateo-2d-alignment/subskills/remote-workflow-intake/SKILL.md"
     },
     {
       "skill": "spateo-continuity-first-serial-alignment",
       "previously_published_entrypoint": false,
       "status": "canonical-pipeline alias",
-      "path": "skills/spateo-continuity-first-serial-alignment/SKILL.md"
+      "path": "skills/spateo-2d-alignment/subskills/spateo-continuity-first-serial-alignment/SKILL.md"
     },
     {
       "skill": "spateo-pairwise-qc",
       "previously_published_entrypoint": false,
       "status": "restored",
-      "path": "skills/spateo-pairwise-qc/SKILL.md"
+      "path": "skills/spateo-2d-alignment/subskills/spateo-pairwise-qc/SKILL.md"
     },
     {
       "skill": "spateo-pairwise-run",
       "previously_published_entrypoint": false,
       "status": "restored",
-      "path": "skills/spateo-pairwise-run/SKILL.md"
+      "path": "skills/spateo-2d-alignment/subskills/spateo-pairwise-run/SKILL.md"
     },
     {
       "skill": "spateo-roi-refine",
       "previously_published_entrypoint": false,
       "status": "restored",
-      "path": "skills/spateo-roi-refine/SKILL.md"
+      "path": "skills/spateo-2d-alignment/subskills/spateo-roi-refine/SKILL.md"
     },
     {
       "skill": "spatial-alignment-compose",
       "previously_published_entrypoint": false,
       "status": "restored",
-      "path": "skills/spatial-alignment-compose/SKILL.md"
+      "path": "skills/spateo-2d-alignment/subskills/spatial-alignment-compose/SKILL.md"
     },
     {
       "skill": "spatial-balanced-sample",
       "previously_published_entrypoint": false,
       "status": "restored",
-      "path": "skills/spatial-balanced-sample/SKILL.md"
+      "path": "skills/spateo-2d-alignment/subskills/spatial-balanced-sample/SKILL.md"
     },
     {
       "skill": "spatial-before-after-viewer",
       "previously_published_entrypoint": false,
       "status": "restored",
-      "path": "skills/spatial-before-after-viewer/SKILL.md"
+      "path": "skills/spateo-2d-alignment/subskills/spatial-before-after-viewer/SKILL.md"
     },
     {
       "skill": "spatial-component-align",
       "previously_published_entrypoint": false,
       "status": "restored",
-      "path": "skills/spatial-component-align/SKILL.md"
+      "path": "skills/spateo-2d-alignment/subskills/spatial-component-align/SKILL.md"
     },
     {
       "skill": "spatial-pointcloud-viewer",
       "previously_published_entrypoint": false,
       "status": "restored",
-      "path": "skills/spatial-pointcloud-viewer/SKILL.md"
+      "path": "skills/spateo-2d-alignment/subskills/spatial-pointcloud-viewer/SKILL.md"
     },
     {
       "skill": "spatial-triad-component-align",
       "previously_published_entrypoint": false,
       "status": "restored",
-      "path": "skills/spatial-triad-component-align/SKILL.md"
+      "path": "skills/spateo-2d-alignment/subskills/spatial-triad-component-align/SKILL.md"
     },
     {
       "skill": "spatial-workflow-record",
       "previously_published_entrypoint": false,
       "status": "restored",
-      "path": "skills/spatial-workflow-record/SKILL.md"
+      "path": "skills/spateo-2d-alignment/subskills/spatial-workflow-record/SKILL.md"
     }
   ],
   "files": [
@@ -424,275 +424,309 @@
     },
     {
       "source": "skills/detect-spatial-components/SKILL.md",
-      "path": "skills/detect-spatial-components/SKILL.md",
+      "path": "skills/spateo-2d-alignment/subskills/detect-spatial-components/SKILL.md",
       "source_sha256": "48baa5ffec6cde369ead08a0472880e3d1e8f8ff468400559b7e66028fb17966",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
-      "packaged_sha256": "f2aca64b213c13f22e2cde9d5340546d80ba22510cc8037ac6ba43dbb93813fd",
-      "packaging_change": true
+      "packaged_sha256": "a6aa5dd2fb8f88c72001a2a4263f27a9d1214b48ccab1a25355f8414b44b85c7",
+      "packaging_change": true,
+      "previous_packaged_path": "skills/detect-spatial-components/SKILL.md"
     },
     {
       "source": "skills/detect-spatial-components/agents/openai.yaml",
-      "path": "skills/detect-spatial-components/agents/openai.yaml",
+      "path": "skills/spateo-2d-alignment/subskills/detect-spatial-components/agents/openai.yaml",
       "source_sha256": "a6811fa1ae794f17faf97f0143dd538dbc007a477da4f56a40ee40a8da40051e",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "a6811fa1ae794f17faf97f0143dd538dbc007a477da4f56a40ee40a8da40051e",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/detect-spatial-components/agents/openai.yaml"
     },
     {
       "source": "skills/lightweight-spatial-alignment-workflow/SKILL.md",
-      "path": "skills/lightweight-spatial-alignment-workflow/SKILL.md",
+      "path": "skills/spateo-2d-alignment/subskills/lightweight-spatial-alignment-workflow/SKILL.md",
       "source_sha256": "5b7236cc462bdc521c767490a5b2d9a351153fef5a4b6bb6fdf23528c6db72e2",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
-      "packaged_sha256": "5e05c0f53b9fc020cd530c24c97c88f34ad577fe0db4a4ea59b47bd9efa48ff6",
-      "packaging_change": true
+      "packaged_sha256": "fc1f389cfd769c9dbe2f443835e4eb4657d43a00c1788ca3e401f70642717cf0",
+      "packaging_change": true,
+      "previous_packaged_path": "skills/lightweight-spatial-alignment-workflow/SKILL.md"
     },
     {
       "source": "skills/lightweight-spatial-alignment-workflow/agents/openai.yaml",
-      "path": "skills/lightweight-spatial-alignment-workflow/agents/openai.yaml",
+      "path": "skills/spateo-2d-alignment/subskills/lightweight-spatial-alignment-workflow/agents/openai.yaml",
       "source_sha256": "f20303042ad5f72a1a01de7463ed95f401b9c4a31c59bb3d067bd3852a13b1d0",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "f20303042ad5f72a1a01de7463ed95f401b9c4a31c59bb3d067bd3852a13b1d0",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/lightweight-spatial-alignment-workflow/agents/openai.yaml"
     },
     {
       "source": "skills/remote-workflow-intake/SKILL.md",
-      "path": "skills/remote-workflow-intake/SKILL.md",
+      "path": "skills/spateo-2d-alignment/subskills/remote-workflow-intake/SKILL.md",
       "source_sha256": "5148107d6ec56a809527c0aa96096311ac48a2163a22c29cb5658987958f8353",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "8b1e0c4316d3133a7c638a64e422055f5f03068c686d4ac0e5afbbf783228200",
-      "packaging_change": true
+      "packaging_change": true,
+      "previous_packaged_path": "skills/remote-workflow-intake/SKILL.md"
     },
     {
       "source": "skills/remote-workflow-intake/agents/openai.yaml",
-      "path": "skills/remote-workflow-intake/agents/openai.yaml",
+      "path": "skills/spateo-2d-alignment/subskills/remote-workflow-intake/agents/openai.yaml",
       "source_sha256": "492f7182c0ea3c90ddc738914d418159cdbccdfcdd57d744e774d470ff96b94c",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "492f7182c0ea3c90ddc738914d418159cdbccdfcdd57d744e774d470ff96b94c",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/remote-workflow-intake/agents/openai.yaml"
     },
     {
       "source": "skills/spateo-pairwise-qc/SKILL.md",
-      "path": "skills/spateo-pairwise-qc/SKILL.md",
+      "path": "skills/spateo-2d-alignment/subskills/spateo-pairwise-qc/SKILL.md",
       "source_sha256": "e36337a491bc0c3006e053de51e3d86c8a8da00725ac841fef30e88b3ba7a485",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
-      "packaged_sha256": "49d891fb2a8126932c29d9b9c50a2bf2fac1bf46ee07b2d6f28e2457ba9d760a",
-      "packaging_change": true
+      "packaged_sha256": "c7db5d1f1594d73cce8528cb65b109ef2d95be93ad5342d21ab3b48c464c380a",
+      "packaging_change": true,
+      "previous_packaged_path": "skills/spateo-pairwise-qc/SKILL.md"
     },
     {
       "source": "skills/spateo-pairwise-qc/agents/openai.yaml",
-      "path": "skills/spateo-pairwise-qc/agents/openai.yaml",
+      "path": "skills/spateo-2d-alignment/subskills/spateo-pairwise-qc/agents/openai.yaml",
       "source_sha256": "d03fec4b6f65f550a0dca78e07e61057241a589846134ddd0d5cecbd5aca135d",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "d03fec4b6f65f550a0dca78e07e61057241a589846134ddd0d5cecbd5aca135d",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/spateo-pairwise-qc/agents/openai.yaml"
     },
     {
       "source": "skills/spateo-pairwise-run/SKILL.md",
-      "path": "skills/spateo-pairwise-run/SKILL.md",
+      "path": "skills/spateo-2d-alignment/subskills/spateo-pairwise-run/SKILL.md",
       "source_sha256": "bf422f56415479c0a3bb02e50085b59250ae647a9075095722f83e5df50681ff",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
-      "packaged_sha256": "8c1f30881c872db9b18485d42b9660a414cf02543abe36aaf801ef090e84a6bf",
-      "packaging_change": true
+      "packaged_sha256": "5dbf5df88efb7c058c09545fa280d38d210075085be21c0b2df7813008326618",
+      "packaging_change": true,
+      "previous_packaged_path": "skills/spateo-pairwise-run/SKILL.md"
     },
     {
       "source": "skills/spateo-pairwise-run/agents/openai.yaml",
-      "path": "skills/spateo-pairwise-run/agents/openai.yaml",
+      "path": "skills/spateo-2d-alignment/subskills/spateo-pairwise-run/agents/openai.yaml",
       "source_sha256": "d3e28f09472d5b151b204d57865caa782fbf0e115ce9a54ab8715e0fc9eb0885",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "d3e28f09472d5b151b204d57865caa782fbf0e115ce9a54ab8715e0fc9eb0885",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/spateo-pairwise-run/agents/openai.yaml"
     },
     {
       "source": "skills/spateo-roi-refine/SKILL.md",
-      "path": "skills/spateo-roi-refine/SKILL.md",
+      "path": "skills/spateo-2d-alignment/subskills/spateo-roi-refine/SKILL.md",
       "source_sha256": "c52b9b17641296d102f33fec8610985ceb14aa89f268d2aa910cce283ac9d6c5",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
-      "packaged_sha256": "a378375074d731471e783527e599ac3bb53f9a8aea1873e6c49b6a2fabf3ef78",
-      "packaging_change": true
+      "packaged_sha256": "c2f8f926001a9e327d7fd813edbb3eb6586c4c56d9b8e3d76d37cc7a3566d4d9",
+      "packaging_change": true,
+      "previous_packaged_path": "skills/spateo-roi-refine/SKILL.md"
     },
     {
       "source": "skills/spateo-roi-refine/agents/openai.yaml",
-      "path": "skills/spateo-roi-refine/agents/openai.yaml",
+      "path": "skills/spateo-2d-alignment/subskills/spateo-roi-refine/agents/openai.yaml",
       "source_sha256": "ddc8b48d453ef876673aa3529e3737ce3a70c61333e91514ab24b3d6b946a0a6",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "ddc8b48d453ef876673aa3529e3737ce3a70c61333e91514ab24b3d6b946a0a6",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/spateo-roi-refine/agents/openai.yaml"
     },
     {
       "source": "skills/spatial-alignment-compose/SKILL.md",
-      "path": "skills/spatial-alignment-compose/SKILL.md",
+      "path": "skills/spateo-2d-alignment/subskills/spatial-alignment-compose/SKILL.md",
       "source_sha256": "f3a8e730a473989d68d0d2d5624a5ea361a91df1297d5b5b05a0cb873e70d3dd",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
-      "packaged_sha256": "f908da8dac654cc52d1399bcc131275a07720b20b4bb46d23fdc28f75e5a94ea",
-      "packaging_change": true
+      "packaged_sha256": "49340ddd30b9737a077a4dd22d521f2295a3761983efbdfbd251069268cf5417",
+      "packaging_change": true,
+      "previous_packaged_path": "skills/spatial-alignment-compose/SKILL.md"
     },
     {
       "source": "skills/spatial-alignment-compose/agents/openai.yaml",
-      "path": "skills/spatial-alignment-compose/agents/openai.yaml",
+      "path": "skills/spateo-2d-alignment/subskills/spatial-alignment-compose/agents/openai.yaml",
       "source_sha256": "f39dad08490119b8a5e0f5ffa7f374a0ee5f7adf811abad350927aeaabc6ada2",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "f39dad08490119b8a5e0f5ffa7f374a0ee5f7adf811abad350927aeaabc6ada2",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/spatial-alignment-compose/agents/openai.yaml"
     },
     {
       "source": "skills/spatial-balanced-sample/SKILL.md",
-      "path": "skills/spatial-balanced-sample/SKILL.md",
+      "path": "skills/spateo-2d-alignment/subskills/spatial-balanced-sample/SKILL.md",
       "source_sha256": "5c5644d61ed6cc0db1c018d29845cc6a1ca1c6527b74d1f8a318b16f3ca6331d",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
-      "packaged_sha256": "0eadaf13fd79bf783f8a886bffc9929b8ae20f7f3b86096fd8015a705cd24abe",
-      "packaging_change": true
+      "packaged_sha256": "e1f70daa91360c8a83d487c5aa3ba3ee1e267bcd0406d5066d81efcc397ebc66",
+      "packaging_change": true,
+      "previous_packaged_path": "skills/spatial-balanced-sample/SKILL.md"
     },
     {
       "source": "skills/spatial-balanced-sample/agents/openai.yaml",
-      "path": "skills/spatial-balanced-sample/agents/openai.yaml",
+      "path": "skills/spateo-2d-alignment/subskills/spatial-balanced-sample/agents/openai.yaml",
       "source_sha256": "8ea4e3a5fd21802b72cac914b7f7ac772b0b816f55eb527f17a21b1e0eefbe84",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "8ea4e3a5fd21802b72cac914b7f7ac772b0b816f55eb527f17a21b1e0eefbe84",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/spatial-balanced-sample/agents/openai.yaml"
     },
     {
       "source": "skills/spatial-before-after-viewer/SKILL.md",
-      "path": "skills/spatial-before-after-viewer/SKILL.md",
+      "path": "skills/spateo-2d-alignment/subskills/spatial-before-after-viewer/SKILL.md",
       "source_sha256": "0f1adca55baf4e1220abed51eb292b229fc92c7944fdb645da5b405ee680ecc1",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "0ca781374ab660278d4949e07f3e18c7683da2887c55e7dc5e1a54268caa5df4",
-      "packaging_change": true
+      "packaging_change": true,
+      "previous_packaged_path": "skills/spatial-before-after-viewer/SKILL.md"
     },
     {
       "source": "skills/spatial-before-after-viewer/agents/openai.yaml",
-      "path": "skills/spatial-before-after-viewer/agents/openai.yaml",
+      "path": "skills/spateo-2d-alignment/subskills/spatial-before-after-viewer/agents/openai.yaml",
       "source_sha256": "c92821c994fe8d1ceaf561f9224809bd246df9eeaa1f48723928a0499ec25f85",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "c92821c994fe8d1ceaf561f9224809bd246df9eeaa1f48723928a0499ec25f85",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/spatial-before-after-viewer/agents/openai.yaml"
     },
     {
       "source": "skills/spatial-component-align/SKILL.md",
-      "path": "skills/spatial-component-align/SKILL.md",
+      "path": "skills/spateo-2d-alignment/subskills/spatial-component-align/SKILL.md",
       "source_sha256": "f35fd6925d2c73637974c50de28d4c14a511aaac202061c97e479e312f2b9c3e",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
-      "packaged_sha256": "f014c43c7bd4138516053eea140fc1d3885b45ce86cb99332c5d761acc3c4571",
-      "packaging_change": true
+      "packaged_sha256": "c873bdddd4893c4a936ff131517bb4567c15cac2688a30081b14846e2cc58efc",
+      "packaging_change": true,
+      "previous_packaged_path": "skills/spatial-component-align/SKILL.md"
     },
     {
       "source": "skills/spatial-component-align/agents/openai.yaml",
-      "path": "skills/spatial-component-align/agents/openai.yaml",
+      "path": "skills/spateo-2d-alignment/subskills/spatial-component-align/agents/openai.yaml",
       "source_sha256": "64d77062b1773b4c47b04af2306670fab5e34dc77ca2c87acf340ed6c66dfd63",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "64d77062b1773b4c47b04af2306670fab5e34dc77ca2c87acf340ed6c66dfd63",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/spatial-component-align/agents/openai.yaml"
     },
     {
       "source": "skills/spatial-pointcloud-viewer/SKILL.md",
-      "path": "skills/spatial-pointcloud-viewer/SKILL.md",
+      "path": "skills/spateo-2d-alignment/subskills/spatial-pointcloud-viewer/SKILL.md",
       "source_sha256": "9b57d2383530d58e4718396842521770eadce5b34303d4c7d1d08f2c2cd7004e",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "7575146a5e972ee32aaeaef302cba1947ef893e28a4f25a123498daa15bcd585",
-      "packaging_change": true
+      "packaging_change": true,
+      "previous_packaged_path": "skills/spatial-pointcloud-viewer/SKILL.md"
     },
     {
       "source": "skills/spatial-pointcloud-viewer/agents/openai.yaml",
-      "path": "skills/spatial-pointcloud-viewer/agents/openai.yaml",
+      "path": "skills/spateo-2d-alignment/subskills/spatial-pointcloud-viewer/agents/openai.yaml",
       "source_sha256": "5af519c3f8b87c5d1323ea8013abcbc8e39121228741a92938e23b535ade33c3",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "5af519c3f8b87c5d1323ea8013abcbc8e39121228741a92938e23b535ade33c3",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/spatial-pointcloud-viewer/agents/openai.yaml"
     },
     {
       "source": "skills/spatial-pointcloud-viewer/scripts/make_st_pointcloud_viewer.py",
-      "path": "skills/spatial-pointcloud-viewer/scripts/make_st_pointcloud_viewer.py",
+      "path": "skills/spateo-2d-alignment/subskills/spatial-pointcloud-viewer/scripts/make_st_pointcloud_viewer.py",
       "source_sha256": "2f31c9ad7cc585c584783e50df150b3fd2614dc365d8edcab9f623697b9f0da6",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "2f31c9ad7cc585c584783e50df150b3fd2614dc365d8edcab9f623697b9f0da6",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/spatial-pointcloud-viewer/scripts/make_st_pointcloud_viewer.py"
     },
     {
       "source": "skills/spatial-triad-component-align/SKILL.md",
-      "path": "skills/spatial-triad-component-align/SKILL.md",
+      "path": "skills/spateo-2d-alignment/subskills/spatial-triad-component-align/SKILL.md",
       "source_sha256": "9b3a4516ef33e48ca44da5031f3f836474ea9f6d27bad2fcc9e5b003f4b6f74e",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
-      "packaged_sha256": "fbb423c5c28b0fe38e9689fbb0b8f14bdbab5ba0b42196b4e9afdd92df91df43",
-      "packaging_change": true
+      "packaged_sha256": "4f2f40356db70936013a8d7243ab2aef6ce163bf2c5124ca918bb6b2de669068",
+      "packaging_change": true,
+      "previous_packaged_path": "skills/spatial-triad-component-align/SKILL.md"
     },
     {
       "source": "skills/spatial-triad-component-align/agents/openai.yaml",
-      "path": "skills/spatial-triad-component-align/agents/openai.yaml",
+      "path": "skills/spateo-2d-alignment/subskills/spatial-triad-component-align/agents/openai.yaml",
       "source_sha256": "4f6cfb08258c2326b22393cd3c631a64063d3b375e99811ad4a7a724701e6c74",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "4f6cfb08258c2326b22393cd3c631a64063d3b375e99811ad4a7a724701e6c74",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/spatial-triad-component-align/agents/openai.yaml"
     },
     {
       "source": "skills/spatial-workflow-record/SKILL.md",
-      "path": "skills/spatial-workflow-record/SKILL.md",
+      "path": "skills/spateo-2d-alignment/subskills/spatial-workflow-record/SKILL.md",
       "source_sha256": "7e3b4ed6dc24ff97784a49c40b2a2be00e2581515b1db6e614da42cf01bb5866",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
-      "packaged_sha256": "212dcb2c71846a66e14ec96c33292da52167bdf8673aad48f997ff293c7a5ec0",
-      "packaging_change": true
+      "packaged_sha256": "813264fa3e2746b043e89029aa90f83dd96212eaa72b08e065df463aefc4f8ce",
+      "packaging_change": true,
+      "previous_packaged_path": "skills/spatial-workflow-record/SKILL.md"
     },
     {
       "source": "pipeline/releases/v0.2.3/scripts/viewers/make_spatial_before_after_viewer.py",
-      "path": "skills/spatial-before-after-viewer/scripts/make_spatial_before_after_viewer.py",
+      "path": "skills/spateo-2d-alignment/subskills/spatial-before-after-viewer/scripts/make_spatial_before_after_viewer.py",
       "source_sha256": "44253c5ab0f8c6d8576637900063ebb774c4c5658e89910faba7feda5c4043f0",
       "source_mtime_utc": "2026-09-02T06:28:42+00:00",
       "packaged_sha256": "44253c5ab0f8c6d8576637900063ebb774c4c5658e89910faba7feda5c4043f0",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/spatial-before-after-viewer/scripts/make_spatial_before_after_viewer.py"
     },
     {
       "source": "docs/workflow.md",
-      "path": "skills/lightweight-spatial-alignment-workflow/references/workflow.md",
+      "path": "skills/spateo-2d-alignment/subskills/lightweight-spatial-alignment-workflow/references/workflow.md",
       "source_sha256": "332cbf988883dc3b5131992e01e6c88113e833c76318879accc2f34d5ef89860",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "332cbf988883dc3b5131992e01e6c88113e833c76318879accc2f34d5ef89860",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/lightweight-spatial-alignment-workflow/references/workflow.md"
     },
     {
       "source": "docs/project_layout.md",
-      "path": "skills/lightweight-spatial-alignment-workflow/references/project_layout.md",
+      "path": "skills/spateo-2d-alignment/subskills/lightweight-spatial-alignment-workflow/references/project_layout.md",
       "source_sha256": "ed3c03a2028d8302c15a32019cebddb9b463383c1cccd07c9998509f62e77cff",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "ed3c03a2028d8302c15a32019cebddb9b463383c1cccd07c9998509f62e77cff",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/lightweight-spatial-alignment-workflow/references/project_layout.md"
     },
     {
       "source": "docs/reproducibility.md",
-      "path": "skills/lightweight-spatial-alignment-workflow/references/reproducibility.md",
+      "path": "skills/spateo-2d-alignment/subskills/lightweight-spatial-alignment-workflow/references/reproducibility.md",
       "source_sha256": "9526295ea52f6507f6d540832282eb9b38bfe070afdcd42eac5758a4f5501f50",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
-      "packaged_sha256": "3872878c561a066e668e50f3e2a6598dd80d7aa56d31a5b33820bf5263217fc9",
-      "packaging_change": true
+      "packaged_sha256": "4c2f7374d602c8a71149046907bb6961683073bddda2f477a2c1119d7aea7c99",
+      "packaging_change": true,
+      "previous_packaged_path": "skills/lightweight-spatial-alignment-workflow/references/reproducibility.md"
     },
     {
       "source": "configs/example.project.yaml",
-      "path": "skills/lightweight-spatial-alignment-workflow/references/example.project.yaml",
+      "path": "skills/spateo-2d-alignment/subskills/lightweight-spatial-alignment-workflow/references/example.project.yaml",
       "source_sha256": "35becd5c5c165f73d46317c3565a1dafa62fbb969fe065d1ac4ea15538c9e41a",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "35becd5c5c165f73d46317c3565a1dafa62fbb969fe065d1ac4ea15538c9e41a",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/lightweight-spatial-alignment-workflow/references/example.project.yaml"
     },
     {
       "source": "spateo_interactive/config/project_paths.env.example",
-      "path": "skills/remote-workflow-intake/references/project_paths.env.example",
+      "path": "skills/spateo-2d-alignment/subskills/remote-workflow-intake/references/project_paths.env.example",
       "source_sha256": "ec3a3adb4b8aee4ac2f4cd51561c708eadeb8732360ebc06479e24ad20879a46",
       "source_mtime_utc": "2026-09-02T06:28:41+00:00",
       "packaged_sha256": "ec3a3adb4b8aee4ac2f4cd51561c708eadeb8732360ebc06479e24ad20879a46",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/remote-workflow-intake/references/project_paths.env.example"
     },
     {
       "source": "skills/spateo-continuity-first-serial-alignment/SKILL.md",
-      "path": "skills/spateo-continuity-first-serial-alignment/SKILL.md",
+      "path": "skills/spateo-2d-alignment/subskills/spateo-continuity-first-serial-alignment/SKILL.md",
       "source_sha256": "c30b48c59a59a86757b7ed5d7e843530b5add2d5d1711ec9bcdc6654ba9738d9",
       "source_mtime_utc": "2026-09-03T13:04:53+00:00",
-      "packaged_sha256": "6ac0b87a4990ee061a099ff50707cb0986af6db2ffe143c0d9ab36fb8e52bd23",
-      "packaging_change": true
+      "packaged_sha256": "d1eb5854481232f51b4530923aa338b35584b833ec15530501db32ca75cad8ed",
+      "packaging_change": true,
+      "previous_packaged_path": "skills/spateo-continuity-first-serial-alignment/SKILL.md"
     },
     {
       "source": "skills/spateo-continuity-first-serial-alignment/agents/openai.yaml",
-      "path": "skills/spateo-continuity-first-serial-alignment/agents/openai.yaml",
+      "path": "skills/spateo-2d-alignment/subskills/spateo-continuity-first-serial-alignment/agents/openai.yaml",
       "source_sha256": "20c644a0c17f7a889964864769e257e42c7e3d4f86be3145021cdf64a34e462f",
       "source_mtime_utc": "2026-09-03T08:24:05+00:00",
       "packaged_sha256": "20c644a0c17f7a889964864769e257e42c7e3d4f86be3145021cdf64a34e462f",
-      "packaging_change": false
+      "packaging_change": false,
+      "previous_packaged_path": "skills/spateo-continuity-first-serial-alignment/agents/openai.yaml"
     }
   ],
   "excluded_source_files": [
@@ -877,5 +911,11 @@
       "path": "skills/spateo-data-io/scripts/validate_anndata.py",
       "sha256": "3d625faa101530b83fe37371bee65a35ef4a7b78ebcdcbd43d940d40c84ec2f5"
     }
-  ]
+  ],
+  "layout": {
+    "top_level_skill_count": 3,
+    "alignment_subskill_count": 14,
+    "subskill_directory": "skills/spateo-2d-alignment/subskills",
+    "discovery": "explicit routing through parent SKILL.md; recursive discovery not assumed"
+  }
 }

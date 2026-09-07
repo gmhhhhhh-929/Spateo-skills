@@ -7,10 +7,9 @@ description: Scan three-slice spatial transcriptomics windows, flag suspicious m
 
 ## Package paths
 
-Run the relative commands below from this skill directory. Install this skill
-beside `spateo-2d-alignment` (or keep the complete repository checkout).
+Run the relative commands below from this skill directory. Keep this subskill inside the complete `spateo-2d-alignment` directory.
 The shared support tools are the fixed pre-zebrafish snapshot, located in
-`../spateo-2d-alignment/pipelines/pairwise-rigid`. Verify entrypoints with its `skill.lock.yaml`.
+`../../pipelines/pairwise-rigid`. Verify entrypoints with its `skill.lock.yaml`.
 This packaging restoration does not change alignment algorithms or defaults.
 
 
@@ -27,12 +26,12 @@ contracted, and moving both edges independently makes the 3D structure worse.
 
 ## Locked Entrypoints
 
-Use the active release through `../spateo-2d-alignment/pipelines/pairwise-rigid/skill.lock.yaml`:
+Use the active release through `../../pipelines/pairwise-rigid/skill.lock.yaml`:
 
 ```text
-../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/components/triad_component_scan.py
-../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/viewers/make_triad_component_review_viewer.py
-../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/components/triad_mid_slice_rigid_preview.py
+../../pipelines/pairwise-rigid/scripts/components/triad_component_scan.py
+../../pipelines/pairwise-rigid/scripts/viewers/make_triad_component_review_viewer.py
+../../pipelines/pairwise-rigid/scripts/components/triad_mid_slice_rigid_preview.py
 ```
 
 Record `triad_component_scan`, `triad_component_review_viewer`, and

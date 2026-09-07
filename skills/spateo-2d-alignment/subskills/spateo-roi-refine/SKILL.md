@@ -7,10 +7,9 @@ description: Rerun one suspicious Spateo pair using a manually chosen ROI or dro
 
 ## Package paths
 
-Run the relative commands below from this skill directory. Install this skill
-beside `spateo-2d-alignment` (or keep the complete repository checkout).
+Run the relative commands below from this skill directory. Keep this subskill inside the complete `spateo-2d-alignment` directory.
 The shared support tools are the fixed pre-zebrafish snapshot, located in
-`../spateo-2d-alignment/pipelines/pairwise-rigid`. Verify entrypoints with its `skill.lock.yaml`.
+`../../pipelines/pairwise-rigid`. Verify entrypoints with its `skill.lock.yaml`.
 This packaging restoration does not change alignment algorithms or defaults.
 
 
@@ -46,7 +45,7 @@ Use a runner that supports both spatial-only mode and ROI/drop filtering. The
 current local reference implementation is:
 
 ```text
-../spateo-2d-alignment/pipelines/pairwise-rigid/runners/spateo_rigid_sns_alignment_spatial_only_roi.py
+../../pipelines/pairwise-rigid/runners/spateo_rigid_sns_alignment_spatial_only_roi.py
 ```
 
 Copy or sync that runner to the remote workdir before submitting. Keep a copy

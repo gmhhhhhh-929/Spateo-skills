@@ -7,10 +7,9 @@ description: Detect connected tissue components from spatial transcriptomics coo
 
 ## Package paths
 
-Run the relative commands below from this skill directory. Install this skill
-beside `spateo-2d-alignment` (or keep the complete repository checkout).
+Run the relative commands below from this skill directory. Keep this subskill inside the complete `spateo-2d-alignment` directory.
 The shared support tools are the fixed pre-zebrafish snapshot, located in
-`../spateo-2d-alignment/pipelines/pairwise-rigid`. Verify entrypoints with its `skill.lock.yaml`.
+`../../pipelines/pairwise-rigid`. Verify entrypoints with its `skill.lock.yaml`.
 This packaging restoration does not change alignment algorithms or defaults.
 
 
@@ -34,16 +33,16 @@ generated here are detector QC sidecars, not the primary review interface.
 Use the locked detector from the active release:
 
 ```text
-../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/components/detect_components.py
+../../pipelines/pairwise-rigid/scripts/components/detect_components.py
 ```
 
-Resolve it through `../spateo-2d-alignment/pipelines/pairwise-rigid/skill.lock.yaml` and record the entrypoint sha256 in the
+Resolve it through `../../pipelines/pairwise-rigid/skill.lock.yaml` and record the entrypoint sha256 in the
 step provenance.
 
 ## Standard Command
 
 ```bash
-python ../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/components/detect_components.py \
+python ../../pipelines/pairwise-rigid/scripts/components/detect_components.py \
   --input exports/<sample>.slice_level_baseline.clean_coordinates.csv \
   --output-dir steps/<step_detect_components>/qc \
   --slice-col sl_number \

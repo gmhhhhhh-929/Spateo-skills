@@ -62,4 +62,20 @@ Source hashes, dependency extraction and migration changes are in [source_migrat
 
 ## Review and workflow handoff
 
-For inspection, use [spatial-before-after-viewer](../spatial-before-after-viewer/SKILL.md) and [spatial-pointcloud-viewer](../spatial-pointcloud-viewer/SKILL.md). For pair QC, component review, sampling and recorded replay, use [lightweight-spatial-alignment-workflow](../lightweight-spatial-alignment-workflow/SKILL.md). These companion tools restore the fixed pre-zebrafish support release; they do not change either alignment pipeline's inference code.
+For inspection, use [spatial-before-after-viewer](subskills/spatial-before-after-viewer/SKILL.md) and [spatial-pointcloud-viewer](subskills/spatial-pointcloud-viewer/SKILL.md). For pair QC, component review, sampling and recorded replay, use [lightweight-spatial-alignment-workflow](subskills/lightweight-spatial-alignment-workflow/SKILL.md). These companion tools restore the fixed pre-zebrafish support release; they do not change either alignment pipeline's inference code.
+
+### Select an internal workflow
+
+This directory is the complete alignment skill. Read the relevant internal
+`SKILL.md` when the task requires that operation; do not depend on nested skills
+being automatically registered by the host application.
+
+- Before/after or displacement comparison: [before/after viewer](subskills/spatial-before-after-viewer/SKILL.md).
+- Full-point 3D, slices or components: [pointcloud viewer](subskills/spatial-pointcloud-viewer/SKILL.md).
+- Pairwise execution and suspicious-edge inspection: [run](subskills/spateo-pairwise-run/SKILL.md) and [QC](subskills/spateo-pairwise-qc/SKILL.md).
+- Organizing a complete review/refinement workflow: [workflow](subskills/lightweight-spatial-alignment-workflow/SKILL.md).
+- Other operations, including remote intake, ROI, components, sampling, replay
+  and records: [complete subskill catalog](references/companion-skills.md).
+
+Keep the internal directory structure when installing or deploying this skill.
+Run subskill-relative commands from that subskill's directory.

@@ -7,10 +7,9 @@ description: Create component-balanced sampled coordinate caches for post-edit s
 
 ## Package paths
 
-Run the relative commands below from this skill directory. Install this skill
-beside `spateo-2d-alignment` (or keep the complete repository checkout).
+Run the relative commands below from this skill directory. Keep this subskill inside the complete `spateo-2d-alignment` directory.
 The shared support tools are the fixed pre-zebrafish snapshot, located in
-`../spateo-2d-alignment/pipelines/pairwise-rigid`. Verify entrypoints with its `skill.lock.yaml`.
+`../../pipelines/pairwise-rigid`. Verify entrypoints with its `skill.lock.yaml`.
 This packaging restoration does not change alignment algorithms or defaults.
 
 
@@ -30,11 +29,11 @@ Use the locked GitHub/deployed release for the active project. For the
 standard workflow release this is `v0.2.3`:
 
 ```text
-../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/sampling/create_balanced_spatial_sample.py
-../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/sampling/validate_sample_recipe_full_replay.py
+../../pipelines/pairwise-rigid/scripts/sampling/create_balanced_spatial_sample.py
+../../pipelines/pairwise-rigid/scripts/sampling/validate_sample_recipe_full_replay.py
 ```
 
-Record entrypoint sha256 from `../spateo-2d-alignment/pipelines/pairwise-rigid/skill.lock.yaml`; fail on hash mismatch.
+Record entrypoint sha256 from `../../pipelines/pairwise-rigid/skill.lock.yaml`; fail on hash mismatch.
 
 ## Sampling Policy
 

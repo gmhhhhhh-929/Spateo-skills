@@ -5,7 +5,7 @@ recipe or full replay output.
 
 ## Locked Code
 
-- Use an immutable release directory such as `../spateo-2d-alignment/pipelines/pairwise-rigid`.
+- Use an immutable release directory such as `../../pipelines/pairwise-rigid`.
 - Resolve entrypoints through `skill.lock.yaml`; do not hard-code runner paths
   in ad hoc payloads.
 - The lock records release-relative entrypoint paths and sha256 hashes.

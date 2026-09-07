@@ -6,16 +6,16 @@ description: Run blind serial Spateo alignment with gated continuity repairs usi
 # Spateo Continuity-First Serial Alignment
 
 This is the compatibility entrypoint for the source skill of the same name.
-Install it beside `spateo-2d-alignment`, or use the complete repository checkout.
-Read [the canonical skill](../spateo-2d-alignment/SKILL.md) and its
-[continuity contract](../spateo-2d-alignment/references/continuity-guided.md).
+Keep it inside the complete `spateo-2d-alignment` directory.
+Read [the canonical skill](../../SKILL.md) and its
+[continuity contract](../../references/continuity-guided.md).
 This entrypoint uses the already published pre-zebrafish implementation;
 it does not ship another pipeline or change its defaults.
 
 Run from this skill directory with sanitized inputs and a new output directory:
 
 ```bash
-python ../spateo-2d-alignment/pipelines/continuity-guided/run.py \
+python ../../pipelines/continuity-guided/run.py \
   --stage specimen --slice-dir /path/to/blind-slices \
   --output-dir /path/to/new-run \
   --representation annotation-onehot --annotation-key anno \

@@ -14,7 +14,9 @@ def digest(path):
 
 def main():
     manifest = json.loads((MAIN / 'provenance/companion_migration.json').read_text())
-    skills = sorted((ROOT / 'skills').glob('*/SKILL.md'))
+    skills = sorted((ROOT / 'skills').rglob('SKILL.md'))
+    assert len(list((ROOT / 'skills').glob('*/SKILL.md'))) == 3
+    assert len(list((MAIN / 'subskills').glob('*/SKILL.md'))) == 14
     assert len(skills) == manifest['total_skill_count'] == 17
     for skill in skills:
         text = skill.read_text()
@@ -37,7 +39,7 @@ def main():
         expected, path = line.split(maxsplit=1)
         assert digest(runtime / path.lstrip('*')) == expected, path
     for name in ('spatial-before-after-viewer', 'spatial-pointcloud-viewer'):
-        folder = ROOT / 'skills' / name
+        folder = MAIN / 'subskills' / name
         viewer = json.loads((folder / 'provenance/viewer.json').read_text())
         assert digest(folder / viewer['script']) == viewer['sha256'], name
     pyfiles = list(ROOT.glob('skills/**/*.py'))
@@ -54,8 +56,13 @@ def main():
             if target and not (path.parent / target).exists():
                 broken.append((str(path.relative_to(ROOT)), target))
     assert not broken, broken
+    # Subskill command references must resolve from the documented cwd.
+    for skill in (MAIN / 'subskills').glob('*/SKILL.md'):
+        for relative in re.findall(r'(?<![\w./])(?:\.\./)+(?:[\w./-]+\.(?:py|yaml))', skill.read_text()):
+            assert (skill.parent / relative).is_file(), (skill, relative)
     assert sorted(p.name for p in (MAIN / 'pipelines').iterdir() if p.is_dir()) == ['continuity-guided', 'pairwise-rigid']
     print(json.dumps({'status': 'pass', 'skills': len(skills),
+        'top_level_skills': 3, 'alignment_subskills': 14,
         'source_entries_covered': len(manifest['inventory']),
         'locked_entrypoints': len(lock['allowed_entrypoints']),
         'python_syntax_checked': len(pyfiles),

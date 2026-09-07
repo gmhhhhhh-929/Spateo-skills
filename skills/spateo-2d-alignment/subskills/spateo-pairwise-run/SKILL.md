@@ -7,10 +7,9 @@ description: Plan and run adjacent pairwise Spateo alignment jobs on a remote cl
 
 ## Package paths
 
-Run the relative commands below from this skill directory. Install this skill
-beside `spateo-2d-alignment` (or keep the complete repository checkout).
+Run the relative commands below from this skill directory. Keep this subskill inside the complete `spateo-2d-alignment` directory.
 The shared support tools are the fixed pre-zebrafish snapshot, located in
-`../spateo-2d-alignment/pipelines/pairwise-rigid`. Verify entrypoints with its `skill.lock.yaml`.
+`../../pipelines/pairwise-rigid`. Verify entrypoints with its `skill.lock.yaml`.
 This packaging restoration does not change alignment algorithms or defaults.
 
 
@@ -56,7 +55,7 @@ as matching the remote result.
 Use the shared planner. For a normal run:
 
 ```bash
-python ../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/make_spateo_pairwise_initial_plan.py \
+python ../../pipelines/pairwise-rigid/scripts/core/make_spateo_pairwise_initial_plan.py \
   --dataset-root RAW_H5AD_ROOT \
   --runner-script SPATEO_RUNNER \
   --stage CS13 \
@@ -72,7 +71,7 @@ python ../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/make_spateo_
 For a spatial-only rescue or sigma sweep, change only the relevant knobs:
 
 ```bash
-python ../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/make_spateo_pairwise_initial_plan.py \
+python ../../pipelines/pairwise-rigid/scripts/core/make_spateo_pairwise_initial_plan.py \
   --dataset-root RAW_H5AD_ROOT \
   --runner-script SPATEO_RUNNER \
   --stage CS13 \
@@ -99,12 +98,12 @@ bash PAIRWISE_RUN_DIR/submit_pairwise_spateo.sh
 After jobs finish, extract transforms and summarize:
 
 ```bash
-python ../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/extract_pairwise_transform.py \
+python ../../pipelines/pairwise-rigid/scripts/core/extract_pairwise_transform.py \
   --run-dir PAIRWISE_RUN_DIR \
   --stage stage1_SN-S_rigid \
   --output-edge-index PAIRWISE_RUN_DIR/pairwise_edge_index.csv
 
-python ../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/summarize_pairwise_initial_run.py \
+python ../../pipelines/pairwise-rigid/scripts/core/summarize_pairwise_initial_run.py \
   --run-dir PAIRWISE_RUN_DIR \
   --high-sigma2-threshold 0.1
 ```

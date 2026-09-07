@@ -7,10 +7,9 @@ description: Quality-control and compare pairwise Spateo alignment outputs, incl
 
 ## Package paths
 
-Run the relative commands below from this skill directory. Install this skill
-beside `spateo-2d-alignment` (or keep the complete repository checkout).
+Run the relative commands below from this skill directory. Keep this subskill inside the complete `spateo-2d-alignment` directory.
 The shared support tools are the fixed pre-zebrafish snapshot, located in
-`../spateo-2d-alignment/pipelines/pairwise-rigid`. Verify entrypoints with its `skill.lock.yaml`.
+`../../pipelines/pairwise-rigid`. Verify entrypoints with its `skill.lock.yaml`.
 This packaging restoration does not change alignment algorithms or defaults.
 
 
@@ -40,7 +39,7 @@ create adjusted h5ad files.
 Run the shared QC script for each candidate run on the remote server:
 
 ```bash
-python ../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/qc_pairwise_celltype_edges.py \
+python ../../pipelines/pairwise-rigid/scripts/core/qc_pairwise_celltype_edges.py \
   --pairwise-run-dir PAIRWISE_RUN_DIR \
   --points-csv FULL_COORDINATE_CSV \
   --x-col stage1_rigid_x --y-col stage1_rigid_y --z-col z_display \
@@ -85,7 +84,7 @@ results in one short table. Interpret them this way:
 Generate overlays for top suspicious rows when numeric results are ambiguous:
 
 ```bash
-python ../spateo-2d-alignment/pipelines/pairwise-rigid/scripts/core/render_pairwise_visual_qc.py \
+python ../../pipelines/pairwise-rigid/scripts/core/render_pairwise_visual_qc.py \
   --pairwise-run-dir PAIRWISE_RUN_DIR \
   --points-csv FULL_COORDINATE_CSV \
   --qc-csv PAIRWISE_QC_DIR/suspicious_celltypes.csv \

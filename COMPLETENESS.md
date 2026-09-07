@@ -8,13 +8,13 @@ for the requested end-to-end alignment workflow.
 ## Result
 
 - All **14 SKILL.md entries** in the user-designated server `skills/` directory
-  are now represented; the repository has **17 entries** including the three
-  existing environment, Data IO and alignment skills.
+  are now represented; the repository has **3 top-level entries and 14 nested
+  alignment subskills**, retaining all 17 SKILL.md files.
 - `spatial-before-after-viewer` and `spatial-pointcloud-viewer` each include their
   executable renderer and a script-hash record. They can be installed separately.
 - Other companion workflows resolve shared support scripts in
-  `skills/spateo-2d-alignment/pipelines/pairwise-rigid`. Install those skills
-  together with `spateo-2d-alignment`, preserving sibling directory names.
+  `skills/spateo-2d-alignment/pipelines/pairwise-rigid`. Install the complete
+  `spateo-2d-alignment` directory, preserving its internal structure.
 - `spateo-continuity-first-serial-alignment` is a compatibility entry to the
   published `continuity-guided` implementation. Its old duplicate scripts and
   rejected experimental engine are deliberately not reintroduced.
@@ -80,3 +80,11 @@ python skills/spateo-2d-alignment/pipelines/pairwise-rigid/tests/test_lightweigh
 Use a Python environment with the relevant dependencies from
 `requirements-local.txt` for the runtime tests and tools. Spateo alignment needs
 the separate validated Spateo environment described by the environment skill.
+
+## Nested organization
+
+The 14 companions are grouped under `skills/spateo-2d-alignment/subskills/`.
+The parent `SKILL.md` and its catalog provide explicit routing; recursive host
+discovery is not assumed. README, commands, links and packaged provenance paths
+have been updated. All 57 skill Python files keep the same contents as the
+preceding complete publication; this reorganization changes no algorithm.
