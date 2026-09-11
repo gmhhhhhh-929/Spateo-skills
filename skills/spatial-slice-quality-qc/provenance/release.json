@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "baseline_scientific_commit": "94fb2f4b71b6e809d3c2341d0e209c30b937573a",
+  "origin": "User-provided Spateo Referee working checkout and current local QC/viewer skills, with documented subsequent changes",
+  "scope": "Only current runtime dependencies; no biological data, no historical experiment launchers",
+  "scientific_modules": [
+    "slice_quality.py",
+    "slice_preregistration.py"
+  ],
+  "validation": {
+    "canonical_tests_passed": 35,
+    "packaged_tests_passed": 15,
+    "biological_certification": false
+  },
+  "files": [
+    {
+      "path": "skills/spatial-slice-quality-qc/SKILL.md",
+      "sha256": "e001c2109bcf08b0978193ccb4ea4a1afbef5a51b836b0d772f4bf37c5df3d77"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/agents/openai.yaml",
+      "sha256": "350e05c8815eb426685fa926eedae9e67b45bb59643fa7cfce3894e2a777dea1"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/policies/joint_review_v2.json",
+      "sha256": "e739dd70daedf11cd8f34b54177d5c3085de1dd0d862fb033eaa4e750b11d88e"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/provenance/candidate_calibration.csv",
+      "sha256": "c6afa8ee7e747227d9dd5989ba30940d6a7f277cb6388c6827438937ce04e435"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/provenance/evaluation_by_dataset.csv",
+      "sha256": "6faeb87fa62581cfdfed9f039f53c868f6d515682b09a82e817137bea5011627"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/provenance/validation.json",
+      "sha256": "7901691373a2b23604c5a8a2fde519285c1a8b012537cf67edbed34e10cd465d"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/references/build_workflow.py",
+      "sha256": "812af5cd6b3f24a02b8990dee2615037f59b40bb716e639c6db7e1cef8860d4f"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/references/methods.md",
+      "sha256": "5da6c2ee44b12359e8612f9f2d638055b3547c8cb226eaacad41729e79467321"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/references/workflow.svg",
+      "sha256": "7037c23cb8ee22227c68f39f4a614d872ed526cfc1e3aa6a4db432dc9db15e37"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/runtime/LICENSE",
+      "sha256": "b09334210e547783eb3c61d8ac4c092665b2641959daae991856f2ba6033dbec"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/runtime/spateo/preprocessing/slice_preregistration.py",
+      "sha256": "7e3e33319d79a7c2d1e7de7acc6ae1787888687fdb7a8902b7de602371f37406"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/runtime/spateo/preprocessing/slice_quality.py",
+      "sha256": "dfe1fbc10959b76e8c8fdc23e05bc18b6f4ffbd110bbd5090ef2ea4f95bf5317"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/scripts/activate_candidate.py",
+      "sha256": "f9d801bfed39e7ccf78a5250855300297042866782c23d633e578262ceb8c026"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/scripts/run_slice_quality_qc.py",
+      "sha256": "7c07924eb79125df4a80b4f00aa1b63b1fab4da9607e9e3d8692e56d9966852b"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/scripts/slice_quality_detail_roi.js",
+      "sha256": "b3341263e1b022703569d72718ef3080b881de5c8e05cda3fd11d7b083d789d9"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/scripts/slice_quality_preregistration.py",
+      "sha256": "c964cf7bb325a5819b018133c2691b3e38d870b435604589b3f6eab0e932fe6b"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/scripts/slice_quality_report.py",
+      "sha256": "b279df7ce50ae46645d25a55255025e98d88a6681ffc05d03b02d054bb1d662c"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/scripts/slice_quality_roi.js",
+      "sha256": "b009397882ed266eff16edc437c2cd308988ed9a752de8f0a3875b9f1344b911"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/scripts/slice_quality_visualization.py",
+      "sha256": "16c840f0906ad9f1d366f9c5a1198a4c6db9fd4d5d2e068f3bd1d53641fe4663"
+    },
+    {
+      "path": "skills/spatial-slice-quality-viewer/SKILL.md",
+      "sha256": "91c94850c4b15c6749eff29163825db4f85ec876c496a7eb9e38467078459514"
+    },
+    {
+      "path": "skills/spatial-slice-quality-viewer/agents/openai.yaml",
+      "sha256": "f0a8fce643b0281ff9d3be031afbeeb224d6cc198a857e988ac69d991daaa1ec"
+    },
+    {
+      "path": "skills/spatial-slice-quality-viewer/scripts/build_viewer.py",
+      "sha256": "2b1c6e23761853bbec46daa17640af14342dd26d18503e9423b43cda8537d773"
+    }
+  ]
+}

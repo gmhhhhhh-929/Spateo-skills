@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spateo Referee Viewer"
+  short_description: "Build binary slice-QC reports with spatial evidence"
+  default_prompt: "Use $spatial-slice-quality-viewer to build the current binary report with multi-metric evidence and traceable ROI."

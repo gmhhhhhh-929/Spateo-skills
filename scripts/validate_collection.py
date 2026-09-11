@@ -15,9 +15,10 @@ def digest(path):
 def main():
     manifest = json.loads((MAIN / 'provenance/companion_migration.json').read_text())
     skills = sorted((ROOT / 'skills').rglob('SKILL.md'))
-    assert len(list((ROOT / 'skills').glob('*/SKILL.md'))) == 3
+    assert len(list((ROOT / 'skills').glob('*/SKILL.md'))) == 5
     assert len(list((MAIN / 'subskills').glob('*/SKILL.md'))) == 14
-    assert len(skills) == manifest['total_skill_count'] == 17
+    assert manifest['total_skill_count'] == 17
+    assert len(skills) == manifest['total_skill_count'] + 2 == 19
     for skill in skills:
         text = skill.read_text()
         assert text.startswith('---\n')
@@ -42,6 +43,9 @@ def main():
         folder = MAIN / 'subskills' / name
         viewer = json.loads((folder / 'provenance/viewer.json').read_text())
         assert digest(folder / viewer['script']) == viewer['sha256'], name
+    referee = json.loads((ROOT / 'skills/spatial-slice-quality-qc/provenance/release.json').read_text())
+    for row in referee['files']:
+        assert digest(ROOT / row['path']) == row['sha256'], row['path']
     pyfiles = list(ROOT.glob('skills/**/*.py'))
     for path in pyfiles:
         ast.parse(path.read_text(), filename=str(path))
@@ -62,7 +66,7 @@ def main():
             assert (skill.parent / relative).is_file(), (skill, relative)
     assert sorted(p.name for p in (MAIN / 'pipelines').iterdir() if p.is_dir()) == ['continuity-guided', 'pairwise-rigid']
     print(json.dumps({'status': 'pass', 'skills': len(skills),
-        'top_level_skills': 3, 'alignment_subskills': 14,
+        'top_level_skills': 5, 'alignment_subskills': 14,
         'source_entries_covered': len(manifest['inventory']),
         'locked_entrypoints': len(lock['allowed_entrypoints']),
         'python_syntax_checked': len(pyfiles),

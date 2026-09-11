@@ -1,6 +1,6 @@
 # Spateo Skills
 
-本仓库整理空间转录组分析的前三个技能：环境配置、Data IO（转为 AnnData）、2D 切片配准。
+本仓库包含环境配置、Data IO、配准前切片质量筛选、交互证据报告和 2D 切片配准。
 
 [English](README.md)
 
@@ -8,9 +8,11 @@
 | --- | --- | --- |
 | 1 | [setup-spateo-environment](skills/setup-spateo-environment/SKILL.md) | 安装、诊断和核验独立 Spateo 环境，区分 Spateo 源码仓库与本 Skills 仓库。 |
 | 2 | [spateo-data-io](skills/spateo-data-io/SKILL.md) | 根据实际源码选择读取接口，处理平台识别与歧义，验证 AnnData 并保留坐标、单位、注释和细胞 ID。 |
-| 3 | [spateo-2d-alignment](skills/spateo-2d-alignment/SKILL.md) | 两套配准 pipeline、共享表达 PCA 准备、可选注释、严格输入预检及实现溯源。 |
+| 3 | [spatial-slice-quality-qc](skills/spatial-slice-quality-qc/SKILL.md) | 原始数据四域QC、两段完整细筛、展示刚性预配准。 |
+| 4 | [spatial-slice-quality-viewer](skills/spatial-slice-quality-viewer/SKILL.md) | 最新keep/exclude多面板报告、集合页与可追溯ROI。 |
+| 5 | [spateo-2d-alignment](skills/spateo-2d-alignment/SKILL.md) | 两套配准 pipeline、共享表达 PCA 准备、可选注释、严格输入预检及实现溯源。 |
 
-顶层只保留 **3 个阶段入口**。14 个配准子技能统一放在
+顶层提供 **5 个技能入口**。14 个配准子技能统一放在
 `spateo-2d-alignment/subskills/`，包括 viewer、质控、采样、ROI 和重放工具。
 查看[配准子技能目录](skills/spateo-2d-alignment/references/companion-skills.md)。
 
@@ -18,6 +20,8 @@
 skills/
 ├── setup-spateo-environment/
 ├── spateo-data-io/
+├── spatial-slice-quality-qc/
+├── spatial-slice-quality-viewer/
 └── spateo-2d-alignment/
     ├── SKILL.md
     ├── pipelines/
@@ -85,3 +89,7 @@ continuity-guided 的 expression-pca 和 spatial-only 模式默认 `--annotation
 该源码的 `spateo/data_io.py` 是 AnnData 兼容入口，维护中的读取实现位于 `spateo/io/`。Data IO 技能以这些实际实现为依据，并区分自动识别与显式调用。
 
 本次配准扩展通过合成契约测试、两个真实样本的完整无注释 expression 运行，以及两个真实 annotation 样本的打包等价性验证；后者的逐细胞输出 XY 与冻结优化结果完全相同。表达模式验证的是可运行性，不代表已完成其 A2/A5 准确率评估。初次环境与 Data IO 验证仍作为已有证据，本次未重做这两个阶段。具体检查与边界见 [VALIDATION.md](VALIDATION.md)，许可与来源见 [NOTICE.md](NOTICE.md)。仓库不分发生物数据或参考坐标。
+
+## Spateo Referee
+
+安装 QC 与 viewer 时请同时复制这两个完整的相邻目录。当前 joint-review v2 对两个 review 分数段都执行证据细筛；低分段最强异常域≥0.65，高分段≥0.60，其余保护条件继续执行。它仅通过指标扰动验证，使用 `experimental_policy`，不表示真实切片已独立认证。参见[方法、阈值及实验记录](skills/spatial-slice-quality-qc/references/methods.md)和[完整总流程图](skills/spatial-slice-quality-qc/references/workflow.svg)。运行脚本只保留当前依赖；历史实验启动器和真实数据不发布。

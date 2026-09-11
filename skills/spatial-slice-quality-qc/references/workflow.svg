@@ -1,0 +1,216 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="6050" viewBox="0 0 2400 6050">
+<defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8z" fill="#415165"/></marker></defs>
+<rect width="100%" height="100%" fill="white"/>
+<text x="1200" y="65" text-anchor="middle" font-family="Arial,sans-serif" font-size="44" font-weight="700" fill="#193047">Spateo Referee · complete QC and viewer workflow</text>
+<text x="1200" y="112" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="400" fill="#95681e">Joint review v2 · metric-stress tested · independent biological validation incomplete</text>
+<text x="50" y="160" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#193047">1  Input contracts and observable evidence</text>
+<line x1="50" y1="176" x2="2350" y2="176" stroke="#c7d0db"/>
+<rect x="920" y="205" width="560" height="150" rx="14" fill="#e7eef6" stroke="#556579" stroke-width="2"/>
+<text x="1200.0" y="245" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Ordered biological series</text>
+<text x="1200.0" y="285" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">H5AD / one file per slice / dataset manifest</text>
+<text x="1200.0" y="317" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Never join specimen boundaries</text>
+<rect x="920" y="415" width="560" height="150" rx="14" fill="#e7eef6" stroke="#556579" stroke-width="2"/>
+<text x="1200.0" y="455" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Resolve and verify input</text>
+<text x="1200.0" y="495" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Slice ID + order + raw x/y + units</text>
+<text x="1200.0" y="527" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Expression layer + source / identity hashes</text>
+<rect x="1820" y="415" width="500" height="150" rx="14" fill="#fff0cd" stroke="#556579" stroke-width="2"/>
+<text x="2070.0" y="455" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Invalid input? Stop affected run</text>
+<text x="2070.0" y="495" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Missing identity / coordinate contracts</text>
+<text x="2070.0" y="527" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Do not invent slices, keys or values</text>
+<rect x="70" y="405" width="730" height="180" rx="14" fill="#fff0cd" stroke="#556579" stroke-width="2"/>
+<text x="435.0" y="445" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Expression semantics branch</text>
+<text x="435.0" y="485" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Count-like matrix: compute captured counts / genes</text>
+<text x="435.0" y="517" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Normalized or one-hot: mark capture unavailable</text>
+<text x="435.0" y="549" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Missing fields do not become zero evidence</text>
+<polyline points="1200,355 1200,415" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="1480,490 1820,490" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1650" y="476" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">invalid</text>
+<polyline points="920,490 800,490" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="40" y="700" width="535" height="225" rx="14" fill="#e8edf9" stroke="#556579" stroke-width="2"/>
+<text x="307.5" y="740" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Density / amount</text>
+<text x="307.5" y="780" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Locations, area, convex-hull density</text>
+<text x="307.5" y="812" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">NN-tail ratio, holes, components</text>
+<text x="307.5" y="844" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Observed tissue amount ≠ quality alone</text>
+<polyline points="1200,565 1200,635 307,635 307,700" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="635" y="700" width="535" height="225" rx="14" fill="#e8edf9" stroke="#556579" stroke-width="2"/>
+<text x="902.5" y="740" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Expression capture</text>
+<text x="902.5" y="780" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Counts, genes, zero fraction, complexity</text>
+<text x="902.5" y="812" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Local low-capture fraction and clustering</text>
+<text x="902.5" y="844" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Selected matrix overrides stale obs summaries</text>
+<polyline points="1200,565 1200,635 902,635 902,700" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1230" y="700" width="535" height="225" rx="14" fill="#e8edf9" stroke="#556579" stroke-width="2"/>
+<text x="1497.5" y="740" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Damage proxies</text>
+<text x="1497.5" y="780" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Fragmentation + mitochondrial fraction</text>
+<text x="1497.5" y="812" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Largest connected-tissue fraction</text>
+<text x="1497.5" y="844" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Not a specific experimental diagnosis</text>
+<polyline points="1200,565 1200,635 1497,635 1497,700" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1825" y="700" width="535" height="225" rx="14" fill="#e8edf9" stroke="#556579" stroke-width="2"/>
+<text x="2092.5" y="740" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Cross-slice continuity</text>
+<text x="2092.5" y="780" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Expression profiles, type composition, holes</text>
+<text x="2092.5" y="812" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Requires the corresponding measurements</text>
+<text x="2092.5" y="844" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Coordinate display fitting is not input evidence</text>
+<polyline points="1200,565 1200,635 2092,635 2092,700" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="307,925 307,985 1200,985 1200,1100" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="902,925 902,985 1200,985 1200,1100" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="1497,925 1497,985 1200,985 1200,1100" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="2092,925 2092,985 1200,985 1200,1100" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="50" y="1055" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#193047">2  Local expectations, anomaly scores and protection</text>
+<line x1="50" y1="1071" x2="2350" y2="1071" stroke="#c7d0db"/>
+<rect x="540" y="1100" width="1320" height="210" rx="14" fill="#e8edf9" stroke="#556579" stroke-width="2"/>
+<text x="1200.0" y="1140" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Local expectation and metric anomalies</text>
+<text x="1200.0" y="1180" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Primary window: default 3; optional auto compares 3 / 5 / 7; support trend up to 9</text>
+<text x="1200.0" y="1212" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Leave focal slice out; two-sided local trend, otherwise one-sided reference</text>
+<text x="1200.0" y="1244" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Directional effect size + robust MAD residual; metric-specific limits: methods table</text>
+<rect x="540" y="1370" width="1320" height="245" rx="14" fill="#e8edf9" stroke="#556579" stroke-width="2"/>
+<text x="1200.0" y="1410" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Aggregate observed evidence</text>
+<text x="1200.0" y="1450" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Four domains: weighted available metrics and top-two corroborating signals</text>
+<text x="1200.0" y="1482" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Weighted sum: density 0.31 + expression 0.39 + damage 0.12 + continuity 0.18</text>
+<text x="1200.0" y="1514" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Score = max(weighted sum, clip(0.48 + 0.78 × (maximum domain − 0.68), 0, 1))</text>
+<text x="1200.0" y="1546" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Apply anatomical protection cap; one-sided endpoint score × 0.82; retain warnings</text>
+<polyline points="1200,1310 1200,1370" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="540" y="1670" width="1320" height="300" rx="14" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
+<text x="1200.0" y="1710" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Internal detector branches (not final policy calls)</text>
+<text x="1200.0" y="1750" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Exclude requires two-sided + no protection, and at least one of:</text>
+<text x="1200.0" y="1782" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">(S ≥0.64 AND ≥2 domains at 0.45) OR expression ≥0.78</text>
+<text x="1200.0" y="1814" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">OR (density ≥0.82 AND holes ≥0.55 AND continuity ≥0.42)</text>
+<text x="1200.0" y="1846" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Otherwise review if S ≥0.38 OR any domain ≥0.45 OR any metric ≥0.75</text>
+<text x="1200.0" y="1878" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">OR a severe domain / protection flag; otherwise detector keep</text>
+<polyline points="1200,1615 1200,1670" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<g transform="translate(0,370)">
+<text x="50" y="1670" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#193047">3  Frozen policy scope and stage-1 routing</text>
+<line x1="50" y1="1686" x2="2350" y2="1686" stroke="#c7d0db"/>
+<rect x="540" y="1720" width="1320" height="155" rx="14" fill="#fff0cd" stroke="#556579" stroke-width="2"/>
+<text x="1200.0" y="1760" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Check policy and scope</text>
+<text x="1200.0" y="1800" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Bundled joint policy: experimental_policy; require passed frozen metric-stress evaluation</text>
+<text x="1200.0" y="1832" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">No raw-matrix / biological certification is inferred; retain policy ID and hash</text>
+<polyline points="1200,1600 1200,1720" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M1200 1915.0 L1560.0 2015 L1200 2115.0 L840.0 2015 Z" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
+<text x="1200" y="2008.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#193047">Compare finite score S</text>
+<text x="1200" y="2037.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#193047">K = 0.129; E = 0.700</text>
+<polyline points="1200,1875 1200,1915" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="70" y="2180" width="535" height="175" rx="14" fill="#dff1e7" stroke="#556579" stroke-width="2"/>
+<text x="337.5" y="2220" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Stage-1 keep candidate</text>
+<text x="337.5" y="2260" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Operational keep under complete binary mode</text>
+<text x="337.5" y="2292" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Retain detector / guard agreement in audit</text>
+<text x="337.5" y="2324" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Keep is not proof of defect-free tissue</text>
+<rect x="1780" y="2180" width="550" height="190" rx="14" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
+<text x="2055.0" y="2220" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Direct exclusion gate</text>
+<text x="2055.0" y="2260" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Detector = exclude AND two-sided context</text>
+<text x="2055.0" y="2292" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">AND no anatomical protection</text>
+<text x="2055.0" y="2324" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Every condition must pass</text>
+<polyline points="840,2015 337,2015 337,2180" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="580" y="1995" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">S ≤ 0.129</text>
+<polyline points="1560,2015 2055,2015 2055,2180" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1820" y="1995" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">S ≥ 0.700</text>
+<rect x="870" y="2450" width="660" height="145" rx="14" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
+<text x="1200.0" y="2490" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Internal review queue</text>
+<text x="1200.0" y="2530" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Middle scores + unsafe high-score candidates</text>
+<text x="1200.0" y="2562" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Review is not a third final viewer state</text>
+<polyline points="1200,2115 1200,2450" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1420" y="2280" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">0.129 &lt; S &lt; 0.700</text>
+<polyline points="1780,2300 1600,2300 1600,2520 1530,2520" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1640" y="2270" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">gate fails</text>
+<path d="M1200 2640.0 L1520.0 2725 L1200 2810.0 L880.0 2725 Z" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
+<text x="1200" y="2718.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#193047">S &lt; 0.540?</text>
+<text x="1200" y="2747.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#193047">Select one evidence band</text>
+<polyline points="1200,2595 1200,2640" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="590" y="2910" width="560" height="175" rx="14" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
+<text x="870.0" y="2950" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Low-score evidence band</text>
+<text x="870.0" y="2990" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">0.129 &lt; S &lt; 0.540</text>
+<text x="870.0" y="3022" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Domains ≥ 2; strongest domain ≥ 0.65</text>
+<text x="870.0" y="3054" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Higher exclusion-evidence threshold</text>
+<rect x="1260" y="2910" width="560" height="175" rx="14" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
+<text x="1540.0" y="2950" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Higher-score evidence band</text>
+<text x="1540.0" y="2990" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">S ≥ 0.540, only if still in review</text>
+<text x="1540.0" y="3022" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Domains ≥ 2; strongest domain ≥ 0.60</text>
+<text x="1540.0" y="3054" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Includes high-score gate downgrades</text>
+<polyline points="880,2725 870,2725 870,2910" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="810" y="2835" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">yes</text>
+<polyline points="1520,2725 1540,2725 1540,2910" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1600" y="2835" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">no</text>
+<rect x="540" y="3170" width="1320" height="210" rx="14" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
+<text x="1200.0" y="3210" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Check every evidence condition</text>
+<text x="1200.0" y="3250" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Primary: detector review/exclude; two-sided; no protection; confidence field ≥0.90</text>
+<text x="1200.0" y="3282" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Supporting domains have score ≥0.45; apply the selected maximum-domain requirement</text>
+<text x="1200.0" y="3314" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Every available 3/5/7 window: same detector, guards, domains, severity and band floor</text>
+<text x="1200.0" y="3346" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">No window evidence ⇒ fail. Required support =100%. No keep-only shortcut.</text>
+<polyline points="870,3085 870,3120 1200,3120 1200,3170" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="1540,3085 1540,3120 1200,3120" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<path d="M1200 3405.0 L1510.0 3480 L1200 3555.0 L890.0 3480 Z" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
+<text x="1200" y="3473.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#193047">All selected-band</text>
+<text x="1200" y="3502.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#193047">conditions pass?</text>
+<polyline points="1200,3380 1200,3405" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="70" y="3550" width="535" height="135" rx="14" fill="#dff1e7" stroke="#556579" stroke-width="2"/>
+<text x="337.5" y="3590" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">KEEP</text>
+<text x="337.5" y="3630" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Save failed conditions / conservative retention</text>
+<rect x="1795" y="3550" width="535" height="135" rx="14" fill="#f7e0e2" stroke="#556579" stroke-width="2"/>
+<text x="2062.5" y="3590" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">EXCLUDE</text>
+<text x="2062.5" y="3630" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Save direct or review evidence route</text>
+<polyline points="890,3480 700,3480 700,3615 605,3615" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="780" y="3465" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">no</text>
+<polyline points="1510,3480 1660,3480 1660,3615 1795,3615" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1600" y="3465" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">yes</text>
+<polyline points="337,2355 337,3550" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="2330,2275 2360,2275 2360,3520 2060,3520 2060,3550" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="2140" y="3410" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">direct gate passes</text>
+<rect x="540" y="3790" width="1320" height="170" rx="14" fill="#e7eef6" stroke="#556579" stroke-width="2"/>
+<text x="1200.0" y="3830" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Write complete decision audit</text>
+<text x="1200.0" y="3870" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">One row per original slice: score, stage-1 triage, tier, all window checks and final_call</text>
+<text x="1200.0" y="3902" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Policy / input hashes + experimental scope; public CSV and HTML contain keep/exclude</text>
+<text x="1200.0" y="3934" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Non-finite score or insufficient evidence: conservative keep + explicit diagnostics</text>
+<polyline points="337,3685 337,3875 540,3875" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="2060,3685 2060,3875 1860,3875" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="50" y="4030" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#193047">4  Optional display preregistration and exact ROI; no feedback into QC</text>
+<line x1="50" y1="4046" x2="2350" y2="4046" stroke="#c7d0db"/>
+<path d="M1200 4105.0 L1540.0 4190 L1200 4275.0 L860.0 4190 Z" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
+<text x="1200" y="4183.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#193047">Shared-coordinate ROI</text>
+<text x="1200" y="4212.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#193047">comparison requested?</text>
+<polyline points="1200,3960 1200,4105" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="60" y="4360" width="1110" height="245" rx="14" fill="#e1f1f2" stroke="#556579" stroke-width="2"/>
+<text x="615.0" y="4400" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Fit display-only rigid transforms</text>
+<text x="615.0" y="4440" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Original x/y kept; middle slice anchors each separate dataset</text>
+<text x="615.0" y="4472" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Seed 13; ≤1000 fit points; 24 angles; ≤50 iterations; closest 80% matches</text>
+<text x="615.0" y="4504" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Optional observed-label ranking (weight 0.5); no reference coordinates for fitting</text>
+<text x="615.0" y="4536" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">No scale, reflection, nonrigid deformation or smoothing</text>
+<text x="615.0" y="4568" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Compose T(child→reference) = T(parent→reference) × H(child→parent)</text>
+<rect x="1550" y="4360" width="780" height="180" rx="14" fill="#fff0cd" stroke="#556579" stroke-width="2"/>
+<text x="1940.0" y="4400" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Raw-coordinate display only</text>
+<text x="1940.0" y="4440" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Preserve available evidence views</text>
+<text x="1940.0" y="4472" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Do not imply a common anatomical frame</text>
+<text x="1940.0" y="4504" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Shared-frame ROI requires a saved transform</text>
+<polyline points="860,4190 615,4190 615,4360" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="720" y="4170" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">yes</text>
+<polyline points="1540,4190 1940,4190 1940,4360" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1740" y="4170" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">no</text>
+<rect x="60" y="4660" width="1110" height="180" rx="14" fill="#e1f1f2" stroke="#556579" stroke-width="2"/>
+<text x="615.0" y="4700" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Persist transforms and point provenance</text>
+<text x="615.0" y="4740" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Reference, pair edges, matrices, inverses, seeds, parameters and source hashes</text>
+<text x="615.0" y="4772" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Full raw/display caches retain source row and obs identity</text>
+<text x="615.0" y="4804" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Failed / ambiguous edges and blocked chains remain visible</text>
+<polyline points="615,4605 615,4660" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1410" y="4660" width="920" height="180" rx="14" fill="#fff0cd" stroke="#556579" stroke-width="2"/>
+<text x="1870.0" y="4700" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Fit failure / ambiguity / drift branch</text>
+<text x="1870.0" y="4740" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Store failure status; warn on affected slices and downstream chains</text>
+<text x="1870.0" y="4772" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Do not interpret misalignment as a low-quality slice</text>
+<text x="1870.0" y="4804" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Equal display range does not ensure equal anatomy</text>
+<polyline points="1170,4750 1410,4750" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1290" y="4730" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">warning</text>
+<polyline points="1940,4540 2375,4540 2375,4910 1600,4910 1600,4950" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="540" y="4950" width="1320" height="220" rx="14" fill="#e1f1f2" stroke="#556579" stroke-width="2"/>
+<text x="1200.0" y="4990" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Render the current detailed viewer + collection</text>
+<text x="1200.0" y="5030" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Overview · Statistics · Slice evidence · All slices · Methods</text>
+<text x="1200.0" y="5062" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">KDE / expression capture / connected components in linked 3- or 5-slice windows</text>
+<text x="1200.0" y="5094" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Raw/display switch; common extents; QC call, band requirements and fit status</text>
+<text x="1200.0" y="5126" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Display samples and unavailable measures disclosed; no point colors alter decisions</text>
+<polyline points="615,4840 615,4890 1200,4890 1200,4950" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<polyline points="1870,4840 1870,4890 1200,4890" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="540" y="5240" width="1320" height="215" rx="14" fill="#e1f1f2" stroke="#556579" stroke-width="2"/>
+<text x="1200.0" y="5280" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Select and export a traceable ROI</text>
+<text x="1200.0" y="5320" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Drag on focal slice; test transformed points against one display-frame rectangle</text>
+<text x="1200.0" y="5352" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Show corresponding neighbors; export frame_id, slice IDs and selected source identities</text>
+<text x="1200.0" y="5384" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Inverse-transform rectangle corners to a raw polygon, not an axis-aligned bounding box</text>
+<text x="1200.0" y="5416" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Full-point replay verifies frame/cache hashes; original H5AD is never overwritten</text>
+<polyline points="1200,5170 1200,5240" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
+<text x="1200" y="5530" text-anchor="middle" font-family="Arial,sans-serif" font-size="25" font-weight="400" fill="#193047">Implementation and every metric limit: methods.md · policy values: ../policies/joint_review_v2.json</text>
+<text x="1200" y="5570" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Editable source: build_workflow.py · Generated from actual packaged policy · No biological accuracy claim</text>
+</g></svg>

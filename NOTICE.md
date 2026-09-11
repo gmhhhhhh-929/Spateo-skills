@@ -21,3 +21,7 @@ Their inclusion preserves that source licensing status; this notice does not ass
 ## Restored workflow companions
 
 The 14 restored entrypoints and fixed support tools originate from the user-provided server skill collection. Imported files and their source/package hashes are recorded in [companion_migration.json](skills/spateo-2d-alignment/provenance/companion_migration.json). Their unspecified source licensing status is preserved under the same alignment-snapshot notice above. The continuity-first entry is a new compatibility adapter to the existing published pipeline, not a copy of an additional historical engine.
+
+## Spateo Referee QC and viewer
+
+The two bundled scientific Referee modules derive from the user-provided Spateo checkout at baseline commit `94fb2f4b71b6e809d3c2341d0e209c30b937573a`, with subsequent QC, display-preregistration and experimental-policy changes. The source BSD-2-Clause license is preserved in [runtime/LICENSE](skills/spatial-slice-quality-qc/runtime/LICENSE). The current skill wrappers and renderers originate from the user-provided Referee skills; packaging hashes and provenance are recorded in [release.json](skills/spatial-slice-quality-qc/provenance/release.json). This snapshot is not claimed to be identical to the baseline commit. No biological point clouds or source matrices are distributed.

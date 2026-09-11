@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.3",
+  "policy": {
+    "keep_max_score": 0.129,
+    "exclude_min_score": 0.7,
+    "calibration_id": "spateo-referee-joint-review-v2-20260912-metric-tested",
+    "require_two_sided": true,
+    "require_detector_call": true,
+    "enable_keep": true,
+    "enable_exclude": true,
+    "unresolved_action": "keep",
+    "review_exclusion_tiers": [
+      {
+        "name": "low_evidence",
+        "min_score": 0.129,
+        "max_score": 0.54,
+        "min_corroborating_domains": 2,
+        "severe_domain_threshold": 0.65,
+        "min_window_stability": 1.0,
+        "min_score_confidence": 0.9,
+        "window_detector_mode": "candidate",
+        "enable_exclude": true
+      },
+      {
+        "name": "high_evidence",
+        "min_score": 0.54,
+        "max_score": null,
+        "min_corroborating_domains": 2,
+        "severe_domain_threshold": 0.6,
+        "min_window_stability": 1.0,
+        "min_score_confidence": 0.9,
+        "window_detector_mode": "candidate",
+        "enable_exclude": true
+      }
+    ],
+    "benchmark_summary": {
+      "base_policy_validation_passed": true,
+      "base_policy_id": "spateo-referee-20260901-18ds-2500rep-validated-59ds-adaptive-all-v1-tiered-review-calibration-tiered-review-validated",
+      "adaptive_extension_validation_passed": false,
+      "metric_stress_validation_passed": true,
+      "validation_scope": "metric_stress_tests_only",
+      "joint_calibration": {
+        "status": "frozen_before_new_evaluation",
+        "candidate": {
+          "candidate": "low_d2_s0.65__high_d2_s0.60",
+          "low_domains": 2,
+          "low_severity": 0.65,
+          "high_severity": 0.6,
+          "tp": 6721,
+          "fp": 0,
+          "gained_true": 259,
+          "lost_true": 0,
+          "new_false": 0
+        },
+        "tiers": [
+          {
+            "name": "low_evidence",
+            "min_score": 0.129,
+            "max_score": 0.54,
+            "min_corroborating_domains": 2,
+            "severe_domain_threshold": 0.65,
+            "min_window_stability": 1.0,
+            "min_score_confidence": 0.9,
+            "window_detector_mode": "candidate",
+            "enable_exclude": true
+          },
+          {
+            "name": "high_evidence",
+            "min_score": 0.54,
+            "max_score": null,
+            "min_corroborating_domains": 2,
+            "severe_domain_threshold": 0.6,
+            "min_window_stability": 1.0,
+            "min_score_confidence": 0.9,
+            "window_detector_mode": "candidate",
+            "enable_exclude": true
+          }
+        ],
+        "calibration_datasets": [
+          "Cerebellum/Marmoset1",
+          "Cerebellum/Mouse1",
+          "Cerebellum/Mouse2",
+          "Drosophila/00.00h_E0-1h_a_new_final_modified",
+          "Drosophila/01.89h_E4-8h_i_new_final_modified",
+          "Drosophila/13.26h_E10-12h_e_new_final_modified",
+          "Drosophila/17.34h_E14-16h_c_all_final_modified",
+          "Drosophila/L1_a_count_normal_stereoseq",
+          "Drosophila/L2-early_b_cellbin_final_modified",
+          "Drosophila/PUPA-24h_cellbin_final_modified",
+          "Drosophila/PUPA-48h_cellbin_final_modified",
+          "Human_embryo/cs8_stereo_all_data",
+          "Mouse_Brain/mouse_E11.5_heart",
+          "Mouse_Brain/mouse_E9.5_heart",
+          "Planarian/0hpa1.sc",
+          "Planarian/10dpa1.sc",
+          "Planarian/10dpa2.sc",
+          "Planarian/14dpa1.sc",
+          "Planarian/7dpa1.sc",
+          "Planarian/7dpa2.sc"
+        ],
+        "calibration_positive": 10046,
+        "calibration_negative": 9864,
+        "baseline_true_exclude": 6462,
+        "selection": "Preserve no observed false exclusions and no lost baseline true exclusions; maximize defect detections; ties favor higher severity and domain count. All other gates/windows frozen. Score boundary .54 unchanged.",
+        "candidate_count": 45
+      },
+      "joint_evaluation": {
+        "status": "complete",
+        "metric_stress_validation_passed": true,
+        "datasets": 10,
+        "positive": 10490,
+        "negative": 10490,
+        "old_tp": 6611,
+        "new_tp": 6849,
+        "gain": 238,
+        "loss": 0,
+        "fp": 0,
+        "old_recall": 0.6302192564346997,
+        "new_recall": 0.6529075309818875,
+        "independent_biological_validation": false,
+        "frozen_candidate_sha256": "18424eae72152f0caa300f998f86b436a5f9a936989a7866d9a0991684abed5c",
+        "trial_plans": 3000,
+        "elapsed_seconds": 392.108459769981
+      },
+      "adaptive_extension": {
+        "windows": [
+          3,
+          5,
+          7
+        ]
+      },
+      "limitations": [
+        "Not independently validated on raw-matrix defects or biological labels.",
+        "Historical datasets held out only from this joint-policy parameter selection.",
+        "Synthetic controls sampled from detector keeps; repeated trials and adjacent slices are dependent."
+      ]
+    }
+  }
+}

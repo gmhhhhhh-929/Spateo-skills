@@ -1,5 +1,7 @@
 # Validation and scope
 
+Current collection note: QC and its detailed viewer were subsequently added, giving 5 top-level skills and 19 entries including the 14 alignment companions. The alignment audit below is preserved as historical evidence. Current Referee evidence: [methods and validation](skills/spatial-slice-quality-qc/references/methods.md).
+
 This publication contains three skills and two alignment pipelines. Aggregate results and provenance are included; biological datasets, benchmark coordinate tables and reference arrays are not distributed.
 
 ## Source basis

@@ -1,5 +1,7 @@
 # Skills completeness audit — 2026-09-07
 
+Current collection note: QC and its detailed viewer were subsequently added, giving 5 top-level skills and 19 entries including the 14 alignment companions. The alignment audit below is preserved as historical evidence. Current Referee evidence: [methods and validation](skills/spatial-slice-quality-qc/references/methods.md).
+
 The previous publication had only three discoverable skill entries. The source
 collection's review, QC, sampling, component, replay and record skills were
 excluded when packaging the two primary execution paths. This was incomplete

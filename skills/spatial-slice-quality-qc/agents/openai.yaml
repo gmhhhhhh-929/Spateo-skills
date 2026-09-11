@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spatial Slice Quality QC"
+  short_description: "Detect, validate, and explain low-quality serial slices"
+  default_prompt: "Use $spatial-slice-quality-qc to produce validated keep/exclude calls and an intuitive KDE-based slice report before alignment."

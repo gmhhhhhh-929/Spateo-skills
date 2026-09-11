@@ -1,6 +1,6 @@
 # Spateo Skills
 
-Reusable agent skills for preparing a Spateo environment, reading data into AnnData, and aligning serial 2D tissue slices.
+Reusable agent skills for preparing a Spateo environment, reading data into AnnData, screening slice quality, reviewing evidence, and aligning serial 2D tissue slices.
 
 [中文说明](README.zh-CN.md)
 
@@ -10,9 +10,11 @@ Reusable agent skills for preparing a Spateo environment, reading data into AnnD
 | --- | --- | --- |
 | 1 | [setup-spateo-environment](skills/setup-spateo-environment/SKILL.md) | Installation guidance, environment diagnosis, and capability verification for a separate Spateo source checkout or an installed package. |
 | 2 | [spateo-data-io](skills/spateo-data-io/SKILL.md) | Source-backed reader selection, spatial platform detection, AnnData validation, and coordinate/metadata preservation. |
-| 3 | [spateo-2d-alignment](skills/spateo-2d-alignment/SKILL.md) | Two alignment pipelines, shared expression-PCA preparation, optional annotation, strict input validation, and recorded implementation provenance. |
+| 3 | [spatial-slice-quality-qc](skills/spatial-slice-quality-qc/SKILL.md) | Four-domain QC, full review of both score bands and display-only rigid preregistration. |
+| 4 | [spatial-slice-quality-viewer](skills/spatial-slice-quality-viewer/SKILL.md) | Current binary multi-panel reports, collections and traceable ROI. |
+| 5 | [spateo-2d-alignment](skills/spateo-2d-alignment/SKILL.md) | Two alignment pipelines, shared expression-PCA preparation, optional annotation, strict input validation, and recorded implementation provenance. |
 
-The top level exposes **three workflow stages**. All 14 alignment companion
+The top level exposes **five skill entrypoints**. All 14 alignment companion
 entries live inside `spateo-2d-alignment/subskills/`, including the viewers,
 QC, sampling, ROI and replay tools. See the
 [alignment subskill catalog](skills/spateo-2d-alignment/references/companion-skills.md).
@@ -21,6 +23,8 @@ QC, sampling, ROI and replay tools. See the
 skills/
 ├── setup-spateo-environment/
 ├── spateo-data-io/
+├── spatial-slice-quality-qc/
+├── spatial-slice-quality-viewer/
 └── spateo-2d-alignment/
     ├── SKILL.md
     ├── pipelines/
@@ -76,4 +80,8 @@ The environment skill and Data IO API review are based on [gmhhhhhh-929/spateo-r
 
 In that source tree, `spateo/data_io.py` is the AnnData compatibility entrypoint; maintained reader implementations are in `spateo/io/`. The Data IO skill follows those implementations and distinguishes automatic detection from explicit reader calls.
 
-The current alignment extension passed synthetic contract checks, two full no-annotation expression runs, and two real annotation packaging comparisons with identical recovered XY coordinates. Expression runs establish functionality, not expression-mode accuracy. See [validation](VALIDATION.md) for the executed checks and their limits, and [licensing and source notices](NOTICE.md) for the status of imported material. The collection contains the first three workflow stages and distributes no biological datasets or reference coordinates.
+The current alignment extension passed synthetic contract checks, two full no-annotation expression runs, and two real annotation packaging comparisons with identical recovered XY coordinates. Expression runs establish functionality, not expression-mode accuracy. See [validation](VALIDATION.md) for the executed checks and their limits, and [licensing and source notices](NOTICE.md) for the status of imported material. The collection contains five top-level skills and distributes no biological datasets or reference coordinates.
+
+## Spateo Referee
+
+Install both complete QC and viewer directories as siblings. Joint-review v2 checks both review bands, with maximum-domain requirements 0.65 for the lower band and 0.60 for the higher band, retaining the other safeguards. It has metric-stress evidence only: use `experimental_policy`, not biological certification. See [methods, thresholds and validation](skills/spatial-slice-quality-qc/references/methods.md) and the [complete workflow SVG](skills/spatial-slice-quality-qc/references/workflow.svg). The package retains current runtime dependencies; historical experiment launchers and biological data are not distributed.
