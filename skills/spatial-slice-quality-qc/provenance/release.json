@@ -39,11 +39,11 @@
     },
     {
       "path": "skills/spatial-slice-quality-qc/references/NODE_EXPLANATIONS.md",
-      "sha256": "164162919bc1b8ab1350e34eb1ffb2caf413624768d4a9a2dc30ad760079edf2"
+      "sha256": "a0c21c465a2202dd2f70a2869f8aa29148ccfd9c096f17e59f24b9042d05e778"
     },
     {
       "path": "skills/spatial-slice-quality-qc/references/build_node_explanations.py",
-      "sha256": "d40df303bde7d40775675e3aa5268c8548cd3699715af342f4c3a445f6b46b28"
+      "sha256": "3802bea11cfc7d5144ddc05782047d427c21d36ed4fa71a699b37f72904bdb7e"
     },
     {
       "path": "skills/spatial-slice-quality-qc/references/build_workflow.py",
