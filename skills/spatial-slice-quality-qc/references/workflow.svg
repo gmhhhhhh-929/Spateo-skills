@@ -1,216 +1,844 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="6050" viewBox="0 0 2400 6050">
-<defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8z" fill="#415165"/></marker></defs>
-<rect width="100%" height="100%" fill="white"/>
-<text x="1200" y="65" text-anchor="middle" font-family="Arial,sans-serif" font-size="44" font-weight="700" fill="#193047">Spateo Referee · complete QC and viewer workflow</text>
-<text x="1200" y="112" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="400" fill="#95681e">Joint review v2 · metric-stress tested · independent biological validation incomplete</text>
-<text x="50" y="160" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#193047">1  Input contracts and observable evidence</text>
-<line x1="50" y1="176" x2="2350" y2="176" stroke="#c7d0db"/>
-<rect x="920" y="205" width="560" height="150" rx="14" fill="#e7eef6" stroke="#556579" stroke-width="2"/>
-<text x="1200.0" y="245" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Ordered biological series</text>
-<text x="1200.0" y="285" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">H5AD / one file per slice / dataset manifest</text>
-<text x="1200.0" y="317" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Never join specimen boundaries</text>
-<rect x="920" y="415" width="560" height="150" rx="14" fill="#e7eef6" stroke="#556579" stroke-width="2"/>
-<text x="1200.0" y="455" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Resolve and verify input</text>
-<text x="1200.0" y="495" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Slice ID + order + raw x/y + units</text>
-<text x="1200.0" y="527" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Expression layer + source / identity hashes</text>
-<rect x="1820" y="415" width="500" height="150" rx="14" fill="#fff0cd" stroke="#556579" stroke-width="2"/>
-<text x="2070.0" y="455" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Invalid input? Stop affected run</text>
-<text x="2070.0" y="495" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Missing identity / coordinate contracts</text>
-<text x="2070.0" y="527" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Do not invent slices, keys or values</text>
-<rect x="70" y="405" width="730" height="180" rx="14" fill="#fff0cd" stroke="#556579" stroke-width="2"/>
-<text x="435.0" y="445" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Expression semantics branch</text>
-<text x="435.0" y="485" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Count-like matrix: compute captured counts / genes</text>
-<text x="435.0" y="517" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Normalized or one-hot: mark capture unavailable</text>
-<text x="435.0" y="549" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Missing fields do not become zero evidence</text>
-<polyline points="1200,355 1200,415" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<polyline points="1480,490 1820,490" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="1650" y="476" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">invalid</text>
-<polyline points="920,490 800,490" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<rect x="40" y="700" width="535" height="225" rx="14" fill="#e8edf9" stroke="#556579" stroke-width="2"/>
-<text x="307.5" y="740" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Density / amount</text>
-<text x="307.5" y="780" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Locations, area, convex-hull density</text>
-<text x="307.5" y="812" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">NN-tail ratio, holes, components</text>
-<text x="307.5" y="844" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Observed tissue amount ≠ quality alone</text>
-<polyline points="1200,565 1200,635 307,635 307,700" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<rect x="635" y="700" width="535" height="225" rx="14" fill="#e8edf9" stroke="#556579" stroke-width="2"/>
-<text x="902.5" y="740" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Expression capture</text>
-<text x="902.5" y="780" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Counts, genes, zero fraction, complexity</text>
-<text x="902.5" y="812" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Local low-capture fraction and clustering</text>
-<text x="902.5" y="844" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Selected matrix overrides stale obs summaries</text>
-<polyline points="1200,565 1200,635 902,635 902,700" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<rect x="1230" y="700" width="535" height="225" rx="14" fill="#e8edf9" stroke="#556579" stroke-width="2"/>
-<text x="1497.5" y="740" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Damage proxies</text>
-<text x="1497.5" y="780" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Fragmentation + mitochondrial fraction</text>
-<text x="1497.5" y="812" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Largest connected-tissue fraction</text>
-<text x="1497.5" y="844" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Not a specific experimental diagnosis</text>
-<polyline points="1200,565 1200,635 1497,635 1497,700" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<rect x="1825" y="700" width="535" height="225" rx="14" fill="#e8edf9" stroke="#556579" stroke-width="2"/>
-<text x="2092.5" y="740" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Cross-slice continuity</text>
-<text x="2092.5" y="780" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Expression profiles, type composition, holes</text>
-<text x="2092.5" y="812" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Requires the corresponding measurements</text>
-<text x="2092.5" y="844" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Coordinate display fitting is not input evidence</text>
-<polyline points="1200,565 1200,635 2092,635 2092,700" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<polyline points="307,925 307,985 1200,985 1200,1100" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<polyline points="902,925 902,985 1200,985 1200,1100" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<polyline points="1497,925 1497,985 1200,985 1200,1100" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<polyline points="2092,925 2092,985 1200,985 1200,1100" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="50" y="1055" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#193047">2  Local expectations, anomaly scores and protection</text>
-<line x1="50" y1="1071" x2="2350" y2="1071" stroke="#c7d0db"/>
-<rect x="540" y="1100" width="1320" height="210" rx="14" fill="#e8edf9" stroke="#556579" stroke-width="2"/>
-<text x="1200.0" y="1140" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Local expectation and metric anomalies</text>
-<text x="1200.0" y="1180" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Primary window: default 3; optional auto compares 3 / 5 / 7; support trend up to 9</text>
-<text x="1200.0" y="1212" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Leave focal slice out; two-sided local trend, otherwise one-sided reference</text>
-<text x="1200.0" y="1244" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Directional effect size + robust MAD residual; metric-specific limits: methods table</text>
-<rect x="540" y="1370" width="1320" height="245" rx="14" fill="#e8edf9" stroke="#556579" stroke-width="2"/>
-<text x="1200.0" y="1410" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Aggregate observed evidence</text>
-<text x="1200.0" y="1450" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Four domains: weighted available metrics and top-two corroborating signals</text>
-<text x="1200.0" y="1482" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Weighted sum: density 0.31 + expression 0.39 + damage 0.12 + continuity 0.18</text>
-<text x="1200.0" y="1514" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Score = max(weighted sum, clip(0.48 + 0.78 × (maximum domain − 0.68), 0, 1))</text>
-<text x="1200.0" y="1546" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Apply anatomical protection cap; one-sided endpoint score × 0.82; retain warnings</text>
-<polyline points="1200,1310 1200,1370" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<rect x="540" y="1670" width="1320" height="300" rx="14" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
-<text x="1200.0" y="1710" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Internal detector branches (not final policy calls)</text>
-<text x="1200.0" y="1750" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Exclude requires two-sided + no protection, and at least one of:</text>
-<text x="1200.0" y="1782" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">(S ≥0.64 AND ≥2 domains at 0.45) OR expression ≥0.78</text>
-<text x="1200.0" y="1814" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">OR (density ≥0.82 AND holes ≥0.55 AND continuity ≥0.42)</text>
-<text x="1200.0" y="1846" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Otherwise review if S ≥0.38 OR any domain ≥0.45 OR any metric ≥0.75</text>
-<text x="1200.0" y="1878" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">OR a severe domain / protection flag; otherwise detector keep</text>
-<polyline points="1200,1615 1200,1670" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<g transform="translate(0,370)">
-<text x="50" y="1670" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#193047">3  Frozen policy scope and stage-1 routing</text>
-<line x1="50" y1="1686" x2="2350" y2="1686" stroke="#c7d0db"/>
-<rect x="540" y="1720" width="1320" height="155" rx="14" fill="#fff0cd" stroke="#556579" stroke-width="2"/>
-<text x="1200.0" y="1760" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Check policy and scope</text>
-<text x="1200.0" y="1800" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Bundled joint policy: experimental_policy; require passed frozen metric-stress evaluation</text>
-<text x="1200.0" y="1832" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">No raw-matrix / biological certification is inferred; retain policy ID and hash</text>
-<polyline points="1200,1600 1200,1720" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<path d="M1200 1915.0 L1560.0 2015 L1200 2115.0 L840.0 2015 Z" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
-<text x="1200" y="2008.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#193047">Compare finite score S</text>
-<text x="1200" y="2037.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#193047">K = 0.129; E = 0.700</text>
-<polyline points="1200,1875 1200,1915" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<rect x="70" y="2180" width="535" height="175" rx="14" fill="#dff1e7" stroke="#556579" stroke-width="2"/>
-<text x="337.5" y="2220" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Stage-1 keep candidate</text>
-<text x="337.5" y="2260" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Operational keep under complete binary mode</text>
-<text x="337.5" y="2292" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Retain detector / guard agreement in audit</text>
-<text x="337.5" y="2324" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Keep is not proof of defect-free tissue</text>
-<rect x="1780" y="2180" width="550" height="190" rx="14" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
-<text x="2055.0" y="2220" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Direct exclusion gate</text>
-<text x="2055.0" y="2260" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Detector = exclude AND two-sided context</text>
-<text x="2055.0" y="2292" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">AND no anatomical protection</text>
-<text x="2055.0" y="2324" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Every condition must pass</text>
-<polyline points="840,2015 337,2015 337,2180" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="580" y="1995" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">S ≤ 0.129</text>
-<polyline points="1560,2015 2055,2015 2055,2180" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="1820" y="1995" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">S ≥ 0.700</text>
-<rect x="870" y="2450" width="660" height="145" rx="14" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
-<text x="1200.0" y="2490" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Internal review queue</text>
-<text x="1200.0" y="2530" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Middle scores + unsafe high-score candidates</text>
-<text x="1200.0" y="2562" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Review is not a third final viewer state</text>
-<polyline points="1200,2115 1200,2450" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="1420" y="2280" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">0.129 &lt; S &lt; 0.700</text>
-<polyline points="1780,2300 1600,2300 1600,2520 1530,2520" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="1640" y="2270" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">gate fails</text>
-<path d="M1200 2640.0 L1520.0 2725 L1200 2810.0 L880.0 2725 Z" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
-<text x="1200" y="2718.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#193047">S &lt; 0.540?</text>
-<text x="1200" y="2747.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#193047">Select one evidence band</text>
-<polyline points="1200,2595 1200,2640" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<rect x="590" y="2910" width="560" height="175" rx="14" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
-<text x="870.0" y="2950" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Low-score evidence band</text>
-<text x="870.0" y="2990" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">0.129 &lt; S &lt; 0.540</text>
-<text x="870.0" y="3022" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Domains ≥ 2; strongest domain ≥ 0.65</text>
-<text x="870.0" y="3054" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Higher exclusion-evidence threshold</text>
-<rect x="1260" y="2910" width="560" height="175" rx="14" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
-<text x="1540.0" y="2950" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Higher-score evidence band</text>
-<text x="1540.0" y="2990" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">S ≥ 0.540, only if still in review</text>
-<text x="1540.0" y="3022" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Domains ≥ 2; strongest domain ≥ 0.60</text>
-<text x="1540.0" y="3054" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Includes high-score gate downgrades</text>
-<polyline points="880,2725 870,2725 870,2910" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="810" y="2835" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">yes</text>
-<polyline points="1520,2725 1540,2725 1540,2910" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="1600" y="2835" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">no</text>
-<rect x="540" y="3170" width="1320" height="210" rx="14" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
-<text x="1200.0" y="3210" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Check every evidence condition</text>
-<text x="1200.0" y="3250" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Primary: detector review/exclude; two-sided; no protection; confidence field ≥0.90</text>
-<text x="1200.0" y="3282" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Supporting domains have score ≥0.45; apply the selected maximum-domain requirement</text>
-<text x="1200.0" y="3314" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Every available 3/5/7 window: same detector, guards, domains, severity and band floor</text>
-<text x="1200.0" y="3346" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">No window evidence ⇒ fail. Required support =100%. No keep-only shortcut.</text>
-<polyline points="870,3085 870,3120 1200,3120 1200,3170" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<polyline points="1540,3085 1540,3120 1200,3120" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<path d="M1200 3405.0 L1510.0 3480 L1200 3555.0 L890.0 3480 Z" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
-<text x="1200" y="3473.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#193047">All selected-band</text>
-<text x="1200" y="3502.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#193047">conditions pass?</text>
-<polyline points="1200,3380 1200,3405" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<rect x="70" y="3550" width="535" height="135" rx="14" fill="#dff1e7" stroke="#556579" stroke-width="2"/>
-<text x="337.5" y="3590" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">KEEP</text>
-<text x="337.5" y="3630" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Save failed conditions / conservative retention</text>
-<rect x="1795" y="3550" width="535" height="135" rx="14" fill="#f7e0e2" stroke="#556579" stroke-width="2"/>
-<text x="2062.5" y="3590" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">EXCLUDE</text>
-<text x="2062.5" y="3630" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Save direct or review evidence route</text>
-<polyline points="890,3480 700,3480 700,3615 605,3615" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="780" y="3465" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">no</text>
-<polyline points="1510,3480 1660,3480 1660,3615 1795,3615" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="1600" y="3465" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">yes</text>
-<polyline points="337,2355 337,3550" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<polyline points="2330,2275 2360,2275 2360,3520 2060,3520 2060,3550" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="2140" y="3410" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">direct gate passes</text>
-<rect x="540" y="3790" width="1320" height="170" rx="14" fill="#e7eef6" stroke="#556579" stroke-width="2"/>
-<text x="1200.0" y="3830" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Write complete decision audit</text>
-<text x="1200.0" y="3870" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">One row per original slice: score, stage-1 triage, tier, all window checks and final_call</text>
-<text x="1200.0" y="3902" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Policy / input hashes + experimental scope; public CSV and HTML contain keep/exclude</text>
-<text x="1200.0" y="3934" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Non-finite score or insufficient evidence: conservative keep + explicit diagnostics</text>
-<polyline points="337,3685 337,3875 540,3875" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<polyline points="2060,3685 2060,3875 1860,3875" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="50" y="4030" text-anchor="start" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#193047">4  Optional display preregistration and exact ROI; no feedback into QC</text>
-<line x1="50" y1="4046" x2="2350" y2="4046" stroke="#c7d0db"/>
-<path d="M1200 4105.0 L1540.0 4190 L1200 4275.0 L860.0 4190 Z" fill="#eae3f5" stroke="#556579" stroke-width="2"/>
-<text x="1200" y="4183.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#193047">Shared-coordinate ROI</text>
-<text x="1200" y="4212.5" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#193047">comparison requested?</text>
-<polyline points="1200,3960 1200,4105" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<rect x="60" y="4360" width="1110" height="245" rx="14" fill="#e1f1f2" stroke="#556579" stroke-width="2"/>
-<text x="615.0" y="4400" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Fit display-only rigid transforms</text>
-<text x="615.0" y="4440" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Original x/y kept; middle slice anchors each separate dataset</text>
-<text x="615.0" y="4472" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Seed 13; ≤1000 fit points; 24 angles; ≤50 iterations; closest 80% matches</text>
-<text x="615.0" y="4504" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Optional observed-label ranking (weight 0.5); no reference coordinates for fitting</text>
-<text x="615.0" y="4536" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">No scale, reflection, nonrigid deformation or smoothing</text>
-<text x="615.0" y="4568" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Compose T(child→reference) = T(parent→reference) × H(child→parent)</text>
-<rect x="1550" y="4360" width="780" height="180" rx="14" fill="#fff0cd" stroke="#556579" stroke-width="2"/>
-<text x="1940.0" y="4400" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Raw-coordinate display only</text>
-<text x="1940.0" y="4440" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Preserve available evidence views</text>
-<text x="1940.0" y="4472" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Do not imply a common anatomical frame</text>
-<text x="1940.0" y="4504" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Shared-frame ROI requires a saved transform</text>
-<polyline points="860,4190 615,4190 615,4360" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="720" y="4170" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">yes</text>
-<polyline points="1540,4190 1940,4190 1940,4360" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="1740" y="4170" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">no</text>
-<rect x="60" y="4660" width="1110" height="180" rx="14" fill="#e1f1f2" stroke="#556579" stroke-width="2"/>
-<text x="615.0" y="4700" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Persist transforms and point provenance</text>
-<text x="615.0" y="4740" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Reference, pair edges, matrices, inverses, seeds, parameters and source hashes</text>
-<text x="615.0" y="4772" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Full raw/display caches retain source row and obs identity</text>
-<text x="615.0" y="4804" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Failed / ambiguous edges and blocked chains remain visible</text>
-<polyline points="615,4605 615,4660" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<rect x="1410" y="4660" width="920" height="180" rx="14" fill="#fff0cd" stroke="#556579" stroke-width="2"/>
-<text x="1870.0" y="4700" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Fit failure / ambiguity / drift branch</text>
-<text x="1870.0" y="4740" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Store failure status; warn on affected slices and downstream chains</text>
-<text x="1870.0" y="4772" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Do not interpret misalignment as a low-quality slice</text>
-<text x="1870.0" y="4804" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Equal display range does not ensure equal anatomy</text>
-<polyline points="1170,4750 1410,4750" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="1290" y="4730" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" fill="#76531a">warning</text>
-<polyline points="1940,4540 2375,4540 2375,4910 1600,4910 1600,4950" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<rect x="540" y="4950" width="1320" height="220" rx="14" fill="#e1f1f2" stroke="#556579" stroke-width="2"/>
-<text x="1200.0" y="4990" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Render the current detailed viewer + collection</text>
-<text x="1200.0" y="5030" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Overview · Statistics · Slice evidence · All slices · Methods</text>
-<text x="1200.0" y="5062" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">KDE / expression capture / connected components in linked 3- or 5-slice windows</text>
-<text x="1200.0" y="5094" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Raw/display switch; common extents; QC call, band requirements and fit status</text>
-<text x="1200.0" y="5126" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Display samples and unavailable measures disclosed; no point colors alter decisions</text>
-<polyline points="615,4840 615,4890 1200,4890 1200,4950" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<polyline points="1870,4840 1870,4890 1200,4890" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<rect x="540" y="5240" width="1320" height="215" rx="14" fill="#e1f1f2" stroke="#556579" stroke-width="2"/>
-<text x="1200.0" y="5280" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700" fill="#193047">Select and export a traceable ROI</text>
-<text x="1200.0" y="5320" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Drag on focal slice; test transformed points against one display-frame rectangle</text>
-<text x="1200.0" y="5352" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Show corresponding neighbors; export frame_id, slice IDs and selected source identities</text>
-<text x="1200.0" y="5384" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Inverse-transform rectangle corners to a raw polygon, not an axis-aligned bounding box</text>
-<text x="1200.0" y="5416" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Full-point replay verifies frame/cache hashes; original H5AD is never overwritten</text>
-<polyline points="1200,5170 1200,5240" fill="none" stroke="#415165" stroke-width="3" marker-end="url(#arrow)"/>
-<text x="1200" y="5530" text-anchor="middle" font-family="Arial,sans-serif" font-size="25" font-weight="400" fill="#193047">Implementation and every metric limit: methods.md · policy values: ../policies/joint_review_v2.json</text>
-<text x="1200" y="5570" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="400" fill="#193047">Editable source: build_workflow.py · Generated from actual packaged policy · No biological accuracy claim</text>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="3900pt" height="3200pt" viewBox="0 0 3900 3200" version="1.1">
+<title>Spateo Referee — signal-dependent QC, window handling and binary decisions</title>
+<desc>Editable vector workflow. Joint review v2. Panels A–F contain current implementation branches; code function names in object descriptions provide traceability. All labels are live Arial text. No raster or embedded HTML.</desc>
+<rect x="0" y="0" width="3900" height="3200" fill="#FFFFFF"/>
+
+<g id="title_and_reading_key"><title>title and reading key</title><desc></desc>
+<text x="60" y="66" font-family="Arial" font-size="49" font-weight="700" text-anchor="start" fill="#183047">Spateo Referee</text>
+<text x="60" y="110" font-family="Arial" font-size="28" font-weight="400" text-anchor="start" fill="#56697D">Signal-dependent slice QC • sliding windows • evidence aggregation • auditable keep / exclude</text>
+<text x="3840" y="54" font-family="Arial" font-size="24" font-weight="700" text-anchor="end" fill="#183047">Joint review v2  |  13 September 2026</text>
+<text x="3840" y="94" font-family="Arial" font-size="23" font-weight="400" text-anchor="end" fill="#56697D">Metric-stress tested; independent biological validation incomplete</text>
+</g>
+<g id="panel_A" inkscape:groupmode="layer" inkscape:label="A - Input contracts &amp; signal routing" transform="translate(60,160)">
+<rect x="0" y="0" width="1200" height="1410" rx="20" fill="#FFFFFF" stroke="#C3D0DD" stroke-width="2"/>
+<path d="M20 0 H1180 Q1200 0 1200 20 V112 H0 V20 Q0 0 20 0" fill="#F1F5F9"/>
+<circle cx="52" cy="47" r="27" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="52" y="55" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">A</text>
+<text x="101" y="45" font-family="Arial" font-size="32" font-weight="700" text-anchor="start" fill="#183047">Input contracts &amp; signal routing</text>
+<text x="101" y="83" font-family="Arial" font-size="22" font-weight="400" text-anchor="start" fill="#56697D">One biological series at a time; preserve raw coordinates and identities</text>
+<g id="a_input"><title>a input</title><desc>scan_h5ad_series; scan_h5ad_collection</desc>
+<rect x="360" y="138" width="480" height="92" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="172" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Input format</text>
+<text x="600.0" y="205" font-family="Arial" font-size="24" font-weight="400" text-anchor="middle" fill="#183047">H5AD or ordered slice files</text>
+</g>
+<g id="a_Slice_labels"><title>a Slice labels</title><desc>_resolve_slice_labels; _resolve_order</desc>
+<rect x="30" y="290" width="340" height="106" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="200.0" y="324" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Slice labels</text>
+<text x="200.0" y="357" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Use selected obs field</text>
+</g>
+<g id="connector_1"><title>connector 1</title><desc></desc>
+<polyline points="600,230 600,258 200,258 200,290" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M200,290 L195.0,277.0 L205.0,277.0 Z" fill="#657B91"/>
+</g>
+<g id="a_Discrete_z"><title>a Discrete z</title><desc>_resolve_slice_labels; _resolve_order</desc>
+<rect x="430" y="290" width="340" height="106" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="324" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Discrete z</text>
+<text x="600.0" y="357" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Derive z-based slice IDs</text>
+</g>
+<g id="connector_2"><title>connector 2</title><desc></desc>
+<polyline points="600,230 600,258 600,258 600,290" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,290 L595.0,277.0 L605.0,277.0 Z" fill="#657B91"/>
+</g>
+<g id="a_One_file__slice"><title>a One file  slice</title><desc>_resolve_slice_labels; _resolve_order</desc>
+<rect x="830" y="290" width="340" height="106" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="1000.0" y="324" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">One file / slice</text>
+<text x="1000.0" y="357" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Natural sort or manifest</text>
+</g>
+<g id="connector_3"><title>connector 3</title><desc></desc>
+<polyline points="600,230 600,258 1000,258 1000,290" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1000,290 L995.0,277.0 L1005.0,277.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_4"><title>connector 4</title><desc></desc>
+<polyline points="200,396 200,427 600,427 600,454" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,454 L595.0,441.0 L605.0,441.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_5"><title>connector 5</title><desc></desc>
+<polyline points="600,396 600,427 600,427 600,454" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,454 L595.0,441.0 L605.0,441.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_6"><title>connector 6</title><desc></desc>
+<polyline points="1000,396 1000,427 600,427 600,454" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,454 L595.0,441.0 L605.0,441.0 Z" fill="#657B91"/>
+</g>
+<g id="a_contract"><title>a contract</title><desc>_resolve_xy; _resolve_order; _extract_one_file</desc>
+<rect x="250" y="454" width="700" height="107" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="488" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Resolve slice order + original x/y</text>
+<text x="600.0" y="521" font-family="Arial" font-size="24" font-weight="400" text-anchor="middle" fill="#183047">Record units, selected layer and source hashes</text>
+</g>
+<g id="connector_7"><title>connector 7</title><desc></desc>
+<polyline points="950,505 1145,505 1145,584" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1145,584 L1140.0,571.0 L1150.0,571.0 Z" fill="#657B91"/>
+<rect x="998.0" y="462" width="100" height="30" fill="white"/>
+<text x="1048" y="485" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">invalid</text>
+</g>
+<g id="a_stop"><title>a stop</title><desc></desc>
+<rect x="875" y="584" width="290" height="100" rx="12" fill="#FBE6E8" stroke="#657B91" stroke-width="1.8"/>
+<text x="1020.0" y="618" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Stop affected run</text>
+<text x="1020.0" y="651" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Do not invent fields</text>
+</g>
+<g id="connector_8"><title>connector 8</title><desc></desc>
+<polyline points="600,561 600,605" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,605 L595.0,592.0 L605.0,592.0 Z" fill="#657B91"/>
+</g>
+<g id="a_signals"><title>a signals</title><desc>_extract_one_file</desc>
+<path d="M 600 605.0 L 835.0 690 L 600 775.0 L 365.0 690 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="684.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Which signals</text>
+<text x="600" y="711.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">are available?</text>
+</g>
+<g id="connector_9"><title>connector 9</title><desc></desc>
+<polyline points="365,690 165,690 165,813" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M165,813 L160.0,800.0 L170.0,800.0 Z" fill="#657B91"/>
+<rect x="174.0" y="650" width="148" height="30" fill="white"/>
+<text x="248" y="673" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">coordinates</text>
+</g>
+<g id="connector_10"><title>connector 10</title><desc></desc>
+<polyline points="600,775 600,813" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,813 L595.0,800.0 L605.0,800.0 Z" fill="#657B91"/>
+<rect x="616.0" y="770" width="88" height="30" fill="white"/>
+<text x="660" y="793" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">matrix</text>
+</g>
+<g id="connector_11"><title>connector 11</title><desc></desc>
+<polyline points="835,690 1050,690 1050,813" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1050,813 L1045.0,800.0 L1055.0,800.0 Z" fill="#657B91"/>
+<rect x="976.0" y="735" width="148" height="30" fill="white"/>
+<text x="1050" y="758" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">annotations</text>
+</g>
+<g id="a_geometry"><title>a geometry</title><desc>_geometry_metrics: n&lt;2 returns NaN geometry and conservative defaults; invalid x/y excluded from geometry</desc>
+<rect x="25" y="813" width="285" height="164" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="167.5" y="847" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Spatial geometry</text>
+<text x="167.5" y="880" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Finite x/y points</text>
+<text x="167.5" y="909" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Hull, NN, holes, graph</text>
+<text x="167.5" y="938" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Degenerate → limited metrics</text>
+</g>
+<g id="a_labels"><title>a labels</title><desc>_celltype_js_profiles; _extract_one_file</desc>
+<rect x="890" y="813" width="285" height="164" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="1032.5" y="847" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Cell-type labels</text>
+<text x="1032.5" y="880" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Present → type proportions</text>
+<text x="1032.5" y="909" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Absent → no type evidence</text>
+<text x="1032.5" y="938" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Not an expression matrix</text>
+</g>
+<g id="a_matrix_type"><title>a matrix type</title><desc>_choose_layer; _is_count_like; blind_input_contract.expression_representation</desc>
+<path d="M 600 820.0 L 842.5 890 L 600 960.0 L 357.5 890 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="884.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Selected matrix</text>
+<text x="600" y="911.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">semantics?</text>
+</g>
+<g id="a_semantic_20"><title>a semantic 20</title><desc>_extract_one_file; _align_profiles</desc>
+<rect x="20" y="1055" width="350" height="163" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="195.0" y="1089" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Measured counts</text>
+<text x="195.0" y="1122" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Row sums / nonzero genes</text>
+<text x="195.0" y="1151" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Override stale obs summaries</text>
+<text x="195.0" y="1180" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Capture + expression profile</text>
+</g>
+<g id="a_semantic_425"><title>a semantic 425</title><desc>_extract_one_file; _align_profiles</desc>
+<rect x="425" y="1055" width="350" height="163" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1089" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Non-count matrix</text>
+<text x="600.0" y="1122" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Use obs counts / genes if present</text>
+<text x="600.0" y="1151" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Else matrix-derived proxy</text>
+<text x="600.0" y="1180" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Record limitations; profile retained</text>
+</g>
+<g id="a_semantic_830"><title>a semantic 830</title><desc>_extract_one_file; _align_profiles</desc>
+<rect x="830" y="1055" width="350" height="163" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="1005.0" y="1089" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Declared one-hot X</text>
+<text x="1005.0" y="1122" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Disable capture + mito proxies</text>
+<text x="1005.0" y="1151" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Skip expression pseudobulk</text>
+<text x="1005.0" y="1180" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Retain geometry + actual labels</text>
+</g>
+<g id="connector_12"><title>connector 12</title><desc></desc>
+<polyline points="357,890 340,890 340,1005 195,1005 195,1055" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M195,1055 L190.0,1042.0 L200.0,1042.0 Z" fill="#657B91"/>
+<rect x="196.0" y="1015" width="88" height="30" fill="white"/>
+<text x="240" y="1038" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">counts</text>
+</g>
+<g id="connector_13"><title>connector 13</title><desc></desc>
+<polyline points="600,960 600,1055" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,1055 L595.0,1042.0 L605.0,1042.0 Z" fill="#657B91"/>
+<rect x="627.0" y="991" width="124" height="30" fill="white"/>
+<text x="689" y="1014" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">non-count</text>
+</g>
+<g id="connector_14"><title>connector 14</title><desc></desc>
+<polyline points="843,890 861,890 861,1005 1005,1005 1005,1055" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1005,1055 L1000.0,1042.0 L1010.0,1042.0 Z" fill="#657B91"/>
+<rect x="969.0" y="1015" width="100" height="30" fill="white"/>
+<text x="1019" y="1038" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">one-hot</text>
+</g>
+<g id="a_output"><title>a output</title><desc>_extract_one_file</desc>
+<rect x="240" y="1280" width="720" height="84" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1314" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Per-slice metrics + availability + provenance</text>
+</g>
+<g id="connector_15"><title>connector 15</title><desc></desc>
+<polyline points="195,1218 195,1250 600,1250 600,1280" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,1280 L595.0,1267.0 L605.0,1267.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_16"><title>connector 16</title><desc></desc>
+<polyline points="600,1218 600,1250 600,1250 600,1280" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,1280 L595.0,1267.0 L605.0,1267.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_17"><title>connector 17</title><desc></desc>
+<polyline points="1005,1218 1005,1250 600,1250 600,1280" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,1280 L595.0,1267.0 L605.0,1267.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_18"><title>connector 18</title><desc></desc>
+<polyline points="25,960 10,960 10,1322 240,1322" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M240,1322 L227.0,1327.0 L227.0,1317.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_19"><title>connector 19</title><desc></desc>
+<polyline points="1175,960 1190,960 1190,1322 960,1322" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M960,1322 L973.0,1317.0 L973.0,1327.0 Z" fill="#657B91"/>
+</g>
+</g>
+<g id="panel_B" inkscape:groupmode="layer" inkscape:label="B - Sliding windows &amp; boundaries" transform="translate(1350,160)">
+<rect x="0" y="0" width="1200" height="1410" rx="20" fill="#FFFFFF" stroke="#C3D0DD" stroke-width="2"/>
+<path d="M20 0 H1180 Q1200 0 1200 20 V112 H0 V20 Q0 0 20 0" fill="#F1F5F9"/>
+<circle cx="52" cy="47" r="27" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="52" y="55" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">B</text>
+<text x="101" y="45" font-family="Arial" font-size="32" font-weight="700" text-anchor="start" fill="#183047">Sliding windows &amp; boundaries</text>
+<text x="101" y="83" font-family="Arial" font-size="22" font-weight="400" text-anchor="start" fill="#56697D">Focal slice is excluded from its own local reference</text>
+<g id="b_window_mode"><title>b window mode</title><desc>SliceQCConfig; _choose_window</desc>
+<path d="M 600 136.5 L 800.0 199 L 600 261.5 L 400.0 199 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="207.0" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Window mode?</text>
+</g>
+<g id="b_fixed"><title>b fixed</title><desc></desc>
+<rect x="25" y="319" width="455" height="128" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="252.5" y="353" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Fixed window</text>
+<text x="252.5" y="386" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Default W = 3; odd width ≥3</text>
+<text x="252.5" y="415" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Keep selected width in provenance</text>
+</g>
+<g id="b_auto"><title>b auto</title><desc>_choose_window: utility=recall+.35*delta-.35*baseline_flags-.012*(W-3); no candidate -&gt; W=3</desc>
+<rect x="620" y="319" width="555" height="156" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="897.5" y="353" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Automatic choice</text>
+<text x="897.5" y="386" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Candidates 3 / 5 / 7, limited by series length</text>
+<text x="897.5" y="415" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Test ≤8 deterministic target positions</text>
+<text x="897.5" y="444" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Maximize recorded perturbation utility</text>
+</g>
+<g id="connector_20"><title>connector 20</title><desc></desc>
+<polyline points="400,199 253,199 253,319" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M253,319 L248.0,306.0 L258.0,306.0 Z" fill="#657B91"/>
+<rect x="262.0" y="247" width="76" height="30" fill="white"/>
+<text x="300" y="270" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">fixed</text>
+</g>
+<g id="connector_21"><title>connector 21</title><desc></desc>
+<polyline points="800,199 897,199 897,319" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M897,319 L892.0,306.0 L902.0,306.0 Z" fill="#657B91"/>
+<rect x="895.0" y="247" width="64" height="30" fill="white"/>
+<text x="927" y="270" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">auto</text>
+</g>
+<g id="connector_22"><title>connector 22</title><desc></desc>
+<polyline points="253,447 253,511 600,511" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,511 L587.0,516.0 L587.0,506.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_23"><title>connector 23</title><desc></desc>
+<polyline points="897,475 897,511 600,511" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,511 L613.0,506.0 L613.0,516.0 Z" fill="#657B91"/>
+</g>
+<g id="b_sliding_window_example"><title>b sliding window example</title><desc>_local_expected uses positional slice order, not physical z spacing; focal excluded; no wrap or padding</desc>
+<text x="600" y="562" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">Move the focal index i through the ordered series</text>
+<rect x="141" y="590" width="78" height="72" rx="6" fill="#FFFFFF" stroke="#657B91" stroke-width="2"/>
+<text x="180" y="634" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">…</text>
+<rect x="247" y="590" width="78" height="72" rx="6" fill="#FFFFFF" stroke="#657B91" stroke-width="2"/>
+<text x="286" y="634" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">i−3</text>
+<rect x="353" y="590" width="78" height="72" rx="6" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="392" y="634" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">i−2</text>
+<rect x="459" y="590" width="78" height="72" rx="6" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="498" y="634" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">i−1</text>
+<rect x="565" y="590" width="78" height="72" rx="6" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="604" y="634" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">i</text>
+<rect x="671" y="590" width="78" height="72" rx="6" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="710" y="634" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">i+1</text>
+<rect x="777" y="590" width="78" height="72" rx="6" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="816" y="634" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">i+2</text>
+<rect x="883" y="590" width="78" height="72" rx="6" fill="#FFFFFF" stroke="#657B91" stroke-width="2"/>
+<text x="922" y="634" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">i+3</text>
+<rect x="989" y="590" width="78" height="72" rx="6" fill="#FFFFFF" stroke="#657B91" stroke-width="2"/>
+<text x="1028" y="634" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">…</text>
+<rect x="340" y="579" width="522" height="95" rx="10" fill="none" stroke="#3E8B94" stroke-width="3" stroke-dasharray="10 7"/>
+<g id="connector_24"><title>connector 24</title><desc></desc>
+<polyline points="375,704 825,704" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M825,704 L812.0,709.0 L812.0,699.0 Z" fill="#657B91"/>
+<rect x="436.0" y="712" width="328" height="30" fill="white"/>
+<text x="600" y="735" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">example W = 5; advance i →</text>
+</g>
+</g>
+<g id="b_context"><title>b context</title><desc>_local_expected: finite neighbors within truncated window</desc>
+<path d="M 600 767.0 L 880.0 832 L 600 897.0 L 320.0 832 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="840.0" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Finite neighbors for this metric?</text>
+</g>
+<g id="connector_25"><title>connector 25</title><desc></desc>
+<polyline points="600,748 600,767" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,767 L595.0,754.0 L605.0,754.0 Z" fill="#657B91"/>
+</g>
+<g id="b_context_25"><title>b context 25</title><desc>_local_expected; _metric_anomaly</desc>
+<rect x="25" y="993" width="350" height="163" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="200.0" y="1027" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Both sides</text>
+<text x="200.0" y="1060" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Exclude focal slice</text>
+<text x="200.0" y="1089" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Median pairwise-slope trend</text>
+<text x="200.0" y="1118" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Estimate reference at i</text>
+</g>
+<g id="b_context_425"><title>b context 425</title><desc>_local_expected; _metric_anomaly</desc>
+<rect x="425" y="993" width="350" height="163" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1027" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">One side only</text>
+<text x="600.0" y="1060" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Truncate at series boundary</text>
+<text x="600.0" y="1089" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Neighbor median reference</text>
+<text x="600.0" y="1118" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">No padding or wraparound</text>
+</g>
+<g id="b_context_825"><title>b context 825</title><desc>_local_expected; _metric_anomaly</desc>
+<rect x="825" y="993" width="350" height="163" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="1000.0" y="1027" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">No valid neighbor</text>
+<text x="1000.0" y="1060" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Reference = unavailable</text>
+<text x="1000.0" y="1089" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Metric anomaly = 0 internally</text>
+<text x="1000.0" y="1118" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">0 means no evidence, not health</text>
+</g>
+<g id="connector_26"><title>connector 26</title><desc></desc>
+<polyline points="320,832 200,832 200,993" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M200,993 L195.0,980.0 L205.0,980.0 Z" fill="#657B91"/>
+<rect x="173.0" y="921" width="124" height="30" fill="white"/>
+<text x="235" y="944" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">two-sided</text>
+</g>
+<g id="connector_27"><title>connector 27</title><desc></desc>
+<polyline points="600,897 600,993" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,993 L595.0,980.0 L605.0,980.0 Z" fill="#657B91"/>
+<rect x="618.0" y="933" width="124" height="30" fill="white"/>
+<text x="680" y="956" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">one-sided</text>
+</g>
+<g id="connector_28"><title>connector 28</title><desc></desc>
+<polyline points="880,832 1000,832 1000,993" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1000,993 L995.0,980.0 L1005.0,980.0 Z" fill="#657B91"/>
+<rect x="982.0" y="921" width="64" height="30" fill="white"/>
+<text x="1014" y="944" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">none</text>
+</g>
+<g id="connector_29"><title>connector 29</title><desc></desc>
+<polyline points="200,1156 200,1190 600,1190 600,1225" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,1225 L595.0,1212.0 L605.0,1212.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_30"><title>connector 30</title><desc></desc>
+<polyline points="600,1156 600,1190 600,1190 600,1225" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,1225 L595.0,1212.0 L605.0,1212.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_31"><title>connector 31</title><desc></desc>
+<polyline points="1000,1156 1000,1190 600,1190 600,1225" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,1225 L595.0,1212.0 L605.0,1212.0 Z" fill="#657B91"/>
+</g>
+<g id="b_support"><title>b support</title><desc>_score_metrics: support=max(W, max(3, min(9, largest odd &lt;=N))); internal=np.any(two_sided_matrix)</desc>
+<rect x="85" y="1225" width="1030" height="121" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1259" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Primary + robust support window</text>
+<text x="600.0" y="1292" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Score both; take larger metric anomaly. Support width ≥W, usually up to 9.</text>
+<text x="600.0" y="1321" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Keep primary context; score_confidence = 1 if supported on both sides, else 0.72.</text>
+</g>
+<text x="600" y="1380" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#56697D">Different specimens never share neighbors; missing slice IDs do not imply poor tissue.</text>
+</g>
+<g id="panel_C" inkscape:groupmode="layer" inkscape:label="C - Metric standardization" transform="translate(2640,160)">
+<rect x="0" y="0" width="1200" height="1410" rx="20" fill="#FFFFFF" stroke="#C3D0DD" stroke-width="2"/>
+<path d="M20 0 H1180 Q1200 0 1200 20 V112 H0 V20 Q0 0 20 0" fill="#F1F5F9"/>
+<circle cx="52" cy="47" r="27" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="52" y="55" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">C</text>
+<text x="101" y="45" font-family="Arial" font-size="32" font-weight="700" text-anchor="start" fill="#183047">Metric standardization</text>
+<text x="101" y="83" font-family="Arial" font-size="22" font-weight="400" text-anchor="start" fill="#56697D">Directional effect size + robust residual; no probability interpretation</text>
+<g id="c_input"><title>c input</title><desc>_metric_anomaly</desc>
+<rect x="270" y="144" width="660" height="90" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="178" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Observed value v + local expectation e</text>
+</g>
+<g id="c_direction"><title>c direction</title><desc>_LOW_BAD_RULES; _HIGH_BAD_RULES</desc>
+<path d="M 600 271.0 L 815.0 337 L 600 403.0 L 385.0 337 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="345.0" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Adverse direction?</text>
+</g>
+<g id="connector_32"><title>connector 32</title><desc></desc>
+<polyline points="600,234 600,271" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,271 L595.0,258.0 L605.0,258.0 Z" fill="#657B91"/>
+</g>
+<g id="c_low"><title>c low</title><desc>_LOW_BAD_RULES; EPS prevents zero division</desc>
+<rect x="25" y="480" width="540" height="193" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="295.0" y="514" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Lower is worse</text>
+<text x="295.0" y="547" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Counts, genes, density, tissue amount,</text>
+<text x="295.0" y="576" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">complexity, largest component fraction</text>
+<text x="295.0" y="605" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">m = max((e − v) / |e|, 0)</text>
+</g>
+<g id="c_high"><title>c high</title><desc>_HIGH_BAD_RULES</desc>
+<rect x="635" y="480" width="540" height="193" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="905.0" y="514" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Higher is worse</text>
+<text x="905.0" y="547" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Holes, fragmentation, zero fraction,</text>
+<text x="905.0" y="576" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">NN tail, low-capture regions, mito</text>
+<text x="905.0" y="605" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">m = max(v − e, 0)</text>
+</g>
+<g id="connector_33"><title>connector 33</title><desc></desc>
+<polyline points="385,337 295,337 295,480" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M295,480 L290.0,467.0 L300.0,467.0 Z" fill="#657B91"/>
+<rect x="239.0" y="408" width="112" height="30" fill="white"/>
+<text x="295" y="431" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">decrease</text>
+</g>
+<g id="connector_34"><title>connector 34</title><desc></desc>
+<polyline points="815,337 905,337 905,480" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M905,480 L900.0,467.0 L910.0,467.0 Z" fill="#657B91"/>
+<rect x="849.0" y="408" width="112" height="30" fill="white"/>
+<text x="905" y="431" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">increase</text>
+</g>
+<g id="connector_35"><title>connector 35</title><desc></desc>
+<polyline points="295,673 295,704 600,704" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,704 L587.0,709.0 L587.0,699.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_36"><title>connector 36</title><desc></desc>
+<polyline points="905,673 905,704 600,704" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,704 L613.0,699.0 L613.0,709.0 Z" fill="#657B91"/>
+</g>
+<g id="c_effect"><title>c effect</title><desc>_metric_anomaly; _LOW_BAD_RULES; _HIGH_BAD_RULES</desc>
+<rect x="25" y="755" width="540" height="162" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="295.0" y="789" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Effect-size score R</text>
+<text x="295.0" y="822" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">R = clip((m − mild)/(severe − mild), 0, 1)</text>
+<text x="295.0" y="851" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Metric-specific mild / severe limits</text>
+<text x="295.0" y="880" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">See parameter table in methods</text>
+</g>
+<g id="c_z"><title>c z</title><desc>_robust_scale:1.4826*MAD; fallback std then1; _metric_anomaly</desc>
+<rect x="635" y="755" width="540" height="179" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="905.0" y="789" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Robust residual score Z</text>
+<text x="905.0" y="822" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Residual: e−v (low) or v−e (high)</text>
+<text x="905.0" y="851" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">z = positive centered residual / scale</text>
+<text x="905.0" y="880" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Z = clip((z − 1.5)/3, 0, 1)</text>
+<text x="905.0" y="909" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Scale: 1.4826×MAD; fallback SD, then 1</text>
+</g>
+<g id="connector_37"><title>connector 37</title><desc></desc>
+<polyline points="600,704 295,704 295,755" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M295,755 L290.0,742.0 L300.0,742.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_38"><title>connector 38</title><desc></desc>
+<polyline points="600,704 905,704 905,755" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M905,755 L900.0,742.0 L910.0,742.0 Z" fill="#657B91"/>
+</g>
+<g id="c_small_high"><title>c small high</title><desc>_metric_anomaly: only direction=high</desc>
+<rect x="635" y="951" width="540" height="128" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="905.0" y="985" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">High-direction safeguard</text>
+<text x="905.0" y="1018" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Z ← Z × clip(m / mild, 0, 1)</text>
+<text x="905.0" y="1047" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Tiny absolute effects cannot dominate</text>
+</g>
+<g id="connector_39"><title>connector 39</title><desc></desc>
+<polyline points="905,934 905,951" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M905,951 L900.0,938.0 L910.0,938.0 Z" fill="#657B91"/>
+<rect x="968.0" y="920" width="124" height="30" fill="white"/>
+<text x="1030" y="943" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">high only</text>
+</g>
+<g id="connector_40"><title>connector 40</title><desc></desc>
+<polyline points="1175,845 1187,845 1187,1098 1070,1098 1070,1119" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1070,1119 L1065.0,1106.0 L1075.0,1106.0 Z" fill="#657B91"/>
+<rect x="910.0" y="1066" width="220" height="30" fill="white"/>
+<text x="1020" y="1089" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">low: no rescaling</text>
+</g>
+<g id="c_merge"><title>c merge</title><desc>_metric_anomaly; invalid observation/reference gives zero anomaly evidence</desc>
+<rect x="35" y="1119" width="1130" height="174" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1153" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Combine, downweight and retain provenance</text>
+<text x="600.0" y="1186" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">A = max(R, Z) × context factor × agreement penalty</text>
+<text x="600.0" y="1215" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Context factor: 1 (two-sided) or 0.72 (one-sided)</text>
+<text x="600.0" y="1244" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Agreement penalty = clip(exp(−left/right disagreement / (2.5 × global scale)), .35, 1)</text>
+</g>
+<g id="connector_41"><title>connector 41</title><desc></desc>
+<polyline points="295,917 295,1119" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M295,1119 L290.0,1106.0 L300.0,1106.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_42"><title>connector 42</title><desc></desc>
+<polyline points="905,1079 905,1119" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M905,1119 L900.0,1106.0 L910.0,1106.0 Z" fill="#657B91"/>
+</g>
+<text x="600" y="1334" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#56697D">For counts / genes, retain the larger direct relative-drop score (same context penalty).</text>
+<text x="600" y="1361" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#56697D">Primary and support scores are combined by max; missing evidence is not a normality claim.</text>
+<text x="600" y="1388" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#56697D">Profile / type continuity uses its own divergence mapping before domain aggregation.</text>
+</g>
+<g id="panel_D" inkscape:groupmode="layer" inkscape:label="D - Four domains → aggregate score" transform="translate(60,1640)">
+<rect x="0" y="0" width="1200" height="1410" rx="20" fill="#FFFFFF" stroke="#C3D0DD" stroke-width="2"/>
+<path d="M20 0 H1180 Q1200 0 1200 20 V112 H0 V20 Q0 0 20 0" fill="#F1F5F9"/>
+<circle cx="52" cy="47" r="27" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="52" y="55" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">D</text>
+<text x="101" y="45" font-family="Arial" font-size="32" font-weight="700" text-anchor="start" fill="#183047">Four domains → aggregate score</text>
+<text x="101" y="83" font-family="Arial" font-size="22" font-weight="400" text-anchor="start" fill="#56697D">Signals may contribute to more than one domain; domains are not independent</text>
+<g id="d_domain_Density"><title>d domain Density</title><desc>_score_metrics: density_domain_score</desc>
+<rect x="25" y="150" width="550" height="205" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="300.0" y="184" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Density / amount D</text>
+<text x="300.0" y="217" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Density .28; amount .10; holes .27</text>
+<text x="300.0" y="246" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">NN tail .13; fragments .12; largest .10</text>
+<text x="300.0" y="275" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Max(weighted mean, top-two evidence)</text>
+</g>
+<g id="d_domain_Expression"><title>d domain Expression</title><desc>_score_metrics: expression_domain_score</desc>
+<rect x="625" y="150" width="550" height="205" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="900.0" y="184" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Expression capture X</text>
+<text x="900.0" y="217" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Counts .27; genes .24; zeros .14</text>
+<text x="900.0" y="246" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Complexity .11; gene fraction .08</text>
+<text x="900.0" y="275" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Local / regional low capture .08 / .08</text>
+<text x="900.0" y="304" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Max(weighted mean, top-two evidence)</text>
+</g>
+<g id="d_domain_Damage"><title>d domain Damage</title><desc>_score_metrics: damage_domain_score</desc>
+<rect x="25" y="402" width="550" height="155" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="300.0" y="436" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Damage proxies M</text>
+<text x="300.0" y="469" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Mito .65 + fragmentation .35</text>
+<text x="300.0" y="498" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Weighted available signals</text>
+</g>
+<g id="d_domain_Continuity"><title>d domain Continuity</title><desc>_profile_continuity; _celltype_js_profiles; _score_metrics</desc>
+<rect x="625" y="402" width="550" height="155" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="900.0" y="436" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Continuity C</text>
+<text x="900.0" y="469" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Expression profile .58; cell types .22</text>
+<text x="900.0" y="498" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Holes .20; weighted available signals</text>
+<text x="900.0" y="527" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Unavailable profile / labels add no evidence</text>
+</g>
+<g id="d_available"><title>d available</title><desc>_weighted_available; _top_two_evidence</desc>
+<rect x="25" y="602" width="1150" height="92" rx="12" fill="#FFFFFF" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="636" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Within-domain rules</text>
+<text x="600.0" y="669" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Weighted mean renormalizes finite signals; top-two = .65 × strongest + .35 × second</text>
+</g>
+<g id="connector_43"><title>connector 43</title><desc></desc>
+<polyline points="300,355 600,355 600,582 300,582 300,602" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M300,602 L295.0,589.0 L305.0,589.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_44"><title>connector 44</title><desc></desc>
+<polyline points="900,355 600,355 600,582 900,582 900,602" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M900,602 L895.0,589.0 L905.0,589.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_45"><title>connector 45</title><desc></desc>
+<polyline points="300,557 300,602" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M300,602 L295.0,589.0 L305.0,589.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_46"><title>connector 46</title><desc></desc>
+<polyline points="900,557 900,602" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M900,602 L895.0,589.0 L905.0,589.0 Z" fill="#657B91"/>
+</g>
+<g id="d_rawscore"><title>d rawscore</title><desc>_score_metrics: raw_score; corroborating_domains</desc>
+<rect x="25" y="733" width="1150" height="144" rx="12" fill="#EEE9F7" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="767" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Aggregate anomaly score S₀</text>
+<text x="600.0" y="800" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">S₀ = max(.31D + .39X + .12M + .18C, clip(.48 + .78(max(D,X,M,C) − .68), 0, 1))</text>
+<text x="600.0" y="829" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Supporting-domain count = number of domains ≥.45</text>
+</g>
+<g id="connector_47"><title>connector 47</title><desc></desc>
+<polyline points="600,694 600,733" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,733 L595.0,720.0 L605.0,720.0 Z" fill="#657B91"/>
+</g>
+<g id="d_protection"><title>d protection</title><desc>_score_metrics: density_only OR taper_like</desc>
+<path d="M 600 906.5 L 847.5 969 L 600 1031.5 L 352.5 969 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="977.0" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Anatomical protection?</text>
+</g>
+<g id="connector_48"><title>connector 48</title><desc></desc>
+<polyline points="600,877 600,906.5" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,906.5 L595.0,893.5 L605.0,893.5 Z" fill="#657B91"/>
+</g>
+<g id="d_guard_rule"><title>d guard rule</title><desc>_score_metrics: density_only; taper_like</desc>
+<rect x="25" y="1068" width="680" height="166" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="365.0" y="1102" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Protection conditions (either suffices)</text>
+<text x="365.0" y="1135" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">D≥.48, X&lt;.32, M&lt;.38, C&lt;.45; OR</text>
+<text x="365.0" y="1164" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">amount anomaly≥.45, density anomaly&lt;.30,</text>
+<text x="365.0" y="1193" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">hole anomaly&lt;.30, X&lt;.35</text>
+</g>
+<g id="d_guard_yes"><title>d guard yes</title><desc></desc>
+<rect x="785" y="1070" width="390" height="130" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="980.0" y="1104" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Protected</text>
+<text x="980.0" y="1137" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">S ← min(S₀, .62)</text>
+<text x="980.0" y="1166" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Block automatic exclusion</text>
+</g>
+<g id="connector_49"><title>connector 49</title><desc></desc>
+<polyline points="847.5,969 980,969 980,1070" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M980,1070 L975.0,1057.0 L985.0,1057.0 Z" fill="#657B91"/>
+<rect x="994.0" y="999" width="52" height="30" fill="white"/>
+<text x="1020" y="1022" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">yes</text>
+</g>
+<g id="connector_50"><title>connector 50</title><desc></desc>
+<polyline points="352.5,969 12,969 12,1286 60,1286" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M60,1286 L47.0,1291.0 L47.0,1281.0 Z" fill="#657B91"/>
+<rect x="73.0" y="928" width="136" height="30" fill="white"/>
+<text x="141" y="951" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">no: S = S₀</text>
+</g>
+<g id="d_endpoint"><title>d endpoint</title><desc>_score_metrics: final_score; window_context; score_confidence</desc>
+<rect x="60" y="1260" width="1080" height="110" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1294" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Final score and boundary status</text>
+<text x="600.0" y="1327" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">If one-sided: S ← .82 × S. Otherwise keep S. Clip final score to [0,1].</text>
+<text x="600.0" y="1356" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Pass S, domain scores, context and protection flag to E.</text>
+</g>
+<g id="connector_51"><title>connector 51</title><desc></desc>
+<polyline points="980,1200 980,1260" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M980,1260 L975.0,1247.0 L985.0,1247.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_52"><title>connector 52</title><desc></desc>
+<polyline points="365,1068 365,1045 460,1045 460,1004" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="9 7"/>
+<path d="M460,1004 L465.0,1017.0 L455.0,1017.0 Z" fill="#657B91"/>
+</g>
+</g>
+<g id="panel_E" inkscape:groupmode="layer" inkscape:label="E - Two-stage filtering" transform="translate(1350,1640)">
+<rect x="0" y="0" width="1200" height="1410" rx="20" fill="#FFFFFF" stroke="#C3D0DD" stroke-width="2"/>
+<path d="M20 0 H1180 Q1200 0 1200 20 V112 H0 V20 Q0 0 20 0" fill="#F1F5F9"/>
+<circle cx="52" cy="47" r="27" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="52" y="55" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">E</text>
+<text x="101" y="45" font-family="Arial" font-size="32" font-weight="700" text-anchor="start" fill="#183047">Two-stage filtering</text>
+<text x="101" y="83" font-family="Arial" font-size="22" font-weight="400" text-anchor="start" fill="#56697D">Only keep / exclude are public; all review routes remain in the audit</text>
+<g id="e_detector"><title>e detector</title><desc>_score_metrics: recommendations</desc>
+<rect x="25" y="145" width="1150" height="185" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="179" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Internal detector (distinct from final thresholds)</text>
+<text x="600.0" y="212" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">With two sides + no protection: exclude if (S≥.64 AND ≥2 strong domains),</text>
+<text x="600.0" y="241" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">OR X≥.78, OR (D≥.82 AND holes≥.55 AND C≥.42).</text>
+<text x="600.0" y="270" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Else review if S≥.38, any domain≥.45, any severe domain≥.78,</text>
+<text x="600.0" y="299" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">any metric≥.75 or protection; otherwise detector keep.</text>
+</g>
+<g id="e_stage1"><title>e stage1</title><desc>apply_high_confidence_policy</desc>
+<path d="M 600 362.0 L 860.0 424 L 600 486.0 L 340.0 424 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="418.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Stage 1: compare S</text>
+<text x="600" y="445.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">K = 0.129     E = 0.700</text>
+</g>
+<g id="connector_53"><title>connector 53</title><desc></desc>
+<polyline points="600,330 600,362" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,362 L595.0,349.0 L605.0,349.0 Z" fill="#657B91"/>
+</g>
+<g id="e_keep_candidate"><title>e keep candidate</title><desc></desc>
+<rect x="25" y="555" width="300" height="105" rx="12" fill="#E5F3E8" stroke="#657B91" stroke-width="1.8"/>
+<text x="175.0" y="589" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Keep candidate</text>
+<text x="175.0" y="622" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">S ≤ 0.129</text>
+</g>
+<g id="e_middle"><title>e middle</title><desc></desc>
+<rect x="405" y="555" width="350" height="105" rx="12" fill="#EEE9F7" stroke="#657B91" stroke-width="1.8"/>
+<text x="580.0" y="589" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Internal review</text>
+<text x="580.0" y="622" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">0.129 &lt; S &lt; 0.700</text>
+</g>
+<g id="e_high"><title>e high</title><desc></desc>
+<rect x="835" y="540" width="340" height="143" rx="12" fill="#EEE9F7" stroke="#657B91" stroke-width="1.8"/>
+<text x="1005.0" y="574" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Direct-exclude gate</text>
+<text x="1005.0" y="607" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Detector exclude?</text>
+<text x="1005.0" y="636" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Two-sided? No protection?</text>
+</g>
+<g id="connector_54"><title>connector 54</title><desc></desc>
+<polyline points="340,424 175,424 175,555" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M175,555 L170.0,542.0 L180.0,542.0 Z" fill="#657B91"/>
+<rect x="193.0" y="475" width="52" height="30" fill="white"/>
+<text x="219" y="498" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">low</text>
+</g>
+<g id="connector_55"><title>connector 55</title><desc></desc>
+<polyline points="600,486 600,555" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,555 L595.0,542.0 L605.0,542.0 Z" fill="#657B91"/>
+<rect x="626.0" y="500" width="88" height="30" fill="white"/>
+<text x="670" y="523" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">middle</text>
+</g>
+<g id="connector_56"><title>connector 56</title><desc></desc>
+<polyline points="860,424 1005,424 1005,540" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1005,540 L1000.0,527.0 L1010.0,527.0 Z" fill="#657B91"/>
+<rect x="1009.0" y="475" width="64" height="30" fill="white"/>
+<text x="1041" y="498" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">high</text>
+</g>
+<g id="connector_57"><title>connector 57</title><desc></desc>
+<polyline points="835,610 790,610 790,696 600,696" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,696 L613.0,691.0 L613.0,701.0 Z" fill="#657B91"/>
+<rect x="647.0" y="662" width="124" height="30" fill="white"/>
+<text x="709" y="685" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">any fails</text>
+</g>
+<g id="e_review_split"><title>e review split</title><desc>_validate_review_tiers; _evaluate_review_tier_row</desc>
+<path d="M 600 726.5 L 850.0 789 L 600 851.5 L 350.0 789 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="797.0" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Review score &lt; 0.540?</text>
+</g>
+<g id="connector_58"><title>connector 58</title><desc></desc>
+<polyline points="580,660 580,696 600,696 600,726.5" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,726.5 L595.0,713.5 L605.0,713.5 Z" fill="#657B91"/>
+</g>
+<g id="e_low_tier"><title>e low tier</title><desc></desc>
+<rect x="55" y="922" width="495" height="132" rx="12" fill="#EEE9F7" stroke="#657B91" stroke-width="1.8"/>
+<text x="302.5" y="956" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Low-score review</text>
+<text x="302.5" y="989" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">0.129 &lt; S &lt; 0.540</text>
+<text x="302.5" y="1018" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">≥2 domains; strongest ≥0.65</text>
+</g>
+<g id="e_high_tier"><title>e high tier</title><desc></desc>
+<rect x="650" y="922" width="495" height="132" rx="12" fill="#EEE9F7" stroke="#657B91" stroke-width="1.8"/>
+<text x="897.5" y="956" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Higher-score review</text>
+<text x="897.5" y="989" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">S ≥ 0.540; includes downgraded highs</text>
+<text x="897.5" y="1018" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">≥2 domains; strongest ≥0.60</text>
+</g>
+<g id="connector_59"><title>connector 59</title><desc></desc>
+<polyline points="350,789 302,789 302,922" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M302,922 L297.0,909.0 L307.0,909.0 Z" fill="#657B91"/>
+<rect x="284.0" y="862" width="52" height="30" fill="white"/>
+<text x="310" y="885" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">yes</text>
+</g>
+<g id="connector_60"><title>connector 60</title><desc></desc>
+<polyline points="850,789 897,789 897,922" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M897,922 L892.0,909.0 L902.0,909.0 Z" fill="#657B91"/>
+<rect x="890.0" y="862" width="40" height="30" fill="white"/>
+<text x="910" y="885" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">no</text>
+</g>
+<g id="e_all_gates"><title>e all gates</title><desc>_evaluate_review_tier_row: primary confidence only; all-window support=1.0; upper tier bound applies to primary only</desc>
+<rect x="140" y="1098" width="920" height="150" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1132" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">AND: every required evidence condition passes</text>
+<text x="600.0" y="1165" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Detector review/exclude + two-sided + no protection + confidence≥.90</text>
+<text x="600.0" y="1194" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Every available 3/5/7 window: same guards, domain count / severity,</text>
+<text x="600.0" y="1223" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">and selected tier floor (.129 or .540); no window details → fail.</text>
+</g>
+<g id="connector_61"><title>connector 61</title><desc></desc>
+<polyline points="302,1054 302,1098" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M302,1098 L297.0,1085.0 L307.0,1085.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_62"><title>connector 62</title><desc></desc>
+<polyline points="897,1054 897,1098" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M897,1098 L892.0,1085.0 L902.0,1085.0 Z" fill="#657B91"/>
+</g>
+<g id="e_keep"><title>e keep</title><desc></desc>
+<rect x="125" y="1310" width="380" height="68" rx="12" fill="#E5F3E8" stroke="#657B91" stroke-width="1.8"/>
+<text x="315.0" y="1344" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">KEEP</text>
+</g>
+<g id="e_exclude"><title>e exclude</title><desc></desc>
+<rect x="695" y="1310" width="380" height="68" rx="12" fill="#FBE6E8" stroke="#657B91" stroke-width="1.8"/>
+<text x="885.0" y="1344" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">EXCLUDE</text>
+</g>
+<g id="connector_63"><title>connector 63</title><desc></desc>
+<polyline points="380,1248 380,1310" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M380,1310 L375.0,1297.0 L385.0,1297.0 Z" fill="#657B91"/>
+<rect x="225.0" y="1266" width="124" height="30" fill="white"/>
+<text x="287" y="1289" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">any fails</text>
+</g>
+<g id="connector_64"><title>connector 64</title><desc></desc>
+<polyline points="820,1248 820,1310" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M820,1310 L815.0,1297.0 L825.0,1297.0 Z" fill="#657B91"/>
+<rect x="857.0" y="1266" width="112" height="30" fill="white"/>
+<text x="913" y="1289" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">all pass</text>
+</g>
+<g id="connector_65"><title>connector 65</title><desc></desc>
+<polyline points="175,660 13,660 13,1344 125,1344" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M125,1344 L112.0,1349.0 L112.0,1339.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_66"><title>connector 66</title><desc></desc>
+<polyline points="1175,610 1188,610 1188,1344 1075,1344" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1075,1344 L1088.0,1339.0 L1088.0,1349.0 Z" fill="#657B91"/>
+<rect x="1034.0" y="850" width="112" height="30" fill="white"/>
+<text x="1090" y="873" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">all pass</text>
+</g>
+<text x="600" y="1400" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#56697D">Non-finite score / insufficient evidence → conservative keep + recorded diagnostics.</text>
+</g>
+<g id="panel_F" inkscape:groupmode="layer" inkscape:label="F - Audit, display &amp; exact ROI" transform="translate(2640,1640)">
+<rect x="0" y="0" width="1200" height="1410" rx="20" fill="#FFFFFF" stroke="#C3D0DD" stroke-width="2"/>
+<path d="M20 0 H1180 Q1200 0 1200 20 V112 H0 V20 Q0 0 20 0" fill="#F1F5F9"/>
+<circle cx="52" cy="47" r="27" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="52" y="55" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">F</text>
+<text x="101" y="45" font-family="Arial" font-size="32" font-weight="700" text-anchor="start" fill="#183047">Audit, display &amp; exact ROI</text>
+<text x="101" y="83" font-family="Arial" font-size="22" font-weight="400" text-anchor="start" fill="#56697D">Display transforms never feed back into QC scores or decisions</text>
+<g id="f_audit"><title>f audit</title><desc>write_high_confidence_outputs; run_publish</desc>
+<rect x="25" y="148" width="1150" height="140" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="182" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Save one audit row per original slice</text>
+<text x="600.0" y="215" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Raw score, detector call, stage-1 route, stage-2 tier, window checks, failed gates, final_call</text>
+<text x="600.0" y="244" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Freeze policy + hashes; experimental_policy clears certification. Keep ≠ proven healthy.</text>
+</g>
+<g id="connector_67"><title>connector 67</title><desc></desc>
+<polyline points="600,288 600,348" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,348 L595.0,335.0 L605.0,335.0 Z" fill="#657B91"/>
+</g>
+<g id="f_prereg_request"><title>f prereg request</title><desc>run_preregister</desc>
+<path d="M 600 348.0 L 865.0 421 L 600 494.0 L 335.0 421 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="415.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Shared-coordinate</text>
+<text x="600" y="442.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">comparison requested?</text>
+</g>
+<g id="f_raw_only"><title>f raw only</title><desc></desc>
+<rect x="30" y="575" width="355" height="129" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="207.5" y="609" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Raw-only view</text>
+<text x="207.5" y="642" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Keep original coordinates</text>
+<text x="207.5" y="671" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">No shared-anatomy claim</text>
+</g>
+<g id="f_rigid"><title>f rigid</title><desc>slice_preregistration.py; slice_quality_preregistration.py</desc>
+<rect x="465" y="550" width="710" height="215" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="820.0" y="584" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Display-only rigid preregistration</text>
+<text x="820.0" y="617" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Separate middle-slice reference for each dataset</text>
+<text x="820.0" y="646" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Seed13; ≤1000 points; 24 angles; 50 iterations; trim80%</text>
+<text x="820.0" y="675" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Translation + rotation; no scale / mirror / deformation</text>
+<text x="820.0" y="704" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Compose T(child→ref) = T(parent→ref) × H(child→parent)</text>
+</g>
+<g id="connector_68"><title>connector 68</title><desc></desc>
+<polyline points="335,421 207,421 207,575" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M207,575 L202.0,562.0 L212.0,562.0 Z" fill="#657B91"/>
+<rect x="228.0" y="501" width="40" height="30" fill="white"/>
+<text x="248" y="524" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">no</text>
+</g>
+<g id="connector_69"><title>connector 69</title><desc></desc>
+<polyline points="865,421 980,421 980,550" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M980,550 L975.0,537.0 L985.0,537.0 Z" fill="#657B91"/>
+<rect x="989.0" y="493" width="52" height="30" fill="white"/>
+<text x="1015" y="516" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">yes</text>
+</g>
+<g id="f_fit_status"><title>f fit status</title><desc>slice_preregistration.py: failure / ambiguity warnings propagate along composed chain</desc>
+<path d="M 825 799.0 L 1087.5 866 L 825 933.0 L 562.5 866 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="825" y="860.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Fit / reference chain</text>
+<text x="825" y="887.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">reliable enough to compare?</text>
+</g>
+<g id="connector_70"><title>connector 70</title><desc></desc>
+<polyline points="825,765 825,799" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M825,799 L820.0,786.0 L830.0,786.0 Z" fill="#657B91"/>
+</g>
+<g id="f_warn"><title>f warn</title><desc></desc>
+<rect x="465" y="1002" width="335" height="128" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="632.5" y="1036" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Uncertain / failed</text>
+<text x="632.5" y="1069" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Save status + visible warning</text>
+<text x="632.5" y="1098" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Do not turn fit error into QC</text>
+</g>
+<g id="f_fit_ok"><title>f fit ok</title><desc></desc>
+<rect x="840" y="1002" width="335" height="128" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="1007.5" y="1036" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Fitted coordinates</text>
+<text x="1007.5" y="1069" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Save matrices + inverses</text>
+<text x="1007.5" y="1098" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Not anatomical ground truth</text>
+</g>
+<g id="connector_71"><title>connector 71</title><desc></desc>
+<polyline points="562.5,866 510,866 510,970 632,970 632,1002" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M632,1002 L627.0,989.0 L637.0,989.0 Z" fill="#657B91"/>
+<rect x="596.0" y="934" width="40" height="30" fill="white"/>
+<text x="616" y="957" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">no</text>
+</g>
+<g id="connector_72"><title>connector 72</title><desc></desc>
+<polyline points="1087.5,866 1147,866 1147,970 1007,970 1007,1002" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1007,1002 L1002.0,989.0 L1012.0,989.0 Z" fill="#657B91"/>
+<rect x="994.0" y="934" width="52" height="30" fill="white"/>
+<text x="1020" y="957" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">yes</text>
+</g>
+<g id="f_viewer"><title>f viewer</title><desc>slice_quality_visualization.py: render_binary_slice_quality_appendix; raw/display toggle; linked 3/5 slice windows</desc>
+<rect x="25" y="1180" width="1150" height="85" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1214" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Current viewer: KDE • capture • components • statistics • binary calls</text>
+</g>
+<g id="connector_73"><title>connector 73</title><desc></desc>
+<polyline points="207,704 207,1180" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M207,1180 L202.0,1167.0 L212.0,1167.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_74"><title>connector 74</title><desc></desc>
+<polyline points="632,1130 632,1180" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M632,1180 L627.0,1167.0 L637.0,1167.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_75"><title>connector 75</title><desc></desc>
+<polyline points="1007,1130 1007,1180" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1007,1180 L1002.0,1167.0 L1012.0,1167.0 Z" fill="#657B91"/>
+</g>
+<g id="f_roi"><title>f roi</title><desc>slice_quality_detail_roi.js; export-roi: frame_id, source_row, obs_name, full-cache hashes; never use raw axis-aligned bounding box as exact inverse</desc>
+<rect x="25" y="1304" width="1150" height="82" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1338" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">ROI: display rectangle → exact selected points → inverse raw polygon</text>
+</g>
+<g id="connector_76"><title>connector 76</title><desc></desc>
+<polyline points="600,1265 600,1304" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,1304 L595.0,1291.0 L605.0,1291.0 Z" fill="#657B91"/>
+</g>
+</g>
+<g id="panel_routing"><title>panel routing</title><desc></desc>
+<g id="connector_77"><title>connector 77</title><desc></desc>
+<polyline points="1270,865 1340,865" fill="none" stroke="#3E8B94" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1340,865 L1327.0,870.0 L1327.0,860.0 Z" fill="#3E8B94"/>
+</g>
+<g id="connector_78"><title>connector 78</title><desc></desc>
+<polyline points="2560,865 2630,865" fill="none" stroke="#3E8B94" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M2630,865 L2617.0,870.0 L2617.0,860.0 Z" fill="#3E8B94"/>
+</g>
+<g id="connector_79"><title>connector 79</title><desc></desc>
+<polyline points="1270,2345 1340,2345" fill="none" stroke="#3E8B94" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1340,2345 L1327.0,2350.0 L1327.0,2340.0 Z" fill="#3E8B94"/>
+</g>
+<g id="connector_80"><title>connector 80</title><desc></desc>
+<polyline points="2560,2345 2630,2345" fill="none" stroke="#3E8B94" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M2630,2345 L2617.0,2350.0 L2617.0,2340.0 Z" fill="#3E8B94"/>
+</g>
+<circle cx="3760" cy="1600" r="27" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="3760" y="1608" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">D</text>
+<g id="connector_81"><title>connector 81</title><desc></desc>
+<polyline points="3760,1570 3760,1573" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M3760,1573 L3755.0,1560.0 L3765.0,1560.0 Z" fill="#657B91"/>
+</g>
+<circle cx="125" cy="1600" r="27" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="125" y="1608" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">C</text>
+<g id="connector_82"><title>connector 82</title><desc></desc>
+<polyline points="125,1627 125,1640" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M125,1640 L120.0,1627.0 L130.0,1627.0 Z" fill="#657B91"/>
+</g>
+<text x="3420" y="1608" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">Continue in D</text>
+<text x="350" y="1608" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">From C: normalized evidence</text>
+</g>
+<g id="figure_notes"><title>figure notes</title><desc></desc>
+<text x="60" y="3103" font-family="Arial" font-size="22" font-weight="700" text-anchor="start" fill="#183047">READING KEY</text>
+<text x="250" y="3103" font-family="Arial" font-size="23" font-weight="400" text-anchor="start" fill="#183047">A → B → C → D → E → F; availability branches in A may operate in parallel.</text>
+<text x="60" y="3142" font-family="Arial" font-size="22" font-weight="700" text-anchor="start" fill="#183047">Frozen policy:</text>
+<text x="250" y="3142" font-family="Arial" font-size="23" font-weight="400" text-anchor="start" fill="#183047">K=0.129; split=0.540; E=0.700; strongest domain low/high=0.65/0.60. Local references can adapt; these policy values do not.</text>
+<text x="60" y="3179" font-family="Arial" font-size="22" font-weight="700" text-anchor="start" fill="#183047">Traceability:</text>
+<text x="250" y="3179" font-family="Arial" font-size="23" font-weight="400" text-anchor="start" fill="#183047">Named SVG groups contain source-function descriptions. Full metric limits, score mappings and validation scope: companion methods document.</text>
 </g></svg>

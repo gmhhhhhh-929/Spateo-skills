@@ -39,15 +39,15 @@
     },
     {
       "path": "skills/spatial-slice-quality-qc/references/build_workflow.py",
-      "sha256": "812af5cd6b3f24a02b8990dee2615037f59b40bb716e639c6db7e1cef8860d4f"
+      "sha256": "75c7c6102ce6c296adb5da1ba08f125eac7c6bb41464073703b6487c289de98f"
     },
     {
       "path": "skills/spatial-slice-quality-qc/references/methods.md",
-      "sha256": "5da6c2ee44b12359e8612f9f2d638055b3547c8cb226eaacad41729e79467321"
+      "sha256": "232b31cc1274fbca245de5fed30dd3412c9d849606a7be52c2b392e9b8b27840"
     },
     {
       "path": "skills/spatial-slice-quality-qc/references/workflow.svg",
-      "sha256": "7037c23cb8ee22227c68f39f4a614d872ed526cfc1e3aa6a4db432dc9db15e37"
+      "sha256": "0993de277491347a7d2b34022456384930bf476f35e05d5df7e8cf21e190db74"
     },
     {
       "path": "skills/spatial-slice-quality-qc/runtime/LICENSE",

@@ -6,7 +6,7 @@ Spateo Referee 在正式配准前，依据连续切片中的表达与形态异�
 
 阅读顺序：输入与术语 → 评分 → 阈值分支 → 参数来源 → 实验依据 → 展示与复现。
 
-[完整总流程图（SVG）](workflow.svg)覆盖输入、指标、保护、全部阈值分支、预配准、失败、viewer 和 ROI。可维护图源为 [build_workflow.py](build_workflow.py)，从实际 [policy JSON](../policies/joint_review_v2.json)读取阈值。修改策略后运行 `python references/build_workflow.py` 更新图。
+[完整总流程图（SVG）](workflow.svg)采用六区分支排版，展开信号可用性、滑动窗口边界及方向性标准化；覆盖输入、指标、保护、全部阈值分支、预配准、失败、viewer 和 ROI。可维护图源为 [build_workflow.py](build_workflow.py)，从实际 [policy JSON](../policies/joint_review_v2.json)读取阈值。修改策略后运行 `python references/build_workflow.py` 更新图。
 
 ## 输入、坐标和指标
 
@@ -26,7 +26,7 @@ Spateo Referee 在正式配准前，依据连续切片中的表达与形态异�
 | Damage proxies | 线粒体比例和组织碎片 | 可能受应激、细胞组成、分割方式影响，不能诊断损伤原因 |
 | Cross-slice continuity | 表达概貌变化、细胞类型组成变化、空洞证据 | 需要对应测量；生物学变化也会引起异常，不能单独认作技术损坏 |
 
-代码入口：[slice_quality.py](../runtime/spateo/preprocessing/slice_quality.py) 中的 `scan_h5ad_series`、`scan_h5ad_collection`、`_score_metrics`。选择层的行和/非零计数优先于过时 obs 汇总。表达含义不符或不存在时禁用相应捕获证据，并保留不可用说明；不能以已有配准坐标冒充未配准输入。少于 20 个点的几何证据受限，不靠插值制造结构。
+代码入口：[slice_quality.py](../runtime/spateo/preprocessing/slice_quality.py) 中的 `scan_h5ad_series`、`scan_h5ad_collection`、`_score_metrics`。选择层的行和/非零计数优先于过时 obs 汇总。声明的注释one-hot X禁用捕获证据；非计数矩阵优先使用obs汇总，否则仍计算矩阵派生代理量，必须说明限制；不能以已有配准坐标冒充未配准输入。少于2个有效坐标点或退化点集返回受限几何值；配置中的min_points_geometry=20目前未在几何计算中生效。
 
 ## 从局部参照到异常总分
 
@@ -94,7 +94,7 @@ S_raw = max(weighted, clip(.48 + .78*(max_domain - .68), 0, 1))
 | confidence / 窗口支持 | .90 / 100% | 历史经验门控，当前保持；不是概率置信度 |
 | 检测器阈值/权重/保护 | 上节所列 | 历史默认值，来源待核实；此次不更改 |
 | 主窗口 / 支持窗口 | 3（可 auto 3/5/7）/ 最多9 | 历史实现；当前应用沿用已有缓存配置 |
-| 几何近邻 / 最小点数 | 12 / 20 | 固定工程默认值，未系统校准 |
+| 几何近邻 / 最小点数配置 | 12 / 20 | 近邻12为工程默认；最小点数20目前未在几何函数中使用，不应描述成已执行门控 |
 | 连通图半径 | 中位最近邻间距×3.25 | 历史经验值；用于 QC 与 component 图，未按平台校准 |
 | 预配准 | seed13、1000点、24角度、50迭代、80%近邻 | 固定工程/经验设置，已有实际数据功能验证；不是准确率保证 |
 | 注释候选排序 | 默认0；涡虫运行 .5 | 显式经验设置，需至少2共同类型、每类每片5点、共同类型覆盖≥50%；不足则警告 |
