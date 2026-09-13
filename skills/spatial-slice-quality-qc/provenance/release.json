@@ -15,7 +15,7 @@
   "files": [
     {
       "path": "skills/spatial-slice-quality-qc/SKILL.md",
-      "sha256": "e001c2109bcf08b0978193ccb4ea4a1afbef5a51b836b0d772f4bf37c5df3d77"
+      "sha256": "c49d2895b021bc2144c9a01692e8304280681c710d79613ef25f8ea8d2f2e40b"
     },
     {
       "path": "skills/spatial-slice-quality-qc/agents/openai.yaml",
@@ -38,16 +38,40 @@
       "sha256": "7901691373a2b23604c5a8a2fde519285c1a8b012537cf67edbed34e10cd465d"
     },
     {
+      "path": "skills/spatial-slice-quality-qc/references/NODE_EXPLANATIONS.md",
+      "sha256": "164162919bc1b8ab1350e34eb1ffb2caf413624768d4a9a2dc30ad760079edf2"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/references/build_node_explanations.py",
+      "sha256": "d40df303bde7d40775675e3aa5268c8548cd3699715af342f4c3a445f6b46b28"
+    },
+    {
       "path": "skills/spatial-slice-quality-qc/references/build_workflow.py",
       "sha256": "75c7c6102ce6c296adb5da1ba08f125eac7c6bb41464073703b6487c289de98f"
     },
     {
       "path": "skills/spatial-slice-quality-qc/references/methods.md",
-      "sha256": "232b31cc1274fbca245de5fed30dd3412c9d849606a7be52c2b392e9b8b27840"
+      "sha256": "82629d5beb3775fc62e6abd752ead83921614de8bebd5d05c28123ef43ec14dd"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/references/spateo_referee_annotated.svg",
+      "sha256": "a695e28c03ab7b37fc1c47e4bcffb732e18b9ce8f2e85dc0662a183e5da5af6e"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/references/workflow.objects.json",
+      "sha256": "f1be02677a0dc7cb5ee6e5b405ec738ac622150910748f50b22d9c2c80067a01"
     },
     {
       "path": "skills/spatial-slice-quality-qc/references/workflow.svg",
       "sha256": "0993de277491347a7d2b34022456384930bf476f35e05d5df7e8cf21e190db74"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/references/workflow_explained.html",
+      "sha256": "21289a6b89d5f3a6fa323cb3c8eda94dad92f542609b82a9618f9b18a18475e5"
+    },
+    {
+      "path": "skills/spatial-slice-quality-qc/references/workflow_node_guide.json",
+      "sha256": "6744ebcd892bdf7265e09171001e4d0cf6ef769cb1ebcc095e40b20ea20d6099"
     },
     {
       "path": "skills/spatial-slice-quality-qc/runtime/LICENSE",

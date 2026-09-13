@@ -1,0 +1,602 @@
+[
+  {
+    "panel": "A",
+    "id": "a_input",
+    "type": "box",
+    "x": 360,
+    "y": 138,
+    "w": 480,
+    "h": 92,
+    "source": "scan_h5ad_series; scan_h5ad_collection"
+  },
+  {
+    "panel": "A",
+    "id": "a_Slice_labels",
+    "type": "box",
+    "x": 30,
+    "y": 290,
+    "w": 340,
+    "h": 106,
+    "source": "_resolve_slice_labels; _resolve_order"
+  },
+  {
+    "panel": "A",
+    "id": "a_Discrete_z",
+    "type": "box",
+    "x": 430,
+    "y": 290,
+    "w": 340,
+    "h": 106,
+    "source": "_resolve_slice_labels; _resolve_order"
+  },
+  {
+    "panel": "A",
+    "id": "a_One_file__slice",
+    "type": "box",
+    "x": 830,
+    "y": 290,
+    "w": 340,
+    "h": 106,
+    "source": "_resolve_slice_labels; _resolve_order"
+  },
+  {
+    "panel": "A",
+    "id": "a_contract",
+    "type": "box",
+    "x": 250,
+    "y": 454,
+    "w": 700,
+    "h": 107,
+    "source": "_resolve_xy; _resolve_order; _extract_one_file"
+  },
+  {
+    "panel": "A",
+    "id": "a_stop",
+    "type": "box",
+    "x": 875,
+    "y": 584,
+    "w": 290,
+    "h": 100,
+    "source": ""
+  },
+  {
+    "panel": "A",
+    "id": "a_signals",
+    "type": "decision",
+    "x": 365.0,
+    "y": 605.0,
+    "w": 470,
+    "h": 170,
+    "source": "_extract_one_file"
+  },
+  {
+    "panel": "A",
+    "id": "a_geometry",
+    "type": "box",
+    "x": 25,
+    "y": 813,
+    "w": 285,
+    "h": 164,
+    "source": "_geometry_metrics: n<2 returns NaN geometry and conservative defaults; invalid x/y excluded from geometry"
+  },
+  {
+    "panel": "A",
+    "id": "a_labels",
+    "type": "box",
+    "x": 890,
+    "y": 813,
+    "w": 285,
+    "h": 164,
+    "source": "_celltype_js_profiles; _extract_one_file"
+  },
+  {
+    "panel": "A",
+    "id": "a_matrix_type",
+    "type": "decision",
+    "x": 357.5,
+    "y": 820.0,
+    "w": 485,
+    "h": 140,
+    "source": "_choose_layer; _is_count_like; blind_input_contract.expression_representation"
+  },
+  {
+    "panel": "A",
+    "id": "a_semantic_20",
+    "type": "box",
+    "x": 20,
+    "y": 1055,
+    "w": 350,
+    "h": 163,
+    "source": "_extract_one_file; _align_profiles"
+  },
+  {
+    "panel": "A",
+    "id": "a_semantic_425",
+    "type": "box",
+    "x": 425,
+    "y": 1055,
+    "w": 350,
+    "h": 163,
+    "source": "_extract_one_file; _align_profiles"
+  },
+  {
+    "panel": "A",
+    "id": "a_semantic_830",
+    "type": "box",
+    "x": 830,
+    "y": 1055,
+    "w": 350,
+    "h": 163,
+    "source": "_extract_one_file; _align_profiles"
+  },
+  {
+    "panel": "A",
+    "id": "a_output",
+    "type": "box",
+    "x": 240,
+    "y": 1280,
+    "w": 720,
+    "h": 84,
+    "source": "_extract_one_file"
+  },
+  {
+    "panel": "B",
+    "id": "b_window_mode",
+    "type": "decision",
+    "x": 400.0,
+    "y": 136.5,
+    "w": 400,
+    "h": 125,
+    "source": "SliceQCConfig; _choose_window"
+  },
+  {
+    "panel": "B",
+    "id": "b_fixed",
+    "type": "box",
+    "x": 25,
+    "y": 319,
+    "w": 455,
+    "h": 128,
+    "source": ""
+  },
+  {
+    "panel": "B",
+    "id": "b_auto",
+    "type": "box",
+    "x": 620,
+    "y": 319,
+    "w": 555,
+    "h": 156,
+    "source": "_choose_window: utility=recall+.35*delta-.35*baseline_flags-.012*(W-3); no candidate -> W=3"
+  },
+  {
+    "panel": "B",
+    "id": "b_context",
+    "type": "decision",
+    "x": 320.0,
+    "y": 767.0,
+    "w": 560,
+    "h": 130,
+    "source": "_local_expected: finite neighbors within truncated window"
+  },
+  {
+    "panel": "B",
+    "id": "b_context_25",
+    "type": "box",
+    "x": 25,
+    "y": 993,
+    "w": 350,
+    "h": 163,
+    "source": "_local_expected; _metric_anomaly"
+  },
+  {
+    "panel": "B",
+    "id": "b_context_425",
+    "type": "box",
+    "x": 425,
+    "y": 993,
+    "w": 350,
+    "h": 163,
+    "source": "_local_expected; _metric_anomaly"
+  },
+  {
+    "panel": "B",
+    "id": "b_context_825",
+    "type": "box",
+    "x": 825,
+    "y": 993,
+    "w": 350,
+    "h": 163,
+    "source": "_local_expected; _metric_anomaly"
+  },
+  {
+    "panel": "B",
+    "id": "b_support",
+    "type": "box",
+    "x": 85,
+    "y": 1225,
+    "w": 1030,
+    "h": 121,
+    "source": "_score_metrics: support=max(W, max(3, min(9, largest odd <=N))); internal=np.any(two_sided_matrix)"
+  },
+  {
+    "panel": "C",
+    "id": "c_input",
+    "type": "box",
+    "x": 270,
+    "y": 144,
+    "w": 660,
+    "h": 90,
+    "source": "_metric_anomaly"
+  },
+  {
+    "panel": "C",
+    "id": "c_direction",
+    "type": "decision",
+    "x": 385.0,
+    "y": 271.0,
+    "w": 430,
+    "h": 132,
+    "source": "_LOW_BAD_RULES; _HIGH_BAD_RULES"
+  },
+  {
+    "panel": "C",
+    "id": "c_low",
+    "type": "box",
+    "x": 25,
+    "y": 480,
+    "w": 540,
+    "h": 193,
+    "source": "_LOW_BAD_RULES; EPS prevents zero division"
+  },
+  {
+    "panel": "C",
+    "id": "c_high",
+    "type": "box",
+    "x": 635,
+    "y": 480,
+    "w": 540,
+    "h": 193,
+    "source": "_HIGH_BAD_RULES"
+  },
+  {
+    "panel": "C",
+    "id": "c_effect",
+    "type": "box",
+    "x": 25,
+    "y": 755,
+    "w": 540,
+    "h": 162,
+    "source": "_metric_anomaly; _LOW_BAD_RULES; _HIGH_BAD_RULES"
+  },
+  {
+    "panel": "C",
+    "id": "c_z",
+    "type": "box",
+    "x": 635,
+    "y": 755,
+    "w": 540,
+    "h": 179,
+    "source": "_robust_scale:1.4826*MAD; fallback std then1; _metric_anomaly"
+  },
+  {
+    "panel": "C",
+    "id": "c_small_high",
+    "type": "box",
+    "x": 635,
+    "y": 951,
+    "w": 540,
+    "h": 128,
+    "source": "_metric_anomaly: only direction=high"
+  },
+  {
+    "panel": "C",
+    "id": "c_merge",
+    "type": "box",
+    "x": 35,
+    "y": 1119,
+    "w": 1130,
+    "h": 174,
+    "source": "_metric_anomaly; invalid observation/reference gives zero anomaly evidence"
+  },
+  {
+    "panel": "D",
+    "id": "d_domain_Density",
+    "type": "box",
+    "x": 25,
+    "y": 150,
+    "w": 550,
+    "h": 205,
+    "source": "_score_metrics: density_domain_score"
+  },
+  {
+    "panel": "D",
+    "id": "d_domain_Expression",
+    "type": "box",
+    "x": 625,
+    "y": 150,
+    "w": 550,
+    "h": 205,
+    "source": "_score_metrics: expression_domain_score"
+  },
+  {
+    "panel": "D",
+    "id": "d_domain_Damage",
+    "type": "box",
+    "x": 25,
+    "y": 402,
+    "w": 550,
+    "h": 155,
+    "source": "_score_metrics: damage_domain_score"
+  },
+  {
+    "panel": "D",
+    "id": "d_domain_Continuity",
+    "type": "box",
+    "x": 625,
+    "y": 402,
+    "w": 550,
+    "h": 155,
+    "source": "_profile_continuity; _celltype_js_profiles; _score_metrics"
+  },
+  {
+    "panel": "D",
+    "id": "d_available",
+    "type": "box",
+    "x": 25,
+    "y": 602,
+    "w": 1150,
+    "h": 92,
+    "source": "_weighted_available; _top_two_evidence"
+  },
+  {
+    "panel": "D",
+    "id": "d_rawscore",
+    "type": "box",
+    "x": 25,
+    "y": 733,
+    "w": 1150,
+    "h": 144,
+    "source": "_score_metrics: raw_score; corroborating_domains"
+  },
+  {
+    "panel": "D",
+    "id": "d_protection",
+    "type": "decision",
+    "x": 352.5,
+    "y": 906.5,
+    "w": 495,
+    "h": 125,
+    "source": "_score_metrics: density_only OR taper_like"
+  },
+  {
+    "panel": "D",
+    "id": "d_guard_rule",
+    "type": "box",
+    "x": 25,
+    "y": 1068,
+    "w": 680,
+    "h": 166,
+    "source": "_score_metrics: density_only; taper_like"
+  },
+  {
+    "panel": "D",
+    "id": "d_guard_yes",
+    "type": "box",
+    "x": 785,
+    "y": 1070,
+    "w": 390,
+    "h": 130,
+    "source": ""
+  },
+  {
+    "panel": "D",
+    "id": "d_endpoint",
+    "type": "box",
+    "x": 60,
+    "y": 1260,
+    "w": 1080,
+    "h": 110,
+    "source": "_score_metrics: final_score; window_context; score_confidence"
+  },
+  {
+    "panel": "E",
+    "id": "e_detector",
+    "type": "box",
+    "x": 25,
+    "y": 145,
+    "w": 1150,
+    "h": 185,
+    "source": "_score_metrics: recommendations"
+  },
+  {
+    "panel": "E",
+    "id": "e_stage1",
+    "type": "decision",
+    "x": 340.0,
+    "y": 362.0,
+    "w": 520,
+    "h": 124,
+    "source": "apply_high_confidence_policy"
+  },
+  {
+    "panel": "E",
+    "id": "e_keep_candidate",
+    "type": "box",
+    "x": 25,
+    "y": 555,
+    "w": 300,
+    "h": 105,
+    "source": ""
+  },
+  {
+    "panel": "E",
+    "id": "e_middle",
+    "type": "box",
+    "x": 405,
+    "y": 555,
+    "w": 350,
+    "h": 105,
+    "source": ""
+  },
+  {
+    "panel": "E",
+    "id": "e_high",
+    "type": "box",
+    "x": 835,
+    "y": 540,
+    "w": 340,
+    "h": 143,
+    "source": ""
+  },
+  {
+    "panel": "E",
+    "id": "e_review_split",
+    "type": "decision",
+    "x": 350.0,
+    "y": 726.5,
+    "w": 500,
+    "h": 125,
+    "source": "_validate_review_tiers; _evaluate_review_tier_row"
+  },
+  {
+    "panel": "E",
+    "id": "e_low_tier",
+    "type": "box",
+    "x": 55,
+    "y": 922,
+    "w": 495,
+    "h": 132,
+    "source": ""
+  },
+  {
+    "panel": "E",
+    "id": "e_high_tier",
+    "type": "box",
+    "x": 650,
+    "y": 922,
+    "w": 495,
+    "h": 132,
+    "source": ""
+  },
+  {
+    "panel": "E",
+    "id": "e_all_gates",
+    "type": "box",
+    "x": 140,
+    "y": 1098,
+    "w": 920,
+    "h": 150,
+    "source": "_evaluate_review_tier_row: primary confidence only; all-window support=1.0; upper tier bound applies to primary only"
+  },
+  {
+    "panel": "E",
+    "id": "e_keep",
+    "type": "box",
+    "x": 125,
+    "y": 1310,
+    "w": 380,
+    "h": 68,
+    "source": ""
+  },
+  {
+    "panel": "E",
+    "id": "e_exclude",
+    "type": "box",
+    "x": 695,
+    "y": 1310,
+    "w": 380,
+    "h": 68,
+    "source": ""
+  },
+  {
+    "panel": "F",
+    "id": "f_audit",
+    "type": "box",
+    "x": 25,
+    "y": 148,
+    "w": 1150,
+    "h": 140,
+    "source": "write_high_confidence_outputs; run_publish"
+  },
+  {
+    "panel": "F",
+    "id": "f_prereg_request",
+    "type": "decision",
+    "x": 335.0,
+    "y": 348.0,
+    "w": 530,
+    "h": 146,
+    "source": "run_preregister"
+  },
+  {
+    "panel": "F",
+    "id": "f_raw_only",
+    "type": "box",
+    "x": 30,
+    "y": 575,
+    "w": 355,
+    "h": 129,
+    "source": ""
+  },
+  {
+    "panel": "F",
+    "id": "f_rigid",
+    "type": "box",
+    "x": 465,
+    "y": 550,
+    "w": 710,
+    "h": 215,
+    "source": "slice_preregistration.py; slice_quality_preregistration.py"
+  },
+  {
+    "panel": "F",
+    "id": "f_fit_status",
+    "type": "decision",
+    "x": 562.5,
+    "y": 799.0,
+    "w": 525,
+    "h": 134,
+    "source": "slice_preregistration.py: failure / ambiguity warnings propagate along composed chain"
+  },
+  {
+    "panel": "F",
+    "id": "f_warn",
+    "type": "box",
+    "x": 465,
+    "y": 1002,
+    "w": 335,
+    "h": 128,
+    "source": ""
+  },
+  {
+    "panel": "F",
+    "id": "f_fit_ok",
+    "type": "box",
+    "x": 840,
+    "y": 1002,
+    "w": 335,
+    "h": 128,
+    "source": ""
+  },
+  {
+    "panel": "F",
+    "id": "f_viewer",
+    "type": "box",
+    "x": 25,
+    "y": 1180,
+    "w": 1150,
+    "h": 85,
+    "source": "slice_quality_visualization.py: render_binary_slice_quality_appendix; raw/display toggle; linked 3/5 slice windows"
+  },
+  {
+    "panel": "F",
+    "id": "f_roi",
+    "type": "box",
+    "x": 25,
+    "y": 1304,
+    "w": 1150,
+    "h": 82,
+    "source": "slice_quality_detail_roi.js; export-roi: frame_id, source_row, obs_name, full-cache hashes; never use raw axis-aligned bounding box as exact inverse"
+  }
+]

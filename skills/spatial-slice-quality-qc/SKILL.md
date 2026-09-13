@@ -10,6 +10,11 @@ series. Preserve source H5AD, coordinate keys, cell identities and prior outputs
 Read [methods and complete workflow](references/methods.md) before interpreting
 thresholds, modifying the policy or preparing scientific methods text.
 
+For questions about individual workflow controls or ambiguous input/output, use
+[the node-by-node Chinese guide](references/NODE_EXPLANATIONS.md) or
+[the clickable diagram](references/workflow_explained.html). Node IDs link the
+61 explanations to the editable SVG; regenerate these together after diagram edits.
+
 ## Current decision contract
 
 The packaged joint-review policy keeps stage-1 thresholds K=0.129 and E=0.700.

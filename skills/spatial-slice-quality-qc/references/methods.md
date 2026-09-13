@@ -8,6 +8,8 @@ Spateo Referee 在正式配准前，依据连续切片中的表达与形态异�
 
 [完整总流程图（SVG）](workflow.svg)采用六区分支排版，展开信号可用性、滑动窗口边界及方向性标准化；覆盖输入、指标、保护、全部阈值分支、预配准、失败、viewer 和 ROI。可维护图源为 [build_workflow.py](build_workflow.py)，从实际 [policy JSON](../policies/joint_review_v2.json)读取阈值。修改策略后运行 `python references/build_workflow.py` 更新图。
 
+新增[逐节点输入/输出说明](NODE_EXPLANATIONS.md)、[可点击对照页面](workflow_explained.html)和[带编号可编辑SVG](spateo_referee_annotated.svg)，覆盖61个控件。说明、编号图和页面统一由build_node_explanations.py生成，更新流程图后应同时重建。
+
 ## 输入、坐标和指标
 
 输入可以是一个包含多张切片的 H5AD、以离散 z 表示切片的 H5AD，或每片一个 H5AD 的目录。明确选择切片字段、顺序、原始坐标键、表达层、细胞身份和可用注释。目录默认自然文件名排序；实际顺序不同时用含 `path,order` 的 manifest。不同样本、物种或时期分开计算邻域。数字切片编号不自动等于物理距离；缺号不能直接指控相邻切片低质量。

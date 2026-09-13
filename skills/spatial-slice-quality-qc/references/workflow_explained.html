@@ -1,0 +1,861 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>Spateo Referee · 逐节点说明</title><style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,"PingFang SC",sans-serif;color:#183047;background:#f2f5f8}header{padding:18px 24px;background:white;border-bottom:1px solid #cad5e0}h1{font-size:23px;margin:0 0 8px}header p{margin:7px 0;font-size:14px;color:#53697d}a{color:#245dab}nav{display:flex;gap:20px;font-size:14px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 455px;height:calc(100vh - 130px)}.canvas{overflow:auto;padding:18px;position:relative}.canvas svg{display:block;width:1800px;height:auto;background:white}.tools{position:sticky;top:0;left:0;z-index:2;display:flex;gap:8px;width:max-content;padding:8px;background:#fff;border:1px solid #ccd6df;border-radius:8px}button,select,input{font:inherit;padding:8px;border:1px solid #b9cad8;border-radius:6px;background:white;color:#183047}button{cursor:pointer}.sidebar{background:white;border-left:1px solid #ccd6df;overflow:auto;padding:22px}.sidebar h2{font-size:23px;line-height:1.5;margin:15px 0 4px}.english{font-size:13px;color:#617489;overflow-wrap:anywhere}.sidebar label{font-weight:700;display:block;margin-top:18px}.sidebar p{font-size:15px;line-height:1.8;margin:6px 0;overflow-wrap:anywhere}.sidebar select,.sidebar input{width:100%;margin-bottom:8px}.source{font-size:12px!important;background:#f3f6f9;padding:10px;border-radius:6px}.warning{border-left:3px solid #dca541;padding-left:12px}.route button{margin:5px 5px 0 0;font-size:13px}.pager{display:flex;justify-content:space-between;margin-top:20px}g[data-guide]{cursor:pointer}g[data-guide]:hover>rect,g[data-guide]:hover>path{stroke:#2575a9;stroke-width:4}g[data-guide].selected>rect,g[data-guide].selected>path{stroke:#ce7228;stroke-width:5}g[data-guide]:focus{outline:none}g[data-guide]:focus>rect,g[data-guide]:focus>path{stroke:#2575a9;stroke-width:5}@media(max-width:950px){.layout{grid-template-columns:1fr;height:auto}.canvas{height:55vh}.sidebar{height:45vh}.canvas svg{width:1700px}}@media print{header,.canvas,.tools,.pager,input,select{display:none}.layout{display:block;height:auto}.sidebar{overflow:visible;border:0}}
+</style><header><h1>流程图逐节点说明</h1><p>点击任一节点查看“输入 → 操作 → 输出 → 下一步”。共61项。图中编号与文字版一致，原始QC参数和结果未修改。</p><nav><a href="spateo_referee_annotated.svg" download>带编号可编辑SVG</a><a href="NODE_EXPLANATIONS.md">完整文字说明与符号表</a><a href="workflow.svg">返回整图</a></nav></header><div class="layout"><div class="canvas" id="canvas"><div class="tools"><button id="smaller">缩小</button><button id="larger">放大</button><button id="fit">适合宽度</button><span>橙色描边＝当前节点</span></div><svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="3900pt" height="3200pt" viewBox="0 0 3900 3200" version="1.1">
+<title>Spateo Referee — signal-dependent QC, window handling and binary decisions</title>
+<desc>Editable vector workflow. Joint review v2. Panels A–F contain current implementation branches; code function names in object descriptions provide traceability. All labels are live Arial text. No raster or embedded HTML.</desc>
+<rect x="0" y="0" width="3900" height="3200" fill="#FFFFFF"/>
+
+<g id="title_and_reading_key"><title>title and reading key</title><desc></desc>
+<text x="60" y="66" font-family="Arial" font-size="49" font-weight="700" text-anchor="start" fill="#183047">Spateo Referee</text>
+<text x="60" y="110" font-family="Arial" font-size="28" font-weight="400" text-anchor="start" fill="#56697D">Signal-dependent slice QC • sliding windows • evidence aggregation • auditable keep / exclude</text>
+<text x="3840" y="54" font-family="Arial" font-size="24" font-weight="700" text-anchor="end" fill="#183047">Joint review v2  |  13 September 2026</text>
+<text x="3840" y="94" font-family="Arial" font-size="23" font-weight="400" text-anchor="end" fill="#56697D">Metric-stress tested; independent biological validation incomplete</text>
+</g>
+<g id="panel_A" inkscape:groupmode="layer" inkscape:label="A - Input contracts &amp; signal routing" transform="translate(60,160)">
+<rect x="0" y="0" width="1200" height="1410" rx="20" fill="#FFFFFF" stroke="#C3D0DD" stroke-width="2"/>
+<path d="M20 0 H1180 Q1200 0 1200 20 V112 H0 V20 Q0 0 20 0" fill="#F1F5F9"/>
+<circle cx="52" cy="47" r="27" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="52" y="55" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">A</text>
+<text x="101" y="45" font-family="Arial" font-size="32" font-weight="700" text-anchor="start" fill="#183047">Input contracts &amp; signal routing</text>
+<text x="101" y="83" font-family="Arial" font-size="22" font-weight="400" text-anchor="start" fill="#56697D">One biological series at a time; preserve raw coordinates and identities</text>
+<g data-guide="a_input" tabindex="0" role="button" aria-label="A01 输入数据采用什么组织方式" id="a_input"><title>a input</title><desc>scan_h5ad_series; scan_h5ad_collection</desc>
+<rect x="360" y="138" width="480" height="92" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="172" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Input format</text>
+<text x="600.0" y="205" font-family="Arial" font-size="24" font-weight="400" text-anchor="middle" fill="#183047">H5AD or ordered slice files</text>
+<g id="number_A01" pointer-events="none"><rect x="367" y="127" width="53" height="26" rx="5" fill="#183047"/><text x="393.5" y="146" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">A01</text></g></g>
+<g data-guide="a_Slice_labels" tabindex="0" role="button" aria-label="A02 使用现成的切片标签" id="a_Slice_labels"><title>a Slice labels</title><desc>_resolve_slice_labels; _resolve_order</desc>
+<rect x="30" y="290" width="340" height="106" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="200.0" y="324" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Slice labels</text>
+<text x="200.0" y="357" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Use selected obs field</text>
+<g id="number_A02" pointer-events="none"><rect x="37" y="279" width="53" height="26" rx="5" fill="#183047"/><text x="63.5" y="298" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">A02</text></g></g>
+<g id="connector_1"><title>connector 1</title><desc></desc>
+<polyline points="600,230 600,258 200,258 200,290" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M200,290 L195.0,277.0 L205.0,277.0 Z" fill="#657B91"/>
+</g>
+<g data-guide="a_Discrete_z" tabindex="0" role="button" aria-label="A03 由离散z值识别切片" id="a_Discrete_z"><title>a Discrete z</title><desc>_resolve_slice_labels; _resolve_order</desc>
+<rect x="430" y="290" width="340" height="106" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="324" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Discrete z</text>
+<text x="600.0" y="357" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Derive z-based slice IDs</text>
+<g id="number_A03" pointer-events="none"><rect x="437" y="279" width="53" height="26" rx="5" fill="#183047"/><text x="463.5" y="298" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">A03</text></g></g>
+<g id="connector_2"><title>connector 2</title><desc></desc>
+<polyline points="600,230 600,258 600,258 600,290" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,290 L595.0,277.0 L605.0,277.0 Z" fill="#657B91"/>
+</g>
+<g data-guide="a_One_file__slice" tabindex="0" role="button" aria-label="A04 每张切片一个文件" id="a_One_file__slice"><title>a One file  slice</title><desc>_resolve_slice_labels; _resolve_order</desc>
+<rect x="830" y="290" width="340" height="106" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="1000.0" y="324" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">One file / slice</text>
+<text x="1000.0" y="357" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Natural sort or manifest</text>
+<g id="number_A04" pointer-events="none"><rect x="837" y="279" width="53" height="26" rx="5" fill="#183047"/><text x="863.5" y="298" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">A04</text></g></g>
+<g id="connector_3"><title>connector 3</title><desc></desc>
+<polyline points="600,230 600,258 1000,258 1000,290" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1000,290 L995.0,277.0 L1005.0,277.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_4"><title>connector 4</title><desc></desc>
+<polyline points="200,396 200,427 600,427 600,454" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,454 L595.0,441.0 L605.0,441.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_5"><title>connector 5</title><desc></desc>
+<polyline points="600,396 600,427 600,427 600,454" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,454 L595.0,441.0 L605.0,441.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_6"><title>connector 6</title><desc></desc>
+<polyline points="1000,396 1000,427 600,427 600,454" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,454 L595.0,441.0 L605.0,441.0 Z" fill="#657B91"/>
+</g>
+<g data-guide="a_contract" tabindex="0" role="button" aria-label="A05 确认切片顺序、原始坐标和来源" id="a_contract"><title>a contract</title><desc>_resolve_xy; _resolve_order; _extract_one_file</desc>
+<rect x="250" y="454" width="700" height="107" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="488" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Resolve slice order + original x/y</text>
+<text x="600.0" y="521" font-family="Arial" font-size="24" font-weight="400" text-anchor="middle" fill="#183047">Record units, selected layer and source hashes</text>
+<g id="number_A05" pointer-events="none"><rect x="257" y="443" width="53" height="26" rx="5" fill="#183047"/><text x="283.5" y="462" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">A05</text></g></g>
+<g id="connector_7"><title>connector 7</title><desc></desc>
+<polyline points="950,505 1145,505 1145,584" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1145,584 L1140.0,571.0 L1150.0,571.0 Z" fill="#657B91"/>
+<rect x="998.0" y="462" width="100" height="30" fill="white"/>
+<text x="1048" y="485" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">invalid</text>
+</g>
+<g data-guide="a_stop" tabindex="0" role="button" aria-label="A06 停止当前受阻的数据集" id="a_stop"><title>a stop</title><desc></desc>
+<rect x="875" y="584" width="290" height="100" rx="12" fill="#FBE6E8" stroke="#657B91" stroke-width="1.8"/>
+<text x="1020.0" y="618" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Stop affected run</text>
+<text x="1020.0" y="651" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Do not invent fields</text>
+<g id="number_A06" pointer-events="none"><rect x="882" y="573" width="53" height="26" rx="5" fill="#183047"/><text x="908.5" y="592" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">A06</text></g></g>
+<g id="connector_8"><title>connector 8</title><desc></desc>
+<polyline points="600,561 600,605" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,605 L595.0,592.0 L605.0,592.0 Z" fill="#657B91"/>
+</g>
+<g data-guide="a_signals" tabindex="0" role="button" aria-label="A07 检查有哪些可用信号" id="a_signals"><title>a signals</title><desc>_extract_one_file</desc>
+<path d="M 600 605.0 L 835.0 690 L 600 775.0 L 365.0 690 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="684.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Which signals</text>
+<text x="600" y="711.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">are available?</text>
+<g id="number_A07" pointer-events="none"><rect x="372.0" y="594.0" width="53" height="26" rx="5" fill="#183047"/><text x="398.5" y="613.0" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">A07</text></g></g>
+<g id="connector_9"><title>connector 9</title><desc></desc>
+<polyline points="365,690 165,690 165,813" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M165,813 L160.0,800.0 L170.0,800.0 Z" fill="#657B91"/>
+<rect x="174.0" y="650" width="148" height="30" fill="white"/>
+<text x="248" y="673" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">coordinates</text>
+</g>
+<g id="connector_10"><title>connector 10</title><desc></desc>
+<polyline points="600,775 600,813" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,813 L595.0,800.0 L605.0,800.0 Z" fill="#657B91"/>
+<rect x="616.0" y="770" width="88" height="30" fill="white"/>
+<text x="660" y="793" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">matrix</text>
+</g>
+<g id="connector_11"><title>connector 11</title><desc></desc>
+<polyline points="835,690 1050,690 1050,813" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1050,813 L1045.0,800.0 L1055.0,800.0 Z" fill="#657B91"/>
+<rect x="976.0" y="735" width="148" height="30" fill="white"/>
+<text x="1050" y="758" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">annotations</text>
+</g>
+<g data-guide="a_geometry" tabindex="0" role="button" aria-label="A08 从坐标计算组织几何" id="a_geometry"><title>a geometry</title><desc>_geometry_metrics: n&lt;2 returns NaN geometry and conservative defaults; invalid x/y excluded from geometry</desc>
+<rect x="25" y="813" width="285" height="164" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="167.5" y="847" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Spatial geometry</text>
+<text x="167.5" y="880" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Finite x/y points</text>
+<text x="167.5" y="909" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Hull, NN, holes, graph</text>
+<text x="167.5" y="938" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Degenerate → limited metrics</text>
+<g id="number_A08" pointer-events="none"><rect x="32" y="802" width="53" height="26" rx="5" fill="#183047"/><text x="58.5" y="821" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">A08</text></g></g>
+<g data-guide="a_labels" tabindex="0" role="button" aria-label="A09 从细胞类型标签提取组成信号" id="a_labels"><title>a labels</title><desc>_celltype_js_profiles; _extract_one_file</desc>
+<rect x="890" y="813" width="285" height="164" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="1032.5" y="847" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Cell-type labels</text>
+<text x="1032.5" y="880" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Present → type proportions</text>
+<text x="1032.5" y="909" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Absent → no type evidence</text>
+<text x="1032.5" y="938" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Not an expression matrix</text>
+<g id="number_A09" pointer-events="none"><rect x="897" y="802" width="53" height="26" rx="5" fill="#183047"/><text x="923.5" y="821" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">A09</text></g></g>
+<g data-guide="a_matrix_type" tabindex="0" role="button" aria-label="A10 判断所选矩阵的语义" id="a_matrix_type"><title>a matrix type</title><desc>_choose_layer; _is_count_like; blind_input_contract.expression_representation</desc>
+<path d="M 600 820.0 L 842.5 890 L 600 960.0 L 357.5 890 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="884.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Selected matrix</text>
+<text x="600" y="911.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">semantics?</text>
+<g id="number_A10" pointer-events="none"><rect x="364.5" y="809.0" width="53" height="26" rx="5" fill="#183047"/><text x="391.0" y="828.0" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">A10</text></g></g>
+<g data-guide="a_semantic_20" tabindex="0" role="button" aria-label="A11 处理测得的计数矩阵" id="a_semantic_20"><title>a semantic 20</title><desc>_extract_one_file; _align_profiles</desc>
+<rect x="20" y="1055" width="350" height="163" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="195.0" y="1089" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Measured counts</text>
+<text x="195.0" y="1122" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Row sums / nonzero genes</text>
+<text x="195.0" y="1151" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Override stale obs summaries</text>
+<text x="195.0" y="1180" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Capture + expression profile</text>
+<g id="number_A11" pointer-events="none"><rect x="27" y="1044" width="53" height="26" rx="5" fill="#183047"/><text x="53.5" y="1063" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">A11</text></g></g>
+<g data-guide="a_semantic_425" tabindex="0" role="button" aria-label="A12 处理归一化等非计数矩阵" id="a_semantic_425"><title>a semantic 425</title><desc>_extract_one_file; _align_profiles</desc>
+<rect x="425" y="1055" width="350" height="163" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1089" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Non-count matrix</text>
+<text x="600.0" y="1122" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Use obs counts / genes if present</text>
+<text x="600.0" y="1151" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Else matrix-derived proxy</text>
+<text x="600.0" y="1180" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Record limitations; profile retained</text>
+<g id="number_A12" pointer-events="none"><rect x="432" y="1044" width="53" height="26" rx="5" fill="#183047"/><text x="458.5" y="1063" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">A12</text></g></g>
+<g data-guide="a_semantic_830" tabindex="0" role="button" aria-label="A13 处理声明的注释one-hot X" id="a_semantic_830"><title>a semantic 830</title><desc>_extract_one_file; _align_profiles</desc>
+<rect x="830" y="1055" width="350" height="163" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="1005.0" y="1089" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Declared one-hot X</text>
+<text x="1005.0" y="1122" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Disable capture + mito proxies</text>
+<text x="1005.0" y="1151" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Skip expression pseudobulk</text>
+<text x="1005.0" y="1180" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Retain geometry + actual labels</text>
+<g id="number_A13" pointer-events="none"><rect x="837" y="1044" width="53" height="26" rx="5" fill="#183047"/><text x="863.5" y="1063" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">A13</text></g></g>
+<g id="connector_12"><title>connector 12</title><desc></desc>
+<polyline points="357,890 340,890 340,1005 195,1005 195,1055" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M195,1055 L190.0,1042.0 L200.0,1042.0 Z" fill="#657B91"/>
+<rect x="196.0" y="1015" width="88" height="30" fill="white"/>
+<text x="240" y="1038" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">counts</text>
+</g>
+<g id="connector_13"><title>connector 13</title><desc></desc>
+<polyline points="600,960 600,1055" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,1055 L595.0,1042.0 L605.0,1042.0 Z" fill="#657B91"/>
+<rect x="627.0" y="991" width="124" height="30" fill="white"/>
+<text x="689" y="1014" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">non-count</text>
+</g>
+<g id="connector_14"><title>connector 14</title><desc></desc>
+<polyline points="843,890 861,890 861,1005 1005,1005 1005,1055" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1005,1055 L1000.0,1042.0 L1010.0,1042.0 Z" fill="#657B91"/>
+<rect x="969.0" y="1015" width="100" height="30" fill="white"/>
+<text x="1019" y="1038" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">one-hot</text>
+</g>
+<g data-guide="a_output" tabindex="0" role="button" aria-label="A14 生成逐片指标和可用性记录" id="a_output"><title>a output</title><desc>_extract_one_file</desc>
+<rect x="240" y="1280" width="720" height="84" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1314" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Per-slice metrics + availability + provenance</text>
+<g id="number_A14" pointer-events="none"><rect x="247" y="1269" width="53" height="26" rx="5" fill="#183047"/><text x="273.5" y="1288" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">A14</text></g></g>
+<g id="connector_15"><title>connector 15</title><desc></desc>
+<polyline points="195,1218 195,1250 600,1250 600,1280" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,1280 L595.0,1267.0 L605.0,1267.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_16"><title>connector 16</title><desc></desc>
+<polyline points="600,1218 600,1250 600,1250 600,1280" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,1280 L595.0,1267.0 L605.0,1267.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_17"><title>connector 17</title><desc></desc>
+<polyline points="1005,1218 1005,1250 600,1250 600,1280" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,1280 L595.0,1267.0 L605.0,1267.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_18"><title>connector 18</title><desc></desc>
+<polyline points="25,960 10,960 10,1322 240,1322" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M240,1322 L227.0,1327.0 L227.0,1317.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_19"><title>connector 19</title><desc></desc>
+<polyline points="1175,960 1190,960 1190,1322 960,1322" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M960,1322 L973.0,1317.0 L973.0,1327.0 Z" fill="#657B91"/>
+</g>
+</g>
+<g id="panel_B" inkscape:groupmode="layer" inkscape:label="B - Sliding windows &amp; boundaries" transform="translate(1350,160)">
+<rect x="0" y="0" width="1200" height="1410" rx="20" fill="#FFFFFF" stroke="#C3D0DD" stroke-width="2"/>
+<path d="M20 0 H1180 Q1200 0 1200 20 V112 H0 V20 Q0 0 20 0" fill="#F1F5F9"/>
+<circle cx="52" cy="47" r="27" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="52" y="55" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">B</text>
+<text x="101" y="45" font-family="Arial" font-size="32" font-weight="700" text-anchor="start" fill="#183047">Sliding windows &amp; boundaries</text>
+<text x="101" y="83" font-family="Arial" font-size="22" font-weight="400" text-anchor="start" fill="#56697D">Focal slice is excluded from its own local reference</text>
+<g data-guide="b_window_mode" tabindex="0" role="button" aria-label="B01 决定使用固定窗口还是自动选窗" id="b_window_mode"><title>b window mode</title><desc>SliceQCConfig; _choose_window</desc>
+<path d="M 600 136.5 L 800.0 199 L 600 261.5 L 400.0 199 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="207.0" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Window mode?</text>
+<g id="number_B01" pointer-events="none"><rect x="407.0" y="125.5" width="53" height="26" rx="5" fill="#183047"/><text x="433.5" y="144.5" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">B01</text></g></g>
+<g data-guide="b_fixed" tabindex="0" role="button" aria-label="B02 使用固定主窗口" id="b_fixed"><title>b fixed</title><desc></desc>
+<rect x="25" y="319" width="455" height="128" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="252.5" y="353" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Fixed window</text>
+<text x="252.5" y="386" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Default W = 3; odd width ≥3</text>
+<text x="252.5" y="415" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Keep selected width in provenance</text>
+<g id="number_B02" pointer-events="none"><rect x="32" y="308" width="53" height="26" rx="5" fill="#183047"/><text x="58.5" y="327" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">B02</text></g></g>
+<g data-guide="b_auto" tabindex="0" role="button" aria-label="B03 自动比较候选窗口" id="b_auto"><title>b auto</title><desc>_choose_window: utility=recall+.35*delta-.35*baseline_flags-.012*(W-3); no candidate -&gt; W=3</desc>
+<rect x="620" y="319" width="555" height="156" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="897.5" y="353" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Automatic choice</text>
+<text x="897.5" y="386" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Candidates 3 / 5 / 7, limited by series length</text>
+<text x="897.5" y="415" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Test ≤8 deterministic target positions</text>
+<text x="897.5" y="444" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Maximize recorded perturbation utility</text>
+<g id="number_B03" pointer-events="none"><rect x="627" y="308" width="53" height="26" rx="5" fill="#183047"/><text x="653.5" y="327" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">B03</text></g></g>
+<g id="connector_20"><title>connector 20</title><desc></desc>
+<polyline points="400,199 253,199 253,319" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M253,319 L248.0,306.0 L258.0,306.0 Z" fill="#657B91"/>
+<rect x="262.0" y="247" width="76" height="30" fill="white"/>
+<text x="300" y="270" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">fixed</text>
+</g>
+<g id="connector_21"><title>connector 21</title><desc></desc>
+<polyline points="800,199 897,199 897,319" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M897,319 L892.0,306.0 L902.0,306.0 Z" fill="#657B91"/>
+<rect x="895.0" y="247" width="64" height="30" fill="white"/>
+<text x="927" y="270" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">auto</text>
+</g>
+<g id="connector_22"><title>connector 22</title><desc></desc>
+<polyline points="253,447 253,511 600,511" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,511 L587.0,516.0 L587.0,506.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_23"><title>connector 23</title><desc></desc>
+<polyline points="897,475 897,511 600,511" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,511 L613.0,506.0 L613.0,516.0 Z" fill="#657B91"/>
+</g>
+<g data-guide="b_sliding_window_example" tabindex="0" role="button" aria-label="B04 滑动窗口示意中的切片、虚线框与箭头" id="b_sliding_window_example"><title>b sliding window example</title><desc>_local_expected uses positional slice order, not physical z spacing; focal excluded; no wrap or padding</desc>
+<text x="600" y="562" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">Move the focal index i through the ordered series</text>
+<rect x="141" y="590" width="78" height="72" rx="6" fill="#FFFFFF" stroke="#657B91" stroke-width="2"/>
+<text x="180" y="634" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">…</text>
+<rect x="247" y="590" width="78" height="72" rx="6" fill="#FFFFFF" stroke="#657B91" stroke-width="2"/>
+<text x="286" y="634" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">i−3</text>
+<rect x="353" y="590" width="78" height="72" rx="6" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="392" y="634" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">i−2</text>
+<rect x="459" y="590" width="78" height="72" rx="6" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="498" y="634" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">i−1</text>
+<rect x="565" y="590" width="78" height="72" rx="6" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="604" y="634" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">i</text>
+<rect x="671" y="590" width="78" height="72" rx="6" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="710" y="634" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">i+1</text>
+<rect x="777" y="590" width="78" height="72" rx="6" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="816" y="634" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">i+2</text>
+<rect x="883" y="590" width="78" height="72" rx="6" fill="#FFFFFF" stroke="#657B91" stroke-width="2"/>
+<text x="922" y="634" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">i+3</text>
+<rect x="989" y="590" width="78" height="72" rx="6" fill="#FFFFFF" stroke="#657B91" stroke-width="2"/>
+<text x="1028" y="634" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">…</text>
+<rect x="340" y="579" width="522" height="95" rx="10" fill="none" stroke="#3E8B94" stroke-width="3" stroke-dasharray="10 7"/>
+<g id="connector_24"><title>connector 24</title><desc></desc>
+<polyline points="375,704 825,704" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M825,704 L812.0,709.0 L812.0,699.0 Z" fill="#657B91"/>
+<rect x="436.0" y="712" width="328" height="30" fill="white"/>
+<text x="600" y="735" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">example W = 5; advance i →</text>
+</g>
+<g id="number_B04" pointer-events="none"><rect x="122" y="529" width="53" height="26" rx="5" fill="#183047"/><text x="148.5" y="548" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">B04</text></g></g>
+<g data-guide="b_context" tabindex="0" role="button" aria-label="B05 逐指标检查有效邻居位于哪一侧" id="b_context"><title>b context</title><desc>_local_expected: finite neighbors within truncated window</desc>
+<path d="M 600 767.0 L 880.0 832 L 600 897.0 L 320.0 832 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="840.0" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Finite neighbors for this metric?</text>
+<g id="number_B05" pointer-events="none"><rect x="327.0" y="756.0" width="53" height="26" rx="5" fill="#183047"/><text x="353.5" y="775.0" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">B05</text></g></g>
+<g id="connector_25"><title>connector 25</title><desc></desc>
+<polyline points="600,748 600,767" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,767 L595.0,754.0 L605.0,754.0 Z" fill="#657B91"/>
+</g>
+<g data-guide="b_context_25" tabindex="0" role="button" aria-label="B06 用双侧邻居估计局部期望" id="b_context_25"><title>b context 25</title><desc>_local_expected; _metric_anomaly</desc>
+<rect x="25" y="993" width="350" height="163" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="200.0" y="1027" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Both sides</text>
+<text x="200.0" y="1060" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Exclude focal slice</text>
+<text x="200.0" y="1089" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Median pairwise-slope trend</text>
+<text x="200.0" y="1118" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Estimate reference at i</text>
+<g id="number_B06" pointer-events="none"><rect x="32" y="982" width="53" height="26" rx="5" fill="#183047"/><text x="58.5" y="1001" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">B06</text></g></g>
+<g data-guide="b_context_425" tabindex="0" role="button" aria-label="B07 用单侧邻居估计期望" id="b_context_425"><title>b context 425</title><desc>_local_expected; _metric_anomaly</desc>
+<rect x="425" y="993" width="350" height="163" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1027" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">One side only</text>
+<text x="600.0" y="1060" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Truncate at series boundary</text>
+<text x="600.0" y="1089" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Neighbor median reference</text>
+<text x="600.0" y="1118" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">No padding or wraparound</text>
+<g id="number_B07" pointer-events="none"><rect x="432" y="982" width="53" height="26" rx="5" fill="#183047"/><text x="458.5" y="1001" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">B07</text></g></g>
+<g data-guide="b_context_825" tabindex="0" role="button" aria-label="B08 没有可用参照" id="b_context_825"><title>b context 825</title><desc>_local_expected; _metric_anomaly</desc>
+<rect x="825" y="993" width="350" height="163" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="1000.0" y="1027" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">No valid neighbor</text>
+<text x="1000.0" y="1060" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Reference = unavailable</text>
+<text x="1000.0" y="1089" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Metric anomaly = 0 internally</text>
+<text x="1000.0" y="1118" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">0 means no evidence, not health</text>
+<g id="number_B08" pointer-events="none"><rect x="832" y="982" width="53" height="26" rx="5" fill="#183047"/><text x="858.5" y="1001" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">B08</text></g></g>
+<g id="connector_26"><title>connector 26</title><desc></desc>
+<polyline points="320,832 200,832 200,993" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M200,993 L195.0,980.0 L205.0,980.0 Z" fill="#657B91"/>
+<rect x="173.0" y="921" width="124" height="30" fill="white"/>
+<text x="235" y="944" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">two-sided</text>
+</g>
+<g id="connector_27"><title>connector 27</title><desc></desc>
+<polyline points="600,897 600,993" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,993 L595.0,980.0 L605.0,980.0 Z" fill="#657B91"/>
+<rect x="618.0" y="933" width="124" height="30" fill="white"/>
+<text x="680" y="956" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">one-sided</text>
+</g>
+<g id="connector_28"><title>connector 28</title><desc></desc>
+<polyline points="880,832 1000,832 1000,993" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1000,993 L995.0,980.0 L1005.0,980.0 Z" fill="#657B91"/>
+<rect x="982.0" y="921" width="64" height="30" fill="white"/>
+<text x="1014" y="944" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">none</text>
+</g>
+<g id="connector_29"><title>connector 29</title><desc></desc>
+<polyline points="200,1156 200,1190 600,1190 600,1225" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,1225 L595.0,1212.0 L605.0,1212.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_30"><title>connector 30</title><desc></desc>
+<polyline points="600,1156 600,1190 600,1190 600,1225" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,1225 L595.0,1212.0 L605.0,1212.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_31"><title>connector 31</title><desc></desc>
+<polyline points="1000,1156 1000,1190 600,1190 600,1225" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,1225 L595.0,1212.0 L605.0,1212.0 Z" fill="#657B91"/>
+</g>
+<g data-guide="b_support" tabindex="0" role="button" aria-label="B09 合并主窗口与稳健支持窗口的证据" id="b_support"><title>b support</title><desc>_score_metrics: support=max(W, max(3, min(9, largest odd &lt;=N))); internal=np.any(two_sided_matrix)</desc>
+<rect x="85" y="1225" width="1030" height="121" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1259" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Primary + robust support window</text>
+<text x="600.0" y="1292" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Score both; take larger metric anomaly. Support width ≥W, usually up to 9.</text>
+<text x="600.0" y="1321" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Keep primary context; score_confidence = 1 if supported on both sides, else 0.72.</text>
+<g id="number_B09" pointer-events="none"><rect x="92" y="1214" width="53" height="26" rx="5" fill="#183047"/><text x="118.5" y="1233" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">B09</text></g></g>
+<text x="600" y="1380" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#56697D">Different specimens never share neighbors; missing slice IDs do not imply poor tissue.</text>
+</g>
+<g id="panel_C" inkscape:groupmode="layer" inkscape:label="C - Metric standardization" transform="translate(2640,160)">
+<rect x="0" y="0" width="1200" height="1410" rx="20" fill="#FFFFFF" stroke="#C3D0DD" stroke-width="2"/>
+<path d="M20 0 H1180 Q1200 0 1200 20 V112 H0 V20 Q0 0 20 0" fill="#F1F5F9"/>
+<circle cx="52" cy="47" r="27" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="52" y="55" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">C</text>
+<text x="101" y="45" font-family="Arial" font-size="32" font-weight="700" text-anchor="start" fill="#183047">Metric standardization</text>
+<text x="101" y="83" font-family="Arial" font-size="22" font-weight="400" text-anchor="start" fill="#56697D">Directional effect size + robust residual; no probability interpretation</text>
+<g data-guide="c_input" tabindex="0" role="button" aria-label="C01 准备当前观测与局部期望" id="c_input"><title>c input</title><desc>_metric_anomaly</desc>
+<rect x="270" y="144" width="660" height="90" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="178" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Observed value v + local expectation e</text>
+<g id="number_C01" pointer-events="none"><rect x="277" y="133" width="53" height="26" rx="5" fill="#183047"/><text x="303.5" y="152" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">C01</text></g></g>
+<g data-guide="c_direction" tabindex="0" role="button" aria-label="C02 选择异常的方向" id="c_direction"><title>c direction</title><desc>_LOW_BAD_RULES; _HIGH_BAD_RULES</desc>
+<path d="M 600 271.0 L 815.0 337 L 600 403.0 L 385.0 337 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="345.0" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Adverse direction?</text>
+<g id="number_C02" pointer-events="none"><rect x="392.0" y="260.0" width="53" height="26" rx="5" fill="#183047"/><text x="418.5" y="279.0" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">C02</text></g></g>
+<g id="connector_32"><title>connector 32</title><desc></desc>
+<polyline points="600,234 600,271" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,271 L595.0,258.0 L605.0,258.0 Z" fill="#657B91"/>
+</g>
+<g data-guide="c_low" tabindex="0" role="button" aria-label="C03 计算下降型相对效应" id="c_low"><title>c low</title><desc>_LOW_BAD_RULES; EPS prevents zero division</desc>
+<rect x="25" y="480" width="540" height="193" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="295.0" y="514" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Lower is worse</text>
+<text x="295.0" y="547" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Counts, genes, density, tissue amount,</text>
+<text x="295.0" y="576" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">complexity, largest component fraction</text>
+<text x="295.0" y="605" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">m = max((e − v) / |e|, 0)</text>
+<g id="number_C03" pointer-events="none"><rect x="32" y="469" width="53" height="26" rx="5" fill="#183047"/><text x="58.5" y="488" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">C03</text></g></g>
+<g data-guide="c_high" tabindex="0" role="button" aria-label="C04 计算上升型绝对效应" id="c_high"><title>c high</title><desc>_HIGH_BAD_RULES</desc>
+<rect x="635" y="480" width="540" height="193" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="905.0" y="514" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Higher is worse</text>
+<text x="905.0" y="547" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Holes, fragmentation, zero fraction,</text>
+<text x="905.0" y="576" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">NN tail, low-capture regions, mito</text>
+<text x="905.0" y="605" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">m = max(v − e, 0)</text>
+<g id="number_C04" pointer-events="none"><rect x="642" y="469" width="53" height="26" rx="5" fill="#183047"/><text x="668.5" y="488" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">C04</text></g></g>
+<g id="connector_33"><title>connector 33</title><desc></desc>
+<polyline points="385,337 295,337 295,480" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M295,480 L290.0,467.0 L300.0,467.0 Z" fill="#657B91"/>
+<rect x="239.0" y="408" width="112" height="30" fill="white"/>
+<text x="295" y="431" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">decrease</text>
+</g>
+<g id="connector_34"><title>connector 34</title><desc></desc>
+<polyline points="815,337 905,337 905,480" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M905,480 L900.0,467.0 L910.0,467.0 Z" fill="#657B91"/>
+<rect x="849.0" y="408" width="112" height="30" fill="white"/>
+<text x="905" y="431" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">increase</text>
+</g>
+<g id="connector_35"><title>connector 35</title><desc></desc>
+<polyline points="295,673 295,704 600,704" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,704 L587.0,709.0 L587.0,699.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_36"><title>connector 36</title><desc></desc>
+<polyline points="905,673 905,704 600,704" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,704 L613.0,699.0 L613.0,709.0 Z" fill="#657B91"/>
+</g>
+<g data-guide="c_effect" tabindex="0" role="button" aria-label="C05 把效应大小映射到0–1" id="c_effect"><title>c effect</title><desc>_metric_anomaly; _LOW_BAD_RULES; _HIGH_BAD_RULES</desc>
+<rect x="25" y="755" width="540" height="162" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="295.0" y="789" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Effect-size score R</text>
+<text x="295.0" y="822" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">R = clip((m − mild)/(severe − mild), 0, 1)</text>
+<text x="295.0" y="851" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Metric-specific mild / severe limits</text>
+<text x="295.0" y="880" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">See parameter table in methods</text>
+<g id="number_C05" pointer-events="none"><rect x="32" y="744" width="53" height="26" rx="5" fill="#183047"/><text x="58.5" y="763" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">C05</text></g></g>
+<g data-guide="c_z" tabindex="0" role="button" aria-label="C06 计算稳健残差异常" id="c_z"><title>c z</title><desc>_robust_scale:1.4826*MAD; fallback std then1; _metric_anomaly</desc>
+<rect x="635" y="755" width="540" height="179" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="905.0" y="789" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Robust residual score Z</text>
+<text x="905.0" y="822" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Residual: e−v (low) or v−e (high)</text>
+<text x="905.0" y="851" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">z = positive centered residual / scale</text>
+<text x="905.0" y="880" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Z = clip((z − 1.5)/3, 0, 1)</text>
+<text x="905.0" y="909" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Scale: 1.4826×MAD; fallback SD, then 1</text>
+<g id="number_C06" pointer-events="none"><rect x="642" y="744" width="53" height="26" rx="5" fill="#183047"/><text x="668.5" y="763" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">C06</text></g></g>
+<g id="connector_37"><title>connector 37</title><desc></desc>
+<polyline points="600,704 295,704 295,755" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M295,755 L290.0,742.0 L300.0,742.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_38"><title>connector 38</title><desc></desc>
+<polyline points="600,704 905,704 905,755" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M905,755 L900.0,742.0 L910.0,742.0 Z" fill="#657B91"/>
+</g>
+<g data-guide="c_small_high" tabindex="0" role="button" aria-label="C07 限制近零指标被夸大的异常" id="c_small_high"><title>c small high</title><desc>_metric_anomaly: only direction=high</desc>
+<rect x="635" y="951" width="540" height="128" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="905.0" y="985" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">High-direction safeguard</text>
+<text x="905.0" y="1018" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Z ← Z × clip(m / mild, 0, 1)</text>
+<text x="905.0" y="1047" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Tiny absolute effects cannot dominate</text>
+<g id="number_C07" pointer-events="none"><rect x="642" y="940" width="53" height="26" rx="5" fill="#183047"/><text x="668.5" y="959" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">C07</text></g></g>
+<g id="connector_39"><title>connector 39</title><desc></desc>
+<polyline points="905,934 905,951" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M905,951 L900.0,938.0 L910.0,938.0 Z" fill="#657B91"/>
+<rect x="968.0" y="920" width="124" height="30" fill="white"/>
+<text x="1030" y="943" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">high only</text>
+</g>
+<g id="connector_40"><title>connector 40</title><desc></desc>
+<polyline points="1175,845 1187,845 1187,1098 1070,1098 1070,1119" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1070,1119 L1065.0,1106.0 L1075.0,1106.0 Z" fill="#657B91"/>
+<rect x="910.0" y="1066" width="220" height="30" fill="white"/>
+<text x="1020" y="1089" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">low: no rescaling</text>
+</g>
+<g data-guide="c_merge" tabindex="0" role="button" aria-label="C08 合并证据并降低不可靠邻域的权重" id="c_merge"><title>c merge</title><desc>_metric_anomaly; invalid observation/reference gives zero anomaly evidence</desc>
+<rect x="35" y="1119" width="1130" height="174" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1153" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Combine, downweight and retain provenance</text>
+<text x="600.0" y="1186" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">A = max(R, Z) × context factor × agreement penalty</text>
+<text x="600.0" y="1215" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Context factor: 1 (two-sided) or 0.72 (one-sided)</text>
+<text x="600.0" y="1244" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Agreement penalty = clip(exp(−left/right disagreement / (2.5 × global scale)), .35, 1)</text>
+<g id="number_C08" pointer-events="none"><rect x="42" y="1108" width="53" height="26" rx="5" fill="#183047"/><text x="68.5" y="1127" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">C08</text></g></g>
+<g id="connector_41"><title>connector 41</title><desc></desc>
+<polyline points="295,917 295,1119" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M295,1119 L290.0,1106.0 L300.0,1106.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_42"><title>connector 42</title><desc></desc>
+<polyline points="905,1079 905,1119" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M905,1119 L900.0,1106.0 L910.0,1106.0 Z" fill="#657B91"/>
+</g>
+<text x="600" y="1334" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#56697D">For counts / genes, retain the larger direct relative-drop score (same context penalty).</text>
+<text x="600" y="1361" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#56697D">Primary and support scores are combined by max; missing evidence is not a normality claim.</text>
+<text x="600" y="1388" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#56697D">Profile / type continuity uses its own divergence mapping before domain aggregation.</text>
+</g>
+<g id="panel_D" inkscape:groupmode="layer" inkscape:label="D - Four domains → aggregate score" transform="translate(60,1640)">
+<rect x="0" y="0" width="1200" height="1410" rx="20" fill="#FFFFFF" stroke="#C3D0DD" stroke-width="2"/>
+<path d="M20 0 H1180 Q1200 0 1200 20 V112 H0 V20 Q0 0 20 0" fill="#F1F5F9"/>
+<circle cx="52" cy="47" r="27" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="52" y="55" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">D</text>
+<text x="101" y="45" font-family="Arial" font-size="32" font-weight="700" text-anchor="start" fill="#183047">Four domains → aggregate score</text>
+<text x="101" y="83" font-family="Arial" font-size="22" font-weight="400" text-anchor="start" fill="#56697D">Signals may contribute to more than one domain; domains are not independent</text>
+<g data-guide="d_domain_Density" tabindex="0" role="button" aria-label="D01 密度与组织量证据域D" id="d_domain_Density"><title>d domain Density</title><desc>_score_metrics: density_domain_score</desc>
+<rect x="25" y="150" width="550" height="205" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="300.0" y="184" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Density / amount D</text>
+<text x="300.0" y="217" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Density .28; amount .10; holes .27</text>
+<text x="300.0" y="246" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">NN tail .13; fragments .12; largest .10</text>
+<text x="300.0" y="275" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Max(weighted mean, top-two evidence)</text>
+<g id="number_D01" pointer-events="none"><rect x="32" y="139" width="53" height="26" rx="5" fill="#183047"/><text x="58.5" y="158" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">D01</text></g></g>
+<g data-guide="d_domain_Expression" tabindex="0" role="button" aria-label="D02 表达捕获证据域X" id="d_domain_Expression"><title>d domain Expression</title><desc>_score_metrics: expression_domain_score</desc>
+<rect x="625" y="150" width="550" height="205" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="900.0" y="184" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Expression capture X</text>
+<text x="900.0" y="217" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Counts .27; genes .24; zeros .14</text>
+<text x="900.0" y="246" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Complexity .11; gene fraction .08</text>
+<text x="900.0" y="275" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Local / regional low capture .08 / .08</text>
+<text x="900.0" y="304" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Max(weighted mean, top-two evidence)</text>
+<g id="number_D02" pointer-events="none"><rect x="632" y="139" width="53" height="26" rx="5" fill="#183047"/><text x="658.5" y="158" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">D02</text></g></g>
+<g data-guide="d_domain_Damage" tabindex="0" role="button" aria-label="D03 损伤代理证据域M" id="d_domain_Damage"><title>d domain Damage</title><desc>_score_metrics: damage_domain_score</desc>
+<rect x="25" y="402" width="550" height="155" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="300.0" y="436" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Damage proxies M</text>
+<text x="300.0" y="469" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Mito .65 + fragmentation .35</text>
+<text x="300.0" y="498" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Weighted available signals</text>
+<g id="number_D03" pointer-events="none"><rect x="32" y="391" width="53" height="26" rx="5" fill="#183047"/><text x="58.5" y="410" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">D03</text></g></g>
+<g data-guide="d_domain_Continuity" tabindex="0" role="button" aria-label="D04 跨切片连续性证据域C" id="d_domain_Continuity"><title>d domain Continuity</title><desc>_profile_continuity; _celltype_js_profiles; _score_metrics</desc>
+<rect x="625" y="402" width="550" height="155" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="900.0" y="436" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Continuity C</text>
+<text x="900.0" y="469" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Expression profile .58; cell types .22</text>
+<text x="900.0" y="498" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Holes .20; weighted available signals</text>
+<text x="900.0" y="527" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Unavailable profile / labels add no evidence</text>
+<g id="number_D04" pointer-events="none"><rect x="632" y="391" width="53" height="26" rx="5" fill="#183047"/><text x="658.5" y="410" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">D04</text></g></g>
+<g data-guide="d_available" tabindex="0" role="button" aria-label="D05 四域共享的域内聚合规则" id="d_available"><title>d available</title><desc>_weighted_available; _top_two_evidence</desc>
+<rect x="25" y="602" width="1150" height="92" rx="12" fill="#FFFFFF" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="636" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Within-domain rules</text>
+<text x="600.0" y="669" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Weighted mean renormalizes finite signals; top-two = .65 × strongest + .35 × second</text>
+<g id="number_D05" pointer-events="none"><rect x="32" y="591" width="53" height="26" rx="5" fill="#183047"/><text x="58.5" y="610" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">D05</text></g></g>
+<g id="connector_43"><title>connector 43</title><desc></desc>
+<polyline points="300,355 600,355 600,582 300,582 300,602" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M300,602 L295.0,589.0 L305.0,589.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_44"><title>connector 44</title><desc></desc>
+<polyline points="900,355 600,355 600,582 900,582 900,602" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M900,602 L895.0,589.0 L905.0,589.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_45"><title>connector 45</title><desc></desc>
+<polyline points="300,557 300,602" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M300,602 L295.0,589.0 L305.0,589.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_46"><title>connector 46</title><desc></desc>
+<polyline points="900,557 900,602" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M900,602 L895.0,589.0 L905.0,589.0 Z" fill="#657B91"/>
+</g>
+<g data-guide="d_rawscore" tabindex="0" role="button" aria-label="D06 从四个域得到未保护总分S₀" id="d_rawscore"><title>d rawscore</title><desc>_score_metrics: raw_score; corroborating_domains</desc>
+<rect x="25" y="733" width="1150" height="144" rx="12" fill="#EEE9F7" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="767" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Aggregate anomaly score S₀</text>
+<text x="600.0" y="800" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">S₀ = max(.31D + .39X + .12M + .18C, clip(.48 + .78(max(D,X,M,C) − .68), 0, 1))</text>
+<text x="600.0" y="829" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Supporting-domain count = number of domains ≥.45</text>
+<g id="number_D06" pointer-events="none"><rect x="32" y="722" width="53" height="26" rx="5" fill="#183047"/><text x="58.5" y="741" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">D06</text></g></g>
+<g id="connector_47"><title>connector 47</title><desc></desc>
+<polyline points="600,694 600,733" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,733 L595.0,720.0 L605.0,720.0 Z" fill="#657B91"/>
+</g>
+<g data-guide="d_protection" tabindex="0" role="button" aria-label="D07 是否触发解剖保护" id="d_protection"><title>d protection</title><desc>_score_metrics: density_only OR taper_like</desc>
+<path d="M 600 906.5 L 847.5 969 L 600 1031.5 L 352.5 969 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="977.0" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Anatomical protection?</text>
+<g id="number_D07" pointer-events="none"><rect x="359.5" y="895.5" width="53" height="26" rx="5" fill="#183047"/><text x="386.0" y="914.5" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">D07</text></g></g>
+<g id="connector_48"><title>connector 48</title><desc></desc>
+<polyline points="600,877 600,906.5" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,906.5 L595.0,893.5 L605.0,893.5 Z" fill="#657B91"/>
+</g>
+<g data-guide="d_guard_rule" tabindex="0" role="button" aria-label="D08 解剖保护条件定义框" id="d_guard_rule"><title>d guard rule</title><desc>_score_metrics: density_only; taper_like</desc>
+<rect x="25" y="1068" width="680" height="166" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="365.0" y="1102" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Protection conditions (either suffices)</text>
+<text x="365.0" y="1135" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">D≥.48, X&lt;.32, M&lt;.38, C&lt;.45; OR</text>
+<text x="365.0" y="1164" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">amount anomaly≥.45, density anomaly&lt;.30,</text>
+<text x="365.0" y="1193" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">hole anomaly&lt;.30, X&lt;.35</text>
+<g id="number_D08" pointer-events="none"><rect x="32" y="1057" width="53" height="26" rx="5" fill="#183047"/><text x="58.5" y="1076" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">D08</text></g></g>
+<g data-guide="d_guard_yes" tabindex="0" role="button" aria-label="D09 对受保护切片限制自动排除" id="d_guard_yes"><title>d guard yes</title><desc></desc>
+<rect x="785" y="1070" width="390" height="130" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="980.0" y="1104" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Protected</text>
+<text x="980.0" y="1137" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">S ← min(S₀, .62)</text>
+<text x="980.0" y="1166" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Block automatic exclusion</text>
+<g id="number_D09" pointer-events="none"><rect x="792" y="1059" width="53" height="26" rx="5" fill="#183047"/><text x="818.5" y="1078" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">D09</text></g></g>
+<g id="connector_49"><title>connector 49</title><desc></desc>
+<polyline points="847.5,969 980,969 980,1070" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M980,1070 L975.0,1057.0 L985.0,1057.0 Z" fill="#657B91"/>
+<rect x="994.0" y="999" width="52" height="30" fill="white"/>
+<text x="1020" y="1022" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">yes</text>
+</g>
+<g id="connector_50"><title>connector 50</title><desc></desc>
+<polyline points="352.5,969 12,969 12,1286 60,1286" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M60,1286 L47.0,1291.0 L47.0,1281.0 Z" fill="#657B91"/>
+<rect x="73.0" y="928" width="136" height="30" fill="white"/>
+<text x="141" y="951" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">no: S = S₀</text>
+</g>
+<g data-guide="d_endpoint" tabindex="0" role="button" aria-label="D10 施加末端减权并交出最终异常分数" id="d_endpoint"><title>d endpoint</title><desc>_score_metrics: final_score; window_context; score_confidence</desc>
+<rect x="60" y="1260" width="1080" height="110" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1294" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Final score and boundary status</text>
+<text x="600.0" y="1327" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">If one-sided: S ← .82 × S. Otherwise keep S. Clip final score to [0,1].</text>
+<text x="600.0" y="1356" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Pass S, domain scores, context and protection flag to E.</text>
+<g id="number_D10" pointer-events="none"><rect x="67" y="1249" width="53" height="26" rx="5" fill="#183047"/><text x="93.5" y="1268" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">D10</text></g></g>
+<g id="connector_51"><title>connector 51</title><desc></desc>
+<polyline points="980,1200 980,1260" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M980,1260 L975.0,1247.0 L985.0,1247.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_52"><title>connector 52</title><desc></desc>
+<polyline points="365,1068 365,1045 460,1045 460,1004" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round" stroke-dasharray="9 7"/>
+<path d="M460,1004 L465.0,1017.0 L455.0,1017.0 Z" fill="#657B91"/>
+</g>
+</g>
+<g id="panel_E" inkscape:groupmode="layer" inkscape:label="E - Two-stage filtering" transform="translate(1350,1640)">
+<rect x="0" y="0" width="1200" height="1410" rx="20" fill="#FFFFFF" stroke="#C3D0DD" stroke-width="2"/>
+<path d="M20 0 H1180 Q1200 0 1200 20 V112 H0 V20 Q0 0 20 0" fill="#F1F5F9"/>
+<circle cx="52" cy="47" r="27" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="52" y="55" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">E</text>
+<text x="101" y="45" font-family="Arial" font-size="32" font-weight="700" text-anchor="start" fill="#183047">Two-stage filtering</text>
+<text x="101" y="83" font-family="Arial" font-size="22" font-weight="400" text-anchor="start" fill="#56697D">Only keep / exclude are public; all review routes remain in the audit</text>
+<g data-guide="e_detector" tabindex="0" role="button" aria-label="E01 生成内部检测器候选标签" id="e_detector"><title>e detector</title><desc>_score_metrics: recommendations</desc>
+<rect x="25" y="145" width="1150" height="185" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="179" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Internal detector (distinct from final thresholds)</text>
+<text x="600.0" y="212" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">With two sides + no protection: exclude if (S≥.64 AND ≥2 strong domains),</text>
+<text x="600.0" y="241" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">OR X≥.78, OR (D≥.82 AND holes≥.55 AND C≥.42).</text>
+<text x="600.0" y="270" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Else review if S≥.38, any domain≥.45, any severe domain≥.78,</text>
+<text x="600.0" y="299" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">any metric≥.75 or protection; otherwise detector keep.</text>
+<g id="number_E01" pointer-events="none"><rect x="32" y="134" width="53" height="26" rx="5" fill="#183047"/><text x="58.5" y="153" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">E01</text></g></g>
+<g data-guide="e_stage1" tabindex="0" role="button" aria-label="E02 第一阶段按锁定总分阈值分流" id="e_stage1"><title>e stage1</title><desc>apply_high_confidence_policy</desc>
+<path d="M 600 362.0 L 860.0 424 L 600 486.0 L 340.0 424 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="418.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Stage 1: compare S</text>
+<text x="600" y="445.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">K = 0.129     E = 0.700</text>
+<g id="number_E02" pointer-events="none"><rect x="347.0" y="351.0" width="53" height="26" rx="5" fill="#183047"/><text x="373.5" y="370.0" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">E02</text></g></g>
+<g id="connector_53"><title>connector 53</title><desc></desc>
+<polyline points="600,330 600,362" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,362 L595.0,349.0 L605.0,349.0 Z" fill="#657B91"/>
+</g>
+<g data-guide="e_keep_candidate" tabindex="0" role="button" aria-label="E03 低总分直接保留候选" id="e_keep_candidate"><title>e keep candidate</title><desc></desc>
+<rect x="25" y="555" width="300" height="105" rx="12" fill="#E5F3E8" stroke="#657B91" stroke-width="1.8"/>
+<text x="175.0" y="589" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Keep candidate</text>
+<text x="175.0" y="622" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">S ≤ 0.129</text>
+<g id="number_E03" pointer-events="none"><rect x="32" y="544" width="53" height="26" rx="5" fill="#183047"/><text x="58.5" y="563" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">E03</text></g></g>
+<g data-guide="e_middle" tabindex="0" role="button" aria-label="E04 建立内部review队列" id="e_middle"><title>e middle</title><desc></desc>
+<rect x="405" y="555" width="350" height="105" rx="12" fill="#EEE9F7" stroke="#657B91" stroke-width="1.8"/>
+<text x="580.0" y="589" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Internal review</text>
+<text x="580.0" y="622" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">0.129 &lt; S &lt; 0.700</text>
+<g id="number_E04" pointer-events="none"><rect x="412" y="544" width="53" height="26" rx="5" fill="#183047"/><text x="438.5" y="563" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">E04</text></g></g>
+<g data-guide="e_high" tabindex="0" role="button" aria-label="E05 高总分的直接排除门控" id="e_high"><title>e high</title><desc></desc>
+<rect x="835" y="540" width="340" height="143" rx="12" fill="#EEE9F7" stroke="#657B91" stroke-width="1.8"/>
+<text x="1005.0" y="574" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Direct-exclude gate</text>
+<text x="1005.0" y="607" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Detector exclude?</text>
+<text x="1005.0" y="636" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Two-sided? No protection?</text>
+<g id="number_E05" pointer-events="none"><rect x="842" y="529" width="53" height="26" rx="5" fill="#183047"/><text x="868.5" y="548" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">E05</text></g></g>
+<g id="connector_54"><title>connector 54</title><desc></desc>
+<polyline points="340,424 175,424 175,555" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M175,555 L170.0,542.0 L180.0,542.0 Z" fill="#657B91"/>
+<rect x="193.0" y="475" width="52" height="30" fill="white"/>
+<text x="219" y="498" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">low</text>
+</g>
+<g id="connector_55"><title>connector 55</title><desc></desc>
+<polyline points="600,486 600,555" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,555 L595.0,542.0 L605.0,542.0 Z" fill="#657B91"/>
+<rect x="626.0" y="500" width="88" height="30" fill="white"/>
+<text x="670" y="523" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">middle</text>
+</g>
+<g id="connector_56"><title>connector 56</title><desc></desc>
+<polyline points="860,424 1005,424 1005,540" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1005,540 L1000.0,527.0 L1010.0,527.0 Z" fill="#657B91"/>
+<rect x="1009.0" y="475" width="64" height="30" fill="white"/>
+<text x="1041" y="498" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">high</text>
+</g>
+<g id="connector_57"><title>connector 57</title><desc></desc>
+<polyline points="835,610 790,610 790,696 600,696" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,696 L613.0,691.0 L613.0,701.0 Z" fill="#657B91"/>
+<rect x="647.0" y="662" width="124" height="30" fill="white"/>
+<text x="709" y="685" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">any fails</text>
+</g>
+<g data-guide="e_review_split" tabindex="0" role="button" aria-label="E06 为每一条review选择细筛分段" id="e_review_split"><title>e review split</title><desc>_validate_review_tiers; _evaluate_review_tier_row</desc>
+<path d="M 600 726.5 L 850.0 789 L 600 851.5 L 350.0 789 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="797.0" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Review score &lt; 0.540?</text>
+<g id="number_E06" pointer-events="none"><rect x="357.0" y="715.5" width="53" height="26" rx="5" fill="#183047"/><text x="383.5" y="734.5" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">E06</text></g></g>
+<g id="connector_58"><title>connector 58</title><desc></desc>
+<polyline points="580,660 580,696 600,696 600,726.5" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,726.5 L595.0,713.5 L605.0,713.5 Z" fill="#657B91"/>
+</g>
+<g data-guide="e_low_tier" tabindex="0" role="button" aria-label="E07 低分review的证据要求" id="e_low_tier"><title>e low tier</title><desc></desc>
+<rect x="55" y="922" width="495" height="132" rx="12" fill="#EEE9F7" stroke="#657B91" stroke-width="1.8"/>
+<text x="302.5" y="956" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Low-score review</text>
+<text x="302.5" y="989" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">0.129 &lt; S &lt; 0.540</text>
+<text x="302.5" y="1018" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">≥2 domains; strongest ≥0.65</text>
+<g id="number_E07" pointer-events="none"><rect x="62" y="911" width="53" height="26" rx="5" fill="#183047"/><text x="88.5" y="930" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">E07</text></g></g>
+<g data-guide="e_high_tier" tabindex="0" role="button" aria-label="E08 高分review的证据要求" id="e_high_tier"><title>e high tier</title><desc></desc>
+<rect x="650" y="922" width="495" height="132" rx="12" fill="#EEE9F7" stroke="#657B91" stroke-width="1.8"/>
+<text x="897.5" y="956" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Higher-score review</text>
+<text x="897.5" y="989" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">S ≥ 0.540; includes downgraded highs</text>
+<text x="897.5" y="1018" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">≥2 domains; strongest ≥0.60</text>
+<g id="number_E08" pointer-events="none"><rect x="657" y="911" width="53" height="26" rx="5" fill="#183047"/><text x="683.5" y="930" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">E08</text></g></g>
+<g id="connector_59"><title>connector 59</title><desc></desc>
+<polyline points="350,789 302,789 302,922" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M302,922 L297.0,909.0 L307.0,909.0 Z" fill="#657B91"/>
+<rect x="284.0" y="862" width="52" height="30" fill="white"/>
+<text x="310" y="885" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">yes</text>
+</g>
+<g id="connector_60"><title>connector 60</title><desc></desc>
+<polyline points="850,789 897,789 897,922" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M897,922 L892.0,909.0 L902.0,909.0 Z" fill="#657B91"/>
+<rect x="890.0" y="862" width="40" height="30" fill="white"/>
+<text x="910" y="885" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">no</text>
+</g>
+<g data-guide="e_all_gates" tabindex="0" role="button" aria-label="E09 执行第二阶段全部AND条件" id="e_all_gates"><title>e all gates</title><desc>_evaluate_review_tier_row: primary confidence only; all-window support=1.0; upper tier bound applies to primary only</desc>
+<rect x="140" y="1098" width="920" height="150" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1132" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">AND: every required evidence condition passes</text>
+<text x="600.0" y="1165" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Detector review/exclude + two-sided + no protection + confidence≥.90</text>
+<text x="600.0" y="1194" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Every available 3/5/7 window: same guards, domain count / severity,</text>
+<text x="600.0" y="1223" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">and selected tier floor (.129 or .540); no window details → fail.</text>
+<g id="number_E09" pointer-events="none"><rect x="147" y="1087" width="53" height="26" rx="5" fill="#183047"/><text x="173.5" y="1106" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">E09</text></g></g>
+<g id="connector_61"><title>connector 61</title><desc></desc>
+<polyline points="302,1054 302,1098" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M302,1098 L297.0,1085.0 L307.0,1085.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_62"><title>connector 62</title><desc></desc>
+<polyline points="897,1054 897,1098" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M897,1098 L892.0,1085.0 L902.0,1085.0 Z" fill="#657B91"/>
+</g>
+<g data-guide="e_keep" tabindex="0" role="button" aria-label="E10 最终保留动作" id="e_keep"><title>e keep</title><desc></desc>
+<rect x="125" y="1310" width="380" height="68" rx="12" fill="#E5F3E8" stroke="#657B91" stroke-width="1.8"/>
+<text x="315.0" y="1344" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">KEEP</text>
+<g id="number_E10" pointer-events="none"><rect x="132" y="1299" width="53" height="26" rx="5" fill="#183047"/><text x="158.5" y="1318" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">E10</text></g></g>
+<g data-guide="e_exclude" tabindex="0" role="button" aria-label="E11 最终排除建议" id="e_exclude"><title>e exclude</title><desc></desc>
+<rect x="695" y="1310" width="380" height="68" rx="12" fill="#FBE6E8" stroke="#657B91" stroke-width="1.8"/>
+<text x="885.0" y="1344" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">EXCLUDE</text>
+<g id="number_E11" pointer-events="none"><rect x="702" y="1299" width="53" height="26" rx="5" fill="#183047"/><text x="728.5" y="1318" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">E11</text></g></g>
+<g id="connector_63"><title>connector 63</title><desc></desc>
+<polyline points="380,1248 380,1310" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M380,1310 L375.0,1297.0 L385.0,1297.0 Z" fill="#657B91"/>
+<rect x="225.0" y="1266" width="124" height="30" fill="white"/>
+<text x="287" y="1289" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">any fails</text>
+</g>
+<g id="connector_64"><title>connector 64</title><desc></desc>
+<polyline points="820,1248 820,1310" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M820,1310 L815.0,1297.0 L825.0,1297.0 Z" fill="#657B91"/>
+<rect x="857.0" y="1266" width="112" height="30" fill="white"/>
+<text x="913" y="1289" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">all pass</text>
+</g>
+<g id="connector_65"><title>connector 65</title><desc></desc>
+<polyline points="175,660 13,660 13,1344 125,1344" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M125,1344 L112.0,1349.0 L112.0,1339.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_66"><title>connector 66</title><desc></desc>
+<polyline points="1175,610 1188,610 1188,1344 1075,1344" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1075,1344 L1088.0,1339.0 L1088.0,1349.0 Z" fill="#657B91"/>
+<rect x="1034.0" y="850" width="112" height="30" fill="white"/>
+<text x="1090" y="873" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">all pass</text>
+</g>
+<text x="600" y="1400" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#56697D">Non-finite score / insufficient evidence → conservative keep + recorded diagnostics.</text>
+</g>
+<g id="panel_F" inkscape:groupmode="layer" inkscape:label="F - Audit, display &amp; exact ROI" transform="translate(2640,1640)">
+<rect x="0" y="0" width="1200" height="1410" rx="20" fill="#FFFFFF" stroke="#C3D0DD" stroke-width="2"/>
+<path d="M20 0 H1180 Q1200 0 1200 20 V112 H0 V20 Q0 0 20 0" fill="#F1F5F9"/>
+<circle cx="52" cy="47" r="27" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="52" y="55" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">F</text>
+<text x="101" y="45" font-family="Arial" font-size="32" font-weight="700" text-anchor="start" fill="#183047">Audit, display &amp; exact ROI</text>
+<text x="101" y="83" font-family="Arial" font-size="22" font-weight="400" text-anchor="start" fill="#56697D">Display transforms never feed back into QC scores or decisions</text>
+<g data-guide="f_audit" tabindex="0" role="button" aria-label="F01 写出可追溯的逐片决策记录" id="f_audit"><title>f audit</title><desc>write_high_confidence_outputs; run_publish</desc>
+<rect x="25" y="148" width="1150" height="140" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="182" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Save one audit row per original slice</text>
+<text x="600.0" y="215" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Raw score, detector call, stage-1 route, stage-2 tier, window checks, failed gates, final_call</text>
+<text x="600.0" y="244" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Freeze policy + hashes; experimental_policy clears certification. Keep ≠ proven healthy.</text>
+<g id="number_F01" pointer-events="none"><rect x="32" y="137" width="53" height="26" rx="5" fill="#183047"/><text x="58.5" y="156" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">F01</text></g></g>
+<g id="connector_67"><title>connector 67</title><desc></desc>
+<polyline points="600,288 600,348" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,348 L595.0,335.0 L605.0,335.0 Z" fill="#657B91"/>
+</g>
+<g data-guide="f_prereg_request" tabindex="0" role="button" aria-label="F02 是否需要共同坐标系中的比较" id="f_prereg_request"><title>f prereg request</title><desc>run_preregister</desc>
+<path d="M 600 348.0 L 865.0 421 L 600 494.0 L 335.0 421 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="600" y="415.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Shared-coordinate</text>
+<text x="600" y="442.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">comparison requested?</text>
+<g id="number_F02" pointer-events="none"><rect x="342.0" y="337.0" width="53" height="26" rx="5" fill="#183047"/><text x="368.5" y="356.0" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">F02</text></g></g>
+<g data-guide="f_raw_only" tabindex="0" role="button" aria-label="F03 使用原始坐标展示" id="f_raw_only"><title>f raw only</title><desc></desc>
+<rect x="30" y="575" width="355" height="129" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="207.5" y="609" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Raw-only view</text>
+<text x="207.5" y="642" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Keep original coordinates</text>
+<text x="207.5" y="671" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">No shared-anatomy claim</text>
+<g id="number_F03" pointer-events="none"><rect x="37" y="564" width="53" height="26" rx="5" fill="#183047"/><text x="63.5" y="583" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">F03</text></g></g>
+<g data-guide="f_rigid" tabindex="0" role="button" aria-label="F04 轻量化刚性预配准" id="f_rigid"><title>f rigid</title><desc>slice_preregistration.py; slice_quality_preregistration.py</desc>
+<rect x="465" y="550" width="710" height="215" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="820.0" y="584" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Display-only rigid preregistration</text>
+<text x="820.0" y="617" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Separate middle-slice reference for each dataset</text>
+<text x="820.0" y="646" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Seed13; ≤1000 points; 24 angles; 50 iterations; trim80%</text>
+<text x="820.0" y="675" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Translation + rotation; no scale / mirror / deformation</text>
+<text x="820.0" y="704" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Compose T(child→ref) = T(parent→ref) × H(child→parent)</text>
+<g id="number_F04" pointer-events="none"><rect x="472" y="539" width="53" height="26" rx="5" fill="#183047"/><text x="498.5" y="558" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">F04</text></g></g>
+<g id="connector_68"><title>connector 68</title><desc></desc>
+<polyline points="335,421 207,421 207,575" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M207,575 L202.0,562.0 L212.0,562.0 Z" fill="#657B91"/>
+<rect x="228.0" y="501" width="40" height="30" fill="white"/>
+<text x="248" y="524" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">no</text>
+</g>
+<g id="connector_69"><title>connector 69</title><desc></desc>
+<polyline points="865,421 980,421 980,550" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M980,550 L975.0,537.0 L985.0,537.0 Z" fill="#657B91"/>
+<rect x="989.0" y="493" width="52" height="30" fill="white"/>
+<text x="1015" y="516" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">yes</text>
+</g>
+<g data-guide="f_fit_status" tabindex="0" role="button" aria-label="F05 检查拟合失败、方向歧义和参考链状态" id="f_fit_status"><title>f fit status</title><desc>slice_preregistration.py: failure / ambiguity warnings propagate along composed chain</desc>
+<path d="M 825 799.0 L 1087.5 866 L 825 933.0 L 562.5 866 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="825" y="860.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Fit / reference chain</text>
+<text x="825" y="887.5" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">reliable enough to compare?</text>
+<g id="number_F05" pointer-events="none"><rect x="569.5" y="788.0" width="53" height="26" rx="5" fill="#183047"/><text x="596.0" y="807.0" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">F05</text></g></g>
+<g id="connector_70"><title>connector 70</title><desc></desc>
+<polyline points="825,765 825,799" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M825,799 L820.0,786.0 L830.0,786.0 Z" fill="#657B91"/>
+</g>
+<g data-guide="f_warn" tabindex="0" role="button" aria-label="F06 把不可靠预配准显式显示出来" id="f_warn"><title>f warn</title><desc></desc>
+<rect x="465" y="1002" width="335" height="128" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="632.5" y="1036" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Uncertain / failed</text>
+<text x="632.5" y="1069" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Save status + visible warning</text>
+<text x="632.5" y="1098" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Do not turn fit error into QC</text>
+<g id="number_F06" pointer-events="none"><rect x="472" y="991" width="53" height="26" rx="5" fill="#183047"/><text x="498.5" y="1010" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">F06</text></g></g>
+<g data-guide="f_fit_ok" tabindex="0" role="button" aria-label="F07 保存已估计的展示坐标" id="f_fit_ok"><title>f fit ok</title><desc></desc>
+<rect x="840" y="1002" width="335" height="128" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="1007.5" y="1036" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Fitted coordinates</text>
+<text x="1007.5" y="1069" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Save matrices + inverses</text>
+<text x="1007.5" y="1098" font-family="Arial" font-size="20" font-weight="400" text-anchor="middle" fill="#183047">Not anatomical ground truth</text>
+<g id="number_F07" pointer-events="none"><rect x="847" y="991" width="53" height="26" rx="5" fill="#183047"/><text x="873.5" y="1010" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">F07</text></g></g>
+<g id="connector_71"><title>connector 71</title><desc></desc>
+<polyline points="562.5,866 510,866 510,970 632,970 632,1002" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M632,1002 L627.0,989.0 L637.0,989.0 Z" fill="#657B91"/>
+<rect x="596.0" y="934" width="40" height="30" fill="white"/>
+<text x="616" y="957" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">no</text>
+</g>
+<g id="connector_72"><title>connector 72</title><desc></desc>
+<polyline points="1087.5,866 1147,866 1147,970 1007,970 1007,1002" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1007,1002 L1002.0,989.0 L1012.0,989.0 Z" fill="#657B91"/>
+<rect x="994.0" y="934" width="52" height="30" fill="white"/>
+<text x="1020" y="957" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">yes</text>
+</g>
+<g data-guide="f_viewer" tabindex="0" role="button" aria-label="F08 生成现有多面板证据报告" id="f_viewer"><title>f viewer</title><desc>slice_quality_visualization.py: render_binary_slice_quality_appendix; raw/display toggle; linked 3/5 slice windows</desc>
+<rect x="25" y="1180" width="1150" height="85" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1214" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Current viewer: KDE • capture • components • statistics • binary calls</text>
+<g id="number_F08" pointer-events="none"><rect x="32" y="1169" width="53" height="26" rx="5" fill="#183047"/><text x="58.5" y="1188" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">F08</text></g></g>
+<g id="connector_73"><title>connector 73</title><desc></desc>
+<polyline points="207,704 207,1180" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M207,1180 L202.0,1167.0 L212.0,1167.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_74"><title>connector 74</title><desc></desc>
+<polyline points="632,1130 632,1180" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M632,1180 L627.0,1167.0 L637.0,1167.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_75"><title>connector 75</title><desc></desc>
+<polyline points="1007,1130 1007,1180" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1007,1180 L1002.0,1167.0 L1012.0,1167.0 Z" fill="#657B91"/>
+</g>
+<g data-guide="f_roi" tabindex="0" role="button" aria-label="F09 准确框选并追溯原始点" id="f_roi"><title>f roi</title><desc>slice_quality_detail_roi.js; export-roi: frame_id, source_row, obs_name, full-cache hashes; never use raw axis-aligned bounding box as exact inverse</desc>
+<rect x="25" y="1304" width="1150" height="82" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="600.0" y="1338" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">ROI: display rectangle → exact selected points → inverse raw polygon</text>
+<g id="number_F09" pointer-events="none"><rect x="32" y="1293" width="53" height="26" rx="5" fill="#183047"/><text x="58.5" y="1312" font-family="Arial" font-size="17" text-anchor="middle" font-weight="700" fill="white">F09</text></g></g>
+<g id="connector_76"><title>connector 76</title><desc></desc>
+<polyline points="600,1265 600,1304" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M600,1304 L595.0,1291.0 L605.0,1291.0 Z" fill="#657B91"/>
+</g>
+</g>
+<g id="panel_routing"><title>panel routing</title><desc></desc>
+<g id="connector_77"><title>connector 77</title><desc></desc>
+<polyline points="1270,865 1340,865" fill="none" stroke="#3E8B94" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1340,865 L1327.0,870.0 L1327.0,860.0 Z" fill="#3E8B94"/>
+</g>
+<g id="connector_78"><title>connector 78</title><desc></desc>
+<polyline points="2560,865 2630,865" fill="none" stroke="#3E8B94" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M2630,865 L2617.0,870.0 L2617.0,860.0 Z" fill="#3E8B94"/>
+</g>
+<g id="connector_79"><title>connector 79</title><desc></desc>
+<polyline points="1270,2345 1340,2345" fill="none" stroke="#3E8B94" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1340,2345 L1327.0,2350.0 L1327.0,2340.0 Z" fill="#3E8B94"/>
+</g>
+<g id="connector_80"><title>connector 80</title><desc></desc>
+<polyline points="2560,2345 2630,2345" fill="none" stroke="#3E8B94" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M2630,2345 L2617.0,2350.0 L2617.0,2340.0 Z" fill="#3E8B94"/>
+</g>
+<circle cx="3760" cy="1600" r="27" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="3760" y="1608" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">D</text>
+<g id="connector_81"><title>connector 81</title><desc></desc>
+<polyline points="3760,1570 3760,1573" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M3760,1573 L3755.0,1560.0 L3765.0,1560.0 Z" fill="#657B91"/>
+</g>
+<circle cx="125" cy="1600" r="27" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
+<text x="125" y="1608" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">C</text>
+<g id="connector_82"><title>connector 82</title><desc></desc>
+<polyline points="125,1627 125,1640" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M125,1640 L120.0,1627.0 L130.0,1627.0 Z" fill="#657B91"/>
+</g>
+<text x="3420" y="1608" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">Continue in D</text>
+<text x="350" y="1608" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">From C: normalized evidence</text>
+</g>
+<g id="figure_notes"><title>figure notes</title><desc></desc>
+<text x="60" y="3103" font-family="Arial" font-size="22" font-weight="700" text-anchor="start" fill="#183047">READING KEY</text>
+<text x="250" y="3103" font-family="Arial" font-size="23" font-weight="400" text-anchor="start" fill="#183047">A → B → C → D → E → F; availability branches in A may operate in parallel.</text>
+<text x="60" y="3142" font-family="Arial" font-size="22" font-weight="700" text-anchor="start" fill="#183047">Frozen policy:</text>
+<text x="250" y="3142" font-family="Arial" font-size="23" font-weight="400" text-anchor="start" fill="#183047">K=0.129; split=0.540; E=0.700; strongest domain low/high=0.65/0.60. Local references can adapt; these policy values do not.</text>
+<text x="60" y="3179" font-family="Arial" font-size="22" font-weight="700" text-anchor="start" fill="#183047">Traceability:</text>
+<text x="250" y="3179" font-family="Arial" font-size="23" font-weight="400" text-anchor="start" fill="#183047">Named SVG groups contain source-function descriptions. Full metric limits, score mappings and validation scope: companion methods document.</text>
+</g></svg></div><aside class="sidebar"><input id="search" placeholder="搜索编号、名称、输入或输出" aria-label="搜索节点"><select id="nodeSelect" aria-label="选择节点"></select><div id="detail" aria-live="polite"></div><div class="pager"><button id="previous">上一个</button><button id="locate">定位图中节点</button><button id="next">下一个</button></div></aside></div><script id="guide-data" type="application/json">[{"panel": "A", "id": "a_input", "type": "box", "x": 360, "y": 138, "w": 480, "h": 92, "source": "scan_h5ad_series; scan_h5ad_collection", "title": "输入数据采用什么组织方式", "input": "原始H5AD文件或一个包含多个H5AD的目录；H5AD通常保存每点表达、点的元数据以及空间坐标。", "operation": "先确定文件里有哪些生物样本、每个点属于哪张切片，再选择相应的切片识别方式。不同样本各自建序列，不把多个发育时期接成一条序列。", "output": "待解析的文件列表和数据集边界；此时还没有质量分数。", "next": "按数据组织方式进入A02「使用现成的切片标签」、A03「由离散z值识别切片」或A04「每张切片一个文件」。", "example": "7dpa1和10dpa1分别计算，不能让7dpa1最后一张的邻居变成10dpa1第一张。", "caution": "", "code": "A01", "label": "Input format"}, {"panel": "A", "id": "a_Slice_labels", "type": "box", "x": 30, "y": 290, "w": 340, "h": 106, "source": "_resolve_slice_labels; _resolve_order", "title": "使用现成的切片标签", "input": "一个H5AD及指定的obs切片字段，例如每个点的slice_id。obs是一行对应一个点的元数据表。", "operation": "按字段值把点分成切片，并按指定顺序或解析出的顺序排列。", "output": "每个点的切片归属、唯一切片ID列表和切片顺序。", "next": "进入A05「确认切片顺序、原始坐标和来源」，核对排序与坐标。", "example": "同一文件中slice_id为SL01的所有点组成SL01切片。", "caution": "标签名称本身不一定表示真实物理顺序。", "code": "A02", "label": "Slice labels"}, {"panel": "A", "id": "a_Discrete_z", "type": "box", "x": 430, "y": 290, "w": 340, "h": 106, "source": "_resolve_slice_labels; _resolve_order", "title": "由离散z值识别切片", "input": "带离散第三坐标z的空间数组；每个切片内的z应能形成明确的层。", "operation": "按z层分组并形成z标签，同时保留实际z和原始x/y。", "output": "点到z切片的映射、z切片ID与顺序；x/y继续用于二维QC。", "next": "进入A05「确认切片顺序、原始坐标和来源」。", "example": "z=80这一层可显示为z80；z不进入二维密度面积计算。", "caution": "连续散布的三维细胞不能未经核对就假定为离散切片。", "code": "A03", "label": "Discrete z"}, {"panel": "A", "id": "a_One_file__slice", "type": "box", "x": 830, "y": 290, "w": 340, "h": 106, "source": "_resolve_slice_labels; _resolve_order", "title": "每张切片一个文件", "input": "一组切片H5AD路径，以及可选的path/order清单。", "operation": "默认按自然文件名顺序排列；若文件名顺序不符合实际切片顺序，使用清单指定。", "output": "有序文件/切片列表，每片保留来源文件。", "next": "进入A05「确认切片顺序、原始坐标和来源」。", "example": "自然排序将SL2放在SL10前；普通字典序可能相反。", "caution": "", "code": "A04", "label": "One file / slice"}, {"panel": "A", "id": "a_contract", "type": "box", "x": 250, "y": 454, "w": 700, "h": 107, "source": "_resolve_xy; _resolve_order; _extract_one_file", "title": "确认切片顺序、原始坐标和来源", "input": "上游解析的切片归属、排序、坐标候选键、表达层与元数据。", "operation": "确认实际选用的原始x/y、顺序和表达层；记录单位信息、点身份和源文件校验值。未知单位应标为未知，不能凭图形大小猜单位。", "output": "可追溯的输入契约：每个点是谁、在哪张切片、使用哪套坐标和表达值。", "next": "必需字段解析失败→A06「停止当前受阻的数据集」；通过→A07「检查有哪些可用信号」。", "example": "spatial与spatial_artificial_unaligned是不同坐标键，不能任意替换。", "caution": "此节点不执行配准，也不改变原始数据。", "code": "A05", "label": "Resolve slice order + original x/y"}, {"panel": "A", "id": "a_stop", "type": "box", "x": 875, "y": 584, "w": 290, "h": 100, "source": "_extract_one_file", "title": "停止当前受阻的数据集", "input": "必需字段、坐标或切片身份无法可靠解析的错误。", "operation": "记录失败并停止依赖这些信息的当前运行。其他独立数据集是否继续由批处理入口处理。", "output": "错误/失败状态；没有可供解释的有效QC分数。", "next": "先修正输入契约，再从A01「输入数据采用什么组织方式」开始。", "example": "无法确定哪列代表切片时，不把每个细胞当作一张切片。", "caution": "", "code": "A06", "label": "Stop affected run"}, {"panel": "A", "id": "a_signals", "type": "decision", "x": 365.0, "y": 605.0, "w": 470, "h": 170, "source": "_extract_one_file", "title": "检查有哪些可用信号", "input": "已确认契约的坐标、表达矩阵和可选细胞类型标签。", "operation": "分别检查几何、矩阵、注释三类信号。这里是可并行的可用性分流，不是三选一。", "output": "可用信号清单及各自处理路径。", "next": "坐标→A08「从坐标计算组织几何」；表达矩阵→A10「判断所选矩阵的语义」；注释→A09「从细胞类型标签提取组成信号」。", "example": "只有可靠坐标也能计算几何证据，但不能凭空生成表达捕获证据。", "caution": "", "code": "A07", "label": "Which signals"}, {"panel": "A", "id": "a_geometry", "type": "box", "x": 25, "y": 813, "w": 285, "h": 164, "source": "_geometry_metrics: n<2 returns NaN geometry and conservative defaults; invalid x/y excluded from geometry", "title": "从坐标计算组织几何", "input": "每片原始x/y；若可用，局部低捕获指标还需要该点的捕获计数。", "operation": "用有限坐标计算凸包面积、点密度、最近邻间距及尾部、连通成分、碎片、空洞等。退化点集按函数规则返回受限值。", "output": "每片一组几何指标，而非图像是否“漂亮”的判断。", "next": "汇入A14「生成逐片指标和可用性记录」，随后用于B/C及D中的密度、损伤和连续性域。", "example": "最大连通成分占比0.9表示90%的有效几何点属于同一最大连通组织成分。", "caution": "QC几何中的min_points_geometry=20未实际生效；展示配准中的最小20点是另一条真实规则。", "code": "A08", "label": "Spatial geometry"}, {"panel": "A", "id": "a_labels", "type": "box", "x": 890, "y": 813, "w": 285, "h": 164, "source": "_celltype_js_profiles; _extract_one_file", "title": "从细胞类型标签提取组成信号", "input": "真实存在且被选用的细胞类型/注释字段，逐点对应。", "operation": "统计每片各类型的数量和比例，后续比较相邻切片的组成分布；没有标签则不产生该证据。", "output": "每片的类型比例向量；不是基因表达矩阵。", "next": "汇入A14「生成逐片指标和可用性记录」，并参与D04「跨切片连续性证据域C」；标签还可在显式配置时用于展示配准候选排序。", "example": "一片神经细胞20%、肌肉细胞80%是一组组成比例。", "caution": "类型比例改变既可能来自技术缺陷，也可能来自真实解剖变化。", "code": "A09", "label": "Cell-type labels"}, {"panel": "A", "id": "a_matrix_type", "type": "decision", "x": 357.5, "y": 820.0, "w": 485, "h": 140, "source": "_choose_layer; _is_count_like; blind_input_contract.expression_representation", "title": "判断所选矩阵的语义", "input": "选定的表达层/AnnData.X、计数形态检查、元数据及声明的表示类型。", "operation": "区分计数矩阵、非计数矩阵，以及契约明确声明的注释one-hot X。one-hot即每点以0/1表示所属类别，不是测得的基因计数。", "output": "决定允许从矩阵中提取哪些表达/捕获量。", "next": "计数→A11「处理测得的计数矩阵」；非计数→A12「处理归一化等非计数矩阵」；声明的one-hot X→A13「处理声明的注释one-hot X」。", "example": "每行只有一个1的类型编码，行和总是1，不能据此说每个细胞都捕获了1个转录本。", "caution": "数值看起来像整数只是线索，不等于生物学计数语义已确认。", "code": "A10", "label": "Selected matrix"}, {"panel": "A", "id": "a_semantic_20", "type": "box", "x": 20, "y": 1055, "w": 350, "h": 163, "source": "_extract_one_file; _align_profiles", "title": "处理测得的计数矩阵", "input": "每行一个点、每列一个基因的非负计数层。", "operation": "逐点求行和作为捕获计数，求非零基因数；按切片汇总。所选计数层的实际值优先于过时obs汇总。", "output": "每点计数/基因数、切片捕获指标及可用于连续性计算的表达汇总。", "next": "汇入A14「生成逐片指标和可用性记录」。", "example": "一行[2,0,5]给出总计数7、检出基因2。", "caution": "捕获计数不等于原始测序reads，也不直接反映测序饱和度。", "code": "A11", "label": "Measured counts"}, {"panel": "A", "id": "a_semantic_425", "type": "box", "x": 425, "y": 1055, "w": 350, "h": 163, "source": "_extract_one_file; _align_profiles", "title": "处理归一化等非计数矩阵", "input": "非计数表达矩阵，以及可能存在的obs原始计数/基因数汇总。", "operation": "当前实现优先使用obs计数/基因数；若无obs则使用矩阵行和/非零数作为代理量，并保留语义限制。表达profile仍可进入连续性处理。", "output": "注明来源的汇总或代理量；不能无条件解释为真实捕获深度。", "next": "汇入A14「生成逐片指标和可用性记录」。", "example": "log-normalized矩阵的行和不是UMI总量；若obs保存了可靠total_counts，应识别并使用该来源。", "caution": "图画的是当前实际行为；没有表示非计数输入已得到与原始计数等价的验证。", "code": "A12", "label": "Non-count matrix"}, {"panel": "A", "id": "a_semantic_830", "type": "box", "x": 830, "y": 1055, "w": 350, "h": 163, "source": "_extract_one_file; _align_profiles", "title": "处理声明的注释one-hot X", "input": "所选矩阵为X，且输入契约明确声明expression_representation包含one-hot。", "operation": "将捕获、相关表达统计和线粒体代理设为不可用，并跳过表达pseudobulk；保留原始几何和实际注释信息。", "output": "几何/注释可用，表达捕获不可用的指标记录。", "next": "汇入A14「生成逐片指标和可用性记录」。", "example": "每个点的one-hot类别向量不会被用来推断该点是否低表达。", "caution": "需要可靠声明；未声明的one-hot矩阵不能假定实现必然识别。", "code": "A13", "label": "Declared one-hot X"}, {"panel": "A", "id": "a_output", "type": "box", "x": 240, "y": 1280, "w": 720, "h": 84, "source": "_extract_one_file", "title": "生成逐片指标和可用性记录", "input": "几何、表达和类型分支的结果，以及来源契约。", "operation": "以切片为单位合并，保留每项指标的原始值、可用性和输入警告。", "output": "一张每行对应一片的指标表，以及表达profile/类型向量、点抽样和来源记录等配套对象。", "next": "送入B进行邻域比较；每项测量在C转为异常证据。", "example": "median_total_counts是一片中所有点总计数的中位数，不是已经标准化的异常分数。", "caution": "", "code": "A14", "label": "Per-slice metrics + availability + provenance"}, {"panel": "B", "id": "b_window_mode", "type": "decision", "x": 400.0, "y": 136.5, "w": 400, "h": 125, "source": "SliceQCConfig; _choose_window", "title": "决定使用固定窗口还是自动选窗", "input": "有序切片指标，以及用户配置的window。", "operation": "固定数字直接指定主窗口宽度；auto比较候选宽度。宽度包含当前片本身。", "output": "将采用的选窗方式。", "next": "固定→B02「使用固定主窗口」；auto→B03「自动比较候选窗口」。", "example": "W=3表示前一片、当前片、后一片，共3片。", "caution": "自动选窗不表示.129/.540/.700这些最终阈值也会按数据集自动改变。", "code": "B01", "label": "Window mode?"}, {"panel": "B", "id": "b_fixed", "type": "box", "x": 25, "y": 319, "w": 455, "h": 128, "source": "_choose_window", "title": "使用固定主窗口", "input": "指定的奇数窗口宽度W，默认3。", "operation": "保留该宽度，不进行候选窗口效用比较；靠近边界时只用实际存在的邻居。", "output": "主窗口宽度W及记录。", "next": "进入B04「滑动窗口示意中的切片、虚线框与箭头」，再按B05「逐指标检查有效邻居位于哪一侧」处理每片每指标。", "example": "第一张切片的W=3窗口只有自己和后一片，不虚构前一片。", "caution": "", "code": "B02", "label": "Fixed window"}, {"panel": "B", "id": "b_auto", "type": "box", "x": 620, "y": 319, "w": 555, "h": 156, "source": "_choose_window: utility=recall+.35*delta-.35*baseline_flags-.012*(W-3); no candidate -> W=3", "title": "自动比较候选窗口", "input": "整组原始指标和候选3/5/7，候选必须不超过系列长度。", "operation": "对每个候选宽度，最多选择8个确定性位置施加有限的表达指标扰动，计算检出、得分增量和基线非keep比例，并对较大窗口加惩罚。按记录的效用选择。", "output": "一个主窗口宽度及各候选效用记录。没有可用候选时回退W=3并注明系列过短。", "next": "进入B04「滑动窗口示意中的切片、虚线框与箭头」。", "example": "效用=扰动检出比例+0.35×平均分数增量−0.35×基线非keep比例−0.012×(W−3)。", "caution": "这是选窗启发式，不是独立准确率评估；这里最多8个位置不是8组数据或8轮正式验证。", "code": "B03", "label": "Automatic choice"}, {"panel": "B", "id": "b_sliding_window_example", "type": "illustration", "x": 115, "y": 540, "w": 1000, "h": 200, "source": "_local_expected; _choose_window", "title": "滑动窗口示意中的切片、虚线框与箭头", "input": "按切片索引排序的系列，以及主窗口W。", "operation": "紫色i是当前片，虚线框是当前窗口；计算参照时排除i，只取框内有效邻居。随后i前进一位，重新为下一张切片计算。", "output": "每张切片自己的邻居集合；没有一个固定的全局“正常切片”充当所有参照。", "next": "进入B05「逐指标检查有效邻居位于哪一侧」。", "example": "图中W=5时，i的候选邻居是i−2、i−1、i+1、i+2；最外侧省略号不是具体数据点。", "caution": "这里是切片顺序窗口，不是空间坐标里的ROI框，也不是跨物种窗口。", "code": "B04", "label": "Move the focal index i through the ordered series"}, {"panel": "B", "id": "b_context", "type": "decision", "x": 320.0, "y": 767.0, "w": 560, "h": 130, "source": "_local_expected: finite neighbors within truncated window", "title": "逐指标检查有效邻居位于哪一侧", "input": "当前片、候选邻居，以及某一指标的有限数值。", "operation": "分别查看当前片前后是否有有效值。同一切片不同指标可能因缺失情况不同而走不同分支。", "output": "双侧、仅单侧或无有效邻居的状态。", "next": "双侧→B06「用双侧邻居估计局部期望」；单侧→B07「用单侧邻居估计期望」；无邻居→B08「没有可用参照」。", "example": "两侧切片都存在，但前一片的计数指标缺失时，该计数指标可能只能使用后一侧。", "caution": "", "code": "B05", "label": "Finite neighbors for this metric?"}, {"panel": "B", "id": "b_context_25", "type": "box", "x": 25, "y": 993, "w": 350, "h": 163, "source": "_local_expected; _metric_anomaly", "title": "用双侧邻居估计局部期望", "input": "当前片前后都有该指标的有效值。", "operation": "排除当前片，对邻居数值按位置拟合中位两两斜率趋势，再在当前索引处求期望；同时记录左右中位数差异。", "output": "局部期望e、双侧标记及左右不一致程度。", "next": "在B09「合并主窗口与稳健支持窗口的证据」安排主/支持窗口计算，再送C标准化。", "example": "若前后正常计数分别约900和1100，当前片的期望可能约1000；不把当前片自身低计数混入参照。", "caution": "", "code": "B06", "label": "Both sides"}, {"panel": "B", "id": "b_context_425", "type": "box", "x": 425, "y": 993, "w": 350, "h": 163, "source": "_local_expected; _metric_anomaly", "title": "用单侧邻居估计期望", "input": "端点或缺失后，只剩当前片一侧的有效邻居。", "operation": "使用这些邻居的中位数；窗口在边界截断，不循环到序列另一端，也不补造切片。", "output": "单侧期望e和单侧标记；后续指标证据与总分受到边界减权。", "next": "继续B09「合并主窗口与稳健支持窗口的证据」/C；最终E不能仅靠单侧证据自动排除。", "example": "第一张切片只有后方邻居；不是因为缺少前方切片就认定它质量差。", "caution": "", "code": "B07", "label": "One side only"}, {"panel": "B", "id": "b_context_825", "type": "box", "x": 825, "y": 993, "w": 350, "h": 163, "source": "_local_expected; _metric_anomaly", "title": "没有可用参照", "input": "窗口内该指标没有任何有效邻居。", "operation": "期望保留为不可用，该指标内部异常值为0；不补值，也不制造可比较性。", "output": "无参照的记录和“未获得异常证据”的内部值。", "next": "继续合并其他可用指标；该项不能作为排除依据。", "example": "所有邻居都没有表达测量时，不能用“表达异常=0”推断当前片表达正常。", "caution": "", "code": "B08", "label": "No valid neighbor"}, {"panel": "B", "id": "b_support", "type": "box", "x": 85, "y": 1225, "w": 1030, "h": 121, "source": "_score_metrics: support=max(W, max(3, min(9, largest odd <=N))); internal=np.any(two_sided_matrix)", "title": "合并主窗口与稳健支持窗口的证据", "input": "主窗口结果，以及同组数据可支持的较宽趋势窗口。", "operation": "分别重算指标异常，并保留两者较大值。常用配置下支持宽度最多9；实际公式会保证不小于主窗口。主窗口的双侧信息继续用于切片上下文。", "output": "最终单指标异常、两套期望/证据记录，以及切片上下文与score_confidence。", "next": "C描述这里使用的单指标算法；合并后的证据进入D。", "example": "连续几张低质量片可能互相掩盖；较宽支持趋势提供另一组参照。", "caution": "B→C是说明分工：实现会在主窗口和支持窗口分别调用C，再取max，不是只计算一次C。切片双侧字段为各评分指标双侧状态取any；confidence为1或.72，不是正确概率。", "code": "B09", "label": "Primary + robust support window"}, {"panel": "C", "id": "c_input", "type": "box", "x": 270, "y": 144, "w": 660, "h": 90, "source": "_metric_anomaly", "title": "准备当前观测与局部期望", "input": "原始指标值v，以及B估计的同一指标期望e。", "operation": "确保比较的是同一测量、同一单位；检查有限值。", "output": "待计算的差值、方向和可比较状态。", "next": "进入C02「选择异常的方向」。", "example": "v=400、e=1000可表示当前与期望的每点计数中位数；它们都还不是异常分数。", "caution": "", "code": "C01", "label": "Observed value v + local expectation e"}, {"panel": "C", "id": "c_direction", "type": "decision", "x": 385.0, "y": 271.0, "w": 430, "h": 132, "source": "_LOW_BAD_RULES; _HIGH_BAD_RULES", "title": "选择异常的方向", "input": "当前指标名称及预定义的下降型/上升型规则。", "operation": "按照指标含义选择“减少不利”还是“增加不利”；方向不是看这次数据升降后临时决定。", "output": "相应的方向性效应计算方式。", "next": "下降型→C03「计算下降型相对效应」；上升型→C04「计算上升型绝对效应」。", "example": "计数下降可提示捕获损失；空洞比例上升可提示组织内部缺失。", "caution": "", "code": "C02", "label": "Adverse direction?"}, {"panel": "C", "id": "c_low", "type": "box", "x": 25, "y": 480, "w": 540, "h": 193, "source": "_LOW_BAD_RULES; EPS prevents zero division", "title": "计算下降型相对效应", "input": "下降型指标的观测v和期望e。", "operation": "m=max((e−v)/|e|,0)，分母用极小正数保护。只给不利下降记正效应。", "output": "相对下降幅度m，以及供稳健残差使用的e−v。", "next": "同时进入C05「把效应大小映射到0–1」与C06「计算稳健残差异常」。", "example": "e=1000、v=400，则m=.60；v=1200时这一路m=0。", "caution": "这不是把全部指标都除以最大值进行min-max归一化。", "code": "C03", "label": "Lower is worse"}, {"panel": "C", "id": "c_high", "type": "box", "x": 635, "y": 480, "w": 540, "h": 193, "source": "_HIGH_BAD_RULES", "title": "计算上升型绝对效应", "input": "上升型指标的观测v和期望e。", "operation": "m=max(v−e,0)。比例型指标接近0时，使用绝对增量避免相对倍数爆炸。", "output": "绝对增加量m，以及供稳健残差使用的v−e。", "next": "同时进入C05「把效应大小映射到0–1」与C06「计算稳健残差异常」。", "example": "空洞比例由.02升为.08，m=.06（6个百分点），不是异常分数等于3或4。", "caution": "", "code": "C04", "label": "Higher is worse"}, {"panel": "C", "id": "c_effect", "type": "box", "x": 25, "y": 755, "w": 540, "h": 162, "source": "_metric_anomaly; _LOW_BAD_RULES; _HIGH_BAD_RULES", "title": "把效应大小映射到0–1", "input": "效应m，以及该指标预设的mild、severe两个效应界限。", "operation": "R=clip((m−mild)/(severe−mild),0,1)。clip表示小于0设0、大于1设1。", "output": "效应证据R；并非最终总分。", "next": "与C06「计算稳健残差异常」的结果在C08「合并证据并降低不可靠邻域的权重」合并。", "example": "计数的mild=.25、severe=.62；相对下降.60对应R约.946。", "caution": "这里mild/severe是单指标效应界限，与第一阶段.129/.700及域阈值.65/.60不同。", "code": "C05", "label": "Effect-size score R"}, {"panel": "C", "id": "c_z", "type": "box", "x": 635, "y": 755, "w": 540, "h": 179, "source": "_robust_scale:1.4826*MAD; fallback std then1; _metric_anomaly", "title": "计算稳健残差异常", "input": "整个序列中该指标的方向性残差，以及当前片残差。", "operation": "用残差中位数居中，以1.4826×MAD估计尺度，退化时用标准差，再退化为1。正向标准化残差z映射为Z=clip((z−1.5)/3,0,1)。", "output": "当前变化相对整组残差分布有多突出，形成证据Z。", "next": "上升型先经C07「限制近零指标被夸大的异常」；下降型直接进入C08「合并证据并降低不可靠邻域的权重」。", "example": "两个指标有相同绝对变化，但平时波动尺度不同，稳健残差证据可以不同。", "caution": "MAD是“绝对偏差的中位数”；这不是检验p值，也不是以当前片自己的点分布估计缺陷概率。", "code": "C06", "label": "Robust residual score Z"}, {"panel": "C", "id": "c_small_high", "type": "box", "x": 635, "y": 951, "w": 540, "h": 128, "source": "_metric_anomaly: only direction=high", "title": "限制近零指标被夸大的异常", "input": "上升型的Z、绝对效应m及轻效应界限mild。", "operation": "把Z乘clip(m/mild,0,1)。当绝对变化很小时，即使残差标准化值大，也不给它满额证据。", "output": "经过最小效应约束的上升型Z。", "next": "进入C08「合并证据并降低不可靠邻域的权重」；下降型旁路跳过本节点。", "example": "m=.004、mild=.04，则最多保留原Z的10%。", "caution": "只作用于上升型稳健残差分支，不同时缩小R。", "code": "C07", "label": "High-direction safeguard"}, {"panel": "C", "id": "c_merge", "type": "box", "x": 35, "y": 1119, "w": 1130, "h": 174, "source": "_metric_anomaly; invalid observation/reference gives zero anomaly evidence", "title": "合并证据并降低不可靠邻域的权重", "input": "R、处理后的Z、双侧/单侧状态，以及左右邻居的不一致程度。", "operation": "先取max(R,Z)，再乘上下文因子（双侧1、单侧.72）和邻居一致性惩罚（.35–1）。计数/基因另外保留直接相对下降证据；主/支持窗口结果再取max。", "output": "每项指标的异常A及其期望、支持和缺失信息，供四域聚合使用。", "next": "跨区进入D01「密度与组织量证据域D」、D02「表达捕获证据域X」、D03「损伤代理证据域M」和D04「跨切片连续性证据域C」。", "example": "若R=.4、Z=.8、双侧且一致性惩罚=.5，则这一路A=.4；计数直接效应或较宽窗口可能再提高最终单指标证据。", "caution": "表达profile与类型组成有专用散度映射，不能直接把本节点这条通用式套到所有连续性信号。", "code": "C08", "label": "Combine, downweight and retain provenance"}, {"panel": "D", "id": "d_domain_Density", "type": "box", "x": 25, "y": 150, "w": 550, "h": 205, "source": "_score_metrics: density_domain_score", "title": "密度与组织量证据域D", "input": "来自C的密度、点数、空洞、近邻尾部、碎片及最大成分占比异常分数。", "operation": "按图中权重聚合，并与最强两个指标的组合取较大值。这样既看总体，也避免少数强信号被均值稀释。", "output": "0–1的密度/组织量域分数D。", "next": "通过D05「四域共享的域内聚合规则」所示共同规则，进入D06「从四个域得到未保护总分S₀」。", "example": "输入的“密度异常=.8”已是标准化分数，不再是每平方微米的细胞数。", "caution": "这一域共享了碎片、空洞等信号，因此不能把它和损伤/连续性视作完全独立的证据。", "code": "D01", "label": "Density / amount D"}, {"panel": "D", "id": "d_domain_Expression", "type": "box", "x": 625, "y": 150, "w": 550, "h": 205, "source": "_score_metrics: expression_domain_score", "title": "表达捕获证据域X", "input": "计数、基因、零值比例、复杂度、检出基因比例、局部/区域低捕获的异常分数。", "operation": "计算可用指标的加权均值，与最强两个指标组合取较大值。", "output": "0–1的表达捕获域分数X。", "next": "进入D06「从四个域得到未保护总分S₀」及解剖保护/检测器规则。", "example": "计数和检出基因同时明显降低，可以共同支持这个域。", "caution": "图中的X是一个标量域分数，不是原始表达矩阵AnnData.X。", "code": "D02", "label": "Expression capture X"}, {"panel": "D", "id": "d_domain_Damage", "type": "box", "x": 25, "y": 402, "w": 550, "h": 155, "source": "_score_metrics: damage_domain_score", "title": "损伤代理证据域M", "input": "线粒体比例异常和组织碎片异常。", "operation": "对可用异常分别赋权.65、.35并聚合。", "output": "0–1的损伤代理域分数M。", "next": "进入D06「从四个域得到未保护总分S₀」和解剖保护规则。", "example": "线粒体比例异常可能支持应激/损伤，但单靠这个指标不能确认具体实验原因。", "caution": "这是损伤代理，不是组织损伤的直接诊断。", "code": "D03", "label": "Damage proxies M"}, {"panel": "D", "id": "d_domain_Continuity", "type": "box", "x": 625, "y": 402, "w": 550, "h": 155, "source": "_profile_continuity; _celltype_js_profiles; _score_metrics", "title": "跨切片连续性证据域C", "input": "表达profile异常、细胞类型组成异常，以及空洞异常。", "operation": "表达profile先比较当前片与邻居平均profile的余弦差异，并考虑左右邻居相似度；类型组成用Jensen–Shannon散度。映射成异常后按.58/.22/.20聚合。", "output": "0–1的连续性域分数C。", "next": "进入D06「从四个域得到未保护总分S₀」和解剖保护规则。", "example": "若当前片表达概貌突变，而前后两侧彼此相似，该片可能获得连续性异常证据。", "caution": "profile是按片汇总的基因表达概貌；此处并未用展示预配准坐标计算逐点解剖对应。", "code": "D04", "label": "Continuity C"}, {"panel": "D", "id": "d_available", "type": "box", "x": 25, "y": 602, "w": 1150, "h": 92, "source": "_weighted_available; _top_two_evidence", "title": "四域共享的域内聚合规则", "input": "某一域中的指标异常分数及固定权重。", "operation": "可用有限值做加权均值并按可用权重归一；密度/表达域另算.65×最强+.35×次强，再与均值取max。", "output": "各域分数的计算规则，不是额外第五个评分域。", "next": "得到四个域分数后进入D06「从四个域得到未保护总分S₀」。", "example": "最强=.8、次强=.6时，top-two=.73。若该域加权均值=.5，则密度/表达域采用.73。", "caution": "上游有些不可用信息被内部记为0证据；0不等于观察到正常。“finite可用值”是实现规则，不能据此补出生物学测量。", "code": "D05", "label": "Within-domain rules"}, {"panel": "D", "id": "d_rawscore", "type": "box", "x": 25, "y": 733, "w": 1150, "h": 144, "source": "_score_metrics: raw_score; corroborating_domains", "title": "从四个域得到未保护总分S₀", "input": "D、X、M、C四个域分数。", "operation": "计算.31D+.39X+.12M+.18C，同时计算最大域支路clip(.48+.78×(最大域−.68),0,1)，两者取max；统计有多少域≥.45。", "output": "未施加解剖保护和端点减权的总分S₀、支持域数及各域值。", "next": "进入D07「是否触发解剖保护」；总分还不是最终公开动作。", "example": "D=.65、X=.55、M=.10、C=.20时，加权值=.464，最大域支路=.4566，故S₀=.464。", "caution": "S₀不是四个域简单平均，也不是概率；最大域支路解释了为何只降低review分界可能并无效果。", "code": "D06", "label": "Aggregate anomaly score S₀"}, {"panel": "D", "id": "d_protection", "type": "decision", "x": 352.5, "y": 906.5, "w": 495, "h": 125, "source": "_score_metrics: density_only OR taper_like", "title": "是否触发解剖保护", "input": "四域分数及点数、密度、空洞的单指标异常。", "operation": "检查D08「解剖保护条件定义框」列出的两种组合，任一成立就设置保护标记。此处想减少把自然收窄或局部结构差异误当技术缺陷的风险。", "output": "保护标记true/false。", "next": "yes→D09「对受保护切片限制自动排除」；no→直接将S₀送D10「施加末端减权并交出最终异常分数」。", "example": "组织量减少，但密度、表达和空洞仍相对正常时，可能符合自然收窄保护。", "caution": "保护是经验规则，不是已经确认该组织变化一定合理。", "code": "D07", "label": "Anatomical protection?"}, {"panel": "D", "id": "d_guard_rule", "type": "box", "x": 25, "y": 1068, "w": 680, "h": 166, "source": "_score_metrics: density_only; taper_like", "title": "解剖保护条件定义框", "input": "各域和单指标异常分数，不是原始点数或原始密度。", "operation": "条件一：D≥.48、X<.32、M<.38、C<.45。条件二：点数异常≥.45、密度异常<.30、空洞异常<.30、X<.35。任一组完整成立即保护。", "output": "提供给D07「是否触发解剖保护」的逻辑判断定义。", "next": "虚线指向D07「是否触发解剖保护」；这不是另一条会修改分数的独立处理步骤。", "example": "“点数异常≥.45”不等于“点数≥.45”或“减少45%”，而是标准化后的点数异常分数。", "caution": "", "code": "D08", "label": "Protection conditions (either suffices)"}, {"panel": "D", "id": "d_guard_yes", "type": "box", "x": 785, "y": 1070, "w": 390, "h": 130, "source": "_score_metrics", "title": "对受保护切片限制自动排除", "input": "保护标记为true，以及S₀。", "operation": "S取S₀和.62的较小值；.62来自内部检测器默认排除阈值.64减.02。保留保护标记，后续排除门控也检查它。", "output": "保护后的S和标记。", "next": "进入D10「施加末端减权并交出最终异常分数」。", "example": "S₀=.80时被限制为.62；S₀=.40时仍为.40。", "caution": "保护不是将切片修好；只是限制当前自动判定。", "code": "D09", "label": "Protected"}, {"panel": "D", "id": "d_endpoint", "type": "box", "x": 60, "y": 1260, "w": 1080, "h": 110, "source": "_score_metrics: final_score; window_context; score_confidence", "title": "施加末端减权并交出最终异常分数", "input": "保护处理后的S或未保护的S₀，以及主窗口上下文。", "operation": "单侧上下文总分再乘.82；双侧不乘。最终截断到0–1。", "output": "供最终策略使用的异常总分S，同时保留域分数、保护标记、上下文和confidence。", "next": "送入E01「生成内部检测器候选标签」，再由E02「第一阶段按锁定总分阈值分流」决策。", "example": "单侧S=.50变为.41；同时仍有单侧标记，不能因为分数够高就绕过双侧排除要求。", "caution": "单指标阶段的.72和这里总分阶段的.82是两处不同操作。", "code": "D10", "label": "Final score and boundary status"}, {"panel": "E", "id": "e_detector", "type": "box", "x": 25, "y": 145, "w": 1150, "h": 185, "source": "_score_metrics: recommendations", "title": "生成内部检测器候选标签", "input": "S、各域、单指标异常，以及双侧/保护状态。", "operation": "按框内条件生成内部keep/review/exclude：强表达或特定几何组合可触发候选；若缺双侧或有保护，不能从这里直接判内部exclude。", "output": "recommendation内部标签及原因，不是最终公开final_call。", "next": "与同一总分S一并送入E02「第一阶段按锁定总分阈值分流」。", "example": "内部阈值.38/.64与最终策略.129/.700属于不同层，不能拿其中一组替代另一组。", "caution": "此处review意味着存在值得后续处理的证据，不表示最终报告要求用户再做人工裁决。", "code": "E01", "label": "Internal detector (distinct from final thresholds)"}, {"panel": "E", "id": "e_stage1", "type": "decision", "x": 340.0, "y": 362.0, "w": 520, "h": 124, "source": "apply_high_confidence_policy", "title": "第一阶段按锁定总分阈值分流", "input": "最终异常总分S、内部检测器标签与保护/上下文。", "operation": "S≤.129走保留候选；.129<S<.700进review；S≥.700还要经过直接排除门控。", "output": "阈值区间threshold_band及第一阶段路径。", "next": "低→E03「低总分直接保留候选」；中→E04「建立内部review队列」；高→E05「高总分的直接排除门控」。", "example": "S=.50和S=.60都先进入review，随后才按.540区别细筛门槛。", "caution": ".540不是第一阶段直接keep阈值；当前策略也不按数据集重估这三条边界。", "code": "E02", "label": "Stage 1: compare S"}, {"panel": "E", "id": "e_keep_candidate", "type": "box", "x": 25, "y": 555, "w": 300, "h": 105, "source": "apply_high_confidence_policy; _evaluate_review_tier_row", "title": "低总分直接保留候选", "input": "S≤.129的切片及其上下文记录。", "operation": "在当前完整二元实验应用中给出保留动作，并保留内部检测器/保护等审计字段；不做第二阶段review证据门控。", "output": "最终keep及保留理由。", "next": "沿左侧线进入E10「最终保留动作」，再写F01「写出可追溯的逐片决策记录」。", "example": "S=.10不会为了形式完整再走一次低分review。", "caution": "这里keep不表示“独立认证健康”；当前实验作用域不生成生物学认证。", "code": "E03", "label": "Keep candidate"}, {"panel": "E", "id": "e_middle", "type": "box", "x": 405, "y": 555, "w": 350, "h": 105, "source": "apply_high_confidence_policy; _evaluate_review_tier_row", "title": "建立内部review队列", "input": ".129<S<.700的切片；此外也接收高分直接排除门控未通过的切片。", "operation": "收集仍需要多维/跨窗口证据判断的切片。", "output": "待第二阶段处理的review记录。", "next": "进入E06「为每一条review选择细筛分段」。", "example": "S=.45将实际接受低分细筛，而不是一律keep-only提前返回。", "caution": "", "code": "E04", "label": "Internal review"}, {"panel": "E", "id": "e_high", "type": "box", "x": 835, "y": 540, "w": 340, "h": 143, "source": "apply_high_confidence_policy; _evaluate_review_tier_row", "title": "高总分的直接排除门控", "input": "S≥.700的切片。", "operation": "同时要求内部检测器为exclude、主窗口双侧、没有解剖保护。任一失败即降入review。", "output": "直接exclude，或降级review及失败原因。", "next": "全部通过→E11「最终排除建议」；任一失败→E04「建立内部review队列」/E06「为每一条review选择细筛分段」。", "example": "即使S很高，只要缺乏双侧支持也不会直接排除。", "caution": "图右侧“all pass”长线专属这条直接排除路径，不表示跳过了保护检查。", "code": "E05", "label": "Direct-exclude gate"}, {"panel": "E", "id": "e_review_split", "type": "decision", "x": 350.0, "y": 726.5, "w": 500, "h": 125, "source": "_validate_review_tiers; _evaluate_review_tier_row", "title": "为每一条review选择细筛分段", "input": "已经进入review的切片及其主窗口总分S。", "operation": "S<.540进入低分细筛；S≥.540进入高分细筛。这里只选用规则，没有重新计算总分。", "output": "当前切片使用的tier名称和参数。", "next": "yes→E07「低分review的证据要求」；no→E08「高分review的证据要求」。", "example": "S恰好=.540时进入高分段。", "caution": "这是主窗口分段；确认窗口不再用.540把当前切片切换到另一套规则。", "code": "E06", "label": "Review score < 0.540?"}, {"panel": "E", "id": "e_low_tier", "type": "box", "x": 55, "y": 922, "w": 495, "h": 132, "source": "apply_high_confidence_policy; _evaluate_review_tier_row", "title": "低分review的证据要求", "input": ".129<S<.540的review切片、四域证据和各确认窗口结果。", "operation": "选用至少2个支持域、最强域≥.65的规则；每个支持域自身必须≥.45。然后还要经过共用门控。", "output": "低分段要求，不是仅凭最强域就给exclude。", "next": "进入E09「执行第二阶段全部AND条件」。", "example": "最大域=.64时，尽管可能有两个支持域，仍未达到本段最强域门槛。", "caution": "低分门槛.65高于高分段.60：对这项证据而言，低分需要更强理由才能排除。", "code": "E07", "label": "Low-score review"}, {"panel": "E", "id": "e_high_tier", "type": "box", "x": 650, "y": 922, "w": 495, "h": 132, "source": "apply_high_confidence_policy; _evaluate_review_tier_row", "title": "高分review的证据要求", "input": "S≥.540且仍处于review的切片，包括直接排除失败后降级的高分片。", "operation": "选用至少2个支持域、最强域≥.60的规则；继续检查所有共用条件。", "output": "高分段规则。", "next": "进入E09「执行第二阶段全部AND条件」。", "example": "S=.60、最强域=.62，只通过了分数与最强域这两项，仍可能因某窗口不支持而保留。", "caution": "本段没有.700上界，因为还包括降级进入review的高分片。", "code": "E08", "label": "Higher-score review"}, {"panel": "E", "id": "e_all_gates", "type": "box", "x": 140, "y": 1098, "w": 920, "h": 150, "source": "_evaluate_review_tier_row: primary confidence only; all-window support=1.0; upper tier bound applies to primary only", "title": "执行第二阶段全部AND条件", "input": "被选中的tier；主窗口域证据、检测器和保护；可用3/5/7确认窗口的完整详情。", "operation": "主窗口必须是检测器review/exclude、双侧、无保护、confidence≥.90，并满足所选域数/最强域。每个可用窗口还必须满足检测器、双侧、无保护、域数/最强域及该tier总分下限。要求支持比例100%；缺窗口详情视作不通过。", "output": "通过/失败、逐条失败理由、窗口支持比例。", "next": "全部通过→E11「最终排除建议」；任一失败→E10「最终保留动作」。", "example": "高分段主窗口通过，但7片窗口最强域只有.58时，不能达到.60门槛，最终keep。", "caution": "确认窗口最低总分为低段.129、高段.540；只主窗口另查confidence。窗口检查不是把图B的auto选窗重新做一遍，也不是按“多数票”通过。", "code": "E09", "label": "AND: every required evidence condition passes"}, {"panel": "E", "id": "e_keep", "type": "box", "x": 125, "y": 1310, "w": 380, "h": 68, "source": "apply_high_confidence_policy; _evaluate_review_tier_row", "title": "最终保留动作", "input": "第一阶段保留候选，或review细筛任一必要条件未通过的切片。", "operation": "写final_call=keep，记录来自哪条路径和为什么不能自动排除。", "output": "公开keep标签和完整内部审计。", "next": "进入F01「写出可追溯的逐片决策记录」与viewer。", "example": "“跨窗口不稳定而保留”和“总分低而保留”最终同是keep，但审计理由不同。", "caution": "keep代表当前证据不足以支持排除，不保证不存在缺陷；原始点不会被删除。", "code": "E10", "label": "KEEP"}, {"panel": "E", "id": "e_exclude", "type": "box", "x": 695, "y": 1310, "w": 380, "h": 68, "source": "apply_high_confidence_policy; _evaluate_review_tier_row", "title": "最终排除建议", "input": "第一阶段直接门控全部通过，或第二阶段全部证据条件通过的切片。", "operation": "写final_call=exclude，保存直接/细筛路径及证据。", "output": "公开exclude标签，供下游挑选输入时参考。", "next": "进入F01「写出可追溯的逐片决策记录」与viewer。", "example": "同为exclude，可分别来自高总分直接路径或低分多域稳定细筛路径。", "caution": "不会自动删除源文件；当前实验策略的exclude也不等于病理或技术原因已经确诊。", "code": "E11", "label": "EXCLUDE"}, {"panel": "F", "id": "f_audit", "type": "box", "x": 25, "y": 148, "w": 1150, "h": 140, "source": "write_high_confidence_outputs; run_publish", "title": "写出可追溯的逐片决策记录", "input": "每片原始指标、S、内部标签、两阶段路径、窗口证据及final_call。", "operation": "一片一行保存，记录policy和输入校验值。实验作用域保留实际二元动作，但清除独立认证结论。", "output": "binary audit/calls CSV、策略应用JSON及后续报告需要的信息。", "next": "输出到报告；按需求进入F02「是否需要共同坐标系中的比较」的独立展示路径。", "example": "用户看到keep/exclude；研究者仍可从audit查到review分段和失败条件。", "caution": "阈值分流、内部候选、最终动作、认证状态是不同字段。", "code": "F01", "label": "Save one audit row per original slice"}, {"panel": "F", "id": "f_prereg_request", "type": "decision", "x": 335.0, "y": 348.0, "w": 530, "h": 146, "source": "run_preregister", "title": "是否需要共同坐标系中的比较", "input": "显示需求、原始坐标和已有QC结果。", "operation": "若需要跨片共享ROI，建立或复用展示预配准；否则直接用原始坐标展示。", "output": "展示坐标来源的选择。", "next": "no→F03「使用原始坐标展示」；yes→F04「轻量化刚性预配准」。", "example": "只看每片全局统计时可不做预配准；要用同一个框比较邻片时需要明确共同frame。", "caution": "这条路径不回写D/E中的评分或决策。", "code": "F02", "label": "Shared-coordinate"}, {"panel": "F", "id": "f_raw_only", "type": "box", "x": 30, "y": 575, "w": 355, "h": 129, "source": "slice_preregistration.py; slice_quality_visualization.py", "title": "使用原始坐标展示", "input": "原始坐标及原QC结果。", "operation": "直接绘制原始点，不添加共同参考变换。", "output": "原始坐标下的证据视图。", "next": "进入F08「生成现有多面板证据报告」；不据此声称可做共同解剖位置的ROI比较。", "example": "独立旋转过的两片即使坐标数值范围相同，也不意味着图中同一位置是同一组织。", "caution": "", "code": "F03", "label": "Raw-only view"}, {"panel": "F", "id": "f_rigid", "type": "box", "x": 465, "y": 550, "w": 710, "h": 215, "source": "slice_preregistration.py; slice_quality_preregistration.py", "title": "轻量化刚性预配准", "input": "同一个数据集内有序原始x/y、固定配置、可选显式注释排名条件。", "operation": "每片确定性抽样最多1000点，24个角度起始，每个最多50迭代，以较近80%对应点拟合平移/旋转。相邻变换正确组合到该数据集中间片参考系。", "output": "每片原始→展示矩阵T、参考片、逐对关系、抽样和状态；将T应用到全部原始点产生独立展示坐标。", "next": "进入F05「检查拟合失败、方向歧义和参考链状态」。", "example": "若B已映到参考A，C先映到B，则C到A用T(B→A)×H(C→B)，不能只显示C对B的局部坐标。", "caution": "不缩放、不镜像、不非刚性拉伸；拟合最少20点与A区QC几何配置是不同参数。已有缓存可复用，不必每次重拟合。", "code": "F04", "label": "Display-only rigid preregistration"}, {"panel": "F", "id": "f_fit_status", "type": "decision", "x": 562.5, "y": 799.0, "w": 525, "h": 134, "source": "slice_preregistration.py: failure / ambiguity warnings propagate along composed chain", "title": "检查拟合失败、方向歧义和参考链状态", "input": "拟合矩阵、几何残差、替代角度结果、可选注释支持和上游参考链。", "operation": "检查是否报错、不同方向解是否接近、几何/注释差异是否过大，以及父级链是否已有警告。当前启发式如替代方向代价比<1.05或归一化几何残差>.08可触发警告。", "output": "estimated、warning或failed等状态，以及警告原因和受影响切片。", "next": "有失败/歧义→F06「把不可靠预配准显式显示出来」；获得拟合且无记录警告→F07「保存已估计的展示坐标」。", "example": "两个明显不同旋转方向的拟合代价很接近时，要提示方向歧义。", "caution": "图上“reliable enough”是状态/启发式检查的概括，不是经过真值验证的解剖准确率。", "code": "F05", "label": "Fit / reference chain"}, {"panel": "F", "id": "f_warn", "type": "box", "x": 465, "y": 1002, "w": 335, "h": 128, "source": "slice_preregistration.py; slice_quality_visualization.py", "title": "把不可靠预配准显式显示出来", "input": "配准失败、歧义或受警告参考链影响的切片。", "operation": "保留失败和传播状态；显示能提供的坐标及警告，说明局部比较受限，不静默改为成功。", "output": "带可见限制的展示状态。", "next": "进入F08「生成现有多面板证据报告」；用户解读ROI时必须同时看到警告。", "example": "若相邻配准边不可靠，经该边组合到参考系的后续片也应保留相关警告。", "caution": "配准误差不直接变成切片QC的低质量证据。", "code": "F06", "label": "Uncertain / failed"}, {"panel": "F", "id": "f_fit_ok", "type": "box", "x": 840, "y": 1002, "w": 335, "h": 128, "source": "slice_preregistration.py; slice_quality_visualization.py", "title": "保存已估计的展示坐标", "input": "合法刚性矩阵、有效参考链且没有触发当前警告的拟合。", "operation": "保存矩阵和逆矩阵、展示坐标、身份映射、参数和哈希。", "output": "共同frame中的点及原始对应关系。", "next": "进入F08「生成现有多面板证据报告」。", "example": "原始点[10,20]经T变成展示点[12,25]，仍保留原始点身份与原始坐标。", "caution": "estimated只是算法完成估计；无警告不证明解剖对应完全正确。", "code": "F07", "label": "Fitted coordinates"}, {"panel": "F", "id": "f_viewer", "type": "box", "x": 25, "y": 1180, "w": 1150, "h": 85, "source": "slice_quality_visualization.py: render_binary_slice_quality_appendix; raw/display toggle; linked 3/5 slice windows", "title": "生成现有多面板证据报告", "input": "二元决策、原始指标、点级表达、KDE/成分证据，以及可选的展示坐标和状态。", "operation": "组织Overview、Statistics、Slice evidence、All slices、Methods页面，联动3/5片窗口及KDE、表达捕获、成分图。", "output": "可检查的HTML报告或多数据集集合；每片显示QC结论、证据与坐标来源。", "next": "共享坐标可用时进入F09「准确框选并追溯原始点」；原始视图仍可独立检查。", "example": "KDE图颜色表示局部点密度估计，表达图颜色表示捕获/基因信号；二者不是最终总分热图。", "caution": "显示3/5片的窗口不等于QC主窗口或3/5/7确认窗口；颜色和视图缩放不修改final_call。", "code": "F08", "label": "Current viewer: KDE • capture • components • statistics • binary calls"}, {"panel": "F", "id": "f_roi", "type": "box", "x": 25, "y": 1304, "w": 1150, "h": 82, "source": "slice_quality_detail_roi.js; export-roi: frame_id, source_row, obs_name, full-cache hashes; never use raw axis-aligned bounding box as exact inverse", "title": "准确框选并追溯原始点", "input": "指定frame_id中的展示矩形、邻片的原始→展示矩阵和点身份。", "operation": "将点映到展示frame后做矩形包含判断；把矩形四角经逆变换映回原始坐标，得到多边形。浏览器导出抽样选点，服务器export-roi可校验哈希后在全点缓存重放。", "output": "每片选中的原始行号/obs身份、坐标、计数、frame_id和原始ROI多边形。", "next": "交付可追溯选区；它不回到D/E重新改变QC。", "example": "旋转后的展示矩形在原始坐标里是斜四边形，不能用其轴对齐外接框代替精确选区。", "caution": "相同frame范围不保证完全相同的解剖区域；抽样点数量也不等于全量ROI点数量。", "code": "F09", "label": "ROI: display rectangle → exact selected points → inverse raw polygon"}]</script><script>
+const rows=JSON.parse(document.getElementById('guide-data').textContent), byId=Object.fromEntries(rows.map(r=>[r.id,r]));
+const select=document.getElementById('nodeSelect'),detail=document.getElementById('detail');let active=rows[0].id;
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function populate(term=''){const filtered=rows.filter(r=>(r.code+' '+r.title+' '+r.label+' '+r.input+' '+r.output).toLowerCase().includes(term.toLowerCase()));select.innerHTML=filtered.map(r=>`<option value="${r.id}">${r.code} · ${esc(r.title)}</option>`).join('');if(filtered.some(r=>r.id===active))select.value=active;return filtered.length;}
+function show(id){if(!byId[id])return;active=id;const r=byId[id];document.querySelectorAll('g[data-guide]').forEach(g=>g.classList.toggle('selected',g.dataset.guide===id));select.value=id;
+ detail.innerHTML=`<h2>${r.code} · ${esc(r.title)}</h2><div class="english">${esc(r.label)}</div>`+[['input','输入'],['operation','具体操作'],['output','输出'],['next','后续去向'],['example','例子'],['caution','容易误解的地方']].filter(([k])=>r[k]).map(([k,label])=>`<section class="${k==='caution'?'warning':''}"><label>${label}</label><p>${esc(r[k])}</p></section>`).join('')+`<label>实现追溯</label><p class="source">${esc(r.source)}<br>SVG ID: ${esc(r.id)}</p>`;
+ const targets=rows.filter(t=>t.id!==id&&r.next.includes(t.code+'「'));if(targets.length){const route=document.createElement('div');route.className='route';targets.forEach(t=>{const b=document.createElement('button');b.textContent='查看 '+t.code;b.onclick=()=>show(t.id);route.appendChild(b)});detail.appendChild(route)}
+}
+document.querySelectorAll('g[data-guide]').forEach(g=>{g.addEventListener('click',()=>show(g.dataset.guide));g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(g.dataset.guide)}})});
+select.onchange=()=>show(select.value);document.getElementById('search').oninput=e=>populate(e.target.value);
+document.getElementById('previous').onclick=()=>show(rows[(rows.findIndex(r=>r.id===active)+rows.length-1)%rows.length].id);document.getElementById('next').onclick=()=>show(rows[(rows.findIndex(r=>r.id===active)+1)%rows.length].id);
+const svg=document.querySelector('.canvas svg');let width=1800;function resize(w){width=Math.max(600,Math.min(6000,w));svg.style.width=width+'px';}
+document.getElementById('smaller').onclick=()=>resize(width/1.2);document.getElementById('larger').onclick=()=>resize(width*1.2);document.getElementById('fit').onclick=()=>resize(document.getElementById('canvas').clientWidth-36);
+document.getElementById('locate').onclick=()=>document.getElementById(active).scrollIntoView({block:'center',inline:'center',behavior:'smooth'});
+populate();show(rows[0].id);window.refereeGuide={show,populate,getActive:()=>active,rows};
+</script></html>
