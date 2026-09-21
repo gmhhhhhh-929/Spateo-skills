@@ -1,0 +1,4 @@
+interface:
+  display_name: "spateo-morphogenesis"
+  short_description: "Native Spateo 4D workflow companion"
+  default_prompt: "Use $spateo-morphogenesis with the parent spateo-4d-pipeline v3 configuration."

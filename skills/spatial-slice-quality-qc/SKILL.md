@@ -81,7 +81,7 @@ support and ambiguous fits remain visible. QC always uses original coordinates.
 Publish and render through the companion viewer skill:
 
 ```bash
-python ../spatial-slice-quality-viewer/scripts/build_viewer.py \
+python subskills/spatial-slice-quality-viewer/scripts/build_viewer.py \
   --input-dir /path/to/qc_run --output-dir /path/to/new_report \
   --policy policies/joint_review_v2.json --application-scope experimental_policy \
   --language en

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spateo 4D Pipeline"
+  short_description: "Native two-timepoint analysis with verified checkpoints"
+  default_prompt: "Use $spateo-4d-pipeline for a tracked native 4D analysis."

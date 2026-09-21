@@ -1,0 +1,4 @@
+interface:
+  display_name: "spateo-manage-runs"
+  short_description: "Native Spateo 4D workflow companion"
+  default_prompt: "Use $spateo-manage-runs with the parent spateo-4d-pipeline v3 configuration."

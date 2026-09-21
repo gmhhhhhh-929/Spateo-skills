@@ -25,3 +25,7 @@ The 14 restored entrypoints and fixed support tools originate from the user-prov
 ## Spateo Referee QC and viewer
 
 The two bundled scientific Referee modules derive from the user-provided Spateo checkout at baseline commit `94fb2f4b71b6e809d3c2341d0e209c30b937573a`, with subsequent QC, display-preregistration and experimental-policy changes. The source BSD-2-Clause license is preserved in [runtime/LICENSE](skills/spatial-slice-quality-qc/runtime/LICENSE). The current skill wrappers and renderers originate from the user-provided Referee skills; packaging hashes and provenance are recorded in [release.json](skills/spatial-slice-quality-qc/provenance/release.json). This snapshot is not claimed to be identical to the baseline commit. No biological point clouds or source matrices are distributed.
+
+## Native IO and 4D migration (2026-09-21)
+
+IO/4D API contracts are source-reviewed against gmhhhhhh-929/spateo-release at `615644f88613bea8ceb2e2df1e2391d16de55ec1`. Scientific algorithms are invoked from that separately installed library; they are not vendored by the new runner. The 4D workflow and portable dashboard were migrated from the user's local `spateo-skills` collection, with the user's Spateo-protocol-files notebooks (`b11ae99fbdc4ae46d41880e9306ab7e5c2751ac5`) used as scientific workflow references. No notebook dataset or image output is redistributed. The existing source notices and licenses remain in force.

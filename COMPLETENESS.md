@@ -1,3 +1,11 @@
+# Collection completeness
+
+The current ordered collection has six top-level entrypoints and 26 total skills: environment, rewritten IO, QC with one nested viewer, unchanged 2D alignment with 14 companions, a reserved 3D entrypoint, and native 4D with five companions. See [README.md](README.md) for the stage order and handoffs.
+
+Implemented in this update: English IO/result-container migration; English 4D protocol/native migration with executable checkpoints, refinement and dashboard; behavioral source/skill tests; viewer packaging relocation. The 3D stage intentionally has no runner or test claim. Existing environment/QC/2D scientific implementations are retained.
+
+The following is the historical alignment migration audit; its entry counts describe that migration snapshot, not today's entire collection.
+
 # Skills completeness audit — 2026-09-07
 
 Current collection note: QC and its detailed viewer were subsequently added, giving 5 top-level skills and 19 entries including the 14 alignment companions. The alignment audit below is preserved as historical evidence. Current Referee evidence: [methods and validation](skills/spatial-slice-quality-qc/references/methods.md).

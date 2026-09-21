@@ -1,8 +1,43 @@
 # Validation and scope
 
-Current collection note: QC and its detailed viewer were subsequently added, giving 5 top-level skills and 19 entries including the 14 alignment companions. The alignment audit below is preserved as historical evidence. Current Referee evidence: [methods and validation](skills/spatial-slice-quality-qc/references/methods.md).
+## Native IO / 4D update — 2026-09-21
 
-This publication contains three skills and two alignment pipelines. Aggregate results and provenance are included; biological datasets, benchmark coordinate tables and reference arrays are not distributed.
+Source: `gmhhhhhh-929/spateo-release@615644f88613bea8ceb2e2df1e2391d16de55ec1`. Protocol reference: `gmhhhhhh-929/Spateo-protocol-files@b11ae99fbdc4ae46d41880e9306ab7e5c2751ac5`. The collection now has six top-level entrypoints (including reserved 3D) and 26 total skills.
+
+| Check | Executed result | Scope |
+| --- | --- | --- |
+| Native source IO / Stereo-seq / native runtime | 96 passed, including real Visium | Real public implementations, synthetic platform/error contracts, native runtime and no-Dynamo source checks. |
+| New skill behavior | 19 passed | 7 IO tests; 12 4D cases including parametrized dependency invalidation. Scientific calls run without mocks, with a guard rejecting Dynamo imports. |
+| Existing QC + relocated viewer | 16 passed | 15 preserved QC tests and a new scan→nested-viewer CLI→complete-report integration test. |
+| Skill structure | 26 entrypoints passed skill-creator validation | YAML, names and unfinished scaffolds. |
+| Collection packaging | Passed | 26 skills, 6 top-level, links, Python syntax, 25 locked alignment entrypoints, preserved snapshots and viewer hashes. |
+| Frozen 2D bundle | 16 source file hashes matched | No new 2D scientific algorithm/accuracy claim. |
+| Browser QA | Passed | Offline Plotly rendered; flow, target and overlay views and curl coloring worked; target=40/80 and overlay=80/80; no browser console errors. |
+
+The source suite initially skipped the optional real-Visium test because its environment variable was unset. It was then run with the locally available public adult-mouse-brain Visium data and passed; the final IO smoke entrypoint run passed all 103 cases (96 source + 7 skill IO) with no skips. The actual IO CLI exported **2,702 spots × 32,285 features** and reread all persisted values. Its first attempt correctly rejected 40 duplicated gene symbols; explicit `--feature-id-column gene_ids` succeeded and retained original symbols in `var['source_var_name']`. No raw data are included in this repository.
+
+The 4D synthetic run executes reference alignment, cell directions, SparseVFC, trajectories, all five geometric metrics, two successful GLM fits and one GP interpolation, then writes an offline dashboard. Tests preserve original coordinates/counts, verify mapped endpoints and transport IDs, read all checkpoints, check failed/partial run states, enforce parent immutability and verify content-hash-based reuse. The test inputs use 40 cells per stage and 12 genes, CPU, a 5-iteration alignment with nonrigid_start_iter=1, 20 field iterations and 2 GP training iterations. These are execution smoke settings, not scientific analysis defaults.
+
+Issues found and resolved: retired confidence-based IO calls; incorrect auto-reader return assumptions; required AnnData 0.10 serialization of native preprocessing history (reversible tagged mappings); logger streams surviving closed stage logs; too-short reference-alignment iteration schedules; source/nonrigid coordinate-key inconsistency; notebook GLM formula interpolation and normalized-expression semantics; missing mapping summaries; target-view count and GLM likelihood display. Source algorithms themselves were not patched.
+
+Warnings were retained: Torch JIT deprecation, a Numba duplicate-compilation warning, a SciPy import deprecation and statsmodels' default negative-binomial dispersion. Successful execution does not establish biological validity, lineage tracing, benchmark accuracy, parameter adequacy or numerical equivalence with old notebooks. Full protocol datasets, GPU runs, publication mesh plots and the reserved 3D pipeline were not tested or implemented in this update.
+
+Reproduce from this repository with a compatible native environment:
+
+```bash
+PYTHONPATH=/path/to/spateo-release python -m pytest tests/native_skills -q
+PYTHONPATH=/path/to/spateo-release python -m pytest tests/referee -q
+python scripts/validate_collection.py
+python skills/spateo-2d-alignment/scripts/verify_bundle.py
+# Optional real-data test: set SPATEO_VISIUM_DATA to a valid Visium bundle.
+PYTHONPATH=/path/to/spateo-release python skills/spateo-data-io/scripts/smoke_source.py --source-root /path/to/spateo-release
+```
+
+Runtime versions, source hashes and test counts are recorded in [validation/native-io-4d.json](validation/native-io-4d.json).
+
+## Historical validation below
+
+The remaining sections preserve earlier publication evidence and counts. They do not describe the current IO API, current total skill count, or newly executed 4D tests.
 
 ## Source basis
 
@@ -37,7 +72,7 @@ These findings do not support a universal accuracy or stability improvement, aut
 
 ## Initial publication checks retained as historical evidence
 
-Environment and Data IO validation from the initial publication remains applicable to those unchanged skills. **This alignment extension did not rerun their installation or reader suites.**
+The following environment and Data IO results describe the original publication only; current IO results supersede them. **This alignment extension did not rerun their installation or reader suites.**
 
 - All three `SKILL.md` entrypoints passed the skill creator's frontmatter and naming checks at initial publication; current skill validation also passed for the alignment extension.
 - The environment verifier passed nine contract tests on Python 3.9 and Python 3.12, covering installation identity, portable paths, missing dependencies, JSON output and structured failures. The original two scientific smoke functions retained the source AST.

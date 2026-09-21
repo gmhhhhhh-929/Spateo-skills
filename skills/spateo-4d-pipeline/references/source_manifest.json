@@ -1,0 +1,62 @@
+{
+  "repository": "https://github.com/gmhhhhhh-929/spateo-release",
+  "commit": "615644f88613bea8ceb2e2df1e2391d16de55ec1",
+  "files": [
+    {
+      "path": "spateo/alignment/morpho_alignment.py",
+      "sha256": "2ada926c74d2019f75b371274e0104a6f5475f452fbc0368cd530dd53981df7a"
+    },
+    {
+      "path": "spateo/alignment/methods/morpho_class.py",
+      "sha256": "94d2456bea3c2d9c8044ccc22ff8a7f8d1d10c6c8ab8782b25d5dacce2f39cdc"
+    },
+    {
+      "path": "spateo/tdr/morphometrics/morphofield/sparsevfc.py",
+      "sha256": "a40c7509094c002dab4f99d6af3f83155eb8e541daba6d21d571ba4c6354ee50"
+    },
+    {
+      "path": "spateo/tdr/morphometrics/morphofield/trajectory.py",
+      "sha256": "60605cf93183247dfdff30e8af7148b682c6aaa2e1892f102ba65c03f7c88081"
+    },
+    {
+      "path": "spateo/tdr/morphometrics/morphofield_dg/differential_geometry.py",
+      "sha256": "167f6ecc101f7c98b18ce922f3eb60390d14a39d4a23e16cd5dba175d578c145"
+    },
+    {
+      "path": "spateo/_native/vectorfield.py",
+      "sha256": "36ca83664a2f65d24739d44e190afd56982516d3ca2ffe70810676be9d881384"
+    },
+    {
+      "path": "spateo/_native/sampling.py",
+      "sha256": "81015b09d2b42b5bcaf6bb2a9d0d243f6f8157167375964a896779b5e03a714c"
+    },
+    {
+      "path": "spateo/tdr/interpolations/interpolation_gp.py",
+      "sha256": "15d918b114392e5e203b7aa436cde10420da737865fa4012ff41e91103ee7ffb"
+    },
+    {
+      "path": "spateo/tools/glm.py",
+      "sha256": "aed230a312bc68b49fb3b817d2c4990d34c69ac3a0ee0a780542d222c4e7da63"
+    }
+  ],
+  "protocol_repository": "https://github.com/gmhhhhhh-929/Spateo-protocol-files",
+  "protocol_commit": "b11ae99fbdc4ae46d41880e9306ab7e5c2751ac5",
+  "protocol_notebooks": [
+    {
+      "reference_copy": "alignment.ipynb",
+      "sha256": "109c6ae9ae653c34c9f49db6170c54f95d2d9bd5321492a057bfd00cdd71a8d1"
+    },
+    {
+      "reference_copy": "alignment_7_10.ipynb",
+      "sha256": "ffbc75a8845bf2016691dcae8600a8843f5ddb574cf663bd683d398848ec0406"
+    },
+    {
+      "reference_copy": "morphogenesis.ipynb",
+      "sha256": "58aeccc5e90426f541ec1ac7f2f7e0c938bcd802c7e46f37ebd434b5a503d481"
+    },
+    {
+      "reference_copy": "morphogenesis_7_10.ipynb",
+      "sha256": "59eb1a15359efcc9fb33fac12d4be918f19e0fe386bc8f8b30032f3b388972fa"
+    }
+  ]
+}

@@ -1,136 +1,156 @@
 {
   "repository": "https://github.com/gmhhhhhh-929/spateo-release",
-  "commit": "d6aa68addc475dd0b56f69cebe7823b1f79933a9",
-  "basis": "source implementation plus tests/io, not legacy installed skills",
-  "python_support": ">=3.10,<3.13",
+  "commit": "615644f88613bea8ceb2e2df1e2391d16de55ec1",
   "files": [
     {
-      "path": "spateo/data_io.py",
-      "sha256": "4485a716b723ca4336d33dd141f1c43b02bc8f7746d7e113bc42648fed636fe6"
-    },
-    {
-      "path": "spateo/io/__init__.py",
-      "sha256": "3449a058ae54be6cfdb7acf502889a460f225e2cff779220b8f6678d181575fa"
-    },
-    {
-      "path": "spateo/io/general/__init__.py",
-      "sha256": "12298e5edd2e8189475efb52ca4650ba1d14435b8255ff7bfe00ee2593378b0e"
-    },
-    {
       "path": "spateo/io/general/_serialization.py",
-      "sha256": "1cbe82e0a0e9d77fb8d9e6430563edcab64cdab2aee71a62afcddbbd0c44f01c"
+      "sha256": "1cbe82e0a0e9d77fb8d9e6430563edcab64cdab2aee71a62afcddbbd0c44f01c",
+      "signatures": [
+        "def save(file, path)",
+        "def load(path, backend=None)"
+      ]
     },
     {
       "path": "spateo/io/general/_tabular.py",
-      "sha256": "2d4f22b1f92efcd76713ac9e23ee324a7c2afd67ba5b63f28fd0c0f22be9da82"
-    },
-    {
-      "path": "spateo/io/single/__init__.py",
-      "sha256": "2f100307e27a01e03c4883cb82caac0e4f5f76d697d01dcc14851163cf998e4f"
+      "sha256": "2d4f22b1f92efcd76713ac9e23ee324a7c2afd67ba5b63f28fd0c0f22be9da82",
+      "signatures": [
+        "def read_csv(**kwargs)"
+      ]
     },
     {
       "path": "spateo/io/single/_formats.py",
-      "sha256": "91f81dc777ed608d7d45581084eb4dace771a7b759cd458be2b622031b0065e5"
+      "sha256": "91f81dc777ed608d7d45581084eb4dace771a7b759cd458be2b622031b0065e5",
+      "signatures": [
+        "def read_h5ad(filename, **kwargs)",
+        "def read_10x_h5(filename, *, genome: str | None=None, gex_only: bool=True, backup_url: str | None=None)",
+        "def read_10x_mtx(path, *, var_names: Literal['gene_symbols', 'gene_ids']='gene_symbols', make_unique: bool=True, gex_only: bool=True, prefix: str | None=None, compressed: bool=True)"
+      ]
     },
     {
       "path": "spateo/io/single/_read.py",
-      "sha256": "717d0f779af6e14ca69c29e27eb95b395b1295b352524ed153f6583c42efc0ee"
-    },
-    {
-      "path": "spateo/io/spatial/__init__.py",
-      "sha256": "e465ab2f2e66e2b88b288b0f3e35800ab32672f0e8b89576e6f184e22ab551b1"
+      "sha256": "717d0f779af6e14ca69c29e27eb95b395b1295b352524ed153f6583c42efc0ee",
+      "signatures": [
+        "def read(path, backend='python', **kwargs)"
+      ]
     },
     {
       "path": "spateo/io/spatial/_atera.py",
-      "sha256": "67e1a33b81411fdadc0dcca6997396023787a5292ed26b6f20e3edad818e6e72"
-    },
-    {
-      "path": "spateo/io/spatial/_geometry.py",
-      "sha256": "0e08302dcc6b0eeee1d5b9878ac9f965df3f14307dc661980a884412cccebc2e"
+      "sha256": "c55f4f77ffb6d8e6284b80d862c626dc80ed104fbedcc12d29442a4bb9d93de3",
+      "signatures": [
+        "def read_atera(path: PathLike, *, library_id: Optional[str]=None, load_image: bool=True, image_key: str='dapi', image_max_dim: int=4096, load_boundaries: bool=True, load_nucleus_boundaries: bool=True, load_cell_groups: bool=True, cell_groups_csv: Optional[PathLike]=None, load_he_image: bool=False, he_image: Optional[PathLike]=None, he_alignment_csv: Optional[PathLike]=None, he_max_dim: int=4096, cache_file: Optional[PathLike]=None)"
+      ]
     },
     {
       "path": "spateo/io/spatial/_image.py",
-      "sha256": "63e10b90581e8913bb9641bf33779bb66f8e320839221c3bd78143e26112b07f"
+      "sha256": "63e10b90581e8913bb9641bf33779bb66f8e320839221c3bd78143e26112b07f",
+      "signatures": [
+        "def read_image(adata: AnnData, filename: str, scale_factor: float, slice: Optional[str]=None, img_layer: Optional[str]=None)"
+      ]
     },
     {
       "path": "spateo/io/spatial/_merfish.py",
-      "sha256": "bea8ba62e2d4ac3b1024e7cb15792f955e3d3c9789d568a3904abea94ed07e20"
+      "sha256": "bea8ba62e2d4ac3b1024e7cb15792f955e3d3c9789d568a3904abea94ed07e20",
+      "signatures": [
+        "def read_merfish(path: Union[str, Path], *, counts_file: str, meta_file: str, load_images: bool=True, z_layer: Optional[int]=3, load_boundaries: bool=True)"
+      ]
     },
     {
       "path": "spateo/io/spatial/_nanostring.py",
-      "sha256": "d3d51697bae519549d8b30a55ed132cf0abf56bae78db3ced6d548e885e08191"
+      "sha256": "d3d51697bae519549d8b30a55ed132cf0abf56bae78db3ced6d548e885e08191",
+      "signatures": [
+        "def read_nanostring(path: Union[str, Path], *, counts_file: str, meta_file: str, fov_file: Optional[str]=None)"
+      ]
     },
     {
       "path": "spateo/io/spatial/_provenance.py",
-      "sha256": "304e372b1496d43c5f2fa8e3f31f06dd842babae950a997b2d9ede9ece096af9"
+      "sha256": "5f57b1f4796a803e05f5a11b89831aab6afa62257b801e5de52ceb28f14110fd",
+      "signatures": [
+        "def spatial_file_manifest(path: PathLike, *, max_files: int=10000)"
+      ]
     },
     {
       "path": "spateo/io/spatial/_seqfish.py",
-      "sha256": "00b219934d96c4b20046f3762af46523dda170a9c24f68960b4891c46ecc5d35"
+      "sha256": "00b219934d96c4b20046f3762af46523dda170a9c24f68960b4891c46ecc5d35",
+      "signatures": [
+        "def read_seqfish(path: Union[str, Path], *, counts_file: str, meta_file: str, load_images: bool=True, load_labels: bool=True)"
+      ]
     },
     {
       "path": "spateo/io/spatial/_seqscope.py",
-      "sha256": "db8e7c6a2f169fa564097953816b8fa7419ef318a8642c46ae79ec1c31581a05"
+      "sha256": "db8e7c6a2f169fa564097953816b8fa7419ef318a8642c46ae79ec1c31581a05",
+      "signatures": [
+        "def read_seqscope(matrix_dir: PathLike, positions_path: PathLike, binsize: Optional[int]=1, add_props: bool=True)"
+      ]
     },
     {
       "path": "spateo/io/spatial/_slideseq.py",
-      "sha256": "bce8651783d45e9e40aec62f72e3bb311c80ce3c6de2e041551ef333eadab8b1"
+      "sha256": "bce8651783d45e9e40aec62f72e3bb311c80ce3c6de2e041551ef333eadab8b1",
+      "signatures": [
+        "def read_slideseq(path: Union[str, Path], *, counts_file: str='MappedDGEForR.csv', bead_file: str='BeadLocationsForR.csv', load_images: bool=True)"
+      ]
     },
     {
       "path": "spateo/io/spatial/_starmap_plus.py",
-      "sha256": "751dfc58faad24f5987cf2ab1ced578743c76dfe0b2e5f477e2a4df3ccc7bde6"
+      "sha256": "751dfc58faad24f5987cf2ab1ced578743c76dfe0b2e5f477e2a4df3ccc7bde6",
+      "signatures": [
+        "def read_starmap_plus(path: Union[str, Path], *, counts_file: str, meta_file: str, spatial_file: str, reorient_xy: bool=False, dtype: str='float32')"
+      ]
     },
     {
       "path": "spateo/io/spatial/_stereoseq.py",
-      "sha256": "c23d2d147b8bdaeb93a359ab3f7bc70fcfc566f18163ae0a6aecef220dec35c2"
-    },
-    {
-      "path": "spateo/io/spatial/_utils.py",
-      "sha256": "3f8b5e2fc84b97379d6006f5ef45b885a1d54c2886260910c6b62d41d47f1857"
+      "sha256": "5df508b8b66d144ced80f614a93b02862daad5b761408bcad9c23662d351cdbd",
+      "signatures": [
+        "def read_bgi_as_dataframe(path: Union[str, PathLike], label_column: Optional[str]=None)",
+        "def read_stereoseq(path, *, bin_size=None, chemistry=None, load_images=True, max_memory_bytes=1024 ** 3)",
+        "def read_bgi_agg(path: Union[str, PathLike], stain_path: Optional[Union[str, PathLike]]=None, binsize: int=1, gene_agg: Optional[Dict[str, Union[List[str], Callable[[str], bool]]]]=None, prealigned: bool=False, label_column: Optional[str]=None, version: Literal['stereo']='stereo')",
+        "def read_bgi(path: Union[str, PathLike], binsize: Optional[int]=None, segmentation_adata: Optional[AnnData]=None, labels_layer: Optional[str]=None, labels: Optional[Union[np.ndarray, str, PathLike]]=None, seg_binsize: int=1, label_column: Optional[str]=None, add_props: bool=True, version: Literal['stereo']='stereo')"
+      ]
     },
     {
       "path": "spateo/io/spatial/_visium.py",
-      "sha256": "f31c9002e435386ec56ea719b6d9bc269948eb73007ae616d7bed7ad5a096bfb"
+      "sha256": "c4060ac8862fdaced73174655e4f75da4c81c8c1f12d92ed0b52e597f917fc53",
+      "signatures": [
+        "def read_visium(path: Union[str, 'PathLike[str]'], genome: Optional[str]=None, *, count_file: str='filtered_feature_bc_matrix.h5', library_id: Optional[str]=None, load_images: bool=True, load_qc_images: bool=False, source_image_path: Optional[Union[str, 'PathLike[str]']]=None, hires_image_path: str='spatial/tissue_hires_image.png', lowres_image_path: str='spatial/tissue_lowres_image.png', scalefactors_path: str='spatial/scalefactors_json.json')"
+      ]
     },
     {
       "path": "spateo/io/spatial/_visium_hd.py",
-      "sha256": "5ebbfce8f90c7d75d6190998af3e6c3cef1620422eb59dc518ee4f0d766b0ca0"
+      "sha256": "5ebbfce8f90c7d75d6190998af3e6c3cef1620422eb59dc518ee4f0d766b0ca0",
+      "signatures": [
+        "def read_visium_hd_bin(path: Union[str, Path], sample: Optional[str]=None, binsize: int=16, count_h5_path: str='filtered_feature_bc_matrix.h5', count_mtx_dir: str='filtered_feature_bc_matrix', tissue_positions_path: str='spatial/tissue_positions.parquet', hires_image_path: str='spatial/tissue_hires_image.png', lowres_image_path: str='spatial/tissue_lowres_image.png', scalefactors_path: str='spatial/scalefactors_json.json')",
+        "def read_visium_hd_seg(path: Union[str, Path], sample: Optional[str]=None, cell_segmentations_path: str='graphclust_annotated_cell_segmentations.geojson', count_h5_path: str='filtered_feature_cell_matrix.h5', hires_image_path: str='spatial/tissue_hires_image.png', lowres_image_path: str='spatial/tissue_lowres_image.png', scalefactors_path: str='spatial/scalefactors_json.json')",
+        "def read_visium_hd(path: Union[str, Path], data_type: Literal['bin', 'cellseg']='bin', sample: Optional[str]=None, binsize: int=16, count_h5_path: str='filtered_feature_bc_matrix.h5', count_mtx_dir: str='filtered_feature_bc_matrix', tissue_positions_path: str='spatial/tissue_positions.parquet', cell_segmentations_path: str='graphclust_annotated_cell_segmentations.geojson', cell_matrix_h5_path: str='filtered_feature_cell_matrix.h5', hires_image_path: str='spatial/tissue_hires_image.png', lowres_image_path: str='spatial/tissue_lowres_image.png', scalefactors_path: str='spatial/scalefactors_json.json')"
+      ]
     },
     {
       "path": "spateo/io/spatial/_xenium.py",
-      "sha256": "0523e68e0c26532fb2d82ac62bdf51e068747b14cf39539d2ef016d7708246b9"
+      "sha256": "0523e68e0c26532fb2d82ac62bdf51e068747b14cf39539d2ef016d7708246b9",
+      "signatures": [
+        "def read_xenium(path: Union[str, Path], *, library_id: Optional[str]=None, load_image: bool=True, image_key: str='morphology_focus', image_max_dim: int=4096, load_boundaries: bool=True, cache_file: Optional[Union[str, Path]]=None)"
+      ]
     },
     {
-      "path": "spateo/io/spatial/auto/__init__.py",
-      "sha256": "44a472f70e4c50d603214d2739dcaec0b6f906bc0de83f82b9e691f2a981c5da"
+      "path": "spateo/io/spatial/auto/_automatic.py",
+      "sha256": "7c0804887e15ee99dddaa1014983cbcc0a422eb18e2c352d690f773ce8320910",
+      "signatures": [
+        "def read_spatial(path: Union[str, Path], *, technology: Optional[str]=None, load: bool=True, load_images: bool=True, max_memory_bytes: int=_DEFAULT_MEMORY, max_files: int=10000, max_depth: int=4, stereoseq_bin_size: Optional[int]=None, stereoseq_chemistry: Optional[str]=None)"
+      ]
     },
     {
-      "path": "tests/io/__init__.py",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      "path": "spateo/io/spatial/auto/_contracts.py",
+      "sha256": "9e19f1d097d1e20127cd8c4d9fdfdac95340d869e74ef1ac90b319d13bdcca99",
+      "signatures": [
+        "def read_core(candidate: Candidate, budget)"
+      ]
     },
     {
-      "path": "tests/io/test_atera_visium.py",
-      "sha256": "bc4600267208c621ffe9fd7e1badc3c5e01298f8e7605159628f02a00ef810ad"
-    },
-    {
-      "path": "tests/io/test_bgi.py",
-      "sha256": "ca1a07f97cd93bc0ba431e51e09d8965bb479bfb15ac0ed1b85b329de5490d75"
-    },
-    {
-      "path": "tests/io/test_image.py",
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    },
-    {
-      "path": "tests/io/test_io_layout.py",
-      "sha256": "8f9795f0d3037b6b840f4f0c5fe066bc587c2a09d469c5c5317e84aad3b72784"
-    },
-    {
-      "path": "tests/io/test_spatial_auto.py",
-      "sha256": "3cd99771913e8b6b4410e6f4631cb19014739bd2a9abbfd4bed5fe1939fe84bc"
-    },
-    {
-      "path": "tests/io/test_utils.py",
-      "sha256": "56a8b850d6d8ed208231301fe4b91d89aa105051ef6802b1d30d4b8bdd2b123b"
+      "path": "spateo/io/spatial/auto/_stereo.py",
+      "sha256": "53f03608a8317d19fd6674301f04c81eb13aa639f6feca4788cdf00fd23ffb23",
+      "signatures": [
+        "def read_gem(path, budget, bin_size=None, chemistry=None)",
+        "def read_gef(path, budget, bin_size=None, chemistry=None)",
+        "def read_stereo_core(path, budget, bin_size=None, chemistry=None)"
+      ]
     }
   ]
 }

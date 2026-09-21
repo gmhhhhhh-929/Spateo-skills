@@ -1,0 +1,87 @@
+{
+  "schema_version": "spateo-4d/v3",
+  "inputs": {
+    "stage1": "/data/source.h5ad",
+    "stage2": "/data/target.h5ad",
+    "coordinate_unit": "um"
+  },
+  "labels": {
+    "stage1": "source",
+    "stage2": "target"
+  },
+  "alignment": {
+    "spatial_key": "spatial_3d",
+    "counts_layer": "counts",
+    "x_is_counts": false,
+    "log_layer": "log1p",
+    "aligned_key": "aligned",
+    "target_sum": 10000.0,
+    "mode": "SN-S",
+    "n_sampling": 2000,
+    "sampling_method": "random",
+    "max_iter": 200,
+    "nonrigid_start_iter": 80
+  },
+  "subset": {
+    "annotation_key": "anno",
+    "group": null
+  },
+  "mapping": {
+    "key": "cells_mapping",
+    "alpha": 0.001,
+    "numItermax": 200,
+    "numItermaxEmd": 100000,
+    "target_sum": 10000.0,
+    "max_pairs": 25000000
+  },
+  "morphofield": {
+    "key": "VecFld_morpho",
+    "M": 100,
+    "lambda_": 0.02,
+    "restart_num": 1,
+    "restart_seed": [
+      0
+    ],
+    "MaxIter": 500
+  },
+  "trajectory": {
+    "enabled": true,
+    "key": "fate_morpho",
+    "t_end": 1.0,
+    "interpolation_num": 50,
+    "direction": "forward"
+  },
+  "metrics": {
+    "enabled": true,
+    "selected": [
+      "acceleration",
+      "curl",
+      "divergence",
+      "torsion",
+      "curvature"
+    ],
+    "glm_metrics": [],
+    "glm_genes": [],
+    "qval_threshold": 0.05,
+    "llf_threshold": null
+  },
+  "gp": {
+    "enabled": false,
+    "genes": [],
+    "training_iter": 50,
+    "method": "SVGP",
+    "inducing_num": 512
+  },
+  "dashboard": {
+    "enabled": true,
+    "max_points": 6000,
+    "max_target_points": 4000,
+    "max_vectors": 1200,
+    "default_feature": "displacement",
+    "cdn": false
+  },
+  "runtime": {
+    "device": "cpu",
+    "seed": 0
+  }
+}

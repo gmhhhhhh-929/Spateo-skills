@@ -15,10 +15,12 @@ def digest(path):
 def main():
     manifest = json.loads((MAIN / 'provenance/companion_migration.json').read_text())
     skills = sorted((ROOT / 'skills').rglob('SKILL.md'))
-    assert len(list((ROOT / 'skills').glob('*/SKILL.md'))) == 5
+    assert len(list((ROOT / 'skills').glob('*/SKILL.md'))) == 6
     assert len(list((MAIN / 'subskills').glob('*/SKILL.md'))) == 14
     assert manifest['total_skill_count'] == 17
-    assert len(skills) == manifest['total_skill_count'] + 2 == 19
+    assert len(skills) == 26
+    assert len(list((ROOT / 'skills/spateo-4d-pipeline/subskills').glob('*/SKILL.md'))) == 5
+    assert (ROOT / 'skills/spatial-slice-quality-qc/subskills/spatial-slice-quality-viewer/SKILL.md').is_file()
     for skill in skills:
         text = skill.read_text()
         assert text.startswith('---\n')
@@ -28,7 +30,11 @@ def main():
         assert (ROOT / row['path']).is_file(), row
     for row in manifest['files']:
         assert digest(ROOT / row['path']) == row['packaged_sha256'], row['path']
-    for row in manifest['preserved_published_python']:
+    # The historical migration preserved IO too; IO is now explicitly rewritten.
+    preserved = [row for row in manifest['preserved_published_python']
+                 if row['path'] not in {'skills/spateo-data-io/scripts/spateo_io.py',
+                                        'skills/spateo-data-io/scripts/smoke_source.py'}]
+    for row in preserved:
         assert digest(ROOT / row['path']) == row['sha256'], row['path']
     runtime = MAIN / 'pipelines/pairwise-rigid'
     lock = json.loads((runtime / 'skill.lock.yaml').read_text())
@@ -66,11 +72,11 @@ def main():
             assert (skill.parent / relative).is_file(), (skill, relative)
     assert sorted(p.name for p in (MAIN / 'pipelines').iterdir() if p.is_dir()) == ['continuity-guided', 'pairwise-rigid']
     print(json.dumps({'status': 'pass', 'skills': len(skills),
-        'top_level_skills': 5, 'alignment_subskills': 14,
+        'top_level_skills': 6, 'four_d_subskills': 5, 'qc_subskills': 1, 'alignment_subskills': 14,
         'source_entries_covered': len(manifest['inventory']),
         'locked_entrypoints': len(lock['allowed_entrypoints']),
         'python_syntax_checked': len(pyfiles),
-        'preserved_published_python': len(manifest['preserved_published_python']),
+        'preserved_published_python': len(preserved),
         'viewer_hashes': 'pass', 'markdown_links': 'pass'}, indent=2))
 
 if __name__ == '__main__':

@@ -4,45 +4,51 @@
 
 [English](README.md)
 
-| 阶段 | 技能入口 | 内容 |
-| --- | --- | --- |
-| 1 | [setup-spateo-environment](skills/setup-spateo-environment/SKILL.md) | 安装、诊断和核验独立 Spateo 环境，区分 Spateo 源码仓库与本 Skills 仓库。 |
-| 2 | [spateo-data-io](skills/spateo-data-io/SKILL.md) | 根据实际源码选择读取接口，处理平台识别与歧义，验证 AnnData 并保留坐标、单位、注释和细胞 ID。 |
-| 3 | [spatial-slice-quality-qc](skills/spatial-slice-quality-qc/SKILL.md) | 原始数据四域QC、两段完整细筛、展示刚性预配准。 |
-| 4 | [spatial-slice-quality-viewer](skills/spatial-slice-quality-viewer/SKILL.md) | 最新keep/exclude多面板报告、集合页与可追溯ROI。 |
-| 5 | [spateo-2d-alignment](skills/spateo-2d-alignment/SKILL.md) | 两套配准 pipeline、共享表达 PCA 准备、可选注释、严格输入预检及实现溯源。 |
+完整顺序：**环境配置 → IO → 切片质量 QC（包含 viewer）→ 2D 配准 → 3D pipeline（预留）→ 4D pipeline**。
 
-顶层提供 **5 个技能入口**。14 个配准子技能统一放在
-`spateo-2d-alignment/subskills/`，包括 viewer、质控、采样、ROI 和重放工具。
-查看[配准子技能目录](skills/spateo-2d-alignment/references/companion-skills.md)。
+## Ordered workflow
+
+| Order | Entrypoint | Scope and handoff | Status |
+| --- | --- | --- | --- |
+| 1 | [setup-spateo-environment](skills/setup-spateo-environment/SKILL.md) | Prepare/verify a separate native Spateo environment. | Existing |
+| 2 | [spateo-data-io](skills/spateo-data-io/SKILL.md) | Contract-based spatial reading → named AnnData outputs and diagnostics. | Rewritten in English for current IO |
+| 3 | [spatial-slice-quality-qc](skills/spatial-slice-quality-qc/SKILL.md) | Slice QC → keep/exclude evidence; includes [slice-quality-viewer](skills/spatial-slice-quality-qc/subskills/spatial-slice-quality-viewer/SKILL.md). | Existing runtime, viewer nested here |
+| 4 | [spateo-2d-alignment](skills/spateo-2d-alignment/SKILL.md) | Serial 2D alignment → aligned sections, QC, replay and provenance. | Existing two pipelines and 14 subskills |
+| 5 | [spateo-3d-pipeline](skills/spateo-3d-pipeline/SKILL.md) | 3D model reconstruction → backbone analysis and gene interpolation. | Reserved; no executable implementation |
+| 6 | [spateo-4d-pipeline](skills/spateo-4d-pipeline/SKILL.md) | Cross-timepoint 3D alignment → morphogenesis → tracked outputs/dashboard. | Rewritten in English for native runtime |
+
+```mermaid
+flowchart LR
+  ENV[1 Environment] --> IO[2 IO]
+  IO --> QC[3 Slice quality + viewer]
+  QC --> ALIGN[4 2D alignment]
+  ALIGN -.-> THREE[5 3D reconstruction / backbone / interpolation: reserved]
+  THREE -.-> FOUR[6 4D pipeline]
+  EXTERNAL[Validated external 3D H5AD pair] --> FOUR
+```
+
+There are **six top-level entrypoints**, including the intentionally reserved 3D stage; **26 SKILL.md files** in total. The five 4D companions live under `spateo-4d-pipeline/subskills/`: align-stages, morphogenesis, manage-runs, refine-analysis and render-dashboard. The QC viewer belongs inside the QC directory. Install each complete top-level directory; parent entrypoints route to nested companions without requiring automatic recursive discovery.
 
 ```text
 skills/
 ├── setup-spateo-environment/
 ├── spateo-data-io/
 ├── spatial-slice-quality-qc/
-├── spatial-slice-quality-viewer/
-└── spateo-2d-alignment/
-    ├── SKILL.md
-    ├── pipelines/
-    │   ├── pairwise-rigid/
-    │   └── continuity-guided/
-    ├── subskills/                 # 14 alignment workflow subskills
-    │   ├── spatial-before-after-viewer/
-    │   ├── spatial-pointcloud-viewer/
-    │   └── …
-    ├── scripts/
-    ├── references/
-    └── provenance/
+│   └── subskills/spatial-slice-quality-viewer/
+├── spateo-2d-alignment/
+│   ├── pipelines/{pairwise-rigid,continuity-guided}/
+│   └── subskills/  (14 companions)
+├── spateo-3d-pipeline/  (reserved)
+└── spateo-4d-pipeline/
+    ├── scripts/  (shared native runtime)
+    └── subskills/  (5 companions)
 ```
 
-安装配准技能时复制整个 `spateo-2d-alignment/`，保留内部目录结构；
-由主 `SKILL.md` 按任务导航到子技能，无需依赖自动递归发现。
-配准核心不变，不包含斑马鱼阶段的更新。详见[完整性审计](COMPLETENESS.md)。
+The library is a separate checkout, not this skills repository. IO and 4D are verified against [Spateo commit 615644f](https://github.com/gmhhhhhh-929/spateo-release/tree/615644f88613bea8ceb2e2df1e2391d16de55ec1). The [protocol migration](skills/spateo-4d-pipeline/references/protocol-migration.md) records how the user's existing notebooks map to current APIs. Existing environment and 2D runtime snapshots retain their documented historical provenance; this update does not claim those frozen algorithms were rewritten.
 
 ## 两套配准 pipeline
 
-两者共同属于第 3 个技能，均支持经过审核的共享 expression PCA、注释 one-hot 和 spatial-only 输入。
+两者共同属于第 4 阶段技能，均支持经过审核的共享 expression PCA、注释 one-hot 和 spatial-only 输入。
 
 | 名称 | 功能 | 来源 |
 | --- | --- | --- |
@@ -55,9 +61,14 @@ continuity-guided 的兼容默认值仍是 **`--profile legacy`**。显式选择
 
 ## 使用顺序
 
-1. 使用 `$setup-spateo-environment` 准备环境。Spateo 库需要另行克隆或安装；不要在本 Skills 仓库根目录执行 Spateo 的 `pip install -e .`。
-2. 使用 `$spateo-data-io` 读取数据并检查 AnnData，保留表达计数、注释、空间坐标、单位和细胞 ID 的原有含义。
-3. 使用 `$spateo-2d-alignment` 检查切片输入，明确表征类型与切片顺序，再选择 pipeline 执行。Data IO 不等同于配准，也不会把注释 one-hot 自动认作 expression PCA。
+1. `$setup-spateo-environment`：准备独立 Spateo 环境。
+2. `$spateo-data-io`：按新版 `SpatialReadResult` 契约读取与核验数据。
+3. `$spatial-slice-quality-qc`：质量检查、keep/exclude 审计及其内部 viewer。
+4. `$spateo-2d-alignment`：在同一生物样本内明确表征与切片顺序后配准。
+5. `$spateo-3d-pipeline`：本次只预留重建、backbone、gene interpolation 阶段，未实现。
+6. `$spateo-4d-pipeline`：已有可靠 3D H5AD 可直接进入跨时间点配准、形态发生、运行记录与展示。
+
+IO 和 4D 的 skill、配套参考文档及可执行入口已使用英文重写。测试和限制见 [VALIDATION.md](VALIDATION.md)。
 
 ## 无注释的表达 PCA 输入
 
@@ -81,15 +92,3 @@ python skills/spateo-2d-alignment/pipelines/continuity-guided/run.py \
 continuity-guided 的 expression-pca 和 spatial-only 模式默认 `--annotation-qc off`，即使存在注释也不自动用于 QC。只有明确需要可靠标签参与检查时，才使用 `--annotation-qc provided --annotation-key KEY`；此时缺失注释会报错。annotation-onehot 模式必须提供注释。关闭注释 QC 后，依赖标签的修复会跳过，几何连续性检查仍可运行。
 
 已有物理 z 会保留；全部切片均无 z 时，使用文件名中唯一的数字 SL 编号确定顺序，不虚构物理间距。表达预处理参数、矩阵状态声明和无 z 输入要求见[共享表达 PCA 说明](skills/spateo-2d-alignment/references/expression-pca.md)。
-
-## 来源与验证
-
-环境技能及 Data IO 接口审查基于[Spateo 源码仓库](https://github.com/gmhhhhhh-929/spateo-release/tree/d6aa68addc475dd0b56f69cebe7823b1f79933a9)，固定提交为 `d6aa68addc475dd0b56f69cebe7823b1f79933a9`。
-
-该源码的 `spateo/data_io.py` 是 AnnData 兼容入口，维护中的读取实现位于 `spateo/io/`。Data IO 技能以这些实际实现为依据，并区分自动识别与显式调用。
-
-本次配准扩展通过合成契约测试、两个真实样本的完整无注释 expression 运行，以及两个真实 annotation 样本的打包等价性验证；后者的逐细胞输出 XY 与冻结优化结果完全相同。表达模式验证的是可运行性，不代表已完成其 A2/A5 准确率评估。初次环境与 Data IO 验证仍作为已有证据，本次未重做这两个阶段。具体检查与边界见 [VALIDATION.md](VALIDATION.md)，许可与来源见 [NOTICE.md](NOTICE.md)。仓库不分发生物数据或参考坐标。
-
-## Spateo Referee
-
-安装 QC 与 viewer 时请同时复制这两个完整的相邻目录。当前 joint-review v2 对两个 review 分数段都执行证据细筛；低分段最强异常域≥0.65，高分段≥0.60，其余保护条件继续执行。它仅通过指标扰动验证，使用 `experimental_policy`，不表示真实切片已独立认证。参见[方法、阈值及实验记录](skills/spatial-slice-quality-qc/references/methods.md)和[完整总流程图](skills/spatial-slice-quality-qc/references/workflow.svg)。运行脚本只保留当前依赖；历史实验启动器和真实数据不发布。

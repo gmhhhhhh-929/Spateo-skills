@@ -146,7 +146,7 @@ ROI 属于一个明确的 `frame_id`。精确选区是展示点落在矩形内�
 
 ## 复现和输出
 
-[QC skill](../SKILL.md)给出 scan → 可选 preregister → [viewer skill](../../spatial-slice-quality-viewer/SKILL.md) 的完整命令。输入源和结果目录分开，新策略写新目录。`build_viewer.py` 可一次接受多组已有QC目录，复用原坐标缓存和变换，重新应用策略并生成新报告。
+[QC skill](../SKILL.md)给出 scan → 可选 preregister → [viewer skill](../subskills/spatial-slice-quality-viewer/SKILL.md) 的完整命令。输入源和结果目录分开，新策略写新目录。`build_viewer.py` 可一次接受多组已有QC目录，复用原坐标缓存和变换，重新应用策略并生成新报告。
 
 | 输出 | 含义 |
 |---|---|

@@ -1,0 +1,4 @@
+interface:
+  display_name: "spateo-render-dashboard"
+  short_description: "Native Spateo 4D workflow companion"
+  default_prompt: "Use $spateo-render-dashboard with the parent spateo-4d-pipeline v3 configuration."

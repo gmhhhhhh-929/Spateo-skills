@@ -5,7 +5,7 @@ description: Generate the current Spateo Referee keep/exclude report with overvi
 
 # Spateo Referee Viewer
 
-Install beside `spatial-slice-quality-qc`. This skill owns the orchestration;
+Install as part of the complete `spatial-slice-quality-qc` directory. This skill owns the orchestration;
 the QC skill owns the canonical renderer and scientific runtime. Do not copy
 templates into a second viewer or convert review labels in presentation code.
 
@@ -14,14 +14,14 @@ templates into a second viewer or convert review labels in presentation code.
 ```bash
 python scripts/build_viewer.py \
   --input-dir /path/to/qc_run --output-dir /path/to/new_report \
-  --policy ../spatial-slice-quality-qc/policies/joint_review_v2.json \
+  --policy ../../policies/joint_review_v2.json \
   --application-scope experimental_policy --language en
 ```
 
 The joint policy executes low- and high-score evidence checks. Its validation
 scope is metric-stress testing only; the report must display this limitation.
 The current gate values, score branches and source functions are defined in
-[the QC methods](../spatial-slice-quality-qc/references/methods.md).
+[the QC methods](../../references/methods.md).
 Do not describe the low band as keep-only, or mark the new policy independently
 certified. Preserve a historical input audit only when the user requests that
 policy; omitting `--policy` renders its existing complete decisions unchanged.

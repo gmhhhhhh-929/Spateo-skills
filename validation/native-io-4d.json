@@ -1,0 +1,94 @@
+{
+  "date": "2026-09-21",
+  "spateo_commit": "615644f88613bea8ceb2e2df1e2391d16de55ec1",
+  "skills_base_commit": "4c999f00d5a8b1ab235652db41f413938f67356a",
+  "protocol_commit": "b11ae99fbdc4ae46d41880e9306ab7e5c2751ac5",
+  "python": "3.10.21",
+  "platform": "Darwin",
+  "architecture": "arm64",
+  "versions": {
+    "numpy": "1.26.4",
+    "scipy": "1.13.1",
+    "pandas": "2.2.3",
+    "anndata": "0.10.9",
+    "h5py": "3.11.0",
+    "POT": "0.9.7.post1",
+    "torch": "2.10.0",
+    "gpytorch": "1.15.2",
+    "statsmodels": "0.14.6",
+    "plotly": "6.9.0",
+    "pytest": "8.4.2"
+  },
+  "tests": {
+    "source_native": {
+      "passed": 96,
+      "skipped": 0,
+      "includes_real_visium": true
+    },
+    "real_visium_source": {
+      "passed": 1
+    },
+    "skill_behavior": {
+      "passed": 19,
+      "dynamo_import_guard": true,
+      "scientific_mocks": false
+    },
+    "qc_including_nested_viewer": {
+      "passed": 16
+    },
+    "unique_pytest_cases_passed": 131,
+    "skill_frontmatter": {
+      "passed": 26
+    },
+    "collection_packaging": {
+      "passed": true,
+      "top_level": 6,
+      "total_skills": 26
+    },
+    "alignment_bundle": {
+      "files_verified": 16
+    },
+    "browser_qa": {
+      "passed": true,
+      "console_errors": 0,
+      "views": [
+        "flow",
+        "target",
+        "overlay"
+      ],
+      "metric": "curl"
+    },
+    "io_smoke_entrypoint": {
+      "passed": 103,
+      "skipped": 0,
+      "overlap_note": "96 source cases plus the 7 skill IO cases already counted elsewhere"
+    }
+  },
+  "real_visium_cli": {
+    "status": "complete",
+    "n_obs": 2702,
+    "n_vars": 32285,
+    "duplicated_original_symbols": 40,
+    "explicit_feature_id_column": "gene_ids",
+    "original_symbols_preserved": true,
+    "roundtrip": "pass"
+  },
+  "limitations": [
+    "Synthetic 4D execution, not biological accuracy or old-notebook numerical equivalence",
+    "GPU and full protocol data untested",
+    "3D pipeline reserved, not implemented",
+    "Publication mesh rendering not exercised"
+  ],
+  "skill_python_sha256": {
+    "skills/spateo-data-io/scripts/smoke_source.py": "bb0319aa5a3e5c681667aa1e087fc3ce30476fda7c663e09582cccd797d5b9dc",
+    "skills/spateo-data-io/scripts/spateo_io.py": "e686e2d812f03aaca1885dd1cdf0ea9efeb5a8c85002c461d0f3bc1ea5271da2",
+    "skills/spateo-data-io/scripts/validate_anndata.py": "3d625faa101530b83fe37371bee65a35ef4a7b78ebcdcbd43d940d40c84ec2f5",
+    "skills/spateo-4d-pipeline/scripts/pipeline_runtime.py": "b8926d67f1c8c882db409a32e64f131bb388d4f30b5cf0875a47c82a6f5a2dbc",
+    "skills/spateo-4d-pipeline/scripts/run_4d_pipeline.py": "3b3ed9aaad1886b43d5f65967dd642aedb0e400a51321ef0ec84e30290114692",
+    "skills/spateo-4d-pipeline/subskills/spateo-align-stages/scripts/alignment_10dpa_14dpa.py": "3564b6accf2252128730f2925a20a5016b5c7cb68b62c2f40df99f1b2caa7d2e",
+    "skills/spateo-4d-pipeline/subskills/spateo-manage-runs/scripts/run_manager.py": "ed460a3ad0a002cefb6a3bbfd6a5a82ee0fe683704015cd6418fc19fe0414b8c",
+    "skills/spateo-4d-pipeline/subskills/spateo-morphogenesis/scripts/morphogenesis_10dpa_14dpa_cns.py": "7b177f94b9b553a761264381f7a105b8b5d4f738a63c9557a726233413f7340b",
+    "skills/spateo-4d-pipeline/subskills/spateo-refine-analysis/scripts/update_config.py": "13b824a6f57a9c4fde8058aa3704ed7e977a988efa201b4c7ae3942d775a1dd2",
+    "skills/spateo-4d-pipeline/subskills/spateo-render-dashboard/scripts/build_dashboard.py": "3e28c8905a369537be891eac3a389ef24375b143395d36f68172fcb2355ed1e3"
+  }
+}

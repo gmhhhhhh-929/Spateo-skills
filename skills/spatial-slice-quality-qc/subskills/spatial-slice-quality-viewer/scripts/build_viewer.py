@@ -14,7 +14,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--input-dir', required=True, nargs='+')
     parser.add_argument('--output-dir', required=True)
-    parser.add_argument('--qc-skill', default=str(Path(__file__).resolve().parents[2] / 'spatial-slice-quality-qc'))
+    parser.add_argument('--qc-skill', default=str(Path(__file__).resolve().parents[3]))
     parser.add_argument('--spateo-source')
     parser.add_argument('--policy', help='Optional existing frozen policy; run complete two-stage publication before rendering')
     parser.add_argument('--application-scope', choices=['certified','new_input_unvalidated','experimental_policy'], default='certified')
