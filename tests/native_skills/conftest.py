@@ -8,6 +8,13 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "skills/spateo-4d-pipeline/scripts"))
 sys.path.insert(0, str(ROOT / "skills/spateo-data-io/scripts"))
+sys.path.insert(
+    0,
+    str(
+        ROOT
+        / "skills/spateo-3d-pipeline/subskills/spateo-reconstruct-point-cloud/scripts"
+    ),
+)
 
 
 class NoDynamo(importlib.abc.MetaPathFinder):

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spateo Point Cloud Reconstruction"
+  short_description: "Build validated 3D point clouds and round-trip VTK artifacts"
+  default_prompt: "Use $spateo-reconstruct-point-cloud to build and validate a Spateo point-cloud VTK from this H5AD."

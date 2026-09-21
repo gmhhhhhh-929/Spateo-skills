@@ -1,8 +1,34 @@
 # Validation and scope
 
-## Native IO / 4D update — 2026-09-21
+## 3D point-cloud phase — 2026-09-21
 
-Source: `gmhhhhhh-929/spateo-release@615644f88613bea8ceb2e2df1e2391d16de55ec1`. Protocol reference: `gmhhhhhh-929/Spateo-protocol-files@b11ae99fbdc4ae46d41880e9306ab7e5c2751ac5`. The collection now has six top-level entrypoints (including reserved 3D) and 26 total skills.
+Source: `gmhhhhhh-929/spateo-release@615644f88613bea8ceb2e2df1e2391d16de55ec1`. Point-cloud protocol reference: `gmhhhhhh-929/Spateo-protocol-files@b11ae99fbdc4ae46d41880e9306ab7e5c2751ac5` (the notebook's last modifying commit is `d768184f74a0057f35c888471392e8496720fa04`). The collection now has six top-level entrypoints and 27 total skills; the 3D parent contains one implemented point-cloud companion.
+
+| Check | Executed result | Scope |
+| --- | --- | --- |
+| Real Spateo point-cloud behavior | 7 passed | Categorical colors/mask, single and multi-gene continuous values, exact-ID external labels, full/planar/invalid coordinates, overwrite refusal, four-view preview, and VTK save/read round trip. |
+| Full native skill regression | 26 passed | The seven new 3D cases plus all 19 existing IO/4D cases. |
+| Skill structure | 2 passed | Parent and nested point-cloud skill passed skill-creator validation. |
+| Collection packaging | Passed | 27 skills, six top-level, one 3D companion, local Markdown links, and Python syntax. |
+
+The behavioral suite calls the real `st.tdr.construct_pc`, `st.tdr.save_model`, and `st.tdr.read_model` implementations; it does not mock their geometry or serialization. Binary VTK reload preserved coordinates, observation IDs, labels, continuous scalars, and categorical RGBA. A tested wrapper correction restores alpha zero for masked points because the pinned source's scalar-alpha branch otherwise overwrites it. Preview rendering uses PyVista's `point_size`; the reference notebook's direct-PyVista `model_size` argument is not copied.
+
+The run used Python 3.10.21, NumPy 1.26.4, pandas 2.2.3, AnnData 0.10.9, PyVista 0.46.5, VTK 9.5.2, and Spateo `0.0+615644f`. The focused run retained two Torch JIT deprecation warnings; the full native suite retained eight previously documented Torch/Numba/SciPy/statsmodels warnings. Tests use synthetic data and establish execution/file contracts only: they do not validate biological coordinates, registration, physical units, annotation quality, expression semantics, large-dataset performance, or any pending surface/voxel/cell/backbone/interpolation phase. Full details and hashes are in [validation/3d-point-cloud.json](validation/3d-point-cloud.json).
+
+Reproduce the focused checks:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/path/to/spateo-release \
+  python -m pytest tests/native_skills/test_3d_point_cloud.py -q
+python scripts/validate_collection.py
+python /path/to/skill-creator/scripts/quick_validate.py skills/spateo-3d-pipeline
+python /path/to/skill-creator/scripts/quick_validate.py \
+  skills/spateo-3d-pipeline/subskills/spateo-reconstruct-point-cloud
+```
+
+## Native IO / 4D update — historical snapshot from 2026-09-21
+
+Source: `gmhhhhhh-929/spateo-release@615644f88613bea8ceb2e2df1e2391d16de55ec1`. Protocol reference: `gmhhhhhh-929/Spateo-protocol-files@b11ae99fbdc4ae46d41880e9306ab7e5c2751ac5`. At this earlier validation snapshot, the collection had six top-level entrypoints, a reserved 3D stage, and 26 total skills. The current 3D validation above supersedes that status and count; the IO/4D results below remain historical evidence.
 
 | Check | Executed result | Scope |
 | --- | --- | --- |
@@ -20,7 +46,7 @@ The 4D synthetic run executes reference alignment, cell directions, SparseVFC, t
 
 Issues found and resolved: retired confidence-based IO calls; incorrect auto-reader return assumptions; required AnnData 0.10 serialization of native preprocessing history (reversible tagged mappings); logger streams surviving closed stage logs; too-short reference-alignment iteration schedules; source/nonrigid coordinate-key inconsistency; notebook GLM formula interpolation and normalized-expression semantics; missing mapping summaries; target-view count and GLM likelihood display. Source algorithms themselves were not patched.
 
-Warnings were retained: Torch JIT deprecation, a Numba duplicate-compilation warning, a SciPy import deprecation and statsmodels' default negative-binomial dispersion. Successful execution does not establish biological validity, lineage tracing, benchmark accuracy, parameter adequacy or numerical equivalence with old notebooks. Full protocol datasets, GPU runs, publication mesh plots and the reserved 3D pipeline were not tested or implemented in this update.
+Warnings were retained: Torch JIT deprecation, a Numba duplicate-compilation warning, a SciPy import deprecation and statsmodels' default negative-binomial dispersion. Successful execution does not establish biological validity, lineage tracing, benchmark accuracy, parameter adequacy or numerical equivalence with old notebooks. Full protocol datasets, GPU runs, publication mesh plots and the then-reserved 3D pipeline were not tested or implemented in that update.
 
 Reproduce from this repository with a compatible native environment:
 

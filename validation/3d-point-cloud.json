@@ -1,0 +1,60 @@
+{
+  "schema_version": "spateo-point-cloud-validation-v1",
+  "date": "2026-09-21",
+  "source": {
+    "spateo_repository": "https://github.com/gmhhhhhh-929/spateo-release",
+    "spateo_commit": "615644f88613bea8ceb2e2df1e2391d16de55ec1",
+    "protocol_repository": "https://github.com/gmhhhhhh-929/Spateo-protocol-files",
+    "protocol_repository_commit": "b11ae99fbdc4ae46d41880e9306ab7e5c2751ac5",
+    "protocol_file_last_commit": "d768184f74a0057f35c888471392e8496720fa04",
+    "protocol_path": "code/01_three_dimensional_reconstruction/01_cs13_reference_mesh_reconstruction.ipynb"
+  },
+  "environment": {
+    "python": "3.10.21",
+    "numpy": "1.26.4",
+    "pandas": "2.2.3",
+    "anndata": "0.10.9",
+    "pyvista": "0.46.5",
+    "vtk": "9.5.2",
+    "spateo": "0.0+615644f"
+  },
+  "checks": {
+    "point_cloud_tests": {
+      "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/path/to/spateo-release python -m pytest tests/native_skills/test_3d_point_cloud.py -q",
+      "result": "7 passed, 2 warnings",
+      "warnings": [
+        "torch.jit.script deprecation"
+      ]
+    },
+    "full_native_regression": {
+      "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/path/to/spateo-release python -m pytest tests/native_skills -q",
+      "result": "26 passed, 8 warnings",
+      "scope": "7 point-cloud cases plus 19 existing IO/4D cases"
+    },
+    "skill_creator_validation": {
+      "result": "2 passed",
+      "skills": [
+        "skills/spateo-3d-pipeline",
+        "skills/spateo-3d-pipeline/subskills/spateo-reconstruct-point-cloud"
+      ]
+    },
+    "collection_validation": {
+      "result": "pass",
+      "total_skills": 27,
+      "top_level_skills": 6,
+      "three_d_subskills": 1,
+      "python_syntax_checked": 75,
+      "markdown_links": "pass"
+    }
+  },
+  "authored_file_sha256": {
+    "skills/spateo-3d-pipeline/subskills/spateo-reconstruct-point-cloud/scripts/build_point_cloud.py": "f08f5436edcbe04576e7cd7aad481a53ba7b5a046f9404c472f3940bc630fa1a",
+    "tests/native_skills/test_3d_point_cloud.py": "61aae5cdb50c7e5ba45bec9a8570b68ddb8563d558e70501b7853e7f1f954250"
+  },
+  "limits": [
+    "Synthetic execution and file-contract validation only",
+    "No biological accuracy, registration, unit, annotation, or expression-semantics claim",
+    "No large-dataset performance benchmark",
+    "Surface, voxel, reconstructed-cell, backbone, and spatial-interpolation phases remain pending"
+  ]
+}

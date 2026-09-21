@@ -1,6 +1,6 @@
 # Spateo Skills
 
-An ordered Spateo skill collection from environment setup and data IO through slice QC, 2D alignment and native cross-timepoint 4D analysis, with a reserved 3D workflow stage.
+An ordered Spateo skill collection from environment setup and data IO through slice QC, 2D alignment, reviewed 3D point-cloud reconstruction and native cross-timepoint 4D analysis.
 
 [中文说明](README.zh-CN.md)
 
@@ -12,7 +12,7 @@ An ordered Spateo skill collection from environment setup and data IO through sl
 | 2 | [spateo-data-io](skills/spateo-data-io/SKILL.md) | Contract-based spatial reading → named AnnData outputs and diagnostics. | Rewritten in English for current IO |
 | 3 | [spatial-slice-quality-qc](skills/spatial-slice-quality-qc/SKILL.md) | Slice QC → keep/exclude evidence; includes [slice-quality-viewer](skills/spatial-slice-quality-qc/subskills/spatial-slice-quality-viewer/SKILL.md). | Existing runtime, viewer nested here |
 | 4 | [spateo-2d-alignment](skills/spateo-2d-alignment/SKILL.md) | Serial 2D alignment → aligned sections, QC, replay and provenance. | Existing two pipelines and 14 subskills |
-| 5 | [spateo-3d-pipeline](skills/spateo-3d-pipeline/SKILL.md) | 3D model reconstruction → backbone analysis and gene interpolation. | Reserved; no executable implementation |
+| 5 | [spateo-3d-pipeline](skills/spateo-3d-pipeline/SKILL.md) | 3D model reconstruction → backbone analysis and gene interpolation. | Point-cloud VTK implemented; later 3D models pending |
 | 6 | [spateo-4d-pipeline](skills/spateo-4d-pipeline/SKILL.md) | Cross-timepoint 3D alignment → morphogenesis → tracked outputs/dashboard. | Rewritten in English for native runtime |
 
 ```mermaid
@@ -20,12 +20,12 @@ flowchart LR
   ENV[1 Environment] --> IO[2 IO]
   IO --> QC[3 Slice quality + viewer]
   QC --> ALIGN[4 2D alignment]
-  ALIGN -.-> THREE[5 3D reconstruction / backbone / interpolation: reserved]
+  ALIGN --> THREE[5 3D reconstruction: point cloud implemented]
   THREE -.-> FOUR[6 4D pipeline]
   EXTERNAL[Validated external 3D H5AD pair] --> FOUR
 ```
 
-There are **six top-level entrypoints**, including the intentionally reserved 3D stage; **26 SKILL.md files** in total. The five 4D companions live under `spateo-4d-pipeline/subskills/`: align-stages, morphogenesis, manage-runs, refine-analysis and render-dashboard. The QC viewer belongs inside the QC directory. Install each complete top-level directory; parent entrypoints route to nested companions without requiring automatic recursive discovery.
+There are **six top-level entrypoints** and **27 SKILL.md files** in total. The 3D parent currently routes to one implemented companion, `spateo-reconstruct-point-cloud`; surface, voxel, cell, backbone and spatial-interpolation companions remain pending. The five 4D companions live under `spateo-4d-pipeline/subskills/`: align-stages, morphogenesis, manage-runs, refine-analysis and render-dashboard. The QC viewer belongs inside the QC directory. Install each complete top-level directory; parent entrypoints route to nested companions without requiring automatic recursive discovery.
 
 ```text
 skills/
@@ -36,13 +36,14 @@ skills/
 ├── spateo-2d-alignment/
 │   ├── pipelines/{pairwise-rigid,continuity-guided}/
 │   └── subskills/  (14 companions)
-├── spateo-3d-pipeline/  (reserved)
+├── spateo-3d-pipeline/
+│   └── subskills/spateo-reconstruct-point-cloud/
 └── spateo-4d-pipeline/
     ├── scripts/  (shared native runtime)
     └── subskills/  (5 companions)
 ```
 
-The library is a separate checkout, not this skills repository. IO and 4D are verified against [Spateo commit 615644f](https://github.com/gmhhhhhh-929/spateo-release/tree/615644f88613bea8ceb2e2df1e2391d16de55ec1). The [protocol migration](skills/spateo-4d-pipeline/references/protocol-migration.md) records how the user's existing notebooks map to current APIs. Existing environment and 2D runtime snapshots retain their documented historical provenance; this update does not claim those frozen algorithms were rewritten.
+The library is a separate checkout, not this skills repository. IO, 3D point-cloud reconstruction, and 4D are verified against [Spateo commit 615644f](https://github.com/gmhhhhhh-929/spateo-release/tree/615644f88613bea8ceb2e2df1e2391d16de55ec1). The 3D [source manifest](skills/spateo-3d-pipeline/subskills/spateo-reconstruct-point-cloud/references/source_manifest.json) and 4D [protocol migration](skills/spateo-4d-pipeline/references/protocol-migration.md) record the reviewed source and notebook mappings. Existing environment and 2D runtime snapshots retain their documented historical provenance; this update does not claim those frozen algorithms were rewritten.
 
 ## Alignment pipelines
 
@@ -65,6 +66,7 @@ Clone this repository and let your agent read the relevant `SKILL.md`. Copy the 
 Use $setup-spateo-environment to prepare and verify a Spateo environment.
 Use $spateo-data-io to inspect this dataset and convert it to AnnData.
 Use $spateo-2d-alignment to align these ordered tissue slices using shared expression PCA without annotation.
+Use $spateo-3d-pipeline to build and review a point-cloud VTK from an H5AD with XYZ coordinates.
 ```
 
 Spateo itself is installed from a **separate source checkout** or a compatible environment; this repository contains skills and alignment pipelines, not the complete Spateo library. The environment skill documents the required checkout and installation commands.

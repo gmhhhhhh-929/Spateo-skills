@@ -8,4 +8,4 @@ IO does not create PCA or alignment transforms. Downstream expression-PCA mode r
 
 The read-only validator can audit numeric representation constraints but cannot prove PCA origin or registration accuracy. It never repairs an input. Generic IO preserves XYZ; `--require-2d` rejects three columns when an explicit XY handoff is requested. Derive XY under a new key with recorded meaning rather than dropping z silently.
 
-The reserved 3D stage will eventually consume aligned serial sections for reconstruction, backbone analysis and interpolation. Already reconstructed, validated 3D inputs may enter the implemented 4D pipeline directly; mark the unimplemented 3D workflow as external rather than completed by these skills.
+The 3D stage can now construct and review a point-cloud VTK after the aligned sections have been combined into an H5AD with verified XYZ coordinates. It does not yet implement surface, voxel, reconstructed-cell, backbone, or spatial-interpolation models. Already reconstructed, validated 3D H5AD inputs may enter the 4D pipeline directly; do not mark pending 3D phases as completed.

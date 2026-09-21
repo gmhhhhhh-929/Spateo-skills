@@ -1,8 +1,8 @@
 # Collection completeness
 
-The current ordered collection has six top-level entrypoints and 26 total skills: environment, rewritten IO, QC with one nested viewer, unchanged 2D alignment with 14 companions, a reserved 3D entrypoint, and native 4D with five companions. See [README.md](README.md) for the stage order and handoffs.
+The current ordered collection has six top-level entrypoints and 27 total skills: environment, rewritten IO, QC with one nested viewer, unchanged 2D alignment with 14 companions, 3D with one implemented point-cloud companion, and native 4D with five companions. See [README.md](README.md) for the stage order and handoffs.
 
-Implemented in this update: English IO/result-container migration; English 4D protocol/native migration with executable checkpoints, refinement and dashboard; behavioral source/skill tests; viewer packaging relocation. The 3D stage intentionally has no runner or test claim. Existing environment/QC/2D scientific implementations are retained.
+The 3D point-cloud phase now validates H5AD XYZ coordinates and identities, supports uniform/obs/gene/multi-gene/external coloring, writes preview and provenance sidecars, and verifies `.vtk` through the public Spateo save/read API. Surface, voxel, reconstructed-cell, backbone, and spatial-interpolation phases remain pending. Existing environment/QC/2D scientific implementations and the IO/4D migration are retained.
 
 The following is the historical alignment migration audit; its entry counts describe that migration snapshot, not today's entire collection.
 
