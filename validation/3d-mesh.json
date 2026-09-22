@@ -1,0 +1,146 @@
+{
+  "schema_version": "spateo-surface-mesh-validation-v1",
+  "date": "2026-09-22",
+  "source": {
+    "spateo_repository": "https://github.com/gmhhhhhh-929/spateo-release",
+    "spateo_commit": "615644f88613bea8ceb2e2df1e2391d16de55ec1",
+    "protocol_repository": "https://github.com/gmhhhhhh-929/Spateo-protocol-files",
+    "protocol_path": "code/01_three_dimensional_reconstruction/01_cs13_reference_mesh_reconstruction.ipynb"
+  },
+  "environment": {
+    "python": "3.10.21",
+    "numpy": "1.26.4",
+    "scipy": "1.13.1",
+    "scikit_image": "0.25.2",
+    "pyvista": "0.46.5",
+    "vtk": "9.5.2",
+    "pymeshfix": "0.18.1",
+    "spateo": "0.0+615644f"
+  },
+  "checks": {
+    "surface_mesh_tests": {
+      "command": "PYTHONPATH=/path/to/spateo-release python -m pytest tests/native_skills/test_3d_mesh.py -q",
+      "result": "8 passed, 2 warnings",
+      "warnings": [
+        "torch.jit.script deprecation"
+      ]
+    },
+    "full_native_regression": {
+      "command": "PYTHONPATH=/path/to/spateo-release python -m pytest tests/native_skills -q",
+      "result": "34 passed, 8 warnings",
+      "scope": "8 surface-mesh cases plus 26 existing point-cloud/IO/4D cases"
+    },
+    "skill_creator_validation": {
+      "result": "3 passed",
+      "skills": [
+        "skills/spateo-3d-pipeline",
+        "skills/spateo-3d-pipeline/subskills/spateo-reconstruct-point-cloud",
+        "skills/spateo-3d-pipeline/subskills/spateo-reconstruct-mesh"
+      ]
+    },
+    "collection_validation": {
+      "result": "pass",
+      "total_skills": 28,
+      "top_level_skills": 6,
+      "three_d_subskills": 2,
+      "python_syntax_checked": 76,
+      "markdown_links": "pass"
+    }
+  },
+  "real_data": {
+    "planarian_14dpa": {
+      "source_points": 85403,
+      "source_point_cloud_sha256": "707c0c791e8cc6bd9f5755f0c943fa6cb3beb405baac200141492e8f46efaf5b",
+      "status": "pass",
+      "preview_sha256": "fd8df06ecfc3e9be0512d94f5de0f2e023b6b1757a517963186129855ec1edc4",
+      "meshes": {
+        "body": {
+          "vtk_sha256": "4d2f7e5d2d270106c8fbe69e5045409a31630b3f9aca6f48e70e070684c2bb85",
+          "density_coverage": 0.9879746613116636,
+          "final_containment": 0.96845,
+          "open_edges": 0
+        },
+        "neural": {
+          "vtk_sha256": "73ee0f67bdbbd39e113208a7e23001dcfdca64b77155321d2f42512ef7300125",
+          "density_coverage": 0.9702570639473125,
+          "final_containment": 0.9568727427236031,
+          "open_edges": 0
+        },
+        "gut": {
+          "vtk_sha256": "4391f112edbd6b7b724a341f009715444ab1eb4bff3bfda983b0e234b788665b",
+          "density_coverage": 0.9704166666666667,
+          "final_containment": 0.9558333333333333,
+          "open_edges": 0
+        },
+        "pharynx": {
+          "vtk_sha256": "8974219b8957c33ea746eb9c7c406f70ecce5ef6e1d4767d0473f48f6036377e",
+          "density_coverage": 0.9711979270480366,
+          "final_containment": 0.9632250348814032,
+          "open_edges": 0
+        }
+      }
+    },
+    "drosophila_16_53h": {
+      "source_points": 26020,
+      "source_point_cloud_sha256": "b3b87b00566bde62014603f57226073f6eb4c21aa71d835b52eb911e9be04011",
+      "status": "pass_with_warnings",
+      "warnings": [
+        "Body repair removed two recorded unrepairable numerical fragments no larger than 16 triangles; valid disconnected components were retained."
+      ],
+      "preview_sha256": "fff86239e0a0f269d65c137959200d1448855641b27145f6e5fd632bc9c5d73b",
+      "meshes": {
+        "body": {
+          "vtk_sha256": "8352565d2927d6723e42d8447aca2348bd1a78a596d294c51f862989ba9909cd",
+          "density_coverage": 0.9895080707148347,
+          "final_containment": 0.9802,
+          "open_edges": 0
+        },
+        "CNS": {
+          "vtk_sha256": "f72b7fe6c41ceae48c7282699277b045921691b18528617e0e2f085c7dcb5cd1",
+          "density_coverage": 0.9705829916206097,
+          "final_containment": 0.9689784275271884,
+          "open_edges": 0
+        },
+        "muscle": {
+          "vtk_sha256": "10949dcff9f2f14db80e77ce034fd85d96fdfc0f0a5fc8a1538923574719bfcc",
+          "density_coverage": 0.9722543352601156,
+          "final_containment": 0.9722543352601156,
+          "open_edges": 0
+        },
+        "midgut": {
+          "vtk_sha256": "ab0cabab9621d7d63218b6e1ce4a7dbeeac0b3c13aebc40c64823680e5766",
+          "density_coverage": 0.971588916169765,
+          "final_containment": 0.971588916169765,
+          "open_edges": 0
+        }
+      }
+    },
+    "drosophila_native_comparison": {
+      "parameters": {
+        "levelset": 0.5,
+        "mc_scale_factor": 0.8,
+        "dist_sample_num": 100,
+        "random_seed": 0,
+        "smooth": 300
+      },
+      "vtk_sha256": "188057590f1bed3d826cf86084e96e2ad73c5a90b1cd2156eb474ae6b460221b",
+      "components_preserved": 35,
+      "open_edges_before_repair": 76,
+      "open_edges_after_repair": 0,
+      "final_containment": 0.98525,
+      "preview_sha256": "4476b57c7aaf56a75df389316cf81f58d878e5ca1b394e6a94162ce6d7a5e109",
+      "full_construct_surface_result": "failed in MeshFix on mixed connectivity before returning a surface"
+    }
+  },
+  "authored_file_sha256": {
+    "skills/spateo-3d-pipeline/subskills/spateo-reconstruct-mesh/SKILL.md": "b6f1b7f930a11556a5e4b73875b8ffae677cb73ac47f7f804728ac3aac8e5ee2",
+    "skills/spateo-3d-pipeline/subskills/spateo-reconstruct-mesh/scripts/build_meshes.py": "22b10c75556615d782d6ea52b153bd626906ef3d54bdca38b6976781d7a5f8d5",
+    "tests/native_skills/test_3d_mesh.py": "f2a96519a9ff0133b9f8c9009e65a7e884806489b957a983709f336e10e97b98"
+  },
+  "limits": [
+    "Real-data execution and visual review do not establish anatomical truth or publication readiness.",
+    "Containment and closed topology do not prove that an isosurface follows the desired biological boundary.",
+    "Density, component, smoothing, and native marching-cube parameters remain specimen dependent.",
+    "Local H5AD, VTK, manifest, and preview artifacts are not redistributed in this repository."
+  ]
+}

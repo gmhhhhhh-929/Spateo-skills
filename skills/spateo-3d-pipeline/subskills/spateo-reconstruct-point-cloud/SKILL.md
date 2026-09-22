@@ -73,4 +73,4 @@ Use `--skip-preview` only for a documented headless or test run. Use `--allow-pl
 
 Check the preview orientation, extent, slice spacing, missing or unexpectedly transparent categories, continuous value range, and whether the coordinate rank/unit matches the intended model. Confirm the manifest says `status: pass`, all observations became points, required arrays survived reload, and the VTK hash matches.
 
-Return the three artifacts and the chosen spatial/color fields. State that a point cloud is not yet a surface, voxel, cell model, backbone, or interpolated volume. Wait for user review before moving to the next implemented 3D phase.
+Return the three artifacts and the chosen spatial/color fields. State that a point cloud is not yet a surface, voxel, cell model, backbone, or interpolated volume. For an authorized surface phase, preserve `obs_index` and the categorical field needed by [spateo-reconstruct-mesh](../spateo-reconstruct-mesh/SKILL.md); otherwise wait for user review.

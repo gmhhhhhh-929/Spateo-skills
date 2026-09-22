@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spateo Surface Mesh Reconstruction"
+  short_description: "Build selectable body and annotation meshes from 3D point clouds"
+  default_prompt: "Use $spateo-reconstruct-mesh to build and review full-body and selected annotation VTK meshes from this Spateo point cloud."

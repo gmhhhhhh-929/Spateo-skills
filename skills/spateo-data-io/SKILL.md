@@ -5,7 +5,7 @@ description: Read spatial-platform bundles, Stereo-seq GEM/GEF, expression matri
 
 # Spateo data IO
 
-Stage 2: environment → **IO** → slice quality (including its viewer) → 2D alignment → 3D pipeline → 4D pipeline. The current 3D implementation begins with a validated point-cloud VTK.
+Stage 2: environment → **IO** → slice quality (including its viewer) → 2D alignment → 3D pipeline → 4D pipeline. The current 3D implementation begins with a validated point-cloud VTK and can continue to full-body or annotation-specific surface meshes.
 
 Use the source-verified API at `gmhhhhhh-929/spateo-release`, commit `615644f88613bea8ceb2e2df1e2391d16de55ec1`. Read [API routing](references/api-routing.md) for explicit readers, [automatic outcomes](references/auto-and-errors.md) for collection/resource handling, and the relevant row in [platform contracts](references/platforms.md). Exact source signatures and hashes are in [source-api.md](references/source-api.md) and [source_manifest.json](references/source_manifest.json). Check signatures again for another revision.
 
