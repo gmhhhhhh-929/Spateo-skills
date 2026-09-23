@@ -25,7 +25,7 @@ flowchart LR
   EXTERNAL[Validated external 3D H5AD pair] --> FOUR
 ```
 
-There are **six top-level entrypoints** and **28 SKILL.md files** in total. The 3D parent routes to two implemented companions: `spateo-reconstruct-point-cloud` and `spateo-reconstruct-mesh`; voxel, reconstructed-cell, backbone and spatial-interpolation companions remain pending. The five 4D companions live under `spateo-4d-pipeline/subskills/`: align-stages, morphogenesis, manage-runs, refine-analysis and render-dashboard. The QC viewer belongs inside the QC directory. Install each complete top-level directory; parent entrypoints route to nested companions without requiring automatic recursive discovery.
+There are **six top-level entrypoints** and **29 SKILL.md files** in total. The 3D parent routes to three implemented companions: `spateo-reconstruct-point-cloud`, `spateo-reconstruct-mesh`, and [spateo-render-3d-viewer](skills/spateo-3d-pipeline/subskills/spateo-render-3d-viewer/SKILL.md). The viewer imports existing VTK meshes and optional cells into offline interactive HTML without reconstruction. Voxel, reconstructed-cell, backbone and spatial-interpolation companions remain pending. The five 4D companions live under `spateo-4d-pipeline/subskills/`: align-stages, morphogenesis, manage-runs, refine-analysis and render-dashboard. The QC viewer belongs inside the QC directory. Install each complete top-level directory; parent entrypoints route to nested companions without requiring automatic recursive discovery.
 
 ```text
 skills/
@@ -37,7 +37,7 @@ skills/
 │   ├── pipelines/{pairwise-rigid,continuity-guided}/
 │   └── subskills/  (14 companions)
 ├── spateo-3d-pipeline/
-│   └── subskills/{spateo-reconstruct-point-cloud,spateo-reconstruct-mesh}/
+│   └── subskills/{spateo-reconstruct-point-cloud,spateo-reconstruct-mesh,spateo-render-3d-viewer}/
 └── spateo-4d-pipeline/
     ├── scripts/  (shared native runtime)
     └── subskills/  (5 companions)
@@ -67,6 +67,7 @@ Use $setup-spateo-environment to prepare and verify a Spateo environment.
 Use $spateo-data-io to inspect this dataset and convert it to AnnData.
 Use $spateo-2d-alignment to align these ordered tissue slices using shared expression PCA without annotation.
 Use $spateo-3d-pipeline to build a point-cloud VTK, then full-body or selected-annotation surface VTKs.
+Use $spateo-3d-pipeline to import these reconstructed VTK models and generate an interactive review viewer.
 ```
 
 Spateo itself is installed from a **separate source checkout** or a compatible environment; this repository contains skills and alignment pipelines, not the complete Spateo library. The environment skill documents the required checkout and installation commands.

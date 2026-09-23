@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spateo 3D Model Viewer"
+  short_description: "Inspect mesh VTKs and tissue cells interactively"
+  default_prompt: "Use $spateo-render-3d-viewer to import my reconstructed models and create an offline interactive review page."
