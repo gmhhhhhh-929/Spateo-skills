@@ -1,8 +1,40 @@
 # Validation and scope
 
+## 3D surface-mesh phase — 2026-09-22
+
+Source: `gmhhhhhh-929/spateo-release@615644f88613bea8ceb2e2df1e2391d16de55ec1`. The collection now has six top-level entrypoints and 28 total skills; the 3D parent contains implemented point-cloud and surface-mesh companions.
+
+| Check | Executed result | Scope |
+| --- | --- | --- |
+| Real Spateo mesh-wrapper behavior | 8 passed | Density body/multi-value annotation meshes, deterministic native sampling, disconnected-component-preserving repair, automatic coverage gate, atomic failure cleanup, full face/array round trips, case-insensitive filename collision refusal, missing/planar inputs, and overwrite refusal. |
+| Full native skill regression | 34 passed | Eight mesh cases plus the 26 existing point-cloud/IO/4D cases. |
+| Skill structure | 3 passed | Parent, point-cloud companion, and surface-mesh companion passed skill-creator validation. |
+| Collection packaging | Passed | 28 skills, six top-level, two 3D companions, local Markdown links, and 76 Python files parsed. |
+
+The synthetic tests call real SciPy/scikit-image/PyVista geometry and real `st.tdr.save_model`/`read_model`; the native comparison calls the pinned Spateo `marching_cube_mesh` core. No geometry or serialization call is mocked.
+
+Two real local specimens were also reconstructed without modifying source H5AD files. Planarian 14 dpa used 85,403 cells and produced closed body, neural, gut, and pharynx meshes; density-mask coverage was 97.0–98.8%, and checked final point containment was 95.6–96.8%. Drosophila 16.53 h used 26,020 cells and produced closed body, CNS, muscle, and midgut meshes; density-mask coverage was 97.1–99.0% and final containment was 96.9–98.0%. Drosophila finished as `pass_with_warnings` because post-round-trip body repair removed two explicitly recorded numerical fragments of at most 16 triangles while retaining valid disconnected components. Four-view previews were opened and inspected.
+
+For comparison, the deterministic direct Spateo-core Drosophila body used `levelset=0.5`, `mc_scale_factor=0.8`, `dist_sample_num=100`, random seed 0, and 300 Laplacian iterations. It had 76 open edges before component-preserving repair, 0 afterward, retained 35 components, and enclosed 98.5% of 20,000 checked points. The full public `construct_surface` route failed earlier in MeshFix because mixed connectivity could not be reshaped as triangles. Native output remains available for comparison; the density route is the default because its volume-field, coverage, component, and smoothing controls are explicit and work uniformly for full-body and annotation meshes. This one specimen does not prove either method is optimal for every dataset.
+
+The run used Python 3.10.21, NumPy 1.26.4, SciPy 1.13.1, scikit-image 0.25.2, PyVista 0.46.5, VTK 9.5.2, MeshFix 0.18.1, and Spateo `0.0+615644f`. Synthetic and real-data execution establish file, topology, traceability, and review contracts; they do not certify anatomical truth, annotations, universal parameters, or publication readiness. Full hashes and metrics are in [validation/3d-mesh.json](validation/3d-mesh.json).
+
+Reproduce the packaged checks:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/path/to/spateo-release \
+  python -m pytest tests/native_skills/test_3d_mesh.py -q
+PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=/path/to/spateo-release \
+  python -m pytest tests/native_skills -q
+python scripts/validate_collection.py
+python /path/to/skill-creator/scripts/quick_validate.py skills/spateo-3d-pipeline
+python /path/to/skill-creator/scripts/quick_validate.py \
+  skills/spateo-3d-pipeline/subskills/spateo-reconstruct-mesh
+```
+
 ## 3D point-cloud phase — 2026-09-21
 
-Source: `gmhhhhhh-929/spateo-release@615644f88613bea8ceb2e2df1e2391d16de55ec1`. Point-cloud protocol reference: `gmhhhhhh-929/Spateo-protocol-files@b11ae99fbdc4ae46d41880e9306ab7e5c2751ac5` (the notebook's last modifying commit is `d768184f74a0057f35c888471392e8496720fa04`). The collection now has six top-level entrypoints and 27 total skills; the 3D parent contains one implemented point-cloud companion.
+Source: `gmhhhhhh-929/spateo-release@615644f88613bea8ceb2e2df1e2391d16de55ec1`. Point-cloud protocol reference: `gmhhhhhh-929/Spateo-protocol-files@b11ae99fbdc4ae46d41880e9306ab7e5c2751ac5` (the notebook's last modifying commit is `d768184f74a0057f35c888471392e8496720fa04`). At this validation snapshot the collection had six top-level entrypoints and 27 total skills; the later surface-mesh validation above supersedes the current count.
 
 | Check | Executed result | Scope |
 | --- | --- | --- |
@@ -13,7 +45,7 @@ Source: `gmhhhhhh-929/spateo-release@615644f88613bea8ceb2e2df1e2391d16de55ec1`. 
 
 The behavioral suite calls the real `st.tdr.construct_pc`, `st.tdr.save_model`, and `st.tdr.read_model` implementations; it does not mock their geometry or serialization. Binary VTK reload preserved coordinates, observation IDs, labels, continuous scalars, and categorical RGBA. A tested wrapper correction restores alpha zero for masked points because the pinned source's scalar-alpha branch otherwise overwrites it. Preview rendering uses PyVista's `point_size`; the reference notebook's direct-PyVista `model_size` argument is not copied.
 
-The run used Python 3.10.21, NumPy 1.26.4, pandas 2.2.3, AnnData 0.10.9, PyVista 0.46.5, VTK 9.5.2, and Spateo `0.0+615644f`. The focused run retained two Torch JIT deprecation warnings; the full native suite retained eight previously documented Torch/Numba/SciPy/statsmodels warnings. Tests use synthetic data and establish execution/file contracts only: they do not validate biological coordinates, registration, physical units, annotation quality, expression semantics, large-dataset performance, or any pending surface/voxel/cell/backbone/interpolation phase. Full details and hashes are in [validation/3d-point-cloud.json](validation/3d-point-cloud.json).
+The run used Python 3.10.21, NumPy 1.26.4, pandas 2.2.3, AnnData 0.10.9, PyVista 0.46.5, VTK 9.5.2, and Spateo `0.0+615644f`. The focused run retained two Torch JIT deprecation warnings; the full native suite retained eight previously documented Torch/Numba/SciPy/statsmodels warnings. Tests use synthetic data and establish execution/file contracts only: they do not validate biological coordinates, registration, physical units, annotation quality, expression semantics, large-dataset performance, or the surface/voxel/cell/backbone/interpolation phases that were pending at that snapshot. Full details and hashes are in [validation/3d-point-cloud.json](validation/3d-point-cloud.json).
 
 Reproduce the focused checks:
 

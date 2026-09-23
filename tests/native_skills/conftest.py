@@ -15,6 +15,10 @@ sys.path.insert(
         / "skills/spateo-3d-pipeline/subskills/spateo-reconstruct-point-cloud/scripts"
     ),
 )
+sys.path.insert(
+    0,
+    str(ROOT / "skills/spateo-3d-pipeline/subskills/spateo-reconstruct-mesh/scripts"),
+)
 
 
 class NoDynamo(importlib.abc.MetaPathFinder):
