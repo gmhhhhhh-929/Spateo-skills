@@ -5,7 +5,7 @@ description: Run tracked two-timepoint 3D alignment and native Spateo morphogene
 
 # Spateo 4D pipeline
 
-Stage 6 of the collection: environment → IO → slice quality with viewer → 2D alignment → reserved 3D reconstruction/backbone/interpolation → **4D**. Start here with two already reconstructed 3D AnnData objects. The reserved 3D skill is not a prerequisite implementation to invent.
+Stage 6 of the collection: environment → IO → slice quality with viewer → 2D alignment → 3D reconstruction → **4D**. Start here with two already reconstructed 3D AnnData objects. The 3D skill currently implements point-cloud VTK construction; its pending surface/backbone/interpolation phases are not prerequisites to invent, and a VTK does not replace the AnnData inputs required here.
 
 Use current native Spateo at commit `615644f88613bea8ceb2e2df1e2391d16de55ec1`. Dynamo is not required. The supported scientific sequence comes from the user's [protocol notebooks](https://github.com/gmhhhhhh-929/Spateo-protocol-files/tree/b11ae99fbdc4ae46d41880e9306ab7e5c2751ac5/code/04_alignment_and_morphogenesis). Read [protocol migration](references/protocol-migration.md) before reproducing their settings or plots.
 
@@ -38,4 +38,4 @@ The dry run imports the actual environment and hashes inputs/implementation with
 
 Compare alignment in the exact coordinate key used for mapping. Check subset counts, shared genes, mapped endpoint/vector consistency, finite fields/metrics and trajectory bounds. Mapping is an inferred correspondence, not lineage tracing. Integration time is model time; `t_end=1` does not claim one day. GP interpolates expression over space, not continuous developmental time.
 
-Return the manifest, config, run/parent IDs, stage states, checkpoint/table paths and dashboard. The trajectory, metric and GP branches have separate artifacts, all indexed by the manifest. State test/biological limits from [validation.md](references/validation.md). Do not report skipped GLM/GP or the reserved 3D stage as completed analysis.
+Return the manifest, config, run/parent IDs, stage states, checkpoint/table paths and dashboard. The trajectory, metric and GP branches have separate artifacts, all indexed by the manifest. State test/biological limits from [validation.md](references/validation.md). Do not report skipped GLM/GP or pending 3D phases as completed analysis.

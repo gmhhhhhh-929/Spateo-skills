@@ -5,7 +5,7 @@ description: Render native Spateo 4D checkpoints as a portable interactive sourc
 
 # spateo-render-dashboard
 
-The parent pipeline generates an offline Plotly HTML from verified mapping/metric checkpoints and the manifest. It shows source/target point clouds, mapped endpoints, displacement, vector scale, biological/display groups and available scalar metrics/GLM tables. It does not render the reserved 3D backbone pipeline or imply GP/trajectory animations are present.
+The parent pipeline generates an offline Plotly HTML from verified mapping/metric checkpoints and the manifest. It shows source/target point clouds, mapped endpoints, displacement, vector scale, biological/display groups and available scalar metrics/GLM tables. It does not render the pending 3D backbone workflow or imply GP/trajectory animations are present.
 
 For display-only changes, update dashboard settings and create a child with the parent manifest. Offline mode requires Plotly; it fails if unavailable rather than silently loading a CDN. `dashboard.cdn=true` is an explicit network-dependent alternative. Display subsampling affects only the embedded point cloud; full scientific data stay in H5AD/CSV.
 

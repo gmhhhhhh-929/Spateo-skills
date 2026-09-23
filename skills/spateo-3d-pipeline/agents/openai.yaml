@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spateo 3D Pipeline"
+  short_description: "Reviewed 3D model reconstruction from spatial AnnData"
+  default_prompt: "Use $spateo-3d-pipeline to build and review the next appropriate 3D model from this AnnData."

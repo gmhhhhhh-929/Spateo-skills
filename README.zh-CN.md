@@ -1,10 +1,10 @@
 # Spateo Skills
 
-本仓库包含环境配置、Data IO、配准前切片质量筛选、交互证据报告和 2D 切片配准。
+本仓库包含环境配置、Data IO、配准前切片质量筛选、交互证据报告、2D 切片配准、3D 点云/表面 mesh 重建和跨时间点 4D 分析。
 
 [English](README.md)
 
-完整顺序：**环境配置 → IO → 切片质量 QC（包含 viewer）→ 2D 配准 → 3D pipeline（预留）→ 4D pipeline**。
+完整顺序：**环境配置 → IO → 切片质量 QC（包含 viewer）→ 2D 配准 → 3D pipeline → 4D pipeline**。当前 3D 阶段已实现点云模型及可选择 annotation 的 surface mesh；voxel、cell、backbone 和空间插值将在后续交互迭代中补充。
 
 ## Ordered workflow
 
@@ -14,7 +14,7 @@
 | 2 | [spateo-data-io](skills/spateo-data-io/SKILL.md) | Contract-based spatial reading → named AnnData outputs and diagnostics. | Rewritten in English for current IO |
 | 3 | [spatial-slice-quality-qc](skills/spatial-slice-quality-qc/SKILL.md) | Slice QC → keep/exclude evidence; includes [slice-quality-viewer](skills/spatial-slice-quality-qc/subskills/spatial-slice-quality-viewer/SKILL.md). | Existing runtime, viewer nested here |
 | 4 | [spateo-2d-alignment](skills/spateo-2d-alignment/SKILL.md) | Serial 2D alignment → aligned sections, QC, replay and provenance. | Existing two pipelines and 14 subskills |
-| 5 | [spateo-3d-pipeline](skills/spateo-3d-pipeline/SKILL.md) | 3D model reconstruction → backbone analysis and gene interpolation. | Reserved; no executable implementation |
+| 5 | [spateo-3d-pipeline](skills/spateo-3d-pipeline/SKILL.md) | 3D model reconstruction → backbone analysis and gene interpolation. | 点云与可选择 annotation 的 surface VTK 已实现 |
 | 6 | [spateo-4d-pipeline](skills/spateo-4d-pipeline/SKILL.md) | Cross-timepoint 3D alignment → morphogenesis → tracked outputs/dashboard. | Rewritten in English for native runtime |
 
 ```mermaid
@@ -22,12 +22,12 @@ flowchart LR
   ENV[1 Environment] --> IO[2 IO]
   IO --> QC[3 Slice quality + viewer]
   QC --> ALIGN[4 2D alignment]
-  ALIGN -.-> THREE[5 3D reconstruction / backbone / interpolation: reserved]
+  ALIGN --> THREE[5 3D reconstruction: point cloud + surface mesh]
   THREE -.-> FOUR[6 4D pipeline]
   EXTERNAL[Validated external 3D H5AD pair] --> FOUR
 ```
 
-There are **six top-level entrypoints**, including the intentionally reserved 3D stage; **26 SKILL.md files** in total. The five 4D companions live under `spateo-4d-pipeline/subskills/`: align-stages, morphogenesis, manage-runs, refine-analysis and render-dashboard. The QC viewer belongs inside the QC directory. Install each complete top-level directory; parent entrypoints route to nested companions without requiring automatic recursive discovery.
+当前共有 **6 个顶层入口**和 **28 个 SKILL.md**。3D 父 skill 包含已实现的 `spateo-reconstruct-point-cloud` 与 `spateo-reconstruct-mesh`；voxel、重建细胞、backbone 和空间插值仍待补充。4D 的五个子 skill 位于 `spateo-4d-pipeline/subskills/`；QC viewer 位于 QC 目录内。安装时应保留完整顶层目录，父入口会显式路由到嵌套子 skill。
 
 ```text
 skills/
@@ -38,13 +38,14 @@ skills/
 ├── spateo-2d-alignment/
 │   ├── pipelines/{pairwise-rigid,continuity-guided}/
 │   └── subskills/  (14 companions)
-├── spateo-3d-pipeline/  (reserved)
+├── spateo-3d-pipeline/
+│   └── subskills/{spateo-reconstruct-point-cloud,spateo-reconstruct-mesh}/
 └── spateo-4d-pipeline/
     ├── scripts/  (shared native runtime)
     └── subskills/  (5 companions)
 ```
 
-The library is a separate checkout, not this skills repository. IO and 4D are verified against [Spateo commit 615644f](https://github.com/gmhhhhhh-929/spateo-release/tree/615644f88613bea8ceb2e2df1e2391d16de55ec1). The [protocol migration](skills/spateo-4d-pipeline/references/protocol-migration.md) records how the user's existing notebooks map to current APIs. Existing environment and 2D runtime snapshots retain their documented historical provenance; this update does not claim those frozen algorithms were rewritten.
+Spateo 库使用独立 checkout，不包含在本 skills 仓库中。IO、3D 点云/表面与 4D 均基于 [Spateo commit 615644f](https://github.com/gmhhhhhh-929/spateo-release/tree/615644f88613bea8ceb2e2df1e2391d16de55ec1) 验证。3D 的 [点云 source manifest](skills/spateo-3d-pipeline/subskills/spateo-reconstruct-point-cloud/references/source_manifest.json)、[mesh 方法契约](skills/spateo-3d-pipeline/subskills/spateo-reconstruct-mesh/references/method-selection.md)和 4D 的 [protocol migration](skills/spateo-4d-pipeline/references/protocol-migration.md)记录了源码与方法依据。现有环境与 2D runtime 快照保留各自历史 provenance；本次更新不声称重写这些冻结算法。
 
 ## 两套配准 pipeline
 
@@ -65,7 +66,7 @@ continuity-guided 的兼容默认值仍是 **`--profile legacy`**。显式选择
 2. `$spateo-data-io`：按新版 `SpatialReadResult` 契约读取与核验数据。
 3. `$spatial-slice-quality-qc`：质量检查、keep/exclude 审计及其内部 viewer。
 4. `$spateo-2d-alignment`：在同一生物样本内明确表征与切片顺序后配准。
-5. `$spateo-3d-pipeline`：本次只预留重建、backbone、gene interpolation 阶段，未实现。
+5. `$spateo-3d-pipeline`：先从已有有限 XYZ 坐标的 H5AD 构建并验证点云 `.vtk`，再构建全胚胎或指定 annotation 的独立 surface `.vtk`。
 6. `$spateo-4d-pipeline`：已有可靠 3D H5AD 可直接进入跨时间点配准、形态发生、运行记录与展示。
 
 IO 和 4D 的 skill、配套参考文档及可执行入口已使用英文重写。测试和限制见 [VALIDATION.md](VALIDATION.md)。

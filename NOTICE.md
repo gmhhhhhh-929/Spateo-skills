@@ -29,3 +29,11 @@ The two bundled scientific Referee modules derive from the user-provided Spateo 
 ## Native IO and 4D migration (2026-09-21)
 
 IO/4D API contracts are source-reviewed against gmhhhhhh-929/spateo-release at `615644f88613bea8ceb2e2df1e2391d16de55ec1`. Scientific algorithms are invoked from that separately installed library; they are not vendored by the new runner. The 4D workflow and portable dashboard were migrated from the user's local `spateo-skills` collection, with the user's Spateo-protocol-files notebooks (`b11ae99fbdc4ae46d41880e9306ab7e5c2751ac5`) used as scientific workflow references. No notebook dataset or image output is redistributed. The existing source notices and licenses remain in force.
+
+## 3D point-cloud workflow (2026-09-21)
+
+The point-cloud API contract is source-reviewed against the separately installed `gmhhhhhh-929/spateo-release` commit `615644f88613bea8ceb2e2df1e2391d16de55ec1`. The user's `01_cs13_reference_mesh_reconstruction.ipynb` at `gmhhhhhh-929/Spateo-protocol-files@b11ae99fbdc4ae46d41880e9306ab7e5c2751ac5` is a workflow reference; its last modifying commit is `d768184f74a0057f35c888471392e8496720fa04`. No notebook code, dataset, or image output is redistributed. The wrapper, instructions, tests, and manifests in this repository are newly authored under the root license.
+
+## 3D surface-mesh workflow (2026-09-22)
+
+The surface-mesh API and native marching-cubes behavior are source-reviewed against the same separately installed Spateo commit. The default occupancy-density implementation uses SciPy, scikit-image, PyVista, and MeshFix APIs already required or documented by the Spateo 3D environment. Local Planarian and Drosophila data were used for execution and visual validation only; no H5AD, VTK, screenshot, or other biological output is redistributed in this repository. The wrapper, skill instructions, tests, and validation descriptions are newly authored under the root license.

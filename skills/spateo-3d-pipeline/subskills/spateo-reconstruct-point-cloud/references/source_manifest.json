@@ -1,0 +1,36 @@
+{
+  "schema_version": "spateo-point-cloud-source-v1",
+  "spateo": {
+    "repository": "https://github.com/gmhhhhhh-929/spateo-release",
+    "commit": "615644f88613bea8ceb2e2df1e2391d16de55ec1",
+    "files": [
+      {
+        "path": "spateo/tdr/models/models_individual/point_clouds.py",
+        "sha256": "c4610747f795f0346b41920f937aada85803d9cc0e16c9d931423b4f7b311207"
+      },
+      {
+        "path": "spateo/tdr/models/utilities/label_utils.py",
+        "sha256": "398d39ac62396b659041bdbff594868b439168136a05b72ef3b2dfbed0112238"
+      },
+      {
+        "path": "spateo/tdr/models/utilities/io.py",
+        "sha256": "c857de71699726638ed57422664b85dcfc53f6578f7b15af0153d11e575f32f1"
+      },
+      {
+        "path": "spateo/tdr/models/__init__.py",
+        "sha256": "7a16af91f9b2109cb6470d299a0973d43f189f4555d1991e843e893e01449b54"
+      },
+      {
+        "path": "spateo/tdr/__init__.py",
+        "sha256": "76e206b00d872ff2e69bb8c71611442632006ff507a1029770041b9b689a9fbb"
+      }
+    ]
+  },
+  "protocol_reference": {
+    "repository": "https://github.com/gmhhhhhh-929/Spateo-protocol-files",
+    "repository_commit": "b11ae99fbdc4ae46d41880e9306ab7e5c2751ac5",
+    "file_last_commit": "d768184f74a0057f35c888471392e8496720fa04",
+    "path": "code/01_three_dimensional_reconstruction/01_cs13_reference_mesh_reconstruction.ipynb",
+    "sha256": "265523fb8ea5f78cabf5b7f291ba4f06ccfb0a778fe36f29186c1fc2e178d14e"
+  }
+}
