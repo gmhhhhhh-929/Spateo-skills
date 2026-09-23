@@ -1,6 +1,8 @@
 # Collection completeness
 
-The current ordered collection has six top-level entrypoints and 28 total skills: environment, rewritten IO, QC with one nested viewer, unchanged 2D alignment with 14 companions, 3D with implemented point-cloud and surface-mesh companions, and native 4D with five companions. See [README.md](README.md) for the stage order and handoffs.
+The current ordered collection has six top-level entrypoints and 29 total skills: environment, rewritten IO, QC with one nested viewer, unchanged 2D alignment with 14 companions, 3D with point-cloud, surface-mesh and interactive-viewer companions, and native 4D with five companions. See [README.md](README.md) for the stage order and handoffs.
+
+The 3D viewer directly imports saved VTK models, optionally associates tissue cell selections, and exports offline interactive HTML with grouped controls and source-resolution morphology. It neither reconstructs geometry nor certifies anatomical completeness. It is independent of the 4D morphogenesis dashboard.
 
 The 3D point-cloud phase validates H5AD XYZ coordinates and identities, supports uniform/obs/gene/multi-gene/external coloring, writes preview and provenance sidecars, and verifies `.vtk` through the public Spateo save/read API. The surface phase builds a full body plus user-selected annotation meshes with either the pinned native marching-cubes core or the default robust density-field route; every mesh is an independent `.vtk` with topology, coverage, preview, manifest, and Spateo round-trip checks. Voxel, reconstructed-cell, backbone, and spatial-interpolation phases remain pending. Existing environment/QC/2D scientific implementations and the IO/4D migration are retained.
 

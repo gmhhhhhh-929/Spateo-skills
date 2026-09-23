@@ -2,14 +2,31 @@
 
 ## 3D surface-mesh phase — 2026-09-22
 
-Source: `gmhhhhhh-929/spateo-release@615644f88613bea8ceb2e2df1e2391d16de55ec1`. The collection now has six top-level entrypoints and 28 total skills; the 3D parent contains implemented point-cloud and surface-mesh companions.
+Source: `gmhhhhhh-929/spateo-release@615644f88613bea8ceb2e2df1e2391d16de55ec1`. The collection now has six top-level entrypoints and 29 total skills; the 3D parent contains point-cloud, surface-mesh and interactive-viewer companions.
+
+## 3D model viewer addition — 2026-09-23
+
+The `spateo-render-3d-viewer` subskill imports existing `.vtk`/`.vtp` surfaces and optional point clouds, without reconstruction, geometric simplification or source-file writes. Main-skill routing and the mesh handoff reference it explicitly. Config and native list-based reconstruction-manifest inputs are supported.
+
+- 11 viewer tests passed: full-precision geometry/face serialization, source immutability, bounded deterministic point sampling, selected cell IDs, morphology from unsampled source geometry/cells, native manifest relative paths, invalid labels/categories/IDs/coordinates/budgets/names, open-surface metric suppression, safe HTML data embedding, overwrite rejection, and mesh-only/point-only inputs.
+- The combined viewer, mesh and coverage/envelope suite passed **24 tests**, with two dependency deprecation warnings. Both new-child and parent skill validators passed. Collection validation passed with **29 skills and 79 Python files**, including existing locked-runtime hashes and Markdown links.
+- A local real-data smoke run imported the existing 7 dpa and 10 dpa body, neural, intestine and pharynx VTKs plus lineage point clouds. Its single-file HTML was **33,015,352 bytes**. Input hashes were unchanged; no biological data or generated HTML is packaged in this repository.
+- Browser checks exercised dataset switching, initially collapsed groups, independent Mesh/Cells visibility, opacity controls, Inspect morphology, direct surface picking, camera rotation and reset. A WebGL mesh-click fallback was added using the currently hovered surface, with drag exclusion. Overlapping bodies can intercept picking; hide the outer shell or use the tissue's Inspect button.
+- These checks establish rendering and import contracts, not anatomical quality, containment, biological validity of volume, or browser-memory guarantees. The viewer does not replace reconstruction QC. Full source-resolution meshes may require splitting large collections into separate HTML files.
+
+Run from the repository root in the validated Spateo environment:
+
+```bash
+python -m pytest tests/native_skills/test_3d_viewer.py tests/native_skills/test_3d_mesh.py tests/native_skills/test_coverage_envelope.py -q
+python scripts/validate_collection.py
+```
 
 | Check | Executed result | Scope |
 | --- | --- | --- |
 | Real Spateo mesh-wrapper behavior | 8 passed | Density body/multi-value annotation meshes, deterministic native sampling, disconnected-component-preserving repair, automatic coverage gate, atomic failure cleanup, full face/array round trips, case-insensitive filename collision refusal, missing/planar inputs, and overwrite refusal. |
 | Full native skill regression | 34 passed | Eight mesh cases plus the 26 existing point-cloud/IO/4D cases. |
 | Skill structure | 3 passed | Parent, point-cloud companion, and surface-mesh companion passed skill-creator validation. |
-| Collection packaging | Passed | 28 skills, six top-level, two 3D companions, local Markdown links, and 76 Python files parsed. |
+| Collection packaging (surface-mesh snapshot) | Passed | At that snapshot: 28 skills, six top-level, two 3D companions, local Markdown links, and 76 Python files parsed. See the viewer addition above for the current count. |
 
 The synthetic tests call real SciPy/scikit-image/PyVista geometry and real `st.tdr.save_model`/`read_model`; the native comparison calls the pinned Spateo `marching_cube_mesh` core. No geometry or serialization call is mocked.
 

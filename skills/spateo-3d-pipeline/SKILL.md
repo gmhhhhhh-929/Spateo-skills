@@ -1,6 +1,6 @@
 ---
 name: spateo-3d-pipeline
-description: Build and review Spateo point clouds plus full-body or annotation-specific surface meshes from AnnData with finite XYZ coordinates; route voxel, cell, backbone, and spatial interpolation requests only when their later subskills are available.
+description: Build Spateo point clouds and body or tissue surface meshes from finite XYZ AnnData, or import reconstructed VTK models into an offline interactive 3D review viewer; route later model phases only when their subskills are available.
 ---
 
 # Spateo 3D pipeline
@@ -15,6 +15,7 @@ Use Spateo from `gmhhhhhh-929/spateo-release` commit `615644f88613bea8ceb2e2df1e
 | --- | --- | --- |
 | Point cloud (`pc`) | Implemented | Read [spateo-reconstruct-point-cloud](subskills/spateo-reconstruct-point-cloud/SKILL.md) and use its validated builder. |
 | Full-body or annotation surface mesh | Implemented | First create a traceable point-cloud VTK, then read [spateo-reconstruct-mesh](subskills/spateo-reconstruct-mesh/SKILL.md). |
+| Interactive model review / viewer | Implemented | Read [spateo-render-3d-viewer](subskills/spateo-render-3d-viewer/SKILL.md) to import existing body/tissue VTKs and optional cells into offline HTML. No reconstruction prerequisite when models already exist. |
 | Voxel or reconstructed cells | Pending | Do not invent a runner or claim completion; develop and validate the next subskill with the user. |
 | Backbone construction and mapping | Pending | Preserve as a later reviewed phase. |
 | Spatial gene interpolation | Pending | Preserve as a later reviewed phase; do not confuse it with 4D morphogenesis GP. |
@@ -34,5 +35,9 @@ Start from the validated point-cloud VTK rather than rereading coordinates throu
 Prefer the mesh skill's density-field route for volume-filling cell centroids. It filters low-support derived components without deleting source cells, uses one coordinate grid for aligned overlays, and records coverage/topology evidence. Use the pinned Spateo marching-cubes core only as an explicit comparison or user choice; its correct parameter name is `mc_scale_factor`, and high Laplacian `smooth` values can shrink anatomy. Stop after mesh review unless the user authorizes another model phase.
 
 Install this complete directory so the nested workflow, script, references, and tests remain together.
+
+## Interactive review gate
+
+When the user asks to display or inspect existing models, route directly to the viewer subskill; do not rerun H5AD processing or reconstruction. After reconstruction, offer the same viewer for interactive review. It supports independent datasets, per-tissue collapsed Mesh/Cells controls, opacity, camera interaction and source-resolution morphology on selection. Preserve original coordinates and models. Technical diagnostics stay in a provenance sidecar; the English presentation stays compact. Return a locally usable HTML artifact; publishing or replacing an existing website requires separate user authorization.
 
 When refining meshes from visual feedback, route to the mesh skill's coverage-and-envelopes reference. Audit sparse regional coverage after final processing, preserve original cells, and validate smooth non-convex body containment beyond vertices. Do not equate tissue-union occupancy with anatomical completeness or force independent lineages to fill an expanded display shell.

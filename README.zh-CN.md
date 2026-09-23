@@ -27,7 +27,7 @@ flowchart LR
   EXTERNAL[Validated external 3D H5AD pair] --> FOUR
 ```
 
-当前共有 **6 个顶层入口**和 **28 个 SKILL.md**。3D 父 skill 包含已实现的 `spateo-reconstruct-point-cloud` 与 `spateo-reconstruct-mesh`；voxel、重建细胞、backbone 和空间插值仍待补充。4D 的五个子 skill 位于 `spateo-4d-pipeline/subskills/`；QC viewer 位于 QC 目录内。安装时应保留完整顶层目录，父入口会显式路由到嵌套子 skill。
+当前共有 **6 个顶层入口**和 **29 个 SKILL.md**。3D 父 skill 包含 `spateo-reconstruct-point-cloud`、`spateo-reconstruct-mesh` 和 [spateo-render-3d-viewer](skills/spateo-3d-pipeline/subskills/spateo-render-3d-viewer/SKILL.md) 三个已实现子 skill。Viewer 可直接导入已有 VTK mesh 和可选点云，生成离线英文交互检查页面，无需重新重建；voxel、重建细胞、backbone 和空间插值仍待补充。4D 的五个子 skill 位于 `spateo-4d-pipeline/subskills/`；QC viewer 位于 QC 目录内。安装时应保留完整顶层目录，父入口会显式路由到嵌套子 skill。
 
 ```text
 skills/
@@ -39,7 +39,7 @@ skills/
 │   ├── pipelines/{pairwise-rigid,continuity-guided}/
 │   └── subskills/  (14 companions)
 ├── spateo-3d-pipeline/
-│   └── subskills/{spateo-reconstruct-point-cloud,spateo-reconstruct-mesh}/
+│   └── subskills/{spateo-reconstruct-point-cloud,spateo-reconstruct-mesh,spateo-render-3d-viewer}/
 └── spateo-4d-pipeline/
     ├── scripts/  (shared native runtime)
     └── subskills/  (5 companions)

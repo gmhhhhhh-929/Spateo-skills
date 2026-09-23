@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3D Reconstruction Review</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,sans-serif;color:#eaf2fa;background:#080e15}
+*{box-sizing:border-box}body{margin:0}header{height:68px;display:flex;align-items:center;gap:18px;padding:12px 20px;border-bottom:1px solid #293947}h1{font-size:18px;margin:0;flex:1}
+button,select{font:inherit;color:inherit;background:#142430;border:1px solid #385566;border-radius:6px;padding:7px;cursor:pointer}main{display:grid;grid-template-columns:290px minmax(0,1fr);height:calc(100vh - 68px)}aside{padding:16px;overflow:auto;border-right:1px solid #293947}
+details{border:1px solid #293947;border-radius:9px;margin:10px 0;padding:10px}summary{cursor:pointer;font-weight:600}summary::marker{color:#8ad4df}.swatch{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:9px}.control{display:grid;grid-template-columns:80px 1fr 40px;gap:6px;align-items:center;margin-top:12px;font-size:13px}input{accent-color:#8ad4df;min-width:0}input[type=range]{width:100%}label{cursor:pointer}small{color:#a6bacb;font-size:12px}.inspect{width:100%;margin-top:12px}.scene{position:relative;min-width:0;min-height:0}#plot{width:100%;height:100%}#features{position:absolute;right:16px;top:16px;max-width:310px;max-height:75%;overflow:auto;padding:16px;background:#0d1823f5;border:1px solid #314653;border-radius:10px;font-size:13px}#features[hidden]{display:none}#features h2{font-size:16px;margin:0 25px 12px 0}#close{position:absolute;right:6px;top:6px;padding:2px 7px}table{width:100%;border-collapse:collapse}td{padding:5px 2px;border-bottom:1px solid #24343f}td:last-child{text-align:right;padding-left:18px}#error{color:#ffb5a6;white-space:pre-wrap}#units{margin-bottom:14px}#status{font-size:12px;color:#a6bacb}
+@media(max-width:720px){main{grid-template-columns:205px minmax(0,1fr)}header{height:auto;min-height:68px;flex-wrap:wrap}h1{font-size:15px}aside{padding:8px}#features{max-width:240px;right:5px;top:5px}}
+</style>
+</head>
+<body>
+<header><h1 id="title"></h1><label for="dataset">Dataset</label><select id="dataset"></select><button id="reset">Reset camera</button><span id="status" role="status"></span></header>
+<main><aside><div id="units"></div><small>Expand a tissue to show its Mesh and Cells. Click a mesh or Inspect to view morphology.</small><div id="layers"></div><p id="error" role="alert"></p></aside><section class="scene" aria-label="Interactive 3D models"><div id="plot"></div><section id="features" hidden aria-label="Selected model morphology"><button id="close" aria-label="Close morphology">×</button><h2 id="feature-title"></h2><div id="feature-body"></div></section></section></main>
+<script>/*__PLOTLY__*/</script>
+<script type="application/json" id="model-data">__MODEL_DATA__</script>
+<script>
+'use strict';
+const data=JSON.parse(document.getElementById('model-data').textContent);
+const byId=id=>document.getElementById(id),plot=byId('plot');
+const escapeText=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const el=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;return n};
+const camera={eye:{x:1.7,y:-1.9,z:1.2},up:{x:0,y:0,z:1}};
+let active=0,traceLayers=[],busy=false,hovered=null,pointerStart=null;
+byId('title').textContent=data.title;document.title=data.title;
+data.datasets.forEach((d,i)=>{const o=el('option',d.name);o.value=i;byId('dataset').append(o)});
+function failure(e){byId('error').textContent='Viewer error: '+e.message;byId('status').textContent='Error'}
+function inspect(index){
+ const layer=data.datasets[active].layers[index],host=byId('feature-body');host.replaceChildren();byId('feature-title').textContent=layer.name;
+ const table=el('table');
+ for(const [key,value] of Object.entries(layer.features)){const row=el('tr');row.append(el('td',key),el('td',value===null?'Not valid':Number(value).toLocaleString('en-US',{maximumSignificantDigits:6})));table.append(row)}
+ host.append(table);
+ const note=el('p',layer.mesh?(layer.closed?'Source-resolution mesh measurements.':'Open or invalid-volume surface: volume metrics unavailable.'):'Point cloud only; no surface morphology.');host.append(note);
+ if(layer.role==='body')host.append(el('small','Body measurements describe the imported shell.'));
+ host.append(el('p','Coordinate units: '+data.datasets[active].units+'. Area uses squared units; volume uses cubed units.'));
+ byId('features').hidden=false;
+}
+function controls(layer,index,type,trace){
+ const outer=el('div'),row=el('div');row.className='control';
+ const label=el('label'),toggle=el('input');toggle.type='checkbox';toggle.checked=type==='mesh'?layer.visible:false;
+ toggle.setAttribute('aria-label',layer.name+' '+type+' visibility');label.append(toggle,document.createTextNode(type==='mesh'?' Mesh':' Cells'));
+ const range=el('input');range.type='range';range.min=0;range.max=1;range.step=.01;range.value=type==='mesh'?layer.opacity:.65;range.setAttribute('aria-label',layer.name+' '+type+' opacity');
+ const amount=el('span',Math.round(range.value*100)+'%');row.append(label,range,amount);outer.append(row);
+ outer.append(el('small',type==='mesh'?layer.mesh.faces.length.toLocaleString()+' faces':layer.cells.points.length.toLocaleString()+' / '+layer.cells.source_count.toLocaleString()+' cells'));
+ toggle.addEventListener('change',()=>Plotly.restyle(plot,{visible:toggle.checked},[trace]).catch(failure));
+ range.addEventListener('input',()=>{amount.textContent=Math.round(range.value*100)+'%';Plotly.restyle(plot,{opacity:Number(range.value)},[trace]).catch(failure)});
+ return outer;
+}
+async function render(index){
+ if(busy)return;busy=true;hovered=null;active=index;byId('dataset').disabled=true;byId('reset').disabled=true;byId('status').textContent='Loading…';byId('features').hidden=true;byId('error').textContent='';
+ const dataset=data.datasets[index],traces=[];traceLayers=[];byId('layers').replaceChildren();byId('units').textContent='Coordinate units: '+dataset.units;
+ dataset.layers.forEach((layer,li)=>{
+  const group=el('details'),summary=el('summary'),swatch=el('span');swatch.className='swatch';swatch.style.background=layer.color;summary.append(swatch,document.createTextNode(layer.name));group.append(summary);
+  for(const type of ['mesh','cells']){
+   if(!layer[type])continue;const coords=layer[type].points;
+   const trace={x:coords.map(p=>p[0]),y:coords.map(p=>p[1]),z:coords.map(p=>p[2]),name:escapeText(layer.name),showlegend:false};
+   if(type==='mesh'){
+    const faces=layer.mesh.faces;Object.assign(trace,{type:'mesh3d',i:faces.map(f=>f[0]),j:faces.map(f=>f[1]),k:faces.map(f=>f[2]),color:layer.color,opacity:layer.opacity,visible:layer.visible,flatshading:false,lighting:{ambient:.65,diffuse:.75,specular:.15,roughness:.8},hovertemplate:escapeText(layer.name)+'<extra></extra>'});
+   }else Object.assign(trace,{type:'scatter3d',mode:'markers',marker:{color:layer.color,size:2},opacity:.65,visible:false,customdata:layer.cells.ids.map(escapeText),hovertemplate:escapeText(layer.name)+'<br>Cell: %{customdata}<extra></extra>'});
+   group.append(controls(layer,li,type,traces.length));traceLayers.push(li);traces.push(trace);
+  }
+  const button=el('button','Inspect');button.className='inspect';button.addEventListener('click',()=>inspect(li));group.append(button);byId('layers').append(group);
+ });
+ try{
+  await Plotly.react(plot,traces,{paper_bgcolor:'#080e15',font:{color:'#a6bacb'},margin:{l:0,r:0,t:0,b:0},scene:{aspectmode:'data',camera:JSON.parse(JSON.stringify(camera)),xaxis:{title:'X',gridcolor:'#24343f',zeroline:false},yaxis:{title:'Y',gridcolor:'#24343f',zeroline:false},zaxis:{title:'Z',gridcolor:'#24343f',zeroline:false}},uirevision:'dataset-'+index},{responsive:true,displaylogo:false,scrollZoom:true,toImageButtonOptions:{format:'png',filename:'3d-review'}});
+  for(const name of ['plotly_click','plotly_hover','plotly_unhover'])plot.removeAllListeners(name);
+  plot.on('plotly_hover',event=>{hovered=event.points.length?traceLayers[event.points[0].curveNumber]:null});
+  plot.on('plotly_unhover',()=>hovered=null);
+  plot.on('plotly_click',event=>{if(event.points.length&&(!pointerStart||!pointerStart.moved))inspect(traceLayers[event.points[0].curveNumber])});byId('status').textContent='Ready';
+ }catch(e){failure(e)}finally{busy=false;byId('dataset').disabled=false;byId('reset').disabled=false}
+}
+byId('dataset').addEventListener('change',event=>render(Number(event.target.value)));
+// Some WebGL backends deliver hover but omit plotly_click for mesh surfaces.
+// Use the currently picked surface as a fallback, excluding camera drags.
+plot.addEventListener('pointerdown',event=>{pointerStart={x:event.clientX,y:event.clientY,moved:false}},true);
+plot.addEventListener('pointermove',event=>{if(pointerStart&&Math.hypot(event.clientX-pointerStart.x,event.clientY-pointerStart.y)>5)pointerStart.moved=true},true);
+plot.addEventListener('pointerup',()=>{if(!busy&&pointerStart&&!pointerStart.moved&&hovered!==null)inspect(hovered)},true);
+byId('reset').addEventListener('click',()=>Plotly.relayout(plot,{'scene.camera':JSON.parse(JSON.stringify(camera))}).catch(failure));
+byId('close').addEventListener('click',()=>byId('features').hidden=true);
+render(0);
+</script></body></html>

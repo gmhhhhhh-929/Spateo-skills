@@ -55,6 +55,8 @@ The output directory must be new or empty. The builder stages the complete resul
 
 ## Review and handoff
 
+For interactive inspection of these saved outputs, read the sibling [3D viewer](../spateo-render-3d-viewer/SKILL.md). Its `mesh_manifest` input can import this builder's manifest directly, with an optional traceable point cloud for grouped tissue cell overlays. Visualization does not rerun or refine reconstruction.
+
 Inspect the isometric and orthographic views. Confirm that the body encloses the expected point cloud; internal meshes occupy plausible locations; paired or genuinely disconnected anatomy was not removed; nearby structures were not artificially bridged; z-layer gaps are not visible; and the result is not excessively shrunken or inflated.
 
 For the default density route, prefer `status: pass`; explicitly review every message when the result is `pass_with_warnings`. Require successful Spateo round trips, triangle-only VTKs, zero open edges unless the user explicitly accepted `--skip-repair`, and final containment at or above `--minimum-final-inside-fraction` (default 0.80). Automatic isovalue search fails when its requested voxel-coverage target cannot be met. Native comparison can also finish as `pass_with_warnings` when containment is low; do not promote that result as the accepted mesh without review. Containment is still a geometric diagnostic, not proof of biological accuracy. Return the preview, manifest, and each independent VTK so the user can show or hide tissues without rebuilding the other meshes.
