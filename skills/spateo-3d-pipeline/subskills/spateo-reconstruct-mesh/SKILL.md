@@ -9,6 +9,8 @@ Use this second phase only after the point-cloud skill has produced a `pyvista.P
 
 Read [method selection](references/method-selection.md) before changing reconstruction parameters or choosing the native route. Use [validation](references/validation.md) when reporting evidence and limits.
 
+For missed peripheral cells, sparse-region coverage, protrusion cleanup, tissue/body consistency or a smooth body envelope, read [coverage-aware refinement](references/coverage-and-envelopes.md). Use its reusable review runner and regional audits rather than tuning solely to global containment or a single screenshot. Own-cell coverage, tissue-in-body containment, and tissue-union occupancy are different measurements; independent tissue meshes are not automatically a space-filling anatomical partition.
+
 ## Choose the reconstruction route
 
 Use the default `density` route for cells distributed through a tissue volume. It places the body and all requested annotations on one coordinate grid, smooths binary occupancy into a density field, chooses an isovalue against a requested source-point coverage, removes only low-support density components, extracts a marching-cubes surface, applies low-shrinkage Taubin smoothing, and repairs open edges without dropping disconnected components. It does not delete or rewrite source cells.

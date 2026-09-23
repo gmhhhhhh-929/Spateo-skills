@@ -24,3 +24,33 @@ The wrapper was run without modifying source data on two local H5AD-derived poin
 The deterministic direct Spateo-core Drosophila body comparison used `levelset=0.5`, `mc_scale_factor=0.8`, `dist_sample_num=100`, random seed 0, and 300 Laplacian iterations. It had 76 open edges before component-preserving repair, 0 afterward, retained 35 components, and enclosed 98.5% of the 20,000 checked points. The full public `construct_surface` path failed earlier on mixed connectivity inside MeshFix. Native output remains available for comparison; the density route is the default because it exposes explicit volume-field, coverage, component, and smoothing controls for both body and annotation meshes. This one specimen is not a universal benchmark.
 
 These checks establish execution, topology, traceability, and a reviewable visual result. They do not establish anatomical truth, annotation validity, optimal parameters for every tissue, or publication readiness without domain review.
+
+## Coverage and smooth-envelope review — 2026-09-23
+
+The reusable `review_meshes.py` / `coverage_envelope.py` route was exercised on
+three Planarian stages and three Drosophila embryos. All six smooth body shells
+passed closed-surface Spateo round trips and recursive signed-distance triangle
+containment checks against retained tissues. The browser's separately simplified
+and rounded geometry was checked again; convex-hull tests were not reused for
+non-convex shells. Raw point clouds remained unchanged.
+
+7 and 10 dpa tissues were reviewed for global, axial and spatial-block coverage.
+For example, 10 dpa Neural improved from 93.04% to 99.93%, and Parenchymal from
+94.53% to 99.99%. These gains came with approximately 52% and 42% volume increases;
+new connections and sparse regions still require biological review. 10 dpa
+Pharynx grew about 80%. The 7 dpa Pharynx candidates exceeded the configured
+two-fold volume guard, so its previous mesh was retained. Both Neoblast stages
+and a small 10 dpa Parenchymal endpoint bin retained explicit coverage warnings.
+These examples motivate regional audits and bounded tradeoffs, not fixed optimal
+parameters or a promise of complete anatomical coverage.
+
+Run the new regression cases with the same runtime:
+
+```bash
+python -m pytest tests/native_skills/test_coverage_envelope.py tests/native_skills/test_3d_mesh.py -q
+```
+
+The five added tests cover sparse endpoints hidden by high global coverage,
+triangles crossing a non-convex cavity despite acceptable vertices, closed smooth
+envelopes, overlap counted once, source-coordinate preservation during regional
+repair, and grid memory bounds. The combined run passed 13 tests.

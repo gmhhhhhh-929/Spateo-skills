@@ -34,3 +34,5 @@ Start from the validated point-cloud VTK rather than rereading coordinates throu
 Prefer the mesh skill's density-field route for volume-filling cell centroids. It filters low-support derived components without deleting source cells, uses one coordinate grid for aligned overlays, and records coverage/topology evidence. Use the pinned Spateo marching-cubes core only as an explicit comparison or user choice; its correct parameter name is `mc_scale_factor`, and high Laplacian `smooth` values can shrink anatomy. Stop after mesh review unless the user authorizes another model phase.
 
 Install this complete directory so the nested workflow, script, references, and tests remain together.
+
+When refining meshes from visual feedback, route to the mesh skill's coverage-and-envelopes reference. Audit sparse regional coverage after final processing, preserve original cells, and validate smooth non-convex body containment beyond vertices. Do not equate tissue-union occupancy with anatomical completeness or force independent lineages to fill an expanded display shell.
