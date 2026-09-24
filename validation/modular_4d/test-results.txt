@@ -1,0 +1,19 @@
+....................                                                     [100%]
+=============================== warnings summary ===============================
+validation/test_4d.py::test_complete_native_pipeline_and_persisted_outputs
+validation/test_4d.py::test_complete_native_pipeline_and_persisted_outputs
+validation/test_4d.py::test_complete_native_pipeline_and_persisted_outputs
+  /DATA/User/gaomohan/miniconda3/envs/spateo_pro/lib/python3.10/site-packages/numba/np/ufunc/dufunc.py:346: NumbaWarning: Compilation requested for previously compiled argument types ((uint32,)). This has no effect and perhaps indicates a bug in the calling code (compiling a ufunc more than once for the same signature
+    warnings.warn(msg, errors.NumbaWarning)
+
+validation/test_4d.py::test_complete_native_pipeline_and_persisted_outputs
+  /DATA/User/gaomohan/miniconda3/envs/spateo_pro/lib/python3.10/site-packages/spateo/plotting/static/utils.py:1531: DeprecationWarning: Please import `spmatrix` from the `scipy.sparse` namespace; the `scipy.sparse.base` namespace is deprecated and will be removed in SciPy 2.0.0.
+    X: Union[np.ndarray, scipy.sparse.base.spmatrix],
+
+validation/test_4d.py: 2 warnings
+validation/test_4d_modular.py: 26 warnings
+  /DATA/User/gaomohan/miniconda3/envs/spateo_pro/lib/python3.10/site-packages/statsmodels/genmod/families/family.py:1367: ValueWarning: Negative binomial dispersion parameter alpha not set. Using default value alpha=1.0.
+    warnings.warn("Negative binomial dispersion parameter alpha not "
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+20 passed, 32 warnings in 29.58s
