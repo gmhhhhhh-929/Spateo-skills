@@ -1,29 +1,24 @@
-# Configuration v3
+# Modular config contract · spateo-4d/v4
 
-The canonical schema is `spateo-4d/v3`; the template contains all accepted fields. Sections merge with explicit defaults. Unknown keys fail. Old notebook/v2 JSON requires deliberate migration rather than silent compatibility.
+The executable defaults and strict key validation live in `scripts/pipeline_runtime.py`; start from `assets/config.template.json`.
 
-| Section | Meaning / invalidation |
+| Section | Contract and ownership |
 | --- | --- |
-| inputs | Absolute or config-relative stage1/stage2 H5AD and declared coordinate_unit; changed contents invalidate alignment even at the same filename. |
-| labels | Source/target labels recorded in the config; changes conservatively invalidate alignment. |
-| alignment | spatial_key, counts_layer, explicit x_is_counts assertion, log_layer, aligned_key, target_sum, mode SN-S/SN-N, n_sampling, sampling_method, max_iter, nonrigid_start_iter. Changes invalidate all stages. |
-| subset | annotation_key and group (null means all cells). Changes invalidate mapping and descendants. |
-| mapping | key, alpha, numItermax, numItermaxEmd, normalization target_sum, max_pairs. Changes invalidate mapping and descendants. |
-| morphofield | key, M, lambda_, restart_num, restart_seed, MaxIter. Fit at source points; these points also define NX evaluation, avoiding mandatory mesh reconstruction. |
-| trajectory | enabled, key, positive t_end, interpolation_num and direction. Changes rerun trajectory and dashboard only. Native implementation currently ignores cores/layer options; the runner does not promise multiprocessing. |
-| metrics | enabled, selected geometric quantities, glm_metrics, explicit glm_genes, qval_threshold, llf_threshold. GLMs use normalized (not log) expression and a real interpolated formula. |
-| gp | enabled, verified genes, training_iter, method, inducing_num. Space→expression interpolation evaluated at source points and saved independently. |
-| dashboard | enabled, max_points, max_target_points, max_vectors, default_feature, explicit cdn. Display changes rebuild only dashboard. |
-| runtime | device and seed. Changes conservatively invalidate all computations. |
+| `inputs` | Required stage1/stage2 H5AD and shared coordinate_unit; optional pointcloud1/pointcloud2 VTK. Paths resolve relative to config, then persist absolute. Input contents are hashed. |
+| `workflow` | entry: alignment/aligned/field; until: alignment/trajectory/features; species for documented same-species identity; frame_id required for imported coordinates/fields and must match existing frame metadata and units. |
+| `labels` | Human-readable chronological stage names. No inferred elapsed biological time. |
+| `alignment` | Input spatial_key, distinct aligned_key, counts_layer or explicit x_is_counts, separate normalized/log layers; SN-S/SN-N, reference sample count, native iterations/device. Export all input observations. |
+| `subset` | annotation_key and one exact group. Mapping requires a group; run labels independently. |
+| `mapping` | Native OT alpha/iterations, key and max_pairs guard. Source-to-target direction is fixed by input order. |
+| `morphofield` | Native M, lambda_, beta, **max_iter**, tol and restart settings. Old MaxIter was ignored by the backend and is not accepted. |
+| `trajectory` | enabled, key, positive t_end, interpolation_num, forward/backward/both. Model time is distinct from biological time. |
+| `metrics` | enabled, selected scalar features, glm_metrics subset, glm_genes list or `"*"`, glm_min_cells, glm_top_plots, qval and optional llf thresholds. Complete test tables survive selection. |
+| `gp` | Optional native spatial expression interpolation. Disabled by default; explicit genes required. |
+| `dashboard` | enabled, max_points/max_target_points (0 = all), max_vectors/max_trajectories (positive explicit display caps), write_html (false for remote payload-only export). Offline renderer embeds Plotly; cdn must remain false. |
+| `runtime` | cpu or native device identifier and deterministic seed. Installed library/script hashes and package versions are recorded. |
 
-`alignment.aligned_key` is used consistently throughout. `mode=SN-S` selects the rigid output; `SN-N` selects nonrigid. The source also produces `_rigid` and `_nonrigid` keys, but they are not silently substituted. Normalization uses target_sum=10000 by default; the protocol's target_sum=None (library median) can be explicitly chosen if reproducing that preprocessing, subject to validation.
+`--until` overrides workflow.until and still builds the viewer. `--stop-after` deliberately stops at an internal checkpoint. `--dry-run` validates config/imports/hashes but does not fully read matrices or prove input biology. Scientific input checks run before registration/import.
 
-Optional trajectory/metrics/gp/dashboard stages can be disabled. GP defaults off with no example organism genes. GLMs default to an empty selection; enabling them requires verified gene IDs and sufficiently variable features. The runner does not hard-code CNS, GPU 0, arbitrary z offsets, mesh smoothing or notebook cameras.
+Stages: alignment → mapping → morphofield → trajectory; features (`metrics`) branch from morphofield; GP branches from mapping; viewer consumes all available branches. Display changes invalidate only viewer when implementation and prior hashes match. Source/implementation changes conservatively invalidate all stages. Completed parents are immutable.
 
-Checkpoints are stage-specific. Mapping depends on alignment; morphofield on mapping; trajectory and metrics independently on morphofield; GP on mapping. Dashboard depends on their current states. Changes to source files, Spateo Python files, skill Python files or recorded package versions invalidate reuse. Reuse additionally checks every output's SHA256; missing/modified artifacts force that stage and descendants to run.
-
-`--stop-after alignment` produces an explicitly partial run. A child using `--parent-manifest` resumes from valid completed checkpoints. All runs use fresh directories and no overwrite option. Old v2 manifests cannot be reused as v3 checkpoints.
-
-`max_iter` must exceed `nonrigid_start_iter + 1`: the pinned reference alignment source initializes deformation coefficients only after that boundary. Tiny smoke tests explicitly lower both settings; production defaults retain 200/80.
-
-AnnData 0.10 cannot write native preprocessing history lists of dictionaries directly. The runner preserves lists/tuples/None as reversible tagged mappings in `.uns` (`__spateo_skill_type__`); `load_pair()` restores them before native calls. Integer mapping keys are persisted as strings, including trajectory indices. Numeric scientific arrays are unchanged. Use the helper when resuming manually; do not discard preprocessing history to make H5AD writing succeed.
+V3 migration: set schema to v4, supply workflow and annotation group, replace morphofield.MaxIter with an explicitly chosen native max_iter (default 8, not 500), and decide full display versus caps. Previous stage filenames remain readable as data inputs, but old manifests do not silently count as equivalent new computations.

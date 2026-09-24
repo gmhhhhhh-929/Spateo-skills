@@ -1,0 +1,22 @@
+{
+  "_native/vectorfield.py": {
+    "installed": "36ca83664a2f65d24739d44e190afd56982516d3ca2ffe70810676be9d881384",
+    "reference": "36ca83664a2f65d24739d44e190afd56982516d3ca2ffe70810676be9d881384"
+  },
+  "tdr/morphometrics/morphofield/sparsevfc.py": {
+    "installed": "a40c7509094c002dab4f99d6af3f83155eb8e541daba6d21d571ba4c6354ee50",
+    "reference": "a40c7509094c002dab4f99d6af3f83155eb8e541daba6d21d571ba4c6354ee50"
+  },
+  "tdr/morphometrics/morphofield/trajectory.py": {
+    "installed": "60605cf93183247dfdff30e8af7148b682c6aaa2e1892f102ba65c03f7c88081",
+    "reference": "60605cf93183247dfdff30e8af7148b682c6aaa2e1892f102ba65c03f7c88081"
+  },
+  "tdr/morphometrics/morphofield_dg/differential_geometry.py": {
+    "installed": "167f6ecc101f7c98b18ce922f3eb60390d14a39d4a23e16cd5dba175d578c145",
+    "reference": "167f6ecc101f7c98b18ce922f3eb60390d14a39d4a23e16cd5dba175d578c145"
+  },
+  "tools/glm.py": {
+    "installed": "aed230a312bc68b49fb3b817d2c4990d34c69ac3a0ee0a780542d222c4e7da63",
+    "reference": "aed230a312bc68b49fb3b817d2c4990d34c69ac3a0ee0a780542d222c4e7da63"
+  }
+}

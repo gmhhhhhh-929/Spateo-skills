@@ -1,0 +1,109 @@
+{
+  "schema_version": "spateo-4d-validation/v1",
+  "date": "2026-09-24",
+  "run_id": "real_7dpa1_10dpa1_v2",
+  "spateo_commit": "615644f88613bea8ceb2e2df1e2391d16de55ec1",
+  "native_source_files_verified": 5,
+  "scientific_test_status": "passed",
+  "full_cell_counts": [
+    117290,
+    120473
+  ],
+  "cns_counts": [
+    3291,
+    6725
+  ],
+  "shared_expressed_genes": 14948,
+  "trajectory_shape": [
+    3291,
+    50,
+    3
+  ],
+  "glm_panel_size": 48,
+  "glm_tests": 336,
+  "glm_failures": 0,
+  "physical_units": "not calibrated; original source coordinate units",
+  "alignment_reference_cells_per_stage": 2000,
+  "display_cells": "all",
+  "display_vector_cap": 600,
+  "display_trajectory_cap": 200,
+  "glm_scope": "bounded integration-test panel, not genome-wide discovery",
+  "no_source_h5ad_transferred": true,
+  "native_pipeline_implementation": {
+    "packages": {
+      "POT": "0.9.7.post1",
+      "anndata": "0.10.9",
+      "gpytorch": "1.15.2",
+      "numpy": "1.26.4",
+      "pandas": "2.2.3",
+      "plotly": "6.9.0",
+      "scipy": "1.13.1",
+      "statsmodels": "0.14.6",
+      "torch": "2.5.1+cu121"
+    },
+    "python": "3.10.21",
+    "skill_python_sha256": "47df3bbeee8998f67d6841947a48377a41ecda75e247aede3c8b6353dc430325",
+    "spateo_python_sha256": "c8085187819958777acbd083b680d72c928413f71192a19d8fa14b9ccfdd6e0f",
+    "spateo_version": "0.0.0"
+  },
+  "nearest_neighbor_qc": {
+    "after": {
+      "source_to_target_p95": 30.824108584801632,
+      "symmetric_nn_mean": 20.75691346626353
+    },
+    "before": {
+      "source_to_target_p95": 251.1438826236301,
+      "symmetric_nn_mean": 202.49845249640876
+    },
+    "coordinate_unit": "source coordinate units (physical calibration unverified)",
+    "entry": "alignment",
+    "frame_id": "real_7dpa1_10dpa1_v2",
+    "nearest_neighbor_is_not_anatomical_validation": true,
+    "registration_mode": "SN-S",
+    "stage1": {
+      "max": [
+        967,
+        1783,
+        300
+      ],
+      "min": [
+        282,
+        176,
+        80
+      ],
+      "n_cells": 117290
+    },
+    "stage2": {
+      "max": [
+        995.992431640625,
+        1948.02490234375,
+        275.9124450683594
+      ],
+      "min": [
+        234.31973266601562,
+        -268.36749267578125,
+        82.27706909179688
+      ],
+      "n_cells": 120473
+    }
+  },
+  "field_qc": {
+    "fitted_magnitude_quantiles": [
+      59.928974010149105,
+      202.83996814845224,
+      608.1780580104737,
+      871.440407851051
+    ],
+    "implementation": "spateo-native-rbf",
+    "iterations": 8,
+    "median_cosine": 0.9885495111259412,
+    "raw_magnitude_quantiles": [
+      39.46786576487615,
+      193.2490502941432,
+      741.7107492001649,
+      820.7900939300183
+    ],
+    "rmse": 46.14183063081391
+  },
+  "automatic_tests_passed": 20
+}

@@ -1,11 +1,13 @@
-# Validation and limits
+# Modular 4D validation · 2026-09-24
 
-Run the tests from the repository root in a compatible native Spateo environment:
+The reusable v4 implementation passed **20 automatic tests** on the real native Spateo APIs, with Dynamo imports prohibited. Coverage includes full execution, immutable checkpoints, scientific dependency invalidation, template-only display invalidation, failed/partial runs, VTK identity permutation and mismatch rejection, alignment-only viewer routing, already-aligned and existing-field entry, native Jacobian and its scalar GLMs, all-gene selection, and conflicting frame metadata.
 
-```bash
-PYTHONPATH=/path/to/spateo-release python -m pytest tests/native_skills -q
-```
+A separate full server run used **7dpa1 (117,290 cells)** and **10dpa1 (120,473 cells)**. SN-S used 2,000 reference cells per stage and exported all cells. Mapping used all 3,291 source and 6,725 target CNS cells and 14,948 shared expressed genes. It produced 3,291 trajectories, 50 states each, 7 scalar feature families, the full Jacobian tensor and 336 successful GLM fits (48 genes per feature). Native field fitting used lowercase max_iter=8. No OT convergence warning remained after increasing the transport solver limit to 1,000,000.
 
-Tests use synthetic 3D H5AD inputs and real public Spateo calls for cross-stage alignment, mapping, SparseVFC, trajectories, all five geometric metrics, GLM and GP. They verify output identity, original coordinate preservation, separate persisted checkpoints, input/implementation/output hashes, partial-run resume, failed-run state and dependency-aware child reuse. A test import guard rejects any Dynamo import. No biological accuracy claim follows from these smoke tests.
+[validation-results.json](validation-results.json) records runtime hashes, counts and QC. The five audited installed native source files exactly match the pinned library source. Actual previous 3D VTKs matched the H5AD IDs and coordinates exactly. All full-run output hashes, unchanged original coordinates/counts, mapped endpoints/vectors, trajectory seed IDs/initial positions, finite metrics, Jacobian trace and gene-test statuses passed independent verification.
 
-The repository VALIDATION.md records executed counts, runtime and any warnings. Publication mesh rendering, GPU runs, full-size protocol data, numerical equivalence to the historical notebooks, and biological validity require separate experiments. Offline dashboard generation is tested independently of browser/GPU capabilities.
+The main viewer contains all cells, with explicit display caps of 600 direction glyphs and 200 trajectories. Real and synthetic pages were exercised in a local HTTP browser preview, including actual GLM curves and confidence intervals; no console errors were observed. HTML embeds Plotly and data. Browser policy prevented direct file:// navigation, so direct-file execution is not listed as an automated browser pass.
+
+The server run's scientific files remain remote. The locally transferred final payload matched the remote SHA256. The 48-gene integration-test panel is not a genome-wide association screen. Physical units were not independently calibrated; displayed values retain original source units. Model time is not days. Nearby point-cloud overlap is not anatomical accuracy, mapping is not cell lineage, and GLM significance is not causality. Native torsion retains the source implementation's approximation and magnitude semantics.
+
+An early run failed on AnnData color-dictionary serialization and exposed insufficient OT solver iterations. Both were fixed, and the complete real-data run succeeded in a new directory. Subsequent release-only checks added frame consistency and presentation refinements without changing the audited numerical algorithms.

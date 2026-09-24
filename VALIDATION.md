@@ -1,5 +1,15 @@
 # Validation and scope
 
+## Modular 4D update — 2026-09-24
+
+Four analysis subskills now separate registration, same-annotation mapping/field/trajectories, features/GLMs, and adaptive viewer generation. See [the skill validation](skills/spateo-4d-pipeline/references/validation.md) and [machine-readable results](validation/modular_4d/results.json).
+
+- 20 native execution/contract tests passed, with Dynamo imports prohibited.
+- A full remote 7dpa1→10dpa1 run retained 117,290 and 120,473 cells; mapped all 3,291→6,725 CNS cells; generated 3,291 trajectories and 336 successful feature–gene fits.
+- Imported previous 3D VTKs matched H5AD identity and coordinates exactly. All scientific output hashes and major numerical/identity invariants passed an independent audit.
+- Browser review covered the self-contained renderer on local HTTP. The 48-gene panel is an integration test, not genome-wide discovery; physical coordinate calibration remains unverified.
+
+
 ## 3D surface-mesh phase — 2026-09-22
 
 Source: `gmhhhhhh-929/spateo-release@615644f88613bea8ceb2e2df1e2391d16de55ec1`. The collection now has six top-level entrypoints and 29 total skills; the 3D parent contains point-cloud, surface-mesh and interactive-viewer companions.

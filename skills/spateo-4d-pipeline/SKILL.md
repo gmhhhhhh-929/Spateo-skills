@@ -1,41 +1,47 @@
 ---
 name: spateo-4d-pipeline
-description: Run tracked two-timepoint 3D alignment and native Spateo morphogenesis, including cell mapping, SparseVFC, trajectories, geometric metrics, optional GLMs/GP and an interactive dashboard. Use for complete 4D analyses or child runs with verified checkpoint reuse.
+description: Orchestrate two-timepoint 3D Spateo analysis through four modular skills for registration, same-annotation mapping and trajectories, morphogenesis features and gene associations, and an adaptive offline viewer. Use for full analysis, alignment only, or entry from aligned H5AD or a fitted native field.
 ---
 
-# Spateo 4D pipeline
+# Spateo cross-timepoint analysis
 
-Stage 6 of the collection: environment → IO → slice quality with viewer → 2D alignment → 3D reconstruction → **4D**. Start here with two already reconstructed 3D AnnData objects. The 3D skill currently implements point-cloud VTK construction; its pending surface/backbone/interpolation phases are not prerequisites to invent, and a VTK does not replace the AnnData inputs required here.
+Use two timepoints of the same species after 3D reconstruction. This parent routes the request, defines the shared data contract and records immutable runs. Load only the subskills needed for the requested scientific stages; viewer generation accompanies each completed route.
 
-Use current native Spateo at commit `615644f88613bea8ceb2e2df1e2391d16de55ec1`. Dynamo is not required. The supported scientific sequence comes from the user's [protocol notebooks](https://github.com/gmhhhhhh-929/Spateo-protocol-files/tree/b11ae99fbdc4ae46d41880e9306ab7e5c2751ac5/code/04_alignment_and_morphogenesis). Read [protocol migration](references/protocol-migration.md) before reproducing their settings or plots.
+## Four analysis subskills
 
-## Inputs and decisions
+| User request | Read | Scientific outputs |
+| --- | --- | --- |
+| Register two stages, including existing 3D point clouds | [spateo-align-stages](subskills/spateo-align-stages/SKILL.md) | Aligned full H5AD pair, ID-preserving VTK pair, before/after QC |
+| Start with aligned stages; map matching cell types and infer development | [spateo-morphogenesis](subskills/spateo-morphogenesis/SKILL.md) | Subset VTKs, transport with IDs, displacement, fitted field, trajectories |
+| Compute features and find associated genes | [spateo-morphogenesis-features](subskills/spateo-morphogenesis-features/SKILL.md) | Native features/Jacobian, complete GLM tables, fitted curves and figures |
+| Review any available stage or change display only | [spateo-render-dashboard](subskills/spateo-render-dashboard/SKILL.md) | Self-contained interactive HTML with only available analysis tabs |
 
-Require finite `(n_cells, 3)` coordinates with actual 3D support, matching units, unique IDs, and a verified raw-count layer. The runner does not silently treat normalized X as counts: `alignment.x_is_counts=true` is an explicit assertion, followed by numeric checks. Preserve original coordinates under their original key. Cell annotations are needed only when selecting a biological subset; a missing annotation is never inferred.
+## Shared contract
 
-Confirm source→target temporal order, count layer, coordinate unit, subset, rigid/nonrigid alignment mode, mapping budget and requested GLM/GP genes. Mapping can allocate dense pairwise costs; `mapping.max_pairs` bounds the reviewed cell-pair count but is not a RAM guarantee. Use the provided CPU defaults as starting settings, not validated biological parameters.
+Confirm temporal direction, same species, actual coordinate key and units, count semantics and biological annotation. Preserve original data and unique cell IDs. A VTK contributes geometry and labels; it cannot recreate an expression matrix. Attach it to the matching H5AD by exact `obs_index` ↔ `obs_names`, never by row order. A cleaned or sampled VTK must first be reconciled explicitly with its corresponding H5AD; do not silently drop cells.
 
-## Configure and execute
+Use native Spateo commit `615644f88613bea8ceb2e2df1e2391d16de55ec1`, audited on 2026-09-24. Dynamo is not a dependency. Read [native differences](references/protocol-migration.md) when translating notebook parameters, interpreting torsion or choosing arrow lengths. Record the actual installed implementation hash. Do not install or downgrade packages just to imitate historical plots.
 
-Copy [assets/config.template.json](assets/config.template.json), then read [config-contract.md](references/config-contract.md) for supported fields and migration from old configs. Paths resolve relative to that JSON and are saved absolute. Unknown settings fail instead of being ignored.
+## Run the requested route
+
+Copy [config.template.json](assets/config.template.json) and read [config contract](references/config-contract.md). Run using the validated scientific Python environment:
 
 ```bash
 python scripts/run_4d_pipeline.py --config /project/config.json --project /project/analysis --dry-run
 python scripts/run_4d_pipeline.py --config /project/config.json --project /project/analysis
 ```
 
-The dry run imports the actual environment and hashes inputs/implementation without running scientific stages or creating a run. Check the resolved settings and cost before compute. Each execution creates a new run and records separate H5AD checkpoints, CSV/NPZ outputs, logs, hashes and a manifest. Failures mark remaining stages blocked; optional disabled stages are skipped. Completed parents are never modified.
+- Alignment only: `--until alignment`; includes its viewer.
+- Mapping, field and trajectories: `--until trajectory`; no feature/GLM computation.
+- Full analysis: `--until features` (default).
+- Start at subskill 2: set `workflow.entry="aligned"`, a declared `workflow.frame_id`, and aligned H5AD inputs. No registration rerun.
+- Start at subskill 3: set `workflow.entry="field"` with compatible native field H5AD and target H5AD. No mapping or field refit.
+- Viewer only: use the viewer subskill directly; do not execute scientific stages.
 
-## Ordered workflow and subskills
+`--stop-after` is a low-level checkpoint/debug stop and deliberately does not promise a completed viewer. `--parent-manifest` enables hash-verified reuse; changed scientific settings invalidate dependent stages. [Run management](subskills/spateo-manage-runs/SKILL.md) and [config refinement](subskills/spateo-refine-analysis/SKILL.md) are supporting utilities, not additional scientific stages.
 
-1. [spateo-align-stages](subskills/spateo-align-stages/SKILL.md): native normalization/log layers → `morpho_align_ref` → aligned H5AD pair and coordinate QC.
-2. [spateo-morphogenesis](subskills/spateo-morphogenesis/SKILL.md): select subset/shared expressed genes → normalization → `cell_directions` → SparseVFC → trajectories and geometric metrics; optional GLMs and spatial GP expression interpolation.
-3. [spateo-render-dashboard](subskills/spateo-render-dashboard/SKILL.md): show source/target, mapped endpoints, displacement/metrics, vectors and available GLM tables. Display sampling does not change scientific outputs.
+For remote data, verify SSH/workdir/data/environment from available configuration. Keep expression and H5AD on the server. Set `dashboard.write_html=false`, transfer only the final audited `viewer_payload.json` and small QC artifacts, then render HTML locally. Report visualization caps explicitly; the default point-cloud display includes every cell. Alignment reference sampling is recorded independently of full-cell coordinate export.
 
-[spateo-manage-runs](subskills/spateo-manage-runs/SKILL.md) owns checkpoint verification and stage state; [spateo-refine-analysis](subskills/spateo-refine-analysis/SKILL.md) handles child configs and dependency-aware reruns. Install this entire directory including subskills and scripts.
+## Handoff
 
-## Review and handoff
-
-Compare alignment in the exact coordinate key used for mapping. Check subset counts, shared genes, mapped endpoint/vector consistency, finite fields/metrics and trajectory bounds. Mapping is an inferred correspondence, not lineage tracing. Integration time is model time; `t_end=1` does not claim one day. GP interpolates expression over space, not continuous developmental time.
-
-Return the manifest, config, run/parent IDs, stage states, checkpoint/table paths and dashboard. The trajectory, metric and GP branches have separate artifacts, all indexed by the manifest. State test/biological limits from [validation.md](references/validation.md). Do not report skipped GLM/GP or pending 3D phases as completed analysis.
+Deliver the four-stage route, manifest, aligned H5AD/VTK paths, mapping/trajectory/features artifacts that actually exist and a locally working viewer. Explain skipped stages and failed fits. Mapping is inferred correspondence, GLMs are association tests, and integration time is not calendar time. Uncalibrated coordinates must remain labeled as such. See [validation](references/validation.md) for test evidence and scope.

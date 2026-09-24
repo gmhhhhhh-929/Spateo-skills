@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Execute the native, versioned Spateo 4D pipeline from a v3 JSON config."""
+"""Execute the modular native Spateo 4D pipeline from a v4 JSON config."""
 import argparse
 import json
 import sys
@@ -14,6 +14,7 @@ def main(argv=None):
     parser.add_argument("--run-id")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--stop-after", choices=STAGES, default="dashboard")
+    parser.add_argument("--until", choices=["alignment", "trajectory", "features"])
     args = parser.parse_args(argv)
     try:
         result = execute(
@@ -23,6 +24,7 @@ def main(argv=None):
             args.run_id,
             args.dry_run,
             args.stop_after,
+            args.until,
         )
         print(json.dumps(result, indent=2))
         return 0

@@ -15,7 +15,7 @@
 | 3 | [spatial-slice-quality-qc](skills/spatial-slice-quality-qc/SKILL.md) | Slice QC → keep/exclude evidence; includes [slice-quality-viewer](skills/spatial-slice-quality-qc/subskills/spatial-slice-quality-viewer/SKILL.md). | Existing runtime, viewer nested here |
 | 4 | [spateo-2d-alignment](skills/spateo-2d-alignment/SKILL.md) | Serial 2D alignment → aligned sections, QC, replay and provenance. | Existing two pipelines and 14 subskills |
 | 5 | [spateo-3d-pipeline](skills/spateo-3d-pipeline/SKILL.md) | 3D model reconstruction → backbone analysis and gene interpolation. | 点云与可选择 annotation 的 surface VTK 已实现 |
-| 6 | [spateo-4d-pipeline](skills/spateo-4d-pipeline/SKILL.md) | Cross-timepoint 3D alignment → morphogenesis → tracked outputs/dashboard. | Rewritten in English for native runtime |
+| 6 | [spateo-4d-pipeline](skills/spateo-4d-pipeline/SKILL.md) | 跨时间点配准 → mapping/流场/轨迹 → features/基因关联 → 交互 viewer。 | Rewritten in English for native runtime |
 
 ```mermaid
 flowchart LR
@@ -27,7 +27,7 @@ flowchart LR
   EXTERNAL[Validated external 3D H5AD pair] --> FOUR
 ```
 
-当前共有 **6 个顶层入口**和 **29 个 SKILL.md**。3D 父 skill 包含 `spateo-reconstruct-point-cloud`、`spateo-reconstruct-mesh` 和 [spateo-render-3d-viewer](skills/spateo-3d-pipeline/subskills/spateo-render-3d-viewer/SKILL.md) 三个已实现子 skill。Viewer 可直接导入已有 VTK mesh 和可选点云，生成离线英文交互检查页面，无需重新重建；voxel、重建细胞、backbone 和空间插值仍待补充。4D 的五个子 skill 位于 `spateo-4d-pipeline/subskills/`；QC viewer 位于 QC 目录内。安装时应保留完整顶层目录，父入口会显式路由到嵌套子 skill。
+当前共有 **6 个顶层入口**和 **30 个 SKILL.md**。3D 父 skill 包含 `spateo-reconstruct-point-cloud`、`spateo-reconstruct-mesh` 和 [spateo-render-3d-viewer](skills/spateo-3d-pipeline/subskills/spateo-render-3d-viewer/SKILL.md) 三个已实现子 skill。Viewer 可直接导入已有 VTK mesh 和可选点云，生成离线英文交互检查页面，无需重新重建；voxel、重建细胞、backbone 和空间插值仍待补充。4D 的四个分析子 skill（跨时间点配准、同注释映射/流场/轨迹、features/GLM、可适配的离线 viewer）位于 `spateo-4d-pipeline/subskills/`，另保留运行管理和参数修改两个辅助 skill；QC viewer 位于 QC 目录内。安装时应保留完整顶层目录，父入口会显式路由到嵌套子 skill。
 
 ```text
 skills/

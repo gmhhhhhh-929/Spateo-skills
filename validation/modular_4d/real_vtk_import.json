@@ -1,0 +1,14 @@
+{
+  "stage1": {
+    "cells": 117290,
+    "vtk_sha256": "8d0419cabd2febe5d3bd17c13c383223fec9fb97538cdb91672f2864f453cd97",
+    "identity_match": true,
+    "max_abs_difference_from_h5ad": 0.0
+  },
+  "stage2": {
+    "cells": 120473,
+    "vtk_sha256": "d76ab554a08466e45a6e85d2dc29b889de5477ab1fa57d93692d8cff4902ba19",
+    "identity_match": true,
+    "max_abs_difference_from_h5ad": 0.0
+  }
+}

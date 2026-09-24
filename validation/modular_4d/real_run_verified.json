@@ -1,0 +1,31 @@
+{
+  "checks": [
+    "all output SHA256 hashes",
+    "full-cell identity preservation",
+    "unchanged original coordinates",
+    "unchanged original counts",
+    "same-annotation mapping",
+    "mapped endpoint/vector equality",
+    "trajectory seed identity and starting position",
+    "trajectory finiteness and monotonic model time",
+    "Jacobian trace equals divergence",
+    "finite scalar metrics",
+    "336 successful GLM fits with valid q values"
+  ],
+  "full_cells": [
+    117290,
+    120473
+  ],
+  "glm_tests": 336,
+  "mapped_cells": [
+    3291,
+    6725
+  ],
+  "passed": true,
+  "run_id": "real_7dpa1_10dpa1_v2",
+  "trajectory_shape": [
+    3291,
+    50,
+    3
+  ]
+}

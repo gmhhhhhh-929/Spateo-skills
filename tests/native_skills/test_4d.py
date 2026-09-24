@@ -29,6 +29,8 @@ def inputs(tmp_path_factory):
             ),
             var=pd.DataFrame(index=[f"g{j}" for j in range(g)]),
         )
+        data.obs["anno"] = data.obs["anno"].astype("category")
+        data.uns["anno_colors"] = {"CNS": "#ff0000"}
         data.layers["counts"] = data.X.copy()
         data.obsm["spatial_3d"] = (
             xyz.copy()
@@ -46,7 +48,7 @@ def inputs(tmp_path_factory):
     }
     config["alignment"].update(n_sampling=30, max_iter=5, nonrigid_start_iter=1)
     config["subset"]["group"] = "CNS"
-    config["morphofield"].update(M=15, MaxIter=20)
+    config["morphofield"].update(M=15, max_iter=8)
     config["trajectory"].update(t_end=0.1, interpolation_num=6)
     config["metrics"].update(
         glm_metrics=["acceleration"], glm_genes=["g0", "g1"], qval_threshold=1.0

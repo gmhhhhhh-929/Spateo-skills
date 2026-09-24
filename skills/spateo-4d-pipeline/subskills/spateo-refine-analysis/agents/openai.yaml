@@ -1,4 +1,4 @@
 interface:
   display_name: "spateo-refine-analysis"
   short_description: "Native Spateo 4D workflow companion"
-  default_prompt: "Use $spateo-refine-analysis with the parent spateo-4d-pipeline v3 configuration."
+  default_prompt: "Use $spateo-refine-analysis with the parent spateo-4d-pipeline v4 configuration."

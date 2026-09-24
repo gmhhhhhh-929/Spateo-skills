@@ -15,7 +15,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 SOURCE_COMMIT = "615644f88613bea8ceb2e2df1e2391d16de55ec1"
-SCHEMA = "spateo-4d/v3"
+SCHEMA = "spateo-4d/v4"
 STAGES = (
     "alignment",
     "mapping",
@@ -37,6 +37,7 @@ DEPENDENCIES = {
 DEFAULTS = {
     "schema_version": SCHEMA,
     "inputs": {},
+    "workflow": {"entry": "alignment", "until": "features", "frame_id": None, "species": None},
     "labels": {"stage1": "source", "stage2": "target"},
     "alignment": {
         "spatial_key": "spatial_3d",
@@ -66,7 +67,9 @@ DEFAULTS = {
         "lambda_": 0.02,
         "restart_num": 1,
         "restart_seed": [0],
-        "MaxIter": 500,
+        "max_iter": 8,
+        "beta": None,
+        "tol": 1e-5,
     },
     "trajectory": {
         "enabled": True,
@@ -77,9 +80,11 @@ DEFAULTS = {
     },
     "metrics": {
         "enabled": True,
-        "selected": ["acceleration", "curl", "divergence", "torsion", "curvature"],
+        "selected": ["speed", "acceleration", "curl", "divergence", "torsion", "curvature", "jacobian_frobenius"],
         "glm_metrics": [],
         "glm_genes": [],
+        "glm_min_cells": 10,
+        "glm_top_plots": 6,
         "qval_threshold": 0.05,
         "llf_threshold": None,
     },
@@ -92,9 +97,11 @@ DEFAULTS = {
     },
     "dashboard": {
         "enabled": True,
-        "max_points": 6000,
-        "max_target_points": 4000,
-        "max_vectors": 1200,
+        "max_points": 0,
+        "max_target_points": 0,
+        "max_vectors": 600,
+        "max_trajectories": 200,
+        "write_html": True,
         "default_feature": "displacement",
         "cdn": False,
     },
@@ -103,7 +110,7 @@ DEFAULTS = {
 
 
 def read_json(path):
-    return json.loads(Path(path).read_text())
+    return json.loads(Path(path).read_text(encoding='utf-8'))
 
 
 def write_json(path, value):
@@ -141,7 +148,7 @@ def canonical_config(path):
             allowed = (
                 set(config[key])
                 if key != "inputs"
-                else {"stage1", "stage2", "coordinate_unit"}
+                else {"stage1", "stage2", "coordinate_unit", "pointcloud1", "pointcloud2"}
             )
             if set(value) - allowed:
                 raise ValueError(
@@ -150,7 +157,10 @@ def canonical_config(path):
             config[key].update(value)
         else:
             config[key] = value
-    for key in ("stage1", "stage2"):
+    for key in ("stage1", "stage2", "pointcloud1", "pointcloud2"):
+        if key not in config["inputs"]:
+            if key.startswith("pointcloud"): continue
+            raise ValueError("Missing H5AD input: " + key)
         p = Path(config["inputs"][key]).expanduser()
         p = (path.parent / p).resolve() if not p.is_absolute() else p.resolve()
         if not p.is_file():
@@ -190,7 +200,7 @@ def canonical_config(path):
     ):
         raise ValueError("Invalid trajectory duration, samples or direction")
     metrics = config["metrics"]
-    supported = {"acceleration", "curl", "divergence", "torsion", "curvature"}
+    supported = {"speed", "acceleration", "curl", "divergence", "torsion", "curvature", "jacobian_frobenius"} | {"jacobian_"+i+j for i in "xyz" for j in "xyz"} | {"velocity_"+i for i in "xyz"}
     if not set(metrics["selected"]) <= supported or not set(
         metrics["glm_metrics"]
     ) <= set(metrics["selected"]):
@@ -201,9 +211,9 @@ def canonical_config(path):
         raise ValueError("Provide verified gp.genes when enabling GP")
     for section, keys in {
         "alignment": ["n_sampling", "max_iter"],
-        "morphofield": ["M", "restart_num", "MaxIter"],
+        "morphofield": ["M", "restart_num", "max_iter"],
         "gp": ["training_iter", "inducing_num"],
-        "dashboard": ["max_points", "max_target_points", "max_vectors"],
+        "dashboard": ["max_vectors", "max_trajectories"],
     }.items():
         if any(
             not isinstance(config[section][k], int) or config[section][k] < 1
@@ -217,19 +227,34 @@ def canonical_config(path):
         != config["morphofield"]["restart_num"]
     ):
         raise ValueError("restart_seed length must match restart_num")
+    if config["dashboard"]["cdn"]:
+        raise ValueError("The modular viewer is offline: dashboard.cdn must be false")
+    w = config["workflow"]
+    if w["entry"] not in ("alignment", "aligned", "field") or w["until"] not in ("alignment", "trajectory", "features"):
+        raise ValueError("Unsupported workflow entry/until")
+    if w["entry"] != "alignment" and not w["frame_id"]:
+        raise ValueError("Imported aligned/field data require workflow.frame_id")
+    if w["entry"] == "field" and w["until"] == "alignment":
+        raise ValueError("Field entry cannot end at alignment")
+    if any(config["dashboard"][k] < 0 for k in ("max_points", "max_target_points")):
+        raise ValueError("Point display caps must be >=0 (0 means all)")
     return config
 
 
 def fingerprints(config):
     return {
         k: {"path": config["inputs"][k], "sha256": digest(config["inputs"][k])}
-        for k in ("stage1", "stage2")
+        for k in ("stage1", "stage2", "pointcloud1", "pointcloud2") if k in config["inputs"]
     }
 
 
 def implementation():
     import spateo as st
     import spateo.logging
+    import inspect
+    from spateo._native import sparse_vector_field
+    if "max_iter" not in inspect.signature(sparse_vector_field).parameters:
+        raise RuntimeError("Use the audited native Spateo implementation; backend signature changed")
 
     package = Path(st.__file__).resolve().parent
     h = hashlib.sha256()
@@ -261,6 +286,7 @@ def implementation():
         "spateo_version": str(st.__version__),
         "spateo_python_sha256": h.hexdigest(),
         "skill_python_sha256": sh.hexdigest(),
+        "viewer_asset_sha256": digest(scripts/"assets/viewer.html"),
         "python": sys.version.split()[0],
         "packages": versions,
     }
@@ -298,22 +324,25 @@ def plan(config, parent=None, *, input_hashes=None, runtime=None):
                 changed.append(section)
         owners = {
             "inputs": "alignment",
+            "workflow": "alignment",
             "labels": "alignment",
             "subset": "mapping",
             "runtime": "alignment",
             "schema_version": "alignment",
         }
         invalid = descendants(owners.get(s, s) for s in changed)
-        if input_hashes != parent.get("inputs") or runtime != parent.get(
-            "implementation"
-        ):
+        current_runtime={k:v for k,v in (runtime or {}).items() if k != "viewer_asset_sha256"}
+        previous_runtime={k:v for k,v in parent.get("implementation",{}).items() if k != "viewer_asset_sha256"}
+        if input_hashes != parent.get("inputs") or current_runtime != previous_runtime:
             invalid = set(STAGES)
+        elif (runtime or {}).get("viewer_asset_sha256") != parent.get("implementation",{}).get("viewer_asset_sha256"):
+            invalid.add("dashboard")
         for s in STAGES:
             old = parent.get("stages", {}).get(s, {})
             enabled = config.get(s, {}).get("enabled", True)
             if old.get("status") == "skipped" and not enabled:
                 continue
-            if old.get("status") not in ("completed", "reused") or not valid_outputs(
+            if old.get("status") not in ("completed", "reused", "imported") or not valid_outputs(
                 old
             ):
                 invalid.update(descendants([s]))
@@ -327,6 +356,9 @@ def plan(config, parent=None, *, input_hashes=None, runtime=None):
 def serializable(value):
     import numpy as np
 
+    if isinstance(value, np.ndarray) and value.dtype.kind == 'O':
+        return {"__spateo_skill_type__": "object_array", "shape": np.asarray(value.shape),
+                "items": {str(i): serializable(v) for i,v in enumerate(value.ravel())}}
     if isinstance(value, dict):
         return {str(k): serializable(v) for k, v in value.items()}
     if isinstance(value, (list, tuple)):
@@ -344,6 +376,10 @@ def serializable(value):
 def restore(value):
     if isinstance(value, dict):
         kind = value.get("__spateo_skill_type__")
+        if kind == "object_array":
+            import numpy as np
+            values=[restore(value['items'][str(i)]) for i in range(len(value['items']))]
+            return np.asarray(values,dtype=object).reshape(tuple(value['shape']))
         if kind == "none":
             return None
         if kind in ("list", "tuple"):
@@ -424,333 +460,29 @@ def validate_input(data, config):
         raise ValueError("4D input must have three-dimensional spatial support")
 
 
-def alignment(config, directory):
-    import anndata as ad
-    import numpy as np
-    import spateo as st
-
-    a, b = (ad.read_h5ad(config["inputs"][k]) for k in ("stage1", "stage2"))
-    p = config["alignment"]
-    for data in (a, b):
-        validate_input(data, config)
-        st.pp.normalize_total(
-            data,
-            layer=p["counts_layer"],
-            out_layer="normalized",
-            target_sum=p["target_sum"],
-            inplace=True,
-        )
-        st.pp.log1p_layer(
-            data,
-            layer="normalized",
-            out_layer=p["log_layer"],
-            set_X=False,
-            inplace=True,
-        )
-    common = [g for g in a.var_names if g in b.var_names]
-    if not common:
-        raise ValueError("No shared genes for cross-stage alignment")
-    aligned, _, _, _ = st.align.morpho_align_ref(
-        models=[a, b],
-        rep_layer=p["log_layer"],
-        rep_field="layer",
-        spatial_key=p["spatial_key"],
-        key_added=p["aligned_key"],
-        genes=common,
-        mode=p["mode"],
-        n_sampling=min(p["n_sampling"], a.n_obs, b.n_obs),
-        sampling_method=p["sampling_method"],
-        max_iter=p["max_iter"],
-        nonrigid_start_iter=p["nonrigid_start_iter"],
-        device=config["runtime"]["device"],
-        verbose=False,
-    )
-    qc = {}
-    for name, original, data in zip(("stage1", "stage2"), (a, b), aligned):
-        np.testing.assert_array_equal(
-            data.obsm[p["spatial_key"]], original.obsm[p["spatial_key"]]
-        )
-        coords = np.asarray(data.obsm[p["aligned_key"]])
-        if not np.isfinite(coords).all():
-            raise ValueError("Alignment produced nonfinite coordinates")
-        qc[name] = {
-            "n_cells": data.n_obs,
-            "min": coords.min(0).tolist(),
-            "max": coords.max(0).tolist(),
-        }
-    write_json(directory / "qc.json", qc)
-    return {**save_pair(*aligned, directory), "qc": directory / "qc.json"}
 
 
-def mapping(config, a, b, directory):
-    import numpy as np
-    import pandas as pd
-    import spateo as st
-
-    s, p, al = config["subset"], config["mapping"], config["alignment"]
-    if s["group"] is not None:
-        pair = []
-        for data in (a, b):
-            labels = data.obs[s["annotation_key"]]
-            if labels.isna().any():
-                raise ValueError("Missing subset annotation")
-            part = data[labels.astype(str) == str(s["group"])].copy()
-            if not part.n_obs:
-                raise ValueError("Requested subset has no cells in one stage")
-            pair.append(part)
-        a, b = pair
-    common = [g for g in a.var_names if g in b.var_names]
-    totals_a = dict(
-        zip(a.var_names, np.asarray(a.layers[al["counts_layer"]].sum(0)).ravel())
-    )
-    totals_b = dict(
-        zip(b.var_names, np.asarray(b.layers[al["counts_layer"]].sum(0)).ravel())
-    )
-    common = [g for g in common if totals_a[g] > 0 and totals_b[g] > 0]
-    if not common:
-        raise ValueError("No expressed shared genes in selected subsets")
-    a, b = a[:, common].copy(), b[:, common].copy()
-    if a.n_obs * b.n_obs > p["max_pairs"]:
-        raise ValueError(
-            "Mapping exceeds mapping.max_pairs; choose an explicit subset or increase the reviewed memory budget"
-        )
-    for data in (a, b):
-        if np.any(np.asarray(data.layers[al["counts_layer"]].sum(1)).ravel() <= 0):
-            raise ValueError("Gene harmonization left zero-library cells")
-        st.pp.normalize_total(
-            data,
-            layer=al["counts_layer"],
-            out_layer="normalized",
-            target_sum=p["target_sum"],
-            inplace=True,
-        )
-        st.pp.log1p_layer(
-            data,
-            layer="normalized",
-            out_layer=al["log_layer"],
-            set_X=True,
-            inplace=True,
-        )
-        if s["annotation_key"] not in data.obs:
-            data.obs[s["annotation_key"]] = "all cells (display group)"
-    _, pi = st.tdr.cell_directions(
-        adataA=a,
-        adataB=b,
-        layer=al["log_layer"],
-        spatial_key=al["aligned_key"],
-        key_added=p["key"],
-        alpha=p["alpha"],
-        numItermax=p["numItermax"],
-        numItermaxEmd=p["numItermaxEmd"],
-        device=config["runtime"]["device"],
-        inplace=True,
-    )
-    x, v = a.obsm["X_" + p["key"]], a.obsm["V_" + p["key"]]
-    if not np.isfinite(v).all() or not np.isfinite(pi).all():
-        raise ValueError("Mapping produced nonfinite results")
-    np.testing.assert_allclose(x - a.obsm[al["aligned_key"]], v)
-    np.savez_compressed(
-        directory / "transport.npz",
-        pi=pi,
-        source_ids=a.obs_names.to_numpy(dtype=str),
-        target_ids=b.obs_names.to_numpy(dtype=str),
-    )
-    table = pd.DataFrame(
-        {
-            "cell_id": a.obs_names,
-            "group": a.obs[s["annotation_key"]].astype(str).to_numpy(),
-            "displacement": np.linalg.norm(v, axis=1),
-        }
-    )
-    table.to_csv(directory / "mapping.csv", index=False)
-    summary = table.groupby("group")["displacement"].agg(
-        n="size",
-        mean="mean",
-        median="median",
-        p05=lambda x: x.quantile(0.05),
-        p95=lambda x: x.quantile(0.95),
-    )
-    summary.to_csv(directory / "mapping_summary.csv")
-    return {
-        **save_pair(a, b, directory),
-        "transport": directory / "transport.npz",
-        "mapping_table": directory / "mapping.csv",
-        "mapping_summary": directory / "mapping_summary.csv",
-    }
 
 
-def morphofield(config, a, b, directory):
-    import numpy as np
-    import spateo as st
-
-    p = config["morphofield"].copy()
-    key = p.pop("key")
-    p["M"] = min(p["M"], a.n_obs)
-    xyz = a.obsm[config["alignment"]["aligned_key"]]
-    st.tdr.morphofield_sparsevfc(
-        a,
-        spatial_key=config["alignment"]["aligned_key"],
-        V_key="V_" + config["mapping"]["key"],
-        key_added=key,
-        NX=xyz.copy(),
-        **p,
-    )
-    if not np.isfinite(a.uns[key]["V"]).all():
-        raise ValueError("Vector-field fit produced nonfinite values")
-    return save_pair(a, b, directory)
 
 
-def trajectory(config, a, b, directory):
-    import numpy as np
-    import spateo as st
-
-    p = config["trajectory"]
-    st.tdr.morphopath(
-        a,
-        vf_key=config["morphofield"]["key"],
-        key_added=p["key"],
-        t_end=p["t_end"],
-        interpolation_num=p["interpolation_num"],
-        direction=p["direction"],
-        cores=1,
-    )
-    for values in a.uns[p["key"]]["prediction"].values():
-        if not np.isfinite(values).all():
-            raise ValueError("Trajectory contains nonfinite coordinates")
-    return save_pair(a, b, directory)
 
 
-def metrics(config, a, b, directory):
-    import numpy as np
-    import spateo as st
-
-    p = config["metrics"]
-    extra = {}
-    st.tdr.morphofield_velocity(
-        a, vf_key=config["morphofield"]["key"], key_added="velocity"
-    )
-    for metric in p["selected"]:
-        getattr(st.tdr, "morphofield_" + metric)(
-            a, vf_key=config["morphofield"]["key"], key_added=metric
-        )
-        if not np.isfinite(a.obs[metric].to_numpy()).all():
-            raise ValueError("Nonfinite metric: " + metric)
-        if metric in p["glm_metrics"]:
-            missing = set(p["glm_genes"]) - set(a.var_names)
-            if missing:
-                raise ValueError("Unknown GLM genes: " + str(sorted(missing)))
-            key = "glm_degs_" + metric
-            if a.obs[metric].nunique() < 4:
-                raise ValueError(
-                    "Spline GLM needs at least four distinct feature values"
-                )
-            st.tl.glm_degs(
-                a,
-                layer="normalized",
-                genes=p["glm_genes"],
-                key_added=key,
-                fullModelFormulaStr=f"~cr({metric}, df=3)",
-                qval_threshold=p["qval_threshold"],
-                llf_threshold=p["llf_threshold"],
-            )
-            table = a.uns[key]["glm_result"]
-            table.to_csv(directory / (key + ".csv"))
-            extra[key] = directory / (key + ".csv")
-    a.obs[p["selected"]].to_csv(directory / "metrics.csv", index_label="cell_id")
-    return {
-        **save_pair(a, b, directory),
-        **extra,
-        "metrics_table": directory / "metrics.csv",
-    }
 
 
-def gp(config, a, b, directory):
-    import numpy as np
-    import spateo as st
-
-    p = config["gp"]
-    missing = set(p["genes"]) - set(a.var_names)
-    if missing:
-        raise ValueError("Unknown GP genes: " + str(sorted(missing)))
-    if set(p["genes"]) & set(a.obs.columns):
-        raise ValueError("GP gene IDs conflict with observation field names")
-    result = st.tdr.gp_interpolation(
-        a,
-        target_points=a.obsm[config["alignment"]["aligned_key"]].copy(),
-        keys=p["genes"],
-        spatial_key=config["alignment"]["aligned_key"],
-        layer="normalized",
-        training_iter=p["training_iter"],
-        method=p["method"],
-        inducing_num=min(p["inducing_num"], a.n_obs),
-        device=config["runtime"]["device"],
-        verbose=False,
-    )
-    if not np.isfinite(np.asarray(result.X)).all():
-        raise ValueError("GP produced nonfinite expression")
-    result.write_h5ad(directory / "gene_interpolation.h5ad")
-    return {"gene_interpolation": directory / "gene_interpolation.h5ad"}
 
 
 def dashboard(config, manifest, directory):
-    import importlib.util
-    from argparse import Namespace
-
-    script = (
-        Path(__file__).resolve().parents[1]
-        / "subskills/spateo-render-dashboard/scripts/build_dashboard.py"
-    )
-    spec = importlib.util.spec_from_file_location("spateo_dashboard", script)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    # Metrics and trajectories are sibling checkpoints; display the metric checkpoint.
-    source = (
-        manifest["stages"]["metrics"]
-        if manifest["stages"]["metrics"]["status"] != "skipped"
-        else manifest["stages"]["morphofield"]
-    )
-    pair = source["outputs"]
-    p = config["dashboard"]
-    args = Namespace(
-        adata=Path(pair["stage1_h5ad"]["path"]),
-        target_adata=Path(pair["stage2_h5ad"]["path"]),
-        manifest=None,
-        spatial_key=config["alignment"]["aligned_key"],
-        target_spatial_key=None,
-        groupby=config["subset"]["annotation_key"],
-        max_points=p["max_points"],
-        max_target_points=p["max_target_points"],
-        seed=config["runtime"]["seed"],
-        features=["displacement", "velocity", *config["metrics"]["selected"]],
-        vector_key="V_" + config["mapping"]["key"],
-        mapped_key="X_" + config["mapping"]["key"],
-        mapping_summary=Path(
-            manifest["stages"]["mapping"]["outputs"]["mapping_summary"]["path"]
-        ),
-        metric_summary=None,
-        glm_dir=None,
-        max_vectors=p["max_vectors"],
-        default_feature=p["default_feature"],
-    )
-    metric_outputs = manifest["stages"]["metrics"].get("outputs", {})
-    if "metrics_table" in metric_outputs:
-        args.glm_dir = Path(metric_outputs["metrics_table"]["path"]).parent
-    payload = module.build_payload(args)
-    payload.update(
-        runId=manifest["run_id"],
-        runStatus="completed",
-        stages=[
-            {
-                "name": k,
-                "status": ("completed" if k == "dashboard" else v["status"]),
-                "reusedFrom": v.get("reused_from"),
-            }
-            for k, v in manifest["stages"].items()
-        ],
-    )
-    output = directory / "index.html"
-    output.write_text(module.render_html(payload, p["cdn"], None))
-    return {"dashboard_html": output}
+    from viewer_payload import build_payload, render_html
+    payload = build_payload(config, manifest)
+    path = directory / "viewer_payload.json"
+    write_json(path, payload)
+    outputs = {"viewer_payload": path}
+    if config["dashboard"]["write_html"]:
+        html = directory / "index.html"
+        html.write_text(render_html(payload), encoding='utf-8')
+        outputs["dashboard_html"] = html
+    return outputs
 
 
 @contextlib.contextmanager
@@ -796,8 +528,17 @@ def execute(
     run_id=None,
     dry_run=False,
     stop_after="dashboard",
+    until=None,
 ):
+    from alignment_stage import alignment
+    from morphogenesis_stage import mapping, morphofield, trajectory
+    from features_stage import metrics, gp
+    functions = dict(alignment=alignment, mapping=mapping, morphofield=morphofield,
+                     trajectory=trajectory, metrics=metrics, gp=gp)
     config = canonical_config(config_path)
+    if until is not None: config["workflow"]["until"] = until
+    if config["workflow"]["entry"] == "field" and config["workflow"]["until"] == "alignment":
+        raise ValueError("Field entry cannot end at alignment")
     hashes, runtime = fingerprints(config), implementation()
     parent = read_json(parent_path) if parent_path else None
     change = plan(config, parent, input_hashes=hashes, runtime=runtime)
@@ -846,7 +587,12 @@ def execute(
         for stage in STAGES:
             current = stage
             record = manifest["stages"][stage]
-            if not config.get(stage, {}).get("enabled", True):
+            until = config["workflow"]["until"]
+            excluded = ((until == "alignment" and stage in ("mapping", "morphofield", "trajectory", "metrics", "gp"))
+                        or (until == "trajectory" and stage in ("metrics", "gp")))
+            if config["workflow"]["entry"] == "field" and stage in ("mapping", "morphofield"):
+                record.update(status="imported", outputs=manifest["stages"]["alignment"]["outputs"])
+            elif excluded or not config.get(stage, {}).get("enabled", True):
                 record["status"] = "skipped"
             elif stage in change["reuse_stages"]:
                 record.update(
@@ -869,7 +615,7 @@ def execute(
                     else:
                         dependency = DEPENDENCIES[stage][0]
                         a, b = load_pair(manifest["stages"][dependency]["outputs"])
-                        outputs = globals()[stage](config, a, b, directory)
+                        outputs = functions[stage](config, a, b, directory)
                 record.update(
                     status="completed",
                     outputs={
@@ -904,6 +650,7 @@ def execute(
         "reused_stages": [
             s for s, v in manifest["stages"].items() if v["status"] == "reused"
         ],
+        "viewer_payload": manifest["stages"]["dashboard"]["outputs"].get("viewer_payload", {}).get("path"),
         "dashboard": manifest["stages"]["dashboard"]["outputs"]
         .get("dashboard_html", {})
         .get("path"),

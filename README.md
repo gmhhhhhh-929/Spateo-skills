@@ -13,7 +13,7 @@ An ordered Spateo skill collection from environment setup and data IO through sl
 | 3 | [spatial-slice-quality-qc](skills/spatial-slice-quality-qc/SKILL.md) | Slice QC → keep/exclude evidence; includes [slice-quality-viewer](skills/spatial-slice-quality-qc/subskills/spatial-slice-quality-viewer/SKILL.md). | Existing runtime, viewer nested here |
 | 4 | [spateo-2d-alignment](skills/spateo-2d-alignment/SKILL.md) | Serial 2D alignment → aligned sections, QC, replay and provenance. | Existing two pipelines and 14 subskills |
 | 5 | [spateo-3d-pipeline](skills/spateo-3d-pipeline/SKILL.md) | 3D model reconstruction → backbone analysis and gene interpolation. | Point-cloud and selectable surface-mesh VTKs implemented |
-| 6 | [spateo-4d-pipeline](skills/spateo-4d-pipeline/SKILL.md) | Cross-timepoint 3D alignment → morphogenesis → tracked outputs/dashboard. | Rewritten in English for native runtime |
+| 6 | [spateo-4d-pipeline](skills/spateo-4d-pipeline/SKILL.md) | Registration → mapping/field/trajectories → features/genes → adaptive viewer. | Rewritten in English for native runtime |
 
 ```mermaid
 flowchart LR
@@ -25,7 +25,7 @@ flowchart LR
   EXTERNAL[Validated external 3D H5AD pair] --> FOUR
 ```
 
-There are **six top-level entrypoints** and **29 SKILL.md files** in total. The 3D parent routes to three implemented companions: `spateo-reconstruct-point-cloud`, `spateo-reconstruct-mesh`, and [spateo-render-3d-viewer](skills/spateo-3d-pipeline/subskills/spateo-render-3d-viewer/SKILL.md). The viewer imports existing VTK meshes and optional cells into offline interactive HTML without reconstruction. Voxel, reconstructed-cell, backbone and spatial-interpolation companions remain pending. The five 4D companions live under `spateo-4d-pipeline/subskills/`: align-stages, morphogenesis, manage-runs, refine-analysis and render-dashboard. The QC viewer belongs inside the QC directory. Install each complete top-level directory; parent entrypoints route to nested companions without requiring automatic recursive discovery.
+There are **six top-level entrypoints** and **30 SKILL.md files** in total. The 3D parent routes to three implemented companions: `spateo-reconstruct-point-cloud`, `spateo-reconstruct-mesh`, and [spateo-render-3d-viewer](skills/spateo-3d-pipeline/subskills/spateo-render-3d-viewer/SKILL.md). The viewer imports existing VTK meshes and optional cells into offline interactive HTML without reconstruction. Voxel, reconstructed-cell, backbone and spatial-interpolation companions remain pending. The 4D parent routes to four scientific companions under `spateo-4d-pipeline/subskills/`: align-stages, morphogenesis (mapping/field/trajectories), morphogenesis-features (features/GLMs), and render-dashboard. Run management and config refinement remain supporting utilities. Alignment-only and already-aligned inputs have independent routes. The QC viewer belongs inside the QC directory. Install each complete top-level directory; parent entrypoints route to nested companions without requiring automatic recursive discovery.
 
 ```text
 skills/

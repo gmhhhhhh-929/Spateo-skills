@@ -1,0 +1,158 @@
+{
+  "schema_version": "spateo-4d/v4",
+  "inputs": {
+    "stage1": "/DATA/User/gaomohan/Spateo project/Data/Planarian/7dpa1.sc.h5ad",
+    "stage2": "/DATA/User/gaomohan/Planarian_project/data/single_cell/10dpa1.sc.h5ad",
+    "coordinate_unit": "source coordinate units (physical calibration unverified)"
+  },
+  "workflow": {
+    "entry": "alignment",
+    "until": "features",
+    "frame_id": null,
+    "species": "Schmidtea mediterranea"
+  },
+  "labels": {
+    "stage1": "7dpa1",
+    "stage2": "10dpa1"
+  },
+  "alignment": {
+    "spatial_key": "spatial_3d",
+    "counts_layer": "counts",
+    "x_is_counts": true,
+    "log_layer": "log1p",
+    "aligned_key": "aligned",
+    "target_sum": 10000.0,
+    "mode": "SN-S",
+    "n_sampling": 2000,
+    "sampling_method": "random",
+    "max_iter": 200,
+    "nonrigid_start_iter": 80
+  },
+  "subset": {
+    "annotation_key": "anno",
+    "group": "CNS"
+  },
+  "mapping": {
+    "key": "cells_mapping",
+    "alpha": 0.0001,
+    "numItermax": 200,
+    "numItermaxEmd": 1000000,
+    "target_sum": 10000.0,
+    "max_pairs": 25000000
+  },
+  "morphofield": {
+    "key": "VecFld_morpho",
+    "M": 100,
+    "lambda_": 0.02,
+    "restart_num": 1,
+    "restart_seed": [
+      0
+    ],
+    "max_iter": 8,
+    "beta": null,
+    "tol": 1e-05
+  },
+  "trajectory": {
+    "enabled": true,
+    "key": "fate_morpho",
+    "t_end": 1.0,
+    "interpolation_num": 50,
+    "direction": "forward"
+  },
+  "metrics": {
+    "enabled": true,
+    "selected": [
+      "speed",
+      "acceleration",
+      "curl",
+      "divergence",
+      "torsion",
+      "curvature",
+      "jacobian_frobenius"
+    ],
+    "glm_metrics": [
+      "speed",
+      "acceleration",
+      "curl",
+      "divergence",
+      "torsion",
+      "curvature",
+      "jacobian_frobenius"
+    ],
+    "glm_genes": [
+      "SMESG000019950.1",
+      "SMESG000039758.1",
+      "SMESG000013290.1",
+      "SMESG000034720.1",
+      "SMESG000026791.1",
+      "SMESG000046043.1",
+      "SMESG000014460.1",
+      "SMESG000019619.1",
+      "SMESG000040632.1",
+      "SMESG000005578.1",
+      "SMESG000007128.1",
+      "SMESG000022423.1",
+      "SMESG000007315.1",
+      "SMESG000066027.1",
+      "SMESG000051672.1",
+      "SMESG000017011.1",
+      "SMESG000052353.1",
+      "SMESG000005378.1",
+      "SMESG000049187.1",
+      "SMESG000055421.1",
+      "SMESG000016791.1",
+      "SMESG000055903.1",
+      "SMESG000022928.1",
+      "SMESG000066557.1",
+      "SMESG000005506.1",
+      "SMESG000076086.1",
+      "SMESG000059669.1",
+      "SMESG000010769.1",
+      "SMESG000017087.1",
+      "SMESG000040636.1",
+      "SMESG000036550.1",
+      "SMESG000003228.1",
+      "SMESG000081078.1",
+      "SMESG000066035.1",
+      "SMESG000006589.1",
+      "SMESG000060163.1",
+      "SMESG000058106.1",
+      "SMESG000016237.1",
+      "SMESG000072719.1",
+      "SMESG000051503.1",
+      "SMESG000023212.1",
+      "SMESG000060036.1",
+      "SMESG000047644.1",
+      "SMESG000023040.1",
+      "SMESG000026569.1",
+      "SMESG000022343.1",
+      "SMESG000017099.1",
+      "SMESG000059698.1"
+    ],
+    "glm_min_cells": 10,
+    "glm_top_plots": 6,
+    "qval_threshold": 0.05,
+    "llf_threshold": null
+  },
+  "gp": {
+    "enabled": false,
+    "genes": [],
+    "training_iter": 50,
+    "method": "SVGP",
+    "inducing_num": 512
+  },
+  "dashboard": {
+    "enabled": true,
+    "max_points": 0,
+    "max_target_points": 0,
+    "max_vectors": 600,
+    "max_trajectories": 200,
+    "write_html": false,
+    "default_feature": "displacement",
+    "cdn": false
+  },
+  "runtime": {
+    "device": "cpu",
+    "seed": 0
+  }
+}

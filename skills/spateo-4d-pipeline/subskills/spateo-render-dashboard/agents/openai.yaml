@@ -1,4 +1,4 @@
 interface:
-  display_name: "spateo-render-dashboard"
-  short_description: "Native Spateo 4D workflow companion"
-  default_prompt: "Use $spateo-render-dashboard with the parent spateo-4d-pipeline v3 configuration."
+  display_name: "Spateo Time Atlas Viewer"
+  short_description: "Review available 4D stages in an offline viewer"
+  default_prompt: "Use $spateo-render-dashboard with the modular spateo-4d/v4 workflow."

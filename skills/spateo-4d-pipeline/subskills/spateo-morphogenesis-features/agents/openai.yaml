@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spateo Morphogenesis Features"
+  short_description: "Compute field features and associated gene fits"
+  default_prompt: "Use $spateo-morphogenesis-features to compute field features and their gene associations from a native Spateo checkpoint."

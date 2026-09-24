@@ -1,6 +1,6 @@
 # Collection completeness
 
-The current ordered collection has six top-level entrypoints and 29 total skills: environment, rewritten IO, QC with one nested viewer, unchanged 2D alignment with 14 companions, 3D with point-cloud, surface-mesh and interactive-viewer companions, and native 4D with five companions. See [README.md](README.md) for the stage order and handoffs.
+The current ordered collection has six top-level entrypoints and 30 total skills: environment, rewritten IO, QC with one nested viewer, unchanged 2D alignment with 14 companions, 3D with point-cloud, surface-mesh and interactive-viewer companions, and native 4D with four analysis companions and two supporting run/config utilities. See [README.md](README.md) for the stage order and handoffs.
 
 The 3D viewer directly imports saved VTK models, optionally associates tissue cell selections, and exports offline interactive HTML with grouped controls and source-resolution morphology. It neither reconstructs geometry nor certifies anatomical completeness. It is independent of the 4D morphogenesis dashboard.
 
