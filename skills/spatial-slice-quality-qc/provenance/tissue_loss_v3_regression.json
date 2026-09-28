@@ -1,0 +1,1922 @@
+{
+  "schema_version": 1,
+  "version": "bilateral-v3",
+  "application_scope": "experimental_policy",
+  "biological_certification": false,
+  "study_type": "retrospective_paired_raw_matrix_regression_not_independent_validation",
+  "runtime_sha256": "82df2169ba32d5f2a01d5f4e588aab7b5c8821763e261450a5d946dc4c92fca2",
+  "policy_sha256": "a924f417bcfab39aee457ecacb80786d434f9e8f4fd9a0ea610cf1473b9bef08",
+  "protocol_sha256": "10270c30ef24b423ae72ebeb9f9b7b5126d2c6f36b6fe0ab83bcba4d7f18ecba",
+  "tests": {
+    "raw_adversarial": 51,
+    "legacy_native_scientific": 10,
+    "cli_publication": 7
+  },
+  "regression": {
+    "study_type": "retrospective_paired_raw_matrix_regression_not_independent_validation",
+    "planned_variants": 768,
+    "planned_defects": 720,
+    "planned_controls": 48,
+    "attempted": 768,
+    "successful": 768,
+    "failed": 0,
+    "pending": 0,
+    "sources_baselined": 12,
+    "legacy_parity_successes": 216,
+    "candidate_full_extraction_parity_successes": 18,
+    "groups": [
+      {
+        "model": "legacy",
+        "kind": "cell_dropout",
+        "dose": 0.3,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 7,
+        "stage1_candidate_rate_successful": 0.2916666666666667,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.29968119022316686,
+          0.30046224961479195
+        ],
+        "actual_count_loss_range": [
+          0.2928193992154682,
+          0.3194475760992108
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 1
+      },
+      {
+        "model": "candidate",
+        "kind": "cell_dropout",
+        "dose": 0.3,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 7,
+        "stage1_candidate_rate_successful": 0.2916666666666667,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.29968119022316686,
+          0.30046224961479195
+        ],
+        "actual_count_loss_range": [
+          0.2928193992154682,
+          0.3194475760992108
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "cell_dropout",
+        "dose": 0.5,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 22,
+        "stage1_candidate_rate_successful": 0.9166666666666666,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.49922958397534667,
+          0.5008880994671403
+        ],
+        "actual_count_loss_range": [
+          0.4885542305165135,
+          0.5173215267321527
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 2
+      },
+      {
+        "model": "candidate",
+        "kind": "cell_dropout",
+        "dose": 0.5,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 22,
+        "stage1_candidate_rate_successful": 0.9166666666666666,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.49922958397534667,
+          0.5008880994671403
+        ],
+        "actual_count_loss_range": [
+          0.4885542305165135,
+          0.5173215267321527
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "cell_dropout",
+        "dose": 0.7,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 3,
+        "final_exclude_rate_successful": 0.125,
+        "detected_over_planned": 0.125,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 3,
+        "conversion_rate_own_baseline_retain": 0.125,
+        "actual_location_loss_range": [
+          0.699537750385208,
+          0.7003188097768331
+        ],
+        "actual_count_loss_range": [
+          0.6952317497281385,
+          0.7100579803511032
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 2
+      },
+      {
+        "model": "candidate",
+        "kind": "cell_dropout",
+        "dose": 0.7,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 16,
+        "final_exclude_rate_successful": 0.6666666666666666,
+        "detected_over_planned": 0.6666666666666666,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 16,
+        "conversion_rate_own_baseline_retain": 0.6666666666666666,
+        "actual_location_loss_range": [
+          0.699537750385208,
+          0.7003188097768331
+        ],
+        "actual_count_loss_range": [
+          0.6952317497281385,
+          0.7100579803511032
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "cell_dropout",
+        "dose": 0.9,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 15,
+        "final_exclude_rate_successful": 0.625,
+        "detected_over_planned": 0.625,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 15,
+        "conversion_rate_own_baseline_retain": 0.625,
+        "actual_location_loss_range": [
+          0.8995433789954338,
+          0.9005328596802842
+        ],
+        "actual_count_loss_range": [
+          0.8961365646136564,
+          0.9058759026786517
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "candidate",
+        "kind": "cell_dropout",
+        "dose": 0.9,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 24,
+        "final_exclude_rate_successful": 1.0,
+        "detected_over_planned": 1.0,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 24,
+        "conversion_rate_own_baseline_retain": 1.0,
+        "actual_location_loss_range": [
+          0.8995433789954338,
+          0.9005328596802842
+        ],
+        "actual_count_loss_range": [
+          0.8961365646136564,
+          0.9058759026786517
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "cell_dropout",
+        "dose": 0.95,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 18,
+        "final_exclude_rate_successful": 0.75,
+        "detected_over_planned": 0.75,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 18,
+        "conversion_rate_own_baseline_retain": 0.75,
+        "actual_location_loss_range": [
+          0.9496544916090819,
+          0.9506933744221879
+        ],
+        "actual_count_loss_range": [
+          0.9449943430538031,
+          0.9560838704160091
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 1
+      },
+      {
+        "model": "candidate",
+        "kind": "cell_dropout",
+        "dose": 0.95,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 24,
+        "final_exclude_rate_successful": 1.0,
+        "detected_over_planned": 1.0,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 24,
+        "conversion_rate_own_baseline_retain": 1.0,
+        "actual_location_loss_range": [
+          0.9496544916090819,
+          0.9506933744221879
+        ],
+        "actual_count_loss_range": [
+          0.9449943430538031,
+          0.9560838704160091
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "depth",
+        "dose": 0.3,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 12,
+        "stage1_candidate_rate_successful": 0.5,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.298973563539892,
+          0.3015777111482021
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "candidate",
+        "kind": "depth",
+        "dose": 0.3,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 12,
+        "stage1_candidate_rate_successful": 0.5,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.298973563539892,
+          0.3015777111482021
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "depth",
+        "dose": 0.5,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 2,
+        "final_exclude_rate_successful": 0.08333333333333333,
+        "detected_over_planned": 0.08333333333333333,
+        "stage1_candidate": 22,
+        "stage1_candidate_rate_successful": 0.9166666666666666,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 2,
+        "conversion_rate_own_baseline_retain": 0.08333333333333333,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.49899632270052163,
+          0.5014841372763411
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "candidate",
+        "kind": "depth",
+        "dose": 0.5,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 4,
+        "final_exclude_rate_successful": 0.16666666666666666,
+        "detected_over_planned": 0.16666666666666666,
+        "stage1_candidate": 22,
+        "stage1_candidate_rate_successful": 0.9166666666666666,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 4,
+        "conversion_rate_own_baseline_retain": 0.16666666666666666,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.49899632270052163,
+          0.5014841372763411
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "depth",
+        "dose": 0.7,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 20,
+        "final_exclude_rate_successful": 0.8333333333333334,
+        "detected_over_planned": 0.8333333333333334,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 20,
+        "conversion_rate_own_baseline_retain": 0.8333333333333334,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.6984222888517979,
+          0.701026436460108
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "candidate",
+        "kind": "depth",
+        "dose": 0.7,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 22,
+        "final_exclude_rate_successful": 0.9166666666666666,
+        "detected_over_planned": 0.9166666666666666,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 22,
+        "conversion_rate_own_baseline_retain": 0.9166666666666666,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.6984222888517979,
+          0.701026436460108
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "depth",
+        "dose": 0.9,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 24,
+        "final_exclude_rate_successful": 1.0,
+        "detected_over_planned": 1.0,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 24,
+        "conversion_rate_own_baseline_retain": 1.0,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.8989517170542343,
+          0.9007612150761215
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "candidate",
+        "kind": "depth",
+        "dose": 0.9,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 24,
+        "final_exclude_rate_successful": 1.0,
+        "detected_over_planned": 1.0,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 24,
+        "conversion_rate_own_baseline_retain": 1.0,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.8989517170542343,
+          0.9007612150761215
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "depth",
+        "dose": 0.95,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 24,
+        "final_exclude_rate_successful": 1.0,
+        "detected_over_planned": 1.0,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 24,
+        "conversion_rate_own_baseline_retain": 1.0,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.9494977656790005,
+          0.950461270046127
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "candidate",
+        "kind": "depth",
+        "dose": 0.95,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 24,
+        "final_exclude_rate_successful": 1.0,
+        "detected_over_planned": 1.0,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 24,
+        "conversion_rate_own_baseline_retain": 1.0,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.9494977656790005,
+          0.950461270046127
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "edge_loss",
+        "dose": 0.3,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 2,
+        "stage1_candidate_rate_successful": 0.08333333333333333,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.29968119022316686,
+          0.30046224961479195
+        ],
+        "actual_count_loss_range": [
+          0.19829583709684784,
+          0.35242943524294357
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 1
+      },
+      {
+        "model": "candidate",
+        "kind": "edge_loss",
+        "dose": 0.3,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 2,
+        "stage1_candidate_rate_successful": 0.08333333333333333,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.29968119022316686,
+          0.30046224961479195
+        ],
+        "actual_count_loss_range": [
+          0.19829583709684784,
+          0.35242943524294357
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "edge_loss",
+        "dose": 0.5,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 16,
+        "stage1_candidate_rate_successful": 0.6666666666666666,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.49922958397534667,
+          0.5008880994671403
+        ],
+        "actual_count_loss_range": [
+          0.40827911278292883,
+          0.5851796085179608
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 3
+      },
+      {
+        "model": "candidate",
+        "kind": "edge_loss",
+        "dose": 0.5,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 16,
+        "stage1_candidate_rate_successful": 0.6666666666666666,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.49922958397534667,
+          0.5008880994671403
+        ],
+        "actual_count_loss_range": [
+          0.40827911278292883,
+          0.5851796085179608
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 1
+      },
+      {
+        "model": "legacy",
+        "kind": "edge_loss",
+        "dose": 0.7,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 1,
+        "final_exclude_rate_successful": 0.041666666666666664,
+        "detected_over_planned": 0.041666666666666664,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 1,
+        "conversion_rate_own_baseline_retain": 0.041666666666666664,
+        "actual_location_loss_range": [
+          0.699537750385208,
+          0.7003188097768331
+        ],
+        "actual_count_loss_range": [
+          0.6162123922597205,
+          0.7918548791854879
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 3
+      },
+      {
+        "model": "candidate",
+        "kind": "edge_loss",
+        "dose": 0.7,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 16,
+        "final_exclude_rate_successful": 0.6666666666666666,
+        "detected_over_planned": 0.6666666666666666,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 16,
+        "conversion_rate_own_baseline_retain": 0.6666666666666666,
+        "actual_location_loss_range": [
+          0.699537750385208,
+          0.7003188097768331
+        ],
+        "actual_count_loss_range": [
+          0.6162123922597205,
+          0.7918548791854879
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 1
+      },
+      {
+        "model": "legacy",
+        "kind": "edge_loss",
+        "dose": 0.9,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 7,
+        "final_exclude_rate_successful": 0.2916666666666667,
+        "detected_over_planned": 0.2916666666666667,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 7,
+        "conversion_rate_own_baseline_retain": 0.2916666666666667,
+        "actual_location_loss_range": [
+          0.8995433789954338,
+          0.9005328596802842
+        ],
+        "actual_count_loss_range": [
+          0.8462126282377312,
+          0.9457589445758945
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 2
+      },
+      {
+        "model": "candidate",
+        "kind": "edge_loss",
+        "dose": 0.9,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 24,
+        "final_exclude_rate_successful": 1.0,
+        "detected_over_planned": 1.0,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 24,
+        "conversion_rate_own_baseline_retain": 1.0,
+        "actual_location_loss_range": [
+          0.8995433789954338,
+          0.9005328596802842
+        ],
+        "actual_count_loss_range": [
+          0.8462126282377312,
+          0.9457589445758945
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 1
+      },
+      {
+        "model": "legacy",
+        "kind": "edge_loss",
+        "dose": 0.95,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 11,
+        "final_exclude_rate_successful": 0.4583333333333333,
+        "detected_over_planned": 0.4583333333333333,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 11,
+        "conversion_rate_own_baseline_retain": 0.4583333333333333,
+        "actual_location_loss_range": [
+          0.9496544916090819,
+          0.9506933744221879
+        ],
+        "actual_count_loss_range": [
+          0.9087709009991911,
+          0.9758131975813198
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 2
+      },
+      {
+        "model": "candidate",
+        "kind": "edge_loss",
+        "dose": 0.95,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 24,
+        "final_exclude_rate_successful": 1.0,
+        "detected_over_planned": 1.0,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 24,
+        "conversion_rate_own_baseline_retain": 1.0,
+        "actual_location_loss_range": [
+          0.9496544916090819,
+          0.9506933744221879
+        ],
+        "actual_count_loss_range": [
+          0.9087709009991911,
+          0.9758131975813198
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 1
+      },
+      {
+        "model": "legacy",
+        "kind": "noop_control",
+        "dose": 0.0,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 0,
+        "stage1_candidate_rate_successful": 0.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.0,
+          0.0
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "candidate",
+        "kind": "noop_control",
+        "dose": 0.0,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 0,
+        "stage1_candidate_rate_successful": 0.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.0,
+          0.0
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "regional_depth",
+        "dose": 0.3,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 2,
+        "final_exclude_rate_successful": 0.08333333333333333,
+        "detected_over_planned": 0.08333333333333333,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 2,
+        "conversion_rate_own_baseline_retain": 0.08333333333333333,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.17712578211781882,
+          0.2899551622718912
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "candidate",
+        "kind": "regional_depth",
+        "dose": 0.3,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 4,
+        "final_exclude_rate_successful": 0.16666666666666666,
+        "detected_over_planned": 0.16666666666666666,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 4,
+        "conversion_rate_own_baseline_retain": 0.16666666666666666,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.17712578211781882,
+          0.2899551622718912
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "regional_depth",
+        "dose": 0.5,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 10,
+        "final_exclude_rate_successful": 0.4166666666666667,
+        "detected_over_planned": 0.4166666666666667,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 10,
+        "conversion_rate_own_baseline_retain": 0.4166666666666667,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.325881033011753,
+          0.4737627164726941
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "candidate",
+        "kind": "regional_depth",
+        "dose": 0.5,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 12,
+        "final_exclude_rate_successful": 0.5,
+        "detected_over_planned": 0.5,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 12,
+        "conversion_rate_own_baseline_retain": 0.5,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.325881033011753,
+          0.4737627164726941
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "regional_depth",
+        "dose": 0.7,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 22,
+        "final_exclude_rate_successful": 0.9166666666666666,
+        "detected_over_planned": 0.9166666666666666,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 22,
+        "conversion_rate_own_baseline_retain": 0.9166666666666666,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.49701437608167043,
+          0.6216665282047023
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "candidate",
+        "kind": "regional_depth",
+        "dose": 0.7,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 22,
+        "final_exclude_rate_successful": 0.9166666666666666,
+        "detected_over_planned": 0.9166666666666666,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 22,
+        "conversion_rate_own_baseline_retain": 0.9166666666666666,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.49701437608167043,
+          0.6216665282047023
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "regional_depth",
+        "dose": 0.9,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 23,
+        "final_exclude_rate_successful": 0.9583333333333334,
+        "detected_over_planned": 0.9583333333333334,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 23,
+        "conversion_rate_own_baseline_retain": 0.9583333333333334,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.6763958224862945,
+          0.7522563006487573
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "candidate",
+        "kind": "regional_depth",
+        "dose": 0.9,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 24,
+        "final_exclude_rate_successful": 1.0,
+        "detected_over_planned": 1.0,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 24,
+        "conversion_rate_own_baseline_retain": 1.0,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.6763958224862945,
+          0.7522563006487573
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "regional_depth",
+        "dose": 0.95,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 24,
+        "final_exclude_rate_successful": 1.0,
+        "detected_over_planned": 1.0,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 24,
+        "conversion_rate_own_baseline_retain": 1.0,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.7281764272025409,
+          0.7807668778840998
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "candidate",
+        "kind": "regional_depth",
+        "dose": 0.95,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 24,
+        "final_exclude_rate_successful": 1.0,
+        "detected_over_planned": 1.0,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 24,
+        "conversion_rate_own_baseline_retain": 1.0,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.7281764272025409,
+          0.7807668778840998
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "rigid_control",
+        "dose": 0.0,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 0,
+        "stage1_candidate_rate_successful": 0.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.0,
+          0.0
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "candidate",
+        "kind": "rigid_control",
+        "dose": 0.0,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 0,
+        "stage1_candidate_rate_successful": 0.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.0,
+          0.0
+        ],
+        "actual_count_loss_range": [
+          0.0,
+          0.0
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "spatial_hole",
+        "dose": 0.3,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 10,
+        "stage1_candidate_rate_successful": 0.4166666666666667,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.29968119022316686,
+          0.30046224961479195
+        ],
+        "actual_count_loss_range": [
+          0.21276379627637965,
+          0.3791036088937799
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 1
+      },
+      {
+        "model": "candidate",
+        "kind": "spatial_hole",
+        "dose": 0.3,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 10,
+        "stage1_candidate_rate_successful": 0.4166666666666667,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.29968119022316686,
+          0.30046224961479195
+        ],
+        "actual_count_loss_range": [
+          0.21276379627637965,
+          0.3791036088937799
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "spatial_hole",
+        "dose": 0.5,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 20,
+        "stage1_candidate_rate_successful": 0.8333333333333334,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.49922958397534667,
+          0.5008880994671403
+        ],
+        "actual_count_loss_range": [
+          0.4149339164933916,
+          0.6005694779838158
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 2
+      },
+      {
+        "model": "candidate",
+        "kind": "spatial_hole",
+        "dose": 0.5,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 20,
+        "stage1_candidate_rate_successful": 0.8333333333333334,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.49922958397534667,
+          0.5008880994671403
+        ],
+        "actual_count_loss_range": [
+          0.4149339164933916,
+          0.6005694779838158
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "spatial_hole",
+        "dose": 0.7,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 3,
+        "final_exclude_rate_successful": 0.125,
+        "detected_over_planned": 0.125,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 3,
+        "conversion_rate_own_baseline_retain": 0.125,
+        "actual_location_loss_range": [
+          0.699537750385208,
+          0.7003188097768331
+        ],
+        "actual_count_loss_range": [
+          0.6168314579775881,
+          0.7814157117719416
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 2
+      },
+      {
+        "model": "candidate",
+        "kind": "spatial_hole",
+        "dose": 0.7,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 16,
+        "final_exclude_rate_successful": 0.6666666666666666,
+        "detected_over_planned": 0.6666666666666666,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 16,
+        "conversion_rate_own_baseline_retain": 0.6666666666666666,
+        "actual_location_loss_range": [
+          0.699537750385208,
+          0.7003188097768331
+        ],
+        "actual_count_loss_range": [
+          0.6168314579775881,
+          0.7814157117719416
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 1
+      },
+      {
+        "model": "legacy",
+        "kind": "spatial_hole",
+        "dose": 0.9,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 9,
+        "final_exclude_rate_successful": 0.375,
+        "detected_over_planned": 0.375,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 9,
+        "conversion_rate_own_baseline_retain": 0.375,
+        "actual_location_loss_range": [
+          0.8995433789954338,
+          0.9005328596802842
+        ],
+        "actual_count_loss_range": [
+          0.8447174313944141,
+          0.9366121126526543
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 1
+      },
+      {
+        "model": "candidate",
+        "kind": "spatial_hole",
+        "dose": 0.9,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 24,
+        "final_exclude_rate_successful": 1.0,
+        "detected_over_planned": 1.0,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 24,
+        "conversion_rate_own_baseline_retain": 1.0,
+        "actual_location_loss_range": [
+          0.8995433789954338,
+          0.9005328596802842
+        ],
+        "actual_count_loss_range": [
+          0.8447174313944141,
+          0.9366121126526543
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 1
+      },
+      {
+        "model": "legacy",
+        "kind": "spatial_hole",
+        "dose": 0.95,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 11,
+        "final_exclude_rate_successful": 0.4583333333333333,
+        "detected_over_planned": 0.4583333333333333,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 11,
+        "conversion_rate_own_baseline_retain": 0.4583333333333333,
+        "actual_location_loss_range": [
+          0.9496544916090819,
+          0.9506933744221879
+        ],
+        "actual_count_loss_range": [
+          0.907725568619142,
+          0.9750088741531792
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 1
+      },
+      {
+        "model": "candidate",
+        "kind": "spatial_hole",
+        "dose": 0.95,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 24,
+        "final_exclude_rate_successful": 1.0,
+        "detected_over_planned": 1.0,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 24,
+        "conversion_rate_own_baseline_retain": 1.0,
+        "actual_location_loss_range": [
+          0.9496544916090819,
+          0.9506933744221879
+        ],
+        "actual_count_loss_range": [
+          0.907725568619142,
+          0.9750088741531792
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 1
+      },
+      {
+        "model": "legacy",
+        "kind": "tear",
+        "dose": 0.3,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 23,
+        "stage1_candidate_rate_successful": 0.9583333333333334,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.29968119022316686,
+          0.30046224961479195
+        ],
+        "actual_count_loss_range": [
+          0.2738289005703526,
+          0.38001767278165055
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 1
+      },
+      {
+        "model": "candidate",
+        "kind": "tear",
+        "dose": 0.3,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 0,
+        "final_exclude_rate_successful": 0.0,
+        "detected_over_planned": 0.0,
+        "stage1_candidate": 23,
+        "stage1_candidate_rate_successful": 0.9583333333333334,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 0,
+        "conversion_rate_own_baseline_retain": 0.0,
+        "actual_location_loss_range": [
+          0.29968119022316686,
+          0.30046224961479195
+        ],
+        "actual_count_loss_range": [
+          0.2738289005703526,
+          0.38001767278165055
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "tear",
+        "dose": 0.5,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 1,
+        "final_exclude_rate_successful": 0.041666666666666664,
+        "detected_over_planned": 0.041666666666666664,
+        "stage1_candidate": 23,
+        "stage1_candidate_rate_successful": 0.9583333333333334,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 1,
+        "conversion_rate_own_baseline_retain": 0.041666666666666664,
+        "actual_location_loss_range": [
+          0.49922958397534667,
+          0.5008880994671403
+        ],
+        "actual_count_loss_range": [
+          0.47562782124975056,
+          0.5919966467029689
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 2
+      },
+      {
+        "model": "candidate",
+        "kind": "tear",
+        "dose": 0.5,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 1,
+        "final_exclude_rate_successful": 0.041666666666666664,
+        "detected_over_planned": 0.041666666666666664,
+        "stage1_candidate": 23,
+        "stage1_candidate_rate_successful": 0.9583333333333334,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 1,
+        "conversion_rate_own_baseline_retain": 0.041666666666666664,
+        "actual_location_loss_range": [
+          0.49922958397534667,
+          0.5008880994671403
+        ],
+        "actual_count_loss_range": [
+          0.47562782124975056,
+          0.5919966467029689
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "tear",
+        "dose": 0.7,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 5,
+        "final_exclude_rate_successful": 0.20833333333333334,
+        "detected_over_planned": 0.20833333333333334,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 5,
+        "conversion_rate_own_baseline_retain": 0.20833333333333334,
+        "actual_location_loss_range": [
+          0.699537750385208,
+          0.7003188097768331
+        ],
+        "actual_count_loss_range": [
+          0.669642338883133,
+          0.7689057225071182
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 2
+      },
+      {
+        "model": "candidate",
+        "kind": "tear",
+        "dose": 0.7,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 16,
+        "final_exclude_rate_successful": 0.6666666666666666,
+        "detected_over_planned": 0.6666666666666666,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 16,
+        "conversion_rate_own_baseline_retain": 0.6666666666666666,
+        "actual_location_loss_range": [
+          0.699537750385208,
+          0.7003188097768331
+        ],
+        "actual_count_loss_range": [
+          0.669642338883133,
+          0.7689057225071182
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "legacy",
+        "kind": "tear",
+        "dose": 0.9,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 13,
+        "final_exclude_rate_successful": 0.5416666666666666,
+        "detected_over_planned": 0.5416666666666666,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 13,
+        "conversion_rate_own_baseline_retain": 0.5416666666666666,
+        "actual_location_loss_range": [
+          0.8995433789954338,
+          0.9005328596802842
+        ],
+        "actual_count_loss_range": [
+          0.8814623863846894,
+          0.9433569943356994
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 2
+      },
+      {
+        "model": "candidate",
+        "kind": "tear",
+        "dose": 0.9,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 24,
+        "final_exclude_rate_successful": 1.0,
+        "detected_over_planned": 1.0,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 24,
+        "conversion_rate_own_baseline_retain": 1.0,
+        "actual_location_loss_range": [
+          0.8995433789954338,
+          0.9005328596802842
+        ],
+        "actual_count_loss_range": [
+          0.8814623863846894,
+          0.9433569943356994
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 1
+      },
+      {
+        "model": "legacy",
+        "kind": "tear",
+        "dose": 0.95,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 15,
+        "final_exclude_rate_successful": 0.625,
+        "detected_over_planned": 0.625,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 15,
+        "conversion_rate_own_baseline_retain": 0.625,
+        "actual_location_loss_range": [
+          0.9496544916090819,
+          0.9506933744221879
+        ],
+        "actual_count_loss_range": [
+          0.9336048251980332,
+          0.9755502975550298
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      },
+      {
+        "model": "candidate",
+        "kind": "tear",
+        "dose": 0.95,
+        "planned": 24,
+        "attempted": 24,
+        "successful": 24,
+        "failed": 0,
+        "pending": 0,
+        "final_exclude": 24,
+        "final_exclude_rate_successful": 1.0,
+        "detected_over_planned": 1.0,
+        "stage1_candidate": 24,
+        "stage1_candidate_rate_successful": 1.0,
+        "baseline_already_exclude": 0,
+        "own_baseline_retain_n": 24,
+        "retain_to_exclude": 24,
+        "conversion_rate_own_baseline_retain": 1.0,
+        "actual_location_loss_range": [
+          0.9496544916090819,
+          0.9506933744221879
+        ],
+        "actual_count_loss_range": [
+          0.9336048251980332,
+          0.9755502975550298
+        ],
+        "bystander_target_pairs": 352,
+        "bystander_new_excludes": 0
+      }
+    ],
+    "native_slices": 188,
+    "native_legacy_exclude": 8,
+    "native_candidate_exclude": 11,
+    "selected_targets_legacy_exclude": 0,
+    "selected_targets_candidate_exclude": 0,
+    "interpretation": "Rates are retrospective synthetic regression outcomes, not accuracy or biological certification. Final exclusion and own-baseline-retain conversion are separate. Bystander denominators count repeated target/slice pairs, not independent slices. Failed/pending variants remain in planned denominators."
+  },
+  "native_collection": {
+    "series": 87,
+    "slices": 2113,
+    "retain": 2030,
+    "exclude": 83,
+    "raw_reextracted_series": 58,
+    "raw_reextracted_slices": 1381,
+    "cached_metrics_series": 29,
+    "cached_metrics_slices": 732
+  },
+  "same_fresh_metrics_comparison": {
+    "legacy_exclude": 72,
+    "candidate_exclude": 83,
+    "new_geometry_exclude": 10,
+    "new_capture_exclude": 1,
+    "lost_legacy_excludes": 0,
+    "expert_adjudication": false
+  },
+  "historical_comparison": {
+    "exclude_before": 57,
+    "exclude_after": 83,
+    "new_excludes": 27,
+    "restored_retains": 1,
+    "attribution": "includes raw-reextraction and historical-policy changes, not only the new resolver"
+  },
+  "limitations": [
+    "Retrospective previously inspected regression cohort, not independent validation.",
+    "No expert biological ground truth; native changes cannot estimate accuracy.",
+    "Two-sided reference required; endpoints and uniform whole-series deterioration remain evidence-limited."
+  ]
+}

@@ -391,7 +391,18 @@ def build_directional_slice_explanations(
             )
         )
         windows = str(record.get("adaptive_windows_tested", "3|5|7")).replace("|", "/")
-        if language == "en":
+        loss_passed = str(record.get("tissue_loss_exclusion_gate", "")).lower() == "true"
+        if loss_passed:
+            route = str(record.get("tissue_loss_route", "")).replace("_", " ")
+            reason = (
+                f"Exclude: {route} was confirmed against both neighboring sides across the required windows. "
+                "This route uses tissue amount/coverage or measured capture deficits, not an aggregate-score cutoff. "
+                "The H5AD alone does not establish the experimental cause."
+                if language == "en" else
+                f"排除：{route} 已获得双侧邻片与所需窗口确认。该路径检查组织量/覆盖或实测捕获缺失，"
+                "不要求综合分数跨过旧阈值；H5AD 本身不能确诊实验原因。"
+            )
+        elif language == "en":
             if call == "exclude":
                 detail = "; ".join(item["sentence"] for item in adverse[:4])
                 if not detail:
@@ -415,22 +426,22 @@ def build_directional_slice_explanations(
                     )
             elif str(record.get("decision_basis")) == "independently_certified":
                 reason = (
-                    f"Keep: the anomaly score ({_fmt(score)}) and detector evidence were within the "
+                    f"Retain: the anomaly score ({_fmt(score)}) and detector evidence were within the "
                     "validated retention range, with no corroborated multi-domain evidence for exclusion."
                 )
             elif 'calibrated keep-only score band' in str(record.get('review_resolution_reason', '')):
-                reason = (f"Keep after stage-2 tier and permission review ({tier}): this locked score band is keep-only; "
+                reason = (f"Retain after stage-2 tier and permission review ({tier}): this locked score band is keep-only; "
                           "the band's multi-domain and multi-window exclusion tests are not executed. "
                           "This operational retention is not evidence that the slice is free of defects.")
             elif str(record.get("decision_basis")) == "review_resolved_keep":
                 reason = (
-                    f"Keep after fine screen: stage-1 threshold triage placed this slice in the internal "
+                    f"Retain after fine screen: stage-1 threshold triage placed this slice in the internal "
                     f"review queue, but the second-stage multi-domain, anatomical, confidence, and 3/5/7-window "
                     f"checks did not all support exclusion. No additional user decision is required."
                 )
             else:
                 reason = (
-                    f"Keep: the anomaly score ({_fmt(score)}) did not jointly pass the high-specificity "
+                    f"Retain: the anomaly score ({_fmt(score)}) did not jointly pass the high-specificity "
                     "exclusion threshold and detector guardrails. The final binary policy retained the slice "
                     "to avoid destructive false exclusion; no additional user decision is required."
                 )
@@ -481,6 +492,7 @@ def build_directional_slice_explanations(
                     )
                     if adverse
                     else (
+                        str(record.get("tissue_loss_reason", "")) if loss_passed else
                         "No reproducible major anomaly"
                         if language == "en"
                         else "未见可重复的主要异常"
@@ -580,8 +592,12 @@ def _manifest_source_contract(
             )
             slice_key = f"obsm:{match.group(1)}[:,2]" if match else None
     if not spatial_key:
-        match = re.match(r"obsm:([^\[]+)", str(record.get("coordinate_source", "")))
-        spatial_key = match.group(1) if match else None
+        coordinate_source = str(record.get("coordinate_source", ""))
+        match = re.fullmatch(r"obsm:([^\[]+)(?:\[:,\s*0?:2\])?", coordinate_source)
+        if match:
+            spatial_key = match.group(1)
+        elif re.fullmatch(r"obs:[^,]+,[^,]+", coordinate_source):
+            spatial_key = coordinate_source
     return source_path, slice_key, spatial_key
 
 
@@ -610,16 +626,22 @@ def _prepare_source_evidence_points(
     total_counts_key: Optional[str] = None,
     n_genes_key: Optional[str] = None,
     mito_key: Optional[str] = None,
+    source_record: Optional[Mapping[str, Any]] = None,
 ) -> tuple[dict[str, dict[str, Any]], dict[str, np.ndarray], dict[str, Any]]:
     import anndata as ad
 
     adata = ad.read_h5ad(source_h5ad, backed="r")
     try:
-        if spatial_key not in adata.obsm:
-            raise KeyError(
-                f"spatial key {spatial_key!r} is absent from source H5AD obsm"
-            )
-        coordinates_all = np.asarray(adata.obsm[spatial_key], dtype=float)
+        obs_xy = re.fullmatch(r"obs:([^,]+),([^,]+)", spatial_key)
+        if obs_xy:
+            keys = list(obs_xy.groups())
+            if any(key not in adata.obs for key in keys):
+                raise KeyError(f"Manifest coordinate columns {keys!r} are absent from source H5AD obs")
+            coordinates_all = adata.obs[keys].apply(pd.to_numeric, errors="coerce").to_numpy(dtype=float)
+        else:
+            if spatial_key not in adata.obsm:
+                raise KeyError(f"spatial key {spatial_key!r} is absent from source H5AD obsm")
+            coordinates_all = np.asarray(adata.obsm[spatial_key], dtype=float)
         if coordinates_all.ndim != 2 or coordinates_all.shape[1] < 2:
             raise ValueError(
                 f"obsm[{spatial_key!r}] must contain at least two coordinate columns"
@@ -629,7 +651,9 @@ def _prepare_source_evidence_points(
             resolved_slice_source = f"obs:{slice_key}"
         else:
             z_match = re.fullmatch(r"obsm:([^\[]+)\[:,\s*2\]", slice_key)
-            z_key = z_match.group(1) if z_match else spatial_key
+            if not z_match:
+                raise KeyError(f"Explicit slice key {slice_key!r} is absent from source H5AD obs")
+            z_key = z_match.group(1)
             if z_key not in adata.obsm:
                 raise KeyError(
                     f"slice key {slice_key!r} is absent from source H5AD obs and "
@@ -648,16 +672,35 @@ def _prepare_source_evidence_points(
             )
             resolved_slice_source = f"obsm:{z_key}[:,2]"
         coordinates_all = coordinates_all[:, :2]
-        counts_name, counts_all = _first_numeric_obs(
-            adata,
-            total_counts_key,
-            ("total_counts", "n_counts", "total_counts_X", "UMI_count", "nCount_RNA"),
-        )
-        genes_name, genes_all = _first_numeric_obs(
-            adata,
-            n_genes_key,
-            ("n_genes_by_counts", "n_genes", "nFeature_RNA", "gene_count"),
-        )
+        record = dict(source_record or {})
+        capture_available = record.get("capture_loss_evidence_available")
+        if capture_available is None:
+            capture_available = record.get("count_like") is True
+        capture_available = bool(capture_available) and record.get("expression_capture_available") is not False
+        counts_name = genes_name = None
+        counts_all = genes_all = None
+        capture_matrix = None
+        layer = record.get("count_layer")
+        # Reproduce the detector's selected capture source; stale obs totals must
+        # not override a count-like selected matrix, nor may normalized X become counts.
+        if capture_available and (record.get("count_like") is True or layer == "slice_qc_simulated_counts"):
+            if not layer:
+                raise ValueError("Measured matrix capture requires the manifest count_layer")
+            if layer != "X" and layer not in adata.layers:
+                raise KeyError(f"Manifest count layer {layer!r} is absent from source H5AD")
+            capture_matrix = adata.X if layer == "X" else adata.layers[layer]
+            counts_name, genes_name = f"{layer}:row_sum", f"{layer}:nonzero_genes"
+        elif capture_available:
+            counts_name, counts_all = _first_numeric_obs(
+                adata, total_counts_key,
+                ("total_counts", "nCounts", "nCount_RNA", "total_umi", "UMI_count"),
+            )
+            genes_name, genes_all = _first_numeric_obs(
+                adata, n_genes_key,
+                ("n_genes_by_counts", "nGenes", "nFeature_RNA", "gene_count"),
+            )
+            if counts_all is None or genes_all is None:
+                raise ValueError("Manifest declares measured obs capture but its count/gene columns are unavailable")
         mito_name, mito_all = _first_numeric_obs(
             adata,
             mito_key,
@@ -667,6 +710,8 @@ def _prepare_source_evidence_points(
         full: dict[str, np.ndarray] = {}
         for slice_id in order:
             row_indices = np.flatnonzero(labels == slice_id)
+            if not len(row_indices):
+                raise ValueError(f"Source slice contract does not resolve requested slice {slice_id!r}")
             coords = coordinates_all[row_indices]
             valid = np.isfinite(coords).all(axis=1)
             row_indices = row_indices[valid]
@@ -694,9 +739,11 @@ def _prepare_source_evidence_points(
                 if genes_all is not None
                 else np.asarray([])
             )
-            if len(chosen) and (not sampled_counts.size or not sampled_genes.size):
-                sampled_matrix = adata.X[row_indices[chosen]]
+            if len(chosen) and capture_matrix is not None:
+                sampled_matrix = capture_matrix[row_indices[chosen]]
                 if sparse.issparse(sampled_matrix):
+                    sampled_matrix = sampled_matrix.copy()
+                    sampled_matrix.eliminate_zeros()
                     if not sampled_counts.size:
                         sampled_counts = np.asarray(sampled_matrix.sum(axis=1)).ravel()
                     if not sampled_genes.size:
@@ -709,8 +756,6 @@ def _prepare_source_evidence_points(
                         sampled_counts = np.asarray(sampled_matrix.sum(axis=1)).ravel()
                     if not sampled_genes.size:
                         sampled_genes = np.count_nonzero(sampled_matrix, axis=1)
-                counts_name = counts_name or "X:row_sum"
-                genes_name = genes_name or "X:nonzero_genes"
             sampled_mito = (
                 mito_all[row_indices[chosen]]
                 if mito_all is not None
@@ -750,6 +795,8 @@ def _prepare_source_evidence_points(
             "mito_key": mito_name,
             "absolute_expression_available": bool(counts_name or genes_name),
             "component_evidence_available": True,
+            "source": "manifest-resolved full source geometry and detector-selected measured capture",
+            "note": "Full-source geometry uses the exact manifest coordinate fields; capture uses the detector-selected measured source. Unavailable capture stays missing.",
         }
         return display, full, metadata
     finally:
@@ -777,13 +824,24 @@ def _prepare_kde_points(
         kde = _fixed_bandwidth_kde(coords, bandwidth)
         full[slice_id] = coords
         chosen = _sample_indices(len(coords), max_points_per_slice)
+        counts = np.asarray(source.get("counts", [None] * len(x)), dtype=float)
+        if len(counts) != len(x):
+            raise ValueError(f"Display sample counts/coordinate length mismatch: {slice_id}")
+        safe_counts = [float(v) if np.isfinite(v) else None for v in counts[valid][chosen]]
         display[slice_id] = {
             "x": np.round(coords[chosen, 0], 3).tolist(),
             "y": np.round(coords[chosen, 1], 3).tolist(),
             "kde": np.round(kde[chosen], 8).tolist(),
             "depth": np.round(np.clip(depth[chosen], 0, 1), 3).tolist(),
             "displayed": int(len(chosen)),
-            "available": int(len(coords)),
+            "captured_counts": safe_counts,
+            "log_captured_counts": [float(np.log1p(max(v, 0))) if v is not None else None for v in safe_counts],
+            "n_genes": [],
+            "component_rank": [],
+            "component_count": None,
+            "largest_component_fraction": None,
+            "available": int(source.get("n_total", len(coords))),
+            "evidence_geometry_scope": "display sample only",
         }
     return display, full
 
@@ -1106,7 +1164,7 @@ def _write_paper_tables(
             {
                 "Dataset": summary["dataset"],
                 "Slices": summary["n_slices"],
-                "Keep": summary["keep"],
+                "Retain": summary["keep"],
                 "Exclude": summary["exclude"],
                 "Exclude rate": f"{summary['exclude_rate_percent']:.1f}%",
                 "Window": selected_window,
@@ -1178,7 +1236,7 @@ def write_collection_paper_tables(
             "Subgroup": record.get("subgroup"),
             "Dataset": record.get("name"),
             "Slices": int(record.get("n_slices", 0)),
-            "Keep": int(record.get("keep", 0)),
+            "Retain": int(record.get("keep", 0)),
             "Exclude": int(record.get("exclude", 0)),
             "Exclude rate (%)": round(
                 100
@@ -1215,7 +1273,7 @@ def write_collection_paper_tables(
                 "Biological type": group,
                 "Datasets": int(len(frame)),
                 "Slices": slices,
-                "Keep": keep,
+                "Retain": keep,
                 "Exclude": exclude,
                 "Exclude rate (%)": round(100 * exclude / max(slices, 1), 2),
             }
@@ -1255,6 +1313,56 @@ def write_collection_paper_tables(
     }
 
 
+def _loss_diagnostic_html(record: Mapping[str, Any], language: str) -> str:
+    """Expose stored scientific evidence without reapplying decision rules."""
+    if str(record.get("loss_evidence_version", "")) != "bilateral-v3":
+        return ""
+    en = language == "en"
+    rows = []
+    for key, english, chinese in [
+        ("point_loss_fraction", "Locations deficit", "位置数缺失"),
+        ("area_loss_fraction", "Tissue-area deficit", "组织覆盖面积缺失"),
+        ("density_loss_fraction", "Tissue-density deficit", "组织密度缺失"),
+        ("capture_count_loss_fraction", "Captured-count deficit", "捕获计数缺失"),
+        ("capture_gene_loss_fraction", "Detected-gene deficit", "检出基因缺失"),
+    ]:
+        number = _number(record.get(key))
+        rows.append((english if en else chinese, f"{100 * number:.1f}%" if number is not None else "NA"))
+    support = record.get("tissue_loss_window_support", "{}")
+    try:
+        support = json.loads(support) if isinstance(support, str) else support
+    except (TypeError, ValueError):
+        support = {}
+    if isinstance(support, dict):
+        for route, values in support.items():
+            if isinstance(values, dict):
+                rows.append((str(route) + (" window confirmations" if en else "窗口确认"),
+                             "; ".join(str(k).replace("_", " ") + "=" + str(v) for k, v in values.items())))
+    raw = record.get("adaptive_window_details", "[]")
+    try:
+        windows = json.loads(raw) if isinstance(raw, str) else list(raw)
+    except (TypeError, ValueError):
+        windows = []
+    confirmations = [
+        f"W={item.get('window', '?')}: geometry={'yes' if item.get('geometry_loss_candidate') else 'no'}, "
+        f"capture={'yes' if item.get('capture_loss_candidate') else 'no'}"
+        for item in windows
+        if "geometry_loss_candidate" in item or "capture_loss_candidate" in item
+    ]
+    reason = str(record.get("tissue_loss_reason", ""))
+    route = str(record.get("tissue_loss_route", "")).replace("_", " ")
+    title = "Bilateral tissue/capture loss evidence" if en else "双侧组织/捕获缺失证据"
+    head = f"<h3>{title}</h3><p>{html.escape(route)} · {html.escape(reason)}</p>"
+    table = "<table class='evidence-table'><tbody>" + "".join(
+        "<tr><td>" + html.escape(label) + "</td><td>" + html.escape(value) + "</td></tr>"
+        for label, value in rows
+    ) + "</tbody></table>"
+    note = ("Deficits are measured against the lower of the two side medians, not injected dose. "
+            "Unavailable measurements are not normality evidence." if en else
+            "缺失比例以左右邻片中位数的较低者为参照，不是注入剂量；缺失测量不能解释为正常。")
+    return "<div class='section loss-evidence'>" + head + table + "<p>" + html.escape("; ".join(confirmations)) + "</p><p class='note'>" + note + "</p></div>"
+
+
 def _write_detail_page(page_payload, report_path):
     """Render already prepared scientific evidence without recomputing it."""
     records = page_payload['records']
@@ -1269,18 +1377,39 @@ def _write_detail_page(page_payload, report_path):
                 if page_payload['language']=='en' else '已锁定策略在新输入上的应用结果；本输入未经独立验证。')
         text = text.replace('</header>', '<p style="font-weight:700">'+note+'</p></header>')
     if page_payload.get('binary_application', {}).get('application_scope') == 'experimental_policy':
-        note = ('Experimental joint-review policy: evaluated with metric perturbations; independent raw-matrix and biological validation is incomplete. These input datasets are not certified.'
-                if page_payload['language']=='en' else '实验性联合细筛策略：已进行指标扰动评估，尚未完成独立原始矩阵及生物学验证；当前输入未经认证。')
+        note = ('Experimental policy application; independent biological validation is incomplete. Synthetic tests, if supplied, do not certify these input datasets.'
+                if page_payload['language']=='en' else '实验策略应用；独立生物学验证尚未完成。模拟测试（如提供）不构成当前输入的生物学认证。')
         text = text.replace('</header>', '<p style="font-weight:700">'+note+'</p></header>')
     policy = page_payload.get('binary_application', {}).get('policy', {})
     tiers = policy.get('review_exclusion_tiers', [])
+    loss_enabled = bool(policy.get('enable_tissue_loss_resolver', False))
+    if loss_enabled:
+        en = page_payload['language'] == 'en'
+        loss_text = (
+            "The tissue-loss route is evaluated in parallel with the legacy score route. The focal value "
+            "must fall below both side-specific medians; the lower side median is the reference. "
+            "Geometry: locations deficit ≥50% plus area OR density deficit ≥35%. Capture: measured counts "
+            "deficit ≥50% plus genes deficit ≥30%, with explicit capture availability. The primary window "
+            f"and at least min({int(policy.get('loss_min_confirming_windows', 2))}, available) windows must confirm a route. "
+            "No second anomaly domain or legacy aggregate-score cutoff is required. Protection requires "
+            "a smooth immediate-neighbor transition in both amount and area, normal molecular/continuity "
+            "evidence, and no independent loss. Endpoints and whole-series degradation may remain missed."
+            if en else
+            "组织损失路线与旧总分路线并行：焦点片须低于前、后两侧中位数，以较低一侧为参照。"
+            "几何：点数缺失≥50%，同时面积或密度缺失≥35%。捕获：实测计数缺失≥50%且基因缺失≥30%，"
+            "并有明确捕获可用性。主窗口与至少 min(2, 可用窗口数) 个确认窗口通过才排除。"
+            "不要求第二个异常域或旧综合分数阈值。保护仅适用于点数与面积均呈紧邻片平滑过渡、"
+            "分子/连续性正常且无独立损失证据的片。端点与全序列共同降质仍可能漏检。"
+        )
+        section = '<section class="section"><h2>' + ('Bilateral tissue-loss route (v3)' if en else '双侧组织损失路线（v3）') + '</h2><p>' + html.escape(loss_text) + '</p></section>'
+        text = text.replace('<section id="methods" class="panel">', '<section id="methods" class="panel">' + section)
     if tiers:
         descriptions = []
         for tier in tiers:
             span = f"[{tier['min_score']:.3f}, {tier['max_score']:.3f})" if tier.get('max_score') is not None else f"score ≥ {tier['min_score']:.3f}"
             label = ('Evidence fine-screen band' if tier.get('enable_exclude') else 'Conservative retention band') if page_payload['language']=='en' else ('证据细筛区间' if tier.get('enable_exclude') else '保守保留区间')
             descriptions.append(html.escape(label + ': ' + span))
-        heading = 'Fixed policy across datasets' if page_payload['language']=='en' else '所有数据集共用的锁定策略'
+        heading = ('Legacy multi-domain route (parallel, not exclusive)' if loss_enabled else 'Fixed policy across datasets') if page_payload['language']=='en' else ('保留的多域路线（并行，非唯一排除路径）' if loss_enabled else '所有数据集共用的锁定策略')
         note = ('These score boundaries were selected in historical calibration and then frozen; they are not re-estimated for each dataset. Every internal review receives a stage-2 band assessment and recorded outcome. Exclusion evidence gates run only in the evidence fine-screen band. Local expectations and detection windows can adapt; these boundaries do not.' if page_payload['language']=='en' else '分数边界经历史校准后锁定，不按当前数据集重新估计。每条内部review均进入第二阶段并记录分层审查结论；仅证据细筛区间执行排除证据门控。局部参照与窗口可以自适应，这些分数边界不会自适应变化。')
         if page_payload.get('binary_application', {}).get('application_scope') == 'experimental_policy':
             note = ('Stage-1 thresholds and the 0.540 boundary retain historical values. Both review bands execute evidence checks; their domain thresholds were jointly selected and frozen before held-out metric-stress evaluation. They are not re-estimated per dataset. This is not biological certification.' if page_payload['language']=='en' else '第一阶段与0.540分界沿用历史值；两个review区间均执行证据检查，域门槛经联合选择后冻结，再进行留出指标扰动评估。不按数据集重新估计，亦不代表生物学认证。')
@@ -1298,9 +1427,22 @@ def _write_detail_page(page_payload, report_path):
                 action += (f". Domains ≥{tier['min_corroborating_domains']}; strongest domain ≥{tier['severe_domain_threshold']:.2f}; confidence field ≥{tier['min_score_confidence']:.2f}; required window support {tier['min_window_stability']:.0%}" if en else f"。支持维度≥{tier['min_corroborating_domains']}；最强维度≥{tier['severe_domain_threshold']:.2f}；邻域支持字段≥{tier['min_score_confidence']:.2f}；窗口一致性≥{tier['min_window_stability']:.0%}")
             operation_rows.append((('Internal review: ' if en else '内部review：')+span, action, 'exclude / keep' if enabled else 'keep'))
         operation_rows.extend([(f'score ≥ {e:.3f}; '+('direct gate passes' if en else '直接排除门控通过'), 'Direct exclusion; no stage-2 pass' if en else '第一阶段直接排除；不进第二阶段', 'exclude'),(f'score ≥ {e:.3f}; '+('direct gate fails' if en else '直接排除门控未通过'), 'Downgrade to review and test all evidence-band gates' if en else '降级review，执行证据细筛区间的全部检查', 'exclude / keep')])
-        table='<div class="table-wrap"><table class="data-table"><thead><tr><th>'+('Score and route' if en else '分数与路径')+'</th><th>'+('Actual operation' if en else '实际操作')+'</th><th>'+('Final action' if en else '最终动作')+'</th></tr></thead><tbody>'+''.join('<tr>'+''.join('<td>'+html.escape(v)+'</td>' for v in row)+'</tr>' for row in operation_rows)+'</tbody></table></div>'
+        table='<div class="table-wrap"><table class="data-table"><thead><tr><th>'+('Score and route' if en else '分数与路径')+'</th><th>'+('Actual operation' if en else '实际操作')+'</th><th>'+('Final action' if en else '最终动作')+'</th></tr></thead><tbody>'+''.join('<tr>'+''.join('<td>'+html.escape(v.replace('keep', 'retain'))+'</td>' for v in row)+'</tr>' for row in operation_rows)+'</tbody></table></div>'
         block=block.replace('</section>', table+'</section>')
         text=text.replace('<section id="methods" class="panel">','<section id="methods" class="panel">'+block)
+    en = page_payload['language'] == 'en'
+    rule = (
+        "Public calls are retain/exclude (engine keep means retain). The score route applies the exact "
+        "legacy direct and review-tier gates shown above. When enabled, the bilateral tissue/capture-loss "
+        "route is evaluated independently; either route may justify exclusion. Retain means no enabled "
+        "exclusion route passed, not proof of intact tissue. All intermediate review details stay in the audit."
+        if en else
+        "公开状态为retain/exclude（引擎keep表示retain）。评分路线执行上表中的直接门控与review细筛；"
+        "启用双侧组织/捕获损失路线时还会独立评估该路线。任一排除路线通过即可排除；retain表示"
+        "没有启用的排除路线通过，不证明组织完整。中间review细节保留在审计中。"
+    )
+    text = re.sub(r'(<h2>(?:最终二元规则|Final binary decision rule)</h2>)<p>.*?</p>',
+                  lambda match: match.group(1) + '<p>' + html.escape(rule) + '</p>', text)
     if page_payload.get('preregistration'):
         extension = Path(__file__).with_name('slice_quality_detail_roi.js').read_text()
         text = text.replace('</body>', '<script>'+extension+'</script></body>')
@@ -1363,8 +1505,15 @@ def render_binary_slice_quality_appendix(
     )
     evidence_source: dict[str, Any] = {
         "available": False,
-        "absolute_expression_available": False,
+        "absolute_expression_available": any(any(v is not None for v in p["captured_counts"]) for p in points.values()),
         "component_evidence_available": False,
+        "source": "detector-selected display samples",
+        "note": (
+            "Only saved display samples are available for this source contract: KDE is sample-only, "
+            "component maps are unavailable, and saved absolute capture values are retained without imputing missing values."
+            if language == "en" else
+            "此来源契约仅使用已保存的显示采样：KDE 基于采样点，连通组件图不可用；保留已保存的绝对捕获值，缺失值不填零。"
+        ),
     }
     explicit_source = source_h5ad is not None
     resolved_h5ad, resolved_slice_key, resolved_spatial_key = _manifest_source_contract(
@@ -1374,11 +1523,9 @@ def render_binary_slice_quality_appendix(
         points, coordinates, evidence_source = _prepare_preregistered_evidence_points(
             source, payload, order, bandwidth, max_points_per_slice
         )
-    elif resolved_h5ad is not None and resolved_h5ad.exists():
-        if not resolved_slice_key or not resolved_spatial_key:
-            raise ValueError(
-                "Source-H5AD evidence requires resolvable slice and spatial keys"
-            )
+    elif (resolved_h5ad is not None and resolved_h5ad.exists()
+          and resolved_slice_key and resolved_spatial_key
+          and (explicit_source or len(manifest.get("sources", [])) == 1)):
         points, coordinates, evidence_source = _prepare_source_evidence_points(
             resolved_h5ad,
             order,
@@ -1389,9 +1536,12 @@ def render_binary_slice_quality_appendix(
             total_counts_key=total_counts_key,
             n_genes_key=n_genes_key,
             mito_key=mito_key,
+            source_record=(manifest.get("sources") or [{}])[0],
         )
     elif explicit_source:
-        raise FileNotFoundError(f"Source H5AD not found: {resolved_h5ad}")
+        if resolved_h5ad is None or not resolved_h5ad.exists():
+            raise FileNotFoundError(f"Source H5AD not found: {resolved_h5ad}")
+        raise ValueError("Explicit source H5AD requires resolvable slice and coordinate fields")
 
     explanations = build_directional_slice_explanations(
         metrics, language=language
@@ -1462,6 +1612,9 @@ def render_binary_slice_quality_appendix(
         "adaptive_median_score_across_windows",
         "adaptive_exclusion_gate",
         "standard_exclusion_gate",
+        "capture_loss_evidence_available",
+        "geometry_loss_candidate",
+        "capture_loss_candidate",
     }
     records: list[dict[str, Any]] = []
     for record in metrics.to_dict("records"):
@@ -1469,7 +1622,9 @@ def render_binary_slice_quality_appendix(
         output = {
             key: (None if pd.isna(value) else value)
             for key, value in record.items()
-            if key in allowed_columns
+            if key in allowed_columns or key.startswith(("loss_", "tissue_loss_", "bilateral_"))
+            or key.endswith(("_loss_fraction", "_loss_reference", "_loss_available"))
+            or key == "anatomy_smooth_taper_evidence"
         }
         explanation = explanations.loc[slice_id]
         output["user_reason"] = explanation["user_reason"]
@@ -1478,7 +1633,8 @@ def render_binary_slice_quality_appendix(
             output['user_reason'] += (' New-input application; no independent validation of this input.' if language == 'en' else ' 本结论为新输入应用结果，未对本输入独立验证。')
         if record.get('application_scope') == 'experimental_policy':
             output['user_reason'] = output['user_reason'].replace('independently validated high-specificity', 'frozen experimental-policy').replace('entered the calibrated', 'entered the experimental').replace('经独立验证的高特异度', '实验性锁定策略的').replace('校准分层', '实验分层')
-            output['user_reason'] += (' Experimental policy application: metric-stress evidence only; this input is not independently validated.' if language == 'en' else ' 实验策略应用：仅有指标扰动验证依据，本输入未经独立验证。')
+            output['user_reason'] += (' Experimental policy application; this input is not independently biologically validated.' if language == 'en' else ' 实验策略应用；本输入未经独立生物学验证。')
+        output["loss_diagnostic_html"] = _loss_diagnostic_html(record, language)
         output["primary_reason"] = explanation["primary_reason"]
         output["likely_causes"] = explanation["likely_causes"]
         output["directional_evidence"] = explanation["directional_evidence"]
@@ -1534,7 +1690,7 @@ def render_binary_slice_quality_appendix(
                 "KDE 使用全数据集统一固定带宽，并在每个 3–5 张窗口内使用共同色标。"
                 "黄色框表示邻片 KDE 期望较高而焦点切片明显不足的最大连续候选区。"
             )
-        ),
+        ) + " " + str(evidence_source.get("note", "")),
         "source": manifest.get("sources", []),
     }
     report_path = destination / "index.html"
@@ -1554,6 +1710,8 @@ def render_binary_slice_quality_appendix(
         "keep": int(calls.eq("keep").sum()),
         "exclude": int(calls.eq("exclude").sum()),
         "review": 0,
+        "retain": int(calls.eq("keep").sum()),
+        "tissue_loss_resolved": int(metrics.get("tissue_loss_exclusion_gate", pd.Series(False, index=metrics.index)).fillna(False).astype(str).str.lower().eq("true").sum()),
         "adaptive_resolved": int(
             metrics.get("decision_basis", pd.Series(dtype=str))
             .astype(str)
@@ -1594,7 +1752,7 @@ _REPORT_TEMPLATE = r"""<!doctype html>
 @media(max-width:900px){header h1{font-size:22px}.evidence-layout{grid-template-columns:1fr}.plots{grid-template-columns:1fr}.window{grid-template-columns:repeat(2,minmax(0,1fr))}.visual-links{grid-template-columns:1fr}.frequency-row{grid-template-columns:minmax(150px,220px) 1fr 60px}.frequency-slices{grid-column:1/-1}.reason-cell{min-width:260px}.methods{columns:1}}
 @media(max-width:520px){.window{grid-template-columns:1fr}.section{padding:12px}.plot svg{height:185px}.frequency-row{grid-template-columns:1fr 60px}.frequency-row>:first-child,.frequency-slices{grid-column:1/-1}.domain-row{grid-template-columns:90px 1fr 40px}}
 </style></head><body>
-<header><h1 id="pageTitle"></h1><p>单数据集开发附件 · 全部切片仅保留 keep / exclude · 不需要用户再次判定</p></header>
+<header><h1 id="pageTitle"></h1><p>单数据集开发附件 · 全部切片仅保留 retain / exclude · 不需要用户再次判定</p></header>
 <main class="wrap">
 <nav class="tabs" aria-label="报告页面">
 <button class="tab" data-tab="summary" aria-selected="true">结果总览</button>
@@ -1604,7 +1762,7 @@ _REPORT_TEMPLATE = r"""<!doctype html>
 <button class="tab" data-tab="methods" aria-selected="false">方法与口径</button>
 </nav>
 <section id="summary" class="panel active"><div id="cards" class="cards"></div><div class="summary-grid"><div class="section"><h2>自动排除切片</h2><div id="excludeSummary"></div></div><div class="section"><h2>读图要点</h2><p>红色代表最终自动排除；绿色代表最终保留。每张切片的低质量原因会直接对应到 KDE 密度、表达捕获和连通组织成分三组图。</p><p>证据图在同一页面并排展示连续切片。每组图上方明确标记该证据是否支持排除，避免仅凭颜色主观判断。</p><p class="note" id="measurementNote"></p><div class="downloads"><a href="paper_dataset_summary.csv">文章数据集汇总表 CSV</a><a href="paper_excluded_slices.csv">文章排除切片表 CSV</a><a href="paper_tables.html">文章表格预览</a></div></div></div></section>
-<section id="statistics" class="panel"><div class="section"><h2>逐切片统计趋势</h2><p class="muted">五项指标同时展示，虚线为本数据集切片中位数；红色方形为 exclude，绿色圆点为 keep。点击数据点可进入对应证据页面。</p><div id="plots" class="plots"></div></div><div class="section"><h2>排除切片的关键证据</h2><p class="muted">每个横条表示最终 exclude 切片中有多少张出现该类显著不利证据。证据可以重叠，因此横条数量之和不等于排除切片总数。点击横条可查看其中第一张切片。</p><div id="exclusionEvidenceChart" class="frequency-list"></div></div></section>
+<section id="statistics" class="panel"><div class="section"><h2>逐切片统计趋势</h2><p class="muted">五项指标同时展示，虚线为本数据集切片中位数；红色方形为 exclude，绿色圆点为 retain。点击数据点可进入对应证据页面。</p><div id="plots" class="plots"></div></div><div class="section"><h2>排除切片的关键证据</h2><p class="muted">每个横条表示最终 exclude 切片中有多少张出现该类显著不利证据。证据可以重叠，因此横条数量之和不等于排除切片总数。点击横条可查看其中第一张切片。</p><div id="exclusionEvidenceChart" class="frequency-list"></div></div></section>
 <section id="density" class="panel">
 <div class="section"><h2>切片低质量结论与图像证据</h2><div class="toolbar"><label class="field">焦点切片<select id="sliceSelect"></select></label><label class="field">展示窗口<select id="windowSelect"><option value="5">5 张连续切片</option><option value="3">3 张连续切片</option></select></label><label class="field">表达指标<select id="expressionSelect"><option value="log_captured_counts">Captured counts / spot</option><option value="n_genes">Detected genes / spot</option></select></label><label class="field">空间范围<select id="extentSelect"><option value="shared">窗口共同坐标范围</option><option value="individual">每张切片独立放大</option></select></label></div><div id="reason" class="reason-box"></div><div id="domainBars" class="domain-bars"></div><div id="visualLinks" class="visual-links"></div></div>
 <div class="section"><div class="evidence-head"><h2>A · KDE 局部细胞/位置密度</h2><div id="kdeFinding" class="finding"></div></div><div id="kdeWindow" class="window"></div><div class="legend"><span>低</span><span class="ramp"></span><span>高</span><span id="kdeLegend" class="muted"></span></div><p id="regionNote" class="note"></p><p class="note" id="sourceNote"></p></div>
@@ -1612,7 +1770,7 @@ _REPORT_TEMPLATE = r"""<!doctype html>
 <div class="section"><div class="evidence-head"><h2>C · 连通组织成分</h2><div id="componentFinding" class="finding"></div></div><div id="componentWindow" class="window"></div><div class="legend component-key"><span><i style="background:#22b7c7"></i>最大连通成分</span><span><i style="background:#f27b4d"></i>第二成分</span><span><i style="background:#b36ac8"></i>其他成分</span></div><p class="note">颜色表示每张切片内部的连通成分排名；小型分离组织块会以不同颜色显示。</p></div>
 <div class="section"><h2>焦点切片的方向性指标证据</h2><div class="evidence-layout"><p class="muted">表格给出观测值与局部连续切片期望值。图像负责空间定位，表格负责说明变化方向与幅度。</p><div class="table-wrap"><table class="evidence-table"><thead><tr><th>指标</th><th>方向</th><th>观测</th><th>局部期望</th></tr></thead><tbody id="evidenceRows"></tbody></table></div></div></div>
 </section>
-<section id="slices" class="panel"><div class="section"><h2>全部切片最终结果</h2><div class="toolbar"><label class="field">状态<select id="callFilter"><option value="all">全部</option><option value="exclude">Exclude</option><option value="keep">Keep</option></select></label><label class="field">切片搜索<input id="sliceSearch" placeholder="例如 slices_4"></label></div><div class="table-wrap"><table class="data-table"><thead><tr><th>#</th><th>Slice</th><th>最终状态</th><th>Score</th><th>位置数</th><th>Cell density</th><th>Genes / spot</th><th>Counts / spot</th><th>Observed spacing</th><th>Total genes</th><th>结论及原因</th></tr></thead><tbody id="sliceRows"></tbody></table></div></div></section>
+<section id="slices" class="panel"><div class="section"><h2>全部切片最终结果</h2><div class="toolbar"><label class="field">状态<select id="callFilter"><option value="all">全部</option><option value="exclude">Exclude</option><option value="keep">Retain</option></select></label><label class="field">切片搜索<input id="sliceSearch" placeholder="例如 slices_4"></label></div><div class="table-wrap"><table class="data-table"><thead><tr><th>#</th><th>Slice</th><th>最终状态</th><th>Score</th><th>位置数</th><th>Cell density</th><th>Genes / spot</th><th>Counts / spot</th><th>Observed spacing</th><th>Total genes</th><th>结论及原因</th></tr></thead><tbody id="sliceRows"></tbody></table></div></div></section>
 <section id="methods" class="panel"><div class="section methods"><section><h2>检测流程</h2><p>每张切片与前后连续切片比较，默认检测窗口由 3/5/7 候选中选择；同时使用更宽的稳健趋势防止连续坏片互相掩护。密度/完整性、表达捕获、损伤及跨切片连续性四个证据域共同形成异常分数。</p></section><section><h2>最终二元规则</h2><p>方法分为两阶段：第一阶段按锁定阈值形成 keep / review / exclude 内部初筛，高分但未通过保护条件的切片降级为 review；第二阶段逐条审查全部内部 review，完成锁定分层归属、排除权限核查并记录结论。仅保留层据此给出 keep，不执行该层排除证据门控；只有启用排除的层才检查多域、严重异常、双侧上下文、结构保护、置信度及 3/5/7 窗口稳定性。启用层全部条件通过才转为 exclude，否则为 keep。公开结果只有 keep / exclude。</p></section><section><h2>关键证据条形图</h2><p>横条统计 exclude 切片中某类不利方向指标异常达到 0.50 的切片数；同一切片可同时支持多个证据类别，因此横条数值不能相加。</p></section><section><h2>KDE 图如何生成</h2><p id="kdeMethod"></p></section><section><h2>表达图如何生成</h2><p>Captured counts 和 detected genes 直接来自 H5AD 的逐点观测列；显示时在当前连续切片窗口内使用共同的 4%–96% 色标，不对每张切片单独归一化。</p></section><section><h2>连通成分如何生成</h2><p>在每张切片内以 3.25 倍中位最近邻距离连接空间点，随后计算无向连通成分；颜色表示按点数排序的成分排名，与检测器的 fragmentation 和 largest-component fraction 定义一致。</p></section><section><h2>原因如何解释</h2><p>“比局部窗口期望低/高”描述的是相邻切片趋势中的相对变化，不是跨技术平台阈值。可能原因只用于实验排查，不能从 H5AD 单独确诊。</p></section><section><h2>表达深度限制</h2><p>H5AD 可观察每点捕获计数、检出基因和复杂度，但没有原始 reads、PCR duplication、mapping rate 或 saturation 时，不应把 captured-count proxy 直接称为原始测序深度。</p></section><section><h2>空间分辨率限制</h2><p>本报告使用 observed nearest-neighbour spacing 作为分辨率相关的采样间距代理，单位来自原生坐标；它不是平台标称的 spot diameter 或分辨率。</p></section></div></section>
 </main>
 <script id="payload" type="application/json">__PAYLOAD__</script>
@@ -1624,30 +1782,30 @@ const fmt=x=>{if(x===null||x===undefined)return 'NA';x=Number(x);if(!Number.isFi
 const q=(values,p)=>{let a=values.filter(Number.isFinite).sort((x,y)=>x-y);if(!a.length)return 0;let i=(a.length-1)*p,l=Math.floor(i),h=Math.ceil(i);return a[l]+(a[h]-a[l])*(i-l)},ramp=t=>{t=Math.max(0,Math.min(1,t));let stops=[[36,59,130],[24,167,196],[241,221,63],[240,100,50]],u=t*(stops.length-1),i=Math.min(stops.length-2,Math.floor(u)),f=u-i,a=stops[i],b=stops[i+1];return `rgb(${a.map((v,k)=>Math.round(v+(b[k]-v)*f)).join(',')})`};
 document.getElementById('pageTitle').textContent=D.title;document.getElementById('measurementNote').textContent=D.measurement_note;document.getElementById('sourceNote').textContent=D.source_note;document.getElementById('kdeMethod').textContent=EN?`Two-dimensional Gaussian KDE uses a fixed bandwidth of ${fmt(D.kde_bandwidth)} native coordinate units. A shared scale is used within each slice window. The page displays ${Object.values(D.points).reduce((a,p)=>a+p.displayed,0).toLocaleString()} / ${Object.values(D.points).reduce((a,p)=>a+p.available,0).toLocaleString()} available points.`:`二维 Gaussian KDE 使用统一固定带宽 ${fmt(D.kde_bandwidth)} 个原生坐标单位；窗口内共同色标便于直接比较。页面展示 ${Object.values(D.points).reduce((a,p)=>a+p.displayed,0).toLocaleString()} / ${Object.values(D.points).reduce((a,p)=>a+p.available,0).toLocaleString()} 个可用点。`;
 document.querySelectorAll('.tab').forEach(button=>button.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',String(x===button)));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===button.dataset.tab));if(button.dataset.tab==='density')requestAnimationFrame(drawEvidence)});
-const keeps=R.filter(r=>r.final_call==='keep').length,excludes=R.length-keeps,adaptiveResolved=R.filter(r=>['adaptive_multidomain_resolution','tiered_multidomain_resolution'].includes(r.decision_basis)).length;document.getElementById('cards').innerHTML=`<div class="card"><b>${R.length}</b><span class="muted">${T.all}</span></div><div class="card"><b style="color:${colors.keep}">${keeps}</b><span class="muted">Keep</span></div><div class="card"><b style="color:${colors.exclude}">${excludes}</b><span class="muted">Exclude</span></div><div class="card"><b>${adaptiveResolved}</b><span class="muted">${T.adaptiveResolved}</span></div><div class="card"><b>${D.selected_detection_window}</b><span class="muted">${T.selectedWindow}</span></div>`;
+const keeps=R.filter(r=>r.final_call==='keep').length,excludes=R.length-keeps,adaptiveResolved=R.filter(r=>['adaptive_multidomain_resolution','tiered_multidomain_resolution'].includes(r.decision_basis)).length;document.getElementById('cards').innerHTML=`<div class="card"><b>${R.length}</b><span class="muted">${T.all}</span></div><div class="card"><b style="color:${colors.keep}">${keeps}</b><span class="muted">Retain</span></div><div class="card"><b style="color:${colors.exclude}">${excludes}</b><span class="muted">Exclude</span></div><div class="card"><b>${adaptiveResolved}</b><span class="muted">${T.adaptiveResolved}</span></div><div class="card"><b>${D.selected_detection_window}</b><span class="muted">${T.selectedWindow}</span></div>`;
 document.getElementById('excludeSummary').innerHTML=R.filter(r=>r.final_call==='exclude').map(r=>`<div class="exclude-item"><span class="call exclude">exclude</span> <b>${r.slice_id}</b> · score ${fmt(r.quality_anomaly_score)}<br><span>${r.primary_reason}</span><br><span class="note">${T.causes}${r.likely_causes}</span></div>`).join('')||`<p>${T.noneExcluded}</p>`;
 function showEvidence(id){document.getElementById('sliceSelect').value=id;document.querySelector('[data-tab="density"]').click();drawEvidence()}
 function makePlots(){let container=document.getElementById('plots');container.innerHTML=D.statistics.map(s=>{let vals=R.map((r,i)=>({r,i,v:r[s.key]==null?NaN:Number(r[s.key])})).filter(o=>Number.isFinite(o.v)),lo=Math.min(...vals.map(o=>o.v)),hi=Math.max(...vals.map(o=>o.v));if(!(hi>lo)){lo-=1;hi+=1}let w=520,h=205,l=52,rr=12,t=18,b=34,iw=w-l-rr,ih=h-t-b,sx=i=>l+i*iw/Math.max(R.length-1,1),sy=v=>t+(hi-v)*ih/(hi-lo),grid=[lo,(lo+hi)/2,hi].map(v=>`<line x1="${l}" x2="${w-rr}" y1="${sy(v)}" y2="${sy(v)}" stroke="#dfe6ef"/><text x="2" y="${sy(v)+4}" fill="#66758a" font-size="11">${fmt(v)}</text>`).join(''),median=`<line x1="${l}" x2="${w-rr}" y1="${sy(s.median)}" y2="${sy(s.median)}" stroke="#2f67d8" stroke-dasharray="5 4"/>`,line=`<polyline points="${vals.map(o=>`${sx(o.i)},${sy(o.v)}`).join(' ')}" fill="none" stroke="#8294aa" stroke-width="1.2"/>`,dots=vals.map(o=>o.r.final_call==='exclude'?`<rect data-id="${o.r.slice_id}" x="${sx(o.i)-4}" y="${sy(o.v)-4}" width="8" height="8" fill="${colors.exclude}"><title>${o.r.slice_id}: ${fmt(o.v)} ${s.unit}</title></rect>`:`<circle data-id="${o.r.slice_id}" cx="${sx(o.i)}" cy="${sy(o.v)}" r="3.2" fill="${colors.keep}"><title>${o.r.slice_id}: ${fmt(o.v)} ${s.unit}</title></circle>`).join('');return `<div class="section plot"><div class="plot-head"><h3>${s.label}</h3><span class="metric">median ${fmt(s.median)}</span></div><svg role="img" aria-label="${s.label} across slices" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">${grid}${median}${line}${dots}<text x="${l}" y="${h-7}" fill="#66758a" font-size="11">slice order →</text></svg><div class="note">${s.unit} · IQR ${fmt(s.q25)}–${fmt(s.q75)}</div></div>`}).join('');container.querySelectorAll('[data-id]').forEach(n=>n.onclick=()=>showEvidence(n.dataset.id))}
 function makeEvidenceFrequency(){let max=Math.max(1,...D.exclusion_evidence.map(x=>x.count));document.getElementById('exclusionEvidenceChart').innerHTML=D.exclusion_evidence.map(x=>`<button type="button" class="frequency-row" data-id="${x.slice_ids[0]}" aria-label="${x.label}: ${x.count} of ${excludes} excluded slices"><b>${x.label}</b><span class="frequency-track"><i style="width:${100*x.count/max}%"></i></span><span class="frequency-count">${x.count} / ${excludes}</span><span class="frequency-slices note">${x.slice_ids.join(', ')}</span></button>`).join('');document.querySelectorAll('.frequency-row').forEach(n=>n.onclick=()=>showEvidence(n.dataset.id))}
 makePlots();makeEvidenceFrequency();
-const select=document.getElementById('sliceSelect');select.innerHTML=R.map(r=>`<option value="${r.slice_id}">${r.slice_id} · ${r.final_call}</option>`).join('');let firstExclude=R.find(r=>r.final_call==='exclude');select.value=firstExclude?firstExclude.slice_id:R[0].slice_id;document.getElementById('windowSelect').value=String(D.display_window);['sliceSelect','windowSelect','expressionSelect','extentSelect'].forEach(id=>document.getElementById(id).onchange=drawEvidence);
+const select=document.getElementById('sliceSelect');select.innerHTML=R.map(r=>`<option value="${r.slice_id}">${r.slice_id} · ${r.final_call==='keep'?'retain':'exclude'}</option>`).join('');let firstExclude=R.find(r=>r.final_call==='exclude');select.value=firstExclude?firstExclude.slice_id:R[0].slice_id;document.getElementById('windowSelect').value=String(D.display_window);['sliceSelect','windowSelect','expressionSelect','extentSelect'].forEach(id=>document.getElementById(id).onchange=drawEvidence);
 function currentIds(){let id=select.value,index=D.order.indexOf(id),width=Number(document.getElementById('windowSelect').value),half=Math.floor(width/2),start=Math.max(0,Math.min(index-half,D.order.length-width));return D.order.slice(start,Math.min(D.order.length,start+width))}
 function sharedExtent(ids){if(document.getElementById('extentSelect').value==='individual')return null;let xs=ids.flatMap(id=>D.points[id]?.x||[]),ys=ids.flatMap(id=>D.points[id]?.y||[]);return xs.length?[Math.min(...xs),Math.max(...xs),Math.min(...ys),Math.max(...ys)]:null}
 function drawCanvas(canvas,id,extent,mode,vlo,vhi,focus,region){let p=D.points[id],ratio=Math.min(window.devicePixelRatio||1,1.35),w=canvas.clientWidth,h=canvas.clientHeight;canvas.width=Math.round(w*ratio);canvas.height=Math.round(h*ratio);let c=canvas.getContext('2d');c.setTransform(ratio,0,0,ratio,0,0);c.fillStyle='#07111f';c.fillRect(0,0,w,h);if(!p||!p.x.length)return;let e=extent||[Math.min(...p.x),Math.max(...p.x),Math.min(...p.y),Math.max(...p.y)],sx=(w-18)/Math.max(e[1]-e[0],1e-9),sy=(h-18)/Math.max(e[3]-e[2],1e-9),s=Math.min(sx,sy),ox=(w-(e[1]-e[0])*s)/2,oy=(h-(e[3]-e[2])*s)/2,values=mode==='kde'?p.kde:p[mode]||[];for(let i=0;i<p.x.length;i++){let v=values[i]==null?NaN:Number(values[i]),fill='#8793a3';if(mode==='component_rank'&&Number.isFinite(v)){fill=componentColors[Math.min(Math.max(Math.round(v)-1,0),componentColors.length-1)]}else if(Number.isFinite(v)){fill=ramp((v-vlo)/Math.max(vhi-vlo,1e-12))}c.fillStyle=fill;c.globalAlpha=.9;c.beginPath();c.arc(ox+(p.x[i]-e[0])*s,h-oy-(p.y[i]-e[2])*s,Math.max(1.4,Math.min(2.45,390/Math.max(p.x.length,160))),0,Math.PI*2);c.fill()}c.globalAlpha=1;if(mode==='kde'&&region){let x=ox+(region.x0-e[0])*s,y=h-oy-(region.y1-e[2])*s,rw=(region.x1-region.x0)*s,rh=(region.y1-region.y0)*s;c.strokeStyle='#ffd54a';c.lineWidth=focus?2.3:1.2;c.setLineDash(focus?[]:[5,4]);c.strokeRect(x,y,rw,rh);c.setLineDash([])}}
 function panelCaption(id,mode,focus){let r=byId[id],p=D.points[id],prefix=id===focus?'● ':'';if(mode==='kde')return `${prefix}${id}<br>n=${fmt(r.n_locations)} · density=${fmt(r.cell_density)}`;if(mode==='component_rank')return `${prefix}${id}<br>${T.componentsN}=${p?.component_count??'NA'} · ${T.largest}=${p?.largest_component_fraction==null?'NA':pct(p.largest_component_fraction)}`;if(mode==='n_genes')return `${prefix}${id}<br>${T.genes}: ${fmt(r.median_n_genes)} · expected ${fmt(r.median_n_genes_expected)}`;return `${prefix}${id}<br>${T.counts}: ${fmt(r.median_total_counts)} · expected ${fmt(r.median_total_counts_expected)}`}
 function drawRow(containerId,ids,mode,extent,vlo,vhi,focus,region){let root=document.getElementById(containerId);root.innerHTML=ids.map((id,i)=>`<div class="slice-panel"><canvas id="${containerId}${i}" role="img" aria-label="${id} ${mode}"></canvas><div class="slice-cap ${id===focus?'focus':''}">${panelCaption(id,mode,focus)}</div></div>`).join('');ids.forEach((id,i)=>drawCanvas(document.getElementById(`${containerId}${i}`),id,extent,mode,vlo,vhi,id===focus,region))}
 function setFinding(id,finding){let node=document.getElementById(id);node.className=`finding ${finding.status}`;node.textContent=finding.summary}
-function drawEvidence(){let ids=currentIds(),focus=select.value,r=byId[focus],extent=sharedExtent(ids),region=D.regions[focus]||null,kdeValues=ids.flatMap(id=>D.points[id]?.kde||[]).filter(v=>v!==null&&v!==undefined).map(Number).filter(Number.isFinite),klo=q(kdeValues,.04),khi=q(kdeValues,.96),expressionMode=document.getElementById('expressionSelect').value,expressionValues=ids.flatMap(id=>D.points[id]?.[expressionMode]||[]).filter(v=>v!==null&&v!==undefined).map(Number).filter(Number.isFinite),elo=q(expressionValues,.04),ehi=q(expressionValues,.96);document.getElementById('reason').className=`reason-box ${r.final_call==='keep'?'keep-reason':''}`;document.getElementById('reason').innerHTML=`<span class="call ${r.final_call}">${r.final_call}</span> <b>${r.slice_id}</b><p>${r.user_reason}</p><span class="note">${T.causes}${r.likely_causes}</span>`;let domains=[['density',r.density_domain_score],['expression',r.expression_domain_score],['damage',r.damage_domain_score],['continuity',r.continuity_domain_score]];document.getElementById('domainBars').innerHTML=domains.map(([label,value])=>`<div class="domain-row"><span>${label}</span><span class="domain-track"><i class="${Number(value)>=.45?'strong':''}" style="width:${100*Math.max(0,Math.min(1,Number(value)||0))}%"></i></span><b>${fmt(value)}</b></div>`).join('')+`<div class="note">${T.strong}</div>`;let panels=[['kde',T.density],['expression',T.expression],['components',T.components]];document.getElementById('visualLinks').innerHTML=panels.map(([key,label])=>{let f=r.visual_findings[key];return `<div class="visual-link ${f.status}"><b>${label}</b><span>${f.summary}</span></div>`}).join('');setFinding('kdeFinding',r.visual_findings.kde);setFinding('expressionFinding',r.visual_findings.expression);setFinding('componentFinding',r.visual_findings.components);drawRow('kdeWindow',ids,'kde',extent,klo,khi,focus,region);drawRow('expressionWindow',ids,expressionMode,extent,elo,ehi,focus,null);drawRow('componentWindow',ids,'component_rank',extent,0,1,focus,null);document.getElementById('kdeLegend').textContent=`fixed-bandwidth KDE ${fmt(klo)}–${fmt(khi)}`;document.getElementById('expressionLegend').textContent=expressionValues.length?(expressionMode==='log_captured_counts'?`${fmt(Math.expm1(elo))}–${fmt(Math.expm1(ehi))} ${T.counts}`:`${fmt(elo)}–${fmt(ehi)} ${T.genes}`):T.unavailable;document.getElementById('regionNote').textContent=region?region.note:T.noRegion;document.getElementById('evidenceRows').innerHTML=(r.directional_evidence||[]).slice(0,9).map(e=>`<tr><td>${e.label}<br><span class="note">${e.domain}</span></td><td>${e.direction} ${e.delta==null?'':pct(e.delta)}</td><td class="num">${fmt(e.actual)}</td><td class="num">${fmt(e.expected)}</td></tr>`).join('')||`<tr><td colspan="4">${T.noEvidence}</td></tr>`}
+function drawEvidence(){let ids=currentIds(),focus=select.value,r=byId[focus],extent=sharedExtent(ids),region=D.regions[focus]||null,kdeValues=ids.flatMap(id=>D.points[id]?.kde||[]).filter(v=>v!==null&&v!==undefined).map(Number).filter(Number.isFinite),klo=q(kdeValues,.04),khi=q(kdeValues,.96),expressionMode=document.getElementById('expressionSelect').value,expressionValues=ids.flatMap(id=>D.points[id]?.[expressionMode]||[]).filter(v=>v!==null&&v!==undefined).map(Number).filter(Number.isFinite),elo=q(expressionValues,.04),ehi=q(expressionValues,.96);document.getElementById('reason').className=`reason-box ${r.final_call==='keep'?'keep-reason':''}`;document.getElementById('reason').innerHTML=`<span class="call ${r.final_call}">${r.final_call==='keep'?'retain':'exclude'}</span> <b>${r.slice_id}</b><p>${r.user_reason}</p>${r.loss_diagnostic_html||''}<span class="note">${T.causes}${r.likely_causes}</span>`;let domains=[['density',r.density_domain_score],['expression',r.expression_domain_score],['damage',r.damage_domain_score],['continuity',r.continuity_domain_score]];document.getElementById('domainBars').innerHTML=domains.map(([label,value])=>`<div class="domain-row"><span>${label}</span><span class="domain-track"><i class="${Number(value)>=.45?'strong':''}" style="width:${100*Math.max(0,Math.min(1,Number(value)||0))}%"></i></span><b>${fmt(value)}</b></div>`).join('')+`<div class="note">${T.strong}</div>`;let panels=[['kde',T.density],['expression',T.expression],['components',T.components]];document.getElementById('visualLinks').innerHTML=panels.map(([key,label])=>{let f=r.visual_findings[key];return `<div class="visual-link ${f.status}"><b>${label}</b><span>${f.summary}</span></div>`}).join('');setFinding('kdeFinding',r.visual_findings.kde);setFinding('expressionFinding',r.visual_findings.expression);setFinding('componentFinding',r.visual_findings.components);drawRow('kdeWindow',ids,'kde',extent,klo,khi,focus,region);drawRow('expressionWindow',ids,expressionMode,extent,elo,ehi,focus,null);drawRow('componentWindow',ids,'component_rank',extent,0,1,focus,null);document.getElementById('kdeLegend').textContent=`fixed-bandwidth KDE ${fmt(klo)}–${fmt(khi)}`;document.getElementById('expressionLegend').textContent=expressionValues.length?(expressionMode==='log_captured_counts'?`${fmt(Math.expm1(elo))}–${fmt(Math.expm1(ehi))} ${T.counts}`:`${fmt(elo)}–${fmt(ehi)} ${T.genes}`):T.unavailable;document.getElementById('regionNote').textContent=region?region.note:T.noRegion;document.getElementById('evidenceRows').innerHTML=(r.directional_evidence||[]).slice(0,9).map(e=>`<tr><td>${e.label}<br><span class="note">${e.domain}</span></td><td>${e.direction} ${e.delta==null?'':pct(e.delta)}</td><td class="num">${fmt(e.actual)}</td><td class="num">${fmt(e.expected)}</td></tr>`).join('')||`<tr><td colspan="4">${T.noEvidence}</td></tr>`}
 window.addEventListener('resize',()=>{if(document.getElementById('density').classList.contains('active'))drawEvidence()});
-function table(){let f=document.getElementById('callFilter').value,q=document.getElementById('sliceSearch').value.trim().toLowerCase(),rows=R.filter(r=>(f==='all'||r.final_call===f)&&String(r.slice_id).toLowerCase().includes(q));document.getElementById('sliceRows').innerHTML=rows.map(r=>`<tr data-id="${r.slice_id}"><td>${Number(r.slice_index)+1}</td><td><b>${r.slice_id}</b></td><td><span class="call ${r.final_call}">${r.final_call}</span></td><td class="num">${fmt(r.quality_anomaly_score)}</td><td class="num">${fmt(r.n_locations)}</td><td class="num">${fmt(r.cell_density)}</td><td class="num">${fmt(r.median_n_genes)}</td><td class="num">${fmt(r.median_total_counts)}</td><td class="num">${fmt(r.median_nn_distance)}</td><td class="num">${fmt(r.detected_genes)}</td><td class="reason-cell">${r.user_reason}</td></tr>`).join('');document.querySelectorAll('#sliceRows tr').forEach(row=>row.onclick=()=>showEvidence(row.dataset.id))}
+function table(){let f=document.getElementById('callFilter').value,q=document.getElementById('sliceSearch').value.trim().toLowerCase(),rows=R.filter(r=>(f==='all'||r.final_call===f)&&String(r.slice_id).toLowerCase().includes(q));document.getElementById('sliceRows').innerHTML=rows.map(r=>`<tr data-id="${r.slice_id}"><td>${Number(r.slice_index)+1}</td><td><b>${r.slice_id}</b></td><td><span class="call ${r.final_call}">${r.final_call==='keep'?'retain':'exclude'}</span></td><td class="num">${fmt(r.quality_anomaly_score)}</td><td class="num">${fmt(r.n_locations)}</td><td class="num">${fmt(r.cell_density)}</td><td class="num">${fmt(r.median_n_genes)}</td><td class="num">${fmt(r.median_total_counts)}</td><td class="num">${fmt(r.median_nn_distance)}</td><td class="num">${fmt(r.detected_genes)}</td><td class="reason-cell">${r.user_reason}</td></tr>`).join('');document.querySelectorAll('#sliceRows tr').forEach(row=>row.onclick=()=>showEvidence(row.dataset.id))}
 document.getElementById('callFilter').onchange=table;document.getElementById('sliceSearch').oninput=table;table();drawEvidence();
 </script></body></html>"""
 
 
 _REPORT_TRANSLATIONS_EN: tuple[tuple[str, str], ...] = (
     (
-        "单数据集开发附件 · 全部切片仅保留 keep / exclude · 不需要用户再次判定",
-        "Single-dataset supplementary report · final binary keep/exclude calls · no additional user adjudication required",
+        "单数据集开发附件 · 全部切片仅保留 retain / exclude · 不需要用户再次判定",
+        "Single-dataset supplementary report · final binary retain/exclude calls · no additional user adjudication required",
     ),
     (
         "红色代表最终自动排除；绿色代表最终保留。每张切片的低质量原因会直接对应到 KDE 密度、表达捕获和连通组织成分三组图。",
@@ -1658,8 +1816,8 @@ _REPORT_TRANSLATIONS_EN: tuple[tuple[str, str], ...] = (
         "All evidence panels show the same consecutive slices on one page. Each panel explicitly states whether its evidence supports exclusion, avoiding subjective interpretation from color alone.",
     ),
     (
-        "五项指标同时展示，虚线为本数据集切片中位数；红色方形为 exclude，绿色圆点为 keep。点击数据点可进入对应证据页面。",
-        "Five metrics are shown across slice order. The dashed line is the dataset median; red squares are exclude calls and green circles are keep calls. Select a point to open its evidence page.",
+        "五项指标同时展示，虚线为本数据集切片中位数；红色方形为 exclude，绿色圆点为 retain。点击数据点可进入对应证据页面。",
+        "Five metrics are shown across slice order. The dashed line is the dataset median; red squares are exclude calls and green circles are retain calls. Select a point to open its evidence page.",
     ),
     (
         "每个横条表示最终 exclude 切片中有多少张出现该类显著不利证据。证据可以重叠，因此横条数量之和不等于排除切片总数。点击横条可查看其中第一张切片。",
@@ -1694,8 +1852,8 @@ _REPORT_TRANSLATIONS_EN: tuple[tuple[str, str], ...] = (
         "Each histogram summarizes the across-slice distribution, with keep (green) and exclude (red) counts stacked within each bin; the dashed blue line marks the dataset median. Bins follow the Freedman–Diaconis rule with 6–14-bin guardrails, and a log10 x-axis is used when the range spans at least two orders of magnitude.",
     ),
     (
-        "五项指标同时展示，虚线为本数据集切片中位数；红色方形为 exclude，绿色圆点为 keep。点击数据点可进入对应 KDE 窗口。",
-        "Five metrics are shown across slice order. The dashed line is the dataset median; red squares are exclude calls and green circles are keep calls. Select a point to open its KDE window.",
+        "五项指标同时展示，虚线为本数据集切片中位数；红色方形为 exclude，绿色圆点为 retain。点击数据点可进入对应 KDE 窗口。",
+        "Five metrics are shown across slice order. The dashed line is the dataset median; red squares are exclude calls and green circles are retain calls. Select a point to open its KDE window.",
     ),
     (
         "每张切片与前后连续切片比较，默认检测窗口由 3/5/7 候选中选择；同时使用更宽的稳健趋势防止连续坏片互相掩护。密度/完整性、表达捕获、损伤及跨切片连续性四个证据域共同形成异常分数。",

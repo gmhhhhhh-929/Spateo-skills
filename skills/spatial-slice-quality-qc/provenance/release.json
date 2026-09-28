@@ -2,20 +2,27 @@
   "schema_version": 1,
   "baseline_scientific_commit": "94fb2f4b71b6e809d3c2341d0e209c30b937573a",
   "origin": "User-provided Spateo Referee working checkout and current local QC/viewer skills, with documented subsequent changes",
-  "scope": "Only current runtime dependencies; no biological data, no historical experiment launchers",
+  "scope": "Scientific runtime, explicit experimental policy, canonical viewer, methods and regression tests; no biological data",
   "scientific_modules": [
     "slice_quality.py",
     "slice_preregistration.py"
   ],
   "validation": {
-    "canonical_tests_passed": 35,
-    "packaged_tests_passed": 15,
-    "biological_certification": false
+    "adversarial_scientific_tests_passed": 51,
+    "legacy_native_scientific_tests_passed": 10,
+    "cli_publication_tests_passed": 7,
+    "packaged_tests_passed": 82,
+    "viewer_source_contract_tests_passed": 8,
+    "raw_regression_defects": 720,
+    "raw_controls": 48,
+    "raw_regression_failures": 0,
+    "biological_certification": false,
+    "raw_regression_scope": "retrospective; see provenance/tissue_loss_v3_regression.json"
   },
   "files": [
     {
       "path": "skills/spatial-slice-quality-qc/SKILL.md",
-      "sha256": "ddb18ba35a381307338b6d9ecf20c73fd45a06ed287342296bbe7a71067cb55f"
+      "sha256": "6f0c4297873b502af93b1a91d715d8498ea428cb14b500c7072932c2f08d9cb2"
     },
     {
       "path": "skills/spatial-slice-quality-qc/agents/openai.yaml",
@@ -26,12 +33,12 @@
       "sha256": "e739dd70daedf11cd8f34b54177d5c3085de1dd0d862fb033eaa4e750b11d88e"
     },
     {
-      "path": "skills/spatial-slice-quality-qc/provenance/candidate_calibration.csv",
-      "sha256": "c6afa8ee7e747227d9dd5989ba30940d6a7f277cb6388c6827438937ce04e435"
+      "path": "skills/spatial-slice-quality-qc/policies/tissue_loss_v3.json",
+      "sha256": "a924f417bcfab39aee457ecacb80786d434f9e8f4fd9a0ea610cf1473b9bef08"
     },
     {
-      "path": "skills/spatial-slice-quality-qc/provenance/evaluation_by_dataset.csv",
-      "sha256": "6faeb87fa62581cfdfed9f039f53c868f6d515682b09a82e817137bea5011627"
+      "path": "skills/spatial-slice-quality-qc/provenance/tissue_loss_v3_regression.json",
+      "sha256": "c96c1cb5942a3c09e0c5005756028dc1253b403b6e04fa6ec6302287bce8199e"
     },
     {
       "path": "skills/spatial-slice-quality-qc/provenance/validation.json",
@@ -39,39 +46,39 @@
     },
     {
       "path": "skills/spatial-slice-quality-qc/references/NODE_EXPLANATIONS.md",
-      "sha256": "a0c21c465a2202dd2f70a2869f8aa29148ccfd9c096f17e59f24b9042d05e778"
+      "sha256": "cb2c263a3271d7e366e806b096e2378aebc096f23b60c27b970119405ba3d523"
     },
     {
       "path": "skills/spatial-slice-quality-qc/references/build_node_explanations.py",
-      "sha256": "3802bea11cfc7d5144ddc05782047d427c21d36ed4fa71a699b37f72904bdb7e"
+      "sha256": "202156b2db2f754423cc175b6c2cc26e09955d9168a084347e6ed521b84aad07"
     },
     {
       "path": "skills/spatial-slice-quality-qc/references/build_workflow.py",
-      "sha256": "75c7c6102ce6c296adb5da1ba08f125eac7c6bb41464073703b6487c289de98f"
+      "sha256": "8dce7eff5068e2e8617dc63bbfa4703a604bd54e91917f29fac4cd2c90af6dc5"
     },
     {
       "path": "skills/spatial-slice-quality-qc/references/methods.md",
-      "sha256": "7982fb86d1666b8b974ec0448e355d2f7453397b2add996e7a07e713d0402aac"
+      "sha256": "7e30ac3ec9684f57d3e78ca0a03b106593a77bffb62062316c0e92cdd6939ce7"
     },
     {
       "path": "skills/spatial-slice-quality-qc/references/spateo_referee_annotated.svg",
-      "sha256": "a695e28c03ab7b37fc1c47e4bcffb732e18b9ce8f2e85dc0662a183e5da5af6e"
+      "sha256": "bb57ac8d965320bda7483c7d16b879240748ee04555c21fdd9b14c0589fe338b"
     },
     {
       "path": "skills/spatial-slice-quality-qc/references/workflow.objects.json",
-      "sha256": "f1be02677a0dc7cb5ee6e5b405ec738ac622150910748f50b22d9c2c80067a01"
+      "sha256": "23fe7d1b81abc07c30799de6eb7b534d75548db5252bd5b73d872c490841e52b"
     },
     {
       "path": "skills/spatial-slice-quality-qc/references/workflow.svg",
-      "sha256": "0993de277491347a7d2b34022456384930bf476f35e05d5df7e8cf21e190db74"
+      "sha256": "dbbaec47051fd706b747d9f802e2d5dbc3ff082768687bd045a2b7d6e6fc7e97"
     },
     {
       "path": "skills/spatial-slice-quality-qc/references/workflow_explained.html",
-      "sha256": "21289a6b89d5f3a6fa323cb3c8eda94dad92f542609b82a9618f9b18a18475e5"
+      "sha256": "bddaefd98500c5e5aa59b9b6028b478dbfc3db3a446c87e66cd83061d12471c0"
     },
     {
       "path": "skills/spatial-slice-quality-qc/references/workflow_node_guide.json",
-      "sha256": "6744ebcd892bdf7265e09171001e4d0cf6ef769cb1ebcc095e40b20ea20d6099"
+      "sha256": "7293f88a20bcb9f779391c4cf1f2fda0ca0555529d5737eafc08ddabc6aff09a"
     },
     {
       "path": "skills/spatial-slice-quality-qc/runtime/LICENSE",
@@ -83,7 +90,7 @@
     },
     {
       "path": "skills/spatial-slice-quality-qc/runtime/spateo/preprocessing/slice_quality.py",
-      "sha256": "dfe1fbc10959b76e8c8fdc23e05bc18b6f4ffbd110bbd5090ef2ea4f95bf5317"
+      "sha256": "82df2169ba32d5f2a01d5f4e588aab7b5c8821763e261450a5d946dc4c92fca2"
     },
     {
       "path": "skills/spatial-slice-quality-qc/scripts/activate_candidate.py",
@@ -91,7 +98,7 @@
     },
     {
       "path": "skills/spatial-slice-quality-qc/scripts/run_slice_quality_qc.py",
-      "sha256": "7c07924eb79125df4a80b4f00aa1b63b1fab4da9607e9e3d8692e56d9966852b"
+      "sha256": "dd00b3248d8a640a9596bbaa9eb6b907f1c82001f399ad940ec745e4703a0e44"
     },
     {
       "path": "skills/spatial-slice-quality-qc/scripts/slice_quality_detail_roi.js",
@@ -111,11 +118,11 @@
     },
     {
       "path": "skills/spatial-slice-quality-qc/scripts/slice_quality_visualization.py",
-      "sha256": "16c840f0906ad9f1d366f9c5a1198a4c6db9fd4d5d2e068f3bd1d53641fe4663"
+      "sha256": "19e1c88c38800a8fd49d4d6b34a575d00b544ec9539805f8b131435b69c617d7"
     },
     {
       "path": "skills/spatial-slice-quality-qc/subskills/spatial-slice-quality-viewer/SKILL.md",
-      "sha256": "70a356e51607bdf00d98afde868e7db0f353e96fbabfd0278d555b4d3f1b1141"
+      "sha256": "a6fe5ff90398d4ecb731aa89e5404101d1f697e9fb52ec19ab0ccaded9e01cd2"
     },
     {
       "path": "skills/spatial-slice-quality-qc/subskills/spatial-slice-quality-viewer/agents/openai.yaml",
@@ -123,8 +130,50 @@
     },
     {
       "path": "skills/spatial-slice-quality-qc/subskills/spatial-slice-quality-viewer/scripts/build_viewer.py",
-      "sha256": "6a135c988c1988764c01dfd9b11afc04a1aeec18e3cfb46c69a27f0b77acc037"
+      "sha256": "4a8bc8927bffece2b5499c38c62e7ae921d690a4274ca979b17ad23c0f59536c"
+    },
+    {
+      "path": "tests/referee/check_detail_javascript.cjs",
+      "sha256": "8d842ee593ad7b6f3cc571476cd4b9a355d255e60c9ff3b60d806bc8c72afaaf"
+    },
+    {
+      "path": "tests/referee/conftest.py",
+      "sha256": "a9875035e5d03b843c9df30350f3a33e6a6f048eadda6767d3a8a02bf7849d7c"
+    },
+    {
+      "path": "tests/referee/test_joint_policy.py",
+      "sha256": "771cd90506bbdb0abbea97e81b8abec1d0ad6196fb2907917a01f32e67456481"
+    },
+    {
+      "path": "tests/referee/test_nested_viewer.py",
+      "sha256": "7e418f805f769478b19d5a516edc0e78488c184872165a6193af2954e7b83bbf"
+    },
+    {
+      "path": "tests/referee/test_preregistration.py",
+      "sha256": "ac3b6a42d6c7eb62580ff21aec0138ac13453bcf4c96c4063cd58f6b326c501f"
+    },
+    {
+      "path": "tests/referee/test_tissue_loss_cli_v3.py",
+      "sha256": "7a5b624928922a1fa9dfdfc69ea587d9838951ecee0c1b447e10762611a87aaa"
+    },
+    {
+      "path": "tests/referee/test_tissue_loss_v3.py",
+      "sha256": "498bc0231d43430cd47bad4fd4d28a89d1a031d177917a7e7bba84a557e8d7ed"
+    },
+    {
+      "path": "tests/referee/test_viewer_source_contract.py",
+      "sha256": "33d27b266db0fb404fee93b0baeb01b5c8db2712081d4f5c1bfcf43388076fb1"
     }
   ],
-  "packaging_update": "2026-09-21: nested viewer under QC; scientific modules unchanged"
+  "packaging_update": "2026-09-28: bilateral loss route and constrained protection; historical validation is not v3 certification",
+  "historical_validation": {
+    "canonical_tests_passed": 35,
+    "packaged_tests_passed": 15,
+    "biological_certification": false
+  },
+  "release_version": "bilateral-v3-experimental-20260928",
+  "upstream_base_commits": {
+    "spateo-release": "615644f88613bea8ceb2e2df1e2391d16de55ec1",
+    "Spateo-skills": "12f03392a6ecb8b823431662dc3be27aec227187"
+  }
 }

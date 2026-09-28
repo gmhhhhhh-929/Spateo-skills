@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.4",
+  "policy": {
+    "keep_max_score": 0.129,
+    "exclude_min_score": 0.7,
+    "calibration_id": "spateo-referee-bilateral-loss-v3-20260928-experimental",
+    "require_two_sided": true,
+    "require_detector_call": true,
+    "enable_keep": true,
+    "enable_exclude": true,
+    "unresolved_action": "keep",
+    "enable_tissue_loss_resolver": true,
+    "loss_min_confirming_windows": 2,
+    "review_exclusion_tiers": [
+      {"name":"low_evidence", "min_score":0.129, "max_score":0.54, "min_corroborating_domains":2, "severe_domain_threshold":0.65, "min_window_stability":1.0, "min_score_confidence":0.9, "window_detector_mode":"candidate", "enable_exclude":true},
+      {"name":"high_evidence", "min_score":0.54, "max_score":null, "min_corroborating_domains":2, "severe_domain_threshold":0.6, "min_window_stability":1.0, "min_score_confidence":0.9, "window_detector_mode":"candidate", "enable_exclude":true}
+    ],
+    "benchmark_summary": {
+      "validation_scope": "experimental_bilateral_loss_not_independently_certified",
+      "base_policy_validation_passed": false,
+      "adaptive_extension_validation_passed": false,
+      "raw_matrix_stress_validation_passed": false,
+      "development_status": "frozen_for_raw_regression_and_native_rerun",
+      "historical_parent": "joint_review_v2.json; historical claims do not certify the new resolver",
+      "adaptive_extension": {"windows":[3,5,7]},
+      "loss_config": {
+        "tissue_loss_min_fraction":0.5,
+        "tissue_loss_min_geometry_fraction":0.35,
+        "tissue_loss_min_reference_points":20,
+        "capture_loss_min_counts_fraction":0.5,
+        "capture_loss_min_genes_fraction":0.3
+      },
+      "limitations": [
+        "Requires two-sided reference; endpoints, singleton series and uniformly degraded series are not identifiable by this route.",
+        "Tissue amount, hull area and density are correlated physical measurements, not independent domains.",
+        "A bilateral deficit can be anatomical or technical; no expert biological truth has been supplied.",
+        "Capture route is unavailable without measured raw counts or trustworthy observed raw count/gene totals.",
+        "Retain is an operational action, not a guarantee of high quality."
+      ]
+    }
+  }
+}
