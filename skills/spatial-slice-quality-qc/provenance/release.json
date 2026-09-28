@@ -11,8 +11,8 @@
     "adversarial_scientific_tests_passed": 51,
     "legacy_native_scientific_tests_passed": 10,
     "cli_publication_tests_passed": 7,
-    "packaged_tests_passed": 82,
-    "viewer_source_contract_tests_passed": 8,
+    "packaged_tests_passed": 94,
+    "viewer_source_and_presentation_tests_passed": 20,
     "raw_regression_defects": 720,
     "raw_controls": 48,
     "raw_regression_failures": 0,
@@ -118,7 +118,7 @@
     },
     {
       "path": "skills/spatial-slice-quality-qc/scripts/slice_quality_visualization.py",
-      "sha256": "19e1c88c38800a8fd49d4d6b34a575d00b544ec9539805f8b131435b69c617d7"
+      "sha256": "691f34c70ac49459884c540e83adc9a5819a856c630c07d77ee4f886a5ae3407"
     },
     {
       "path": "skills/spatial-slice-quality-qc/subskills/spatial-slice-quality-viewer/SKILL.md",
@@ -162,7 +162,7 @@
     },
     {
       "path": "tests/referee/test_viewer_source_contract.py",
-      "sha256": "33d27b266db0fb404fee93b0baeb01b5c8db2712081d4f5c1bfcf43388076fb1"
+      "sha256": "556e0d32131e3fdfe6e1ca5495049eafdae945fc328b0991e0679ef667b4a08f"
     }
   ],
   "packaging_update": "2026-09-28: bilateral loss route and constrained protection; historical validation is not v3 certification",

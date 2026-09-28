@@ -1349,10 +1349,13 @@ def _loss_diagnostic_html(record: Mapping[str, Any], language: str) -> str:
         for item in windows
         if "geometry_loss_candidate" in item or "capture_loss_candidate" in item
     ]
-    reason = str(record.get("tissue_loss_reason", ""))
-    route = str(record.get("tissue_loss_route", "")).replace("_", " ")
+    raw_reason = record.get("tissue_loss_reason")
+    reason = "" if raw_reason is None or pd.isna(raw_reason) else str(raw_reason)
+    raw_route = record.get("tissue_loss_route")
+    route = "" if raw_route is None or pd.isna(raw_route) else str(raw_route).strip().replace("_", " ")
+    route = route or ("No confirmed route" if en else "无确认缺失路径")
     title = "Bilateral tissue/capture loss evidence" if en else "双侧组织/捕获缺失证据"
-    head = f"<h3>{title}</h3><p>{html.escape(route)} · {html.escape(reason)}</p>"
+    head = f"<h3>{title}</h3><p>{html.escape(route)}" + (" · " + html.escape(reason) if reason else "") + "</p>"
     table = "<table class='evidence-table'><tbody>" + "".join(
         "<tr><td>" + html.escape(label) + "</td><td>" + html.escape(value) + "</td></tr>"
         for label, value in rows
@@ -1361,6 +1364,76 @@ def _loss_diagnostic_html(record: Mapping[str, Any], language: str) -> str:
             "Unavailable measurements are not normality evidence." if en else
             "缺失比例以左右邻片中位数的较低者为参照，不是注入剂量；缺失测量不能解释为正常。")
     return "<div class='section loss-evidence'>" + head + table + "<p>" + html.escape("; ".join(confirmations)) + "</p><p class='note'>" + note + "</p></div>"
+
+
+def refresh_loss_diagnostic_html(
+    report_path: Union[str, Path], *, binary_audit_path: Optional[Union[str, Path]] = None
+) -> dict[str, Any]:
+    """Refresh only stored loss-diagnostic markup in an existing detail report.
+
+    This explicitly in-place presentation operation does not reread source H5AD,
+    recompute science, change calls/points/other payload values, or rebuild the
+    report template. If an older payload omitted per-window details, their
+    already-computed audit column is read solely to preserve the existing window
+    explanation; it is not added to the payload. The caller can record hashes in its workflow
+    ledger and update that ledger's renderer hash after a complete batch refresh.
+    """
+    report = Path(report_path).expanduser().resolve()
+    original = report.read_text(encoding="utf-8")
+    matches = list(re.finditer(r'<script id="payload" type="application/json">(.*?)</script>', original, re.DOTALL))
+    if len(matches) != 1:
+        raise ValueError("Expected one canonical detail-report JSON payload")
+    match = matches[0]
+    payload = json.loads(match.group(1))
+    if payload.get("language") not in {"en", "zh"} or not isinstance(payload.get("records"), list):
+        raise ValueError("Invalid canonical detail-report payload")
+    window_details = {}
+    audit_sha256 = None
+    missing_details = [row for row in payload["records"]
+                       if "adaptive_window_details" not in row and "W=" in row.get("loss_diagnostic_html", "")]
+    if missing_details:
+        audit_path = Path(binary_audit_path) if binary_audit_path else report.parent / "slice_quality_binary_audit.csv"
+        if not audit_path.is_file():
+            raise ValueError("Existing window explanations require the corresponding binary audit for a lossless presentation refresh")
+        audit = pd.read_csv(audit_path, dtype={"slice_id": str}, usecols=["slice_id", "adaptive_window_details"])
+        if audit.slice_id.duplicated().any():
+            raise ValueError("Binary audit contains duplicate slice IDs")
+        window_details = dict(zip(audit.slice_id, audit.adaptive_window_details))
+        if any(str(row["slice_id"]) not in window_details for row in missing_details):
+            raise ValueError("Binary audit does not cover every existing window explanation")
+        audit_sha256 = hashlib.sha256(audit_path.read_bytes()).hexdigest()
+
+    def protected_payload_hash(data):
+        protected = {**data, "records": [
+            {key: value for key, value in row.items() if key != "loss_diagnostic_html"}
+            for row in data["records"]
+        ]}
+        return hashlib.sha256(json.dumps(protected, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+    protected_before = protected_payload_hash(payload)
+    updated = 0
+    for record in payload["records"]:
+        diagnostic_record = record
+        if "adaptive_window_details" not in record and str(record.get("slice_id")) in window_details:
+            diagnostic_record = {**record, "adaptive_window_details": window_details[str(record["slice_id"])]}
+        markup = _loss_diagnostic_html(diagnostic_record, payload["language"])
+        if record.get("loss_diagnostic_html") != markup:
+            record["loss_diagnostic_html"] = markup
+            updated += 1
+    encoded = json.dumps(payload, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+    if protected_payload_hash(json.loads(encoded)) != protected_before:
+        raise AssertionError("Presentation refresh changed protected payload values")
+    refreshed = original[:match.start(1)] + encoded + original[match.end(1):]
+    if refreshed != original:
+        report.write_text(refreshed, encoding="utf-8")
+    return {
+        "report": str(report), "records": len(payload["records"]), "updated_records": updated,
+        "before_sha256": hashlib.sha256(original.encode()).hexdigest(),
+        "after_sha256": hashlib.sha256(refreshed.encode()).hexdigest(),
+        "protected_payload_sha256": protected_before,
+        "scientific_payload_unchanged": True,
+        "window_details_audit_sha256": audit_sha256,
+    }
 
 
 def _write_detail_page(page_payload, report_path):
