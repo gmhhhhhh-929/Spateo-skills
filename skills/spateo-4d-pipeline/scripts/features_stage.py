@@ -3,6 +3,12 @@ from pathlib import Path
 from pipeline_runtime import save_pair, write_json
 
 
+def finite_values(values):
+    """Keep unavailable fit values as JSON null, never as zero or a fake bound."""
+    import math
+    return [float(v) if math.isfinite(float(v)) else None for v in values]
+
+
 def metrics(config, a, b, directory):
     import numpy as np
     import pandas as pd
@@ -57,14 +63,17 @@ def metrics(config, a, b, directory):
         result[result.selected].to_csv(directory/(key+'.selected.csv'),index_label='gene')
         extras[key]=directory/(key+'.csv')
         extras[key+'_selected']=directory/(key+'.selected.csv')
-        top=result[result.status=='ok'].head(p['glm_top_plots']).index.tolist()
+        top=(result[result.status=='ok'].assign(abs_rho=result.spearman_rho.abs())
+             .sort_values(['selected','abs_rho','qval'],ascending=[False,False,True])
+             .head(p['glm_top_plots']).index.tolist())
         curves[metric]={}
         for j,g in enumerate(top):
             df=correlations[g].sort_values(metric)
             thin=np.linspace(0,len(df)-1,min(1500,len(df))).astype(int)
             shown=df.iloc[thin]
-            curves[metric][g]={c: shown[c].astype(float).tolist() for c in [metric,'expression','mu','ci_lower','ci_upper']}
-            curves[metric][g].update(qval=float(result.loc[g,'qval']),selected=bool(result.loc[g,'selected']))
+            curves[metric][g]={c: finite_values(shown[c]) for c in [metric,'expression','mu','ci_lower','ci_upper']}
+            curves[metric][g].update(qval=float(result.loc[g,'qval']),selected=bool(result.loc[g,'selected']),
+                unavailable={c:int((~np.isfinite(shown[c])).sum()) for c in ['mu','ci_lower','ci_upper']})
             fig,ax=plt.subplots(figsize=(6,4))
             ax.scatter(df[metric],df.expression,s=3,alpha=.18,color='#64748b',rasterized=True)
             ax.plot(df[metric],df.mu,color='#0d9488',lw=2)
@@ -74,7 +83,10 @@ def metrics(config, a, b, directory):
             extras[f'{metric}_plot_{j}']=path
         summaries[metric]={'tested':len(genes),'failed':len(failed),'selected':int(result.selected.sum()),
             'formula':f'~cr({metric}, df=3)','layer':'normalized','NB2_dispersion_alpha':1.,
-            'FDR_family':'all requested genes within this feature','not_causal':True}
+            'FDR_family':'all requested genes within this feature','not_causal':True,
+            'gene_scope':'genome-wide expressed genes' if p['glm_genes']=='*' else 'user-specified candidate panel',
+            'curve_ranking':'FDR selected first, then absolute Spearman rho',
+            'unavailable_fit_values':'null in JSON; gaps in plot, never zero'}
         a.uns[key]={'glm_result':result, 'correlation':{g:correlations[g] for g in top}}
     a.obs[p['selected']].to_csv(directory/'metrics.csv',index_label='cell_id')
     write_json(directory/'glm_summary.json',summaries);write_json(directory/'glm_curves.json',curves)

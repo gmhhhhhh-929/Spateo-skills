@@ -51,6 +51,8 @@ DEFAULTS = {
         "sampling_method": "random",
         "max_iter": 200,
         "nonrigid_start_iter": 80,
+        "nn_init": True,
+        "use_annotation": False,
     },
     "subset": {"annotation_key": "anno", "group": None},
     "mapping": {
@@ -200,6 +202,9 @@ def canonical_config(path):
     ):
         raise ValueError("Invalid trajectory duration, samples or direction")
     metrics = config["metrics"]
+    for key in ('nn_init', 'use_annotation'):
+        if not isinstance(config['alignment'][key], bool):
+            raise ValueError('alignment.'+key+' must be boolean')
     supported = {"speed", "acceleration", "curl", "divergence", "torsion", "curvature", "jacobian_frobenius"} | {"jacobian_"+i+j for i in "xyz" for j in "xyz"} | {"velocity_"+i for i in "xyz"}
     if not set(metrics["selected"]) <= supported or not set(
         metrics["glm_metrics"]

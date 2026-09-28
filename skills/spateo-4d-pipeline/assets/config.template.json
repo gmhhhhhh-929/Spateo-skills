@@ -26,7 +26,9 @@
     "n_sampling": 2000,
     "sampling_method": "random",
     "max_iter": 200,
-    "nonrigid_start_iter": 80
+    "nonrigid_start_iter": 80,
+    "nn_init": true,
+    "use_annotation": false
   },
   "subset": {
     "annotation_key": "anno",

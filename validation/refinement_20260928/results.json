@@ -1,0 +1,149 @@
+{
+  "date": "2026-09-28",
+  "local_data_authorized": true,
+  "scientific_run": "local_anatomy_refined_v2",
+  "run_status": "completed",
+  "input_hashes": {
+    "stage1": {
+      "path": "/Users/gaomohan/Desktop/spateo_referee_data_20260921/planarian/prista4d/7dpa1.sc.h5ad",
+      "sha256": "36a1b8501c47dfd41cac8bc3af30d54bdb132ccd26a1a3bf68983618a926b3cb"
+    },
+    "stage2": {
+      "path": "/Users/gaomohan/Desktop/spateo_referee_data_20260921/planarian/prista4d/10dpa1.sc.h5ad",
+      "sha256": "c38f4ef5d2e48b4a837fb62c81c04d89bb4573bcb621751c113e910e2bb11382"
+    }
+  },
+  "checks": {
+    "checks": [
+      "all output SHA256 hashes",
+      "full-cell identity preservation",
+      "unchanged original coordinates",
+      "unchanged original counts",
+      "same-annotation mapping",
+      "mapped endpoint/vector equality",
+      "trajectory seed identity and starting position",
+      "trajectory finiteness and monotonic model time",
+      "Jacobian trace equals divergence",
+      "finite scalar metrics",
+      "336 successful GLM fits with valid q values"
+    ],
+    "full_cells": [
+      117290,
+      120473
+    ],
+    "glm_tests": 336,
+    "mapped_cells": [
+      3291,
+      6725
+    ],
+    "passed": true,
+    "run_id": "local_anatomy_refined_v2",
+    "trajectory_shape": [
+      3291,
+      50,
+      3
+    ]
+  },
+  "viewer_checks": {
+    "passed": true,
+    "html_sha256": "685fd57d90e1be0593a5a223d7bd0ad5ae9c97f866e865e3ccb446d51ed35a26",
+    "full_cells": [
+      117290,
+      120473
+    ],
+    "displayed_paths": 200,
+    "comparison_count": 2,
+    "checks": [
+      "full unique cell identities",
+      "historical orientation flags",
+      "corrected orientation flag",
+      "every displayed trajectory starts at its named seed",
+      "feature lengths match source IDs",
+      "no Plotly CDN dependency"
+    ]
+  },
+  "old_native_coordinate_comparison": {
+    "native_fixed": {
+      "benchmark_rigid": {
+        "coordinate_rmse": 0.0047209858894348145,
+        "max_cell_distance": 0.016330698505043983
+      },
+      "benchmark_nonrigid": {
+        "coordinate_rmse": 0.006207311525940895,
+        "max_cell_distance": 0.02455301769077778
+      }
+    },
+    "native_fixed_same_environment": {
+      "benchmark_rigid": {
+        "coordinate_rmse": 0.005234479904174805,
+        "max_cell_distance": 0.015732040628790855
+      },
+      "benchmark_nonrigid": {
+        "coordinate_rmse": 0.025747932493686676,
+        "max_cell_distance": 0.11990947276353836
+      }
+    }
+  },
+  "same_input_field_comparison": {
+    "same_input_ids_coordinates_displacements": true,
+    "native_beta": 3.7304245969276224e-06,
+    "native_median_magnitude": 254.42110423669257,
+    "legacy_median_magnitude": 0.001300578133683109,
+    "median_pointwise_magnitude_ratio": 194678.97333218646,
+    "median_cosine_old_to_native": 0.9953309359507493,
+    "magnitude_ratio_quantiles": [
+      66465.13687991939,
+      116939.9847508377,
+      194678.97333218646,
+      4359977.493937906,
+      50543001686.494286
+    ],
+    "legacy_solver": "Dynamo SparseVFC Gaussian-uniform mixture EM; velocity-weighted controls; lambda*sigma2*K regularization",
+    "native_solver": "spateo-native-rbf; spatial TRN controls; Huber IRLS; lambda*I ridge",
+    "interpretation": "This dataset-specific comparison is not a universal conversion factor. Legacy direction-only acceptance does not verify vector magnitudes. Neither result is a calibrated physical velocity."
+  },
+  "corrected_registration": {
+    "whole_symmetric_nn": 23.88547201767996,
+    "CNS": {
+      "centroid_distance": 72.65633257097748,
+      "source_extent": [
+        439.0,
+        1460.0,
+        130.0
+      ],
+      "source_n": 3291,
+      "source_to_target_p95": 48.156900746632544,
+      "symmetric_nn_mean": 36.98943451569059,
+      "target_extent": [
+        592.6753540039062,
+        1952.4766235351562,
+        122.73394775390625
+      ],
+      "target_n": 6725,
+      "target_to_source_p95": 197.1825916341685
+    },
+    "dorsoventral": {
+      "interpretation": "Mean Z ordering is an orientation clue, not a universal anatomical axis or proof by itself.",
+      "opposite_signs": false,
+      "source_dorsal_minus_ventral": 78.33544634470088,
+      "target_dorsal_minus_ventral": 51.89510596111313
+    }
+  },
+  "parameters": {
+    "n_sampling": 4000,
+    "nn_init": false,
+    "use_annotation": true,
+    "mode": "SN-S",
+    "glm_panel": 48,
+    "features": 7
+  },
+  "automated_tests": 25,
+  "test_log": "25 passed, 34 warnings in 16.93s",
+  "limitations": [
+    "48-gene validation panel, not genome-wide screening",
+    "one specimen per timepoint",
+    "uncalibrated coordinate units",
+    "some GLM confidence bounds unavailable and exported as null",
+    "anatomical registration still requires biological interpretation"
+  ]
+}

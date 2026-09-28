@@ -25,3 +25,5 @@ python scripts/run_features.py --config /project/field.json --project /project/a
 For all-gene screens, review memory/runtime: Spateo retains per-cell fit tables. `glm_top_plots` limits retained display curves, not the tested gene universe. Native NB2 currently uses dispersion alpha=1. Spatial autocorrelation and one specimen per timepoint limit biological inference.
 
 Optional expression GP remains a separate disabled-by-default branch in the shared runner; it is spatial interpolation, not inferred continuous developmental time. GO enrichment needs a verified organism gene mapping and database and is not a prerequisite or an automatically completed output.
+
+Interpret FDR selection separately from association strength. Report full-cell Spearman rho and the tested gene universe; a significant nonlinear spline may have weak monotonic correlation. Feature-colored paths inherit the seed-cell value unless features are explicitly evaluated along the path. For plotting and interpretation, follow the [viewer contract](../../references/viewer-contract.md).

@@ -11,7 +11,7 @@ Read the parent [config contract](../../references/config-contract.md). Implemen
 2. Optional `inputs.pointcloud1/pointcloud2` imports previous 3D reconstruction geometry. Each VTK must have unique `obs_index` exactly matching the paired H5AD. Reorder by ID; preserve pre-import coordinates under `<spatial_key>_before_vtk`. Bare VTK lacks counts and cannot support expression-informed registration or later GLMs: locate the original H5AD.
 3. Normalize counts and create a separate log layer with native `st.pp` APIs. Register common genes using `st.align.morpho_align_ref`. `SN-S` is the rigid default; `SN-N` is an explicit scientific choice that may absorb developmental deformation. Keep one declared output coordinate key for downstream analyses.
 4. Export both full-cell H5ADs and `st.tdr.construct_pc` point clouds. Save/read through Spateo VTK APIs and verify coordinates and IDs after round trip. Reference sampling must not discard full-cell outputs.
-5. Review the overlay, annotation continuity and geometry. Nearest-neighbor QC describes overlap, not anatomical correctness; growth may preclude perfect overlap.
+5. Review separated and overlaid specimens, annotation continuity, lateral views and anatomical axis orientation. Whole-body nearest-neighbor improvement does not establish correctness; a proper rotation can invert the dorsoventral axis of a symmetric specimen. Report per-tissue distances and observed orientation concerns. For suspicious results or old/new comparisons, read [registration review](../../references/registration-review.md). Growth may preclude perfect overlap.
 
 ```bash
 python scripts/alignment_10dpa_14dpa.py --config /project/pair.json --project /project/analysis

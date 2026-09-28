@@ -7,7 +7,7 @@ The executable defaults and strict key validation live in `scripts/pipeline_runt
 | `inputs` | Required stage1/stage2 H5AD and shared coordinate_unit; optional pointcloud1/pointcloud2 VTK. Paths resolve relative to config, then persist absolute. Input contents are hashed. |
 | `workflow` | entry: alignment/aligned/field; until: alignment/trajectory/features; species for documented same-species identity; frame_id required for imported coordinates/fields and must match existing frame metadata and units. |
 | `labels` | Human-readable chronological stage names. No inferred elapsed biological time. |
-| `alignment` | Input spatial_key, distinct aligned_key, counts_layer or explicit x_is_counts, separate normalized/log layers; SN-S/SN-N, reference sample count, native iterations/device. Export all input observations. |
+| `alignment` | Input spatial_key, distinct aligned_key, counts_layer or explicit x_is_counts, separate normalized/log layers; SN-S/SN-N, reference sample count, native iterations/device; nn_init (default true), use_annotation (default false). Export all input observations. |
 | `subset` | annotation_key and one exact group. Mapping requires a group; run labels independently. |
 | `mapping` | Native OT alpha/iterations, key and max_pairs guard. Source-to-target direction is fixed by input order. |
 | `morphofield` | Native M, lambda_, beta, **max_iter**, tol and restart settings. Old MaxIter was ignored by the backend and is not accepted. |
@@ -22,3 +22,5 @@ The executable defaults and strict key validation live in `scripts/pipeline_runt
 Stages: alignment → mapping → morphofield → trajectory; features (`metrics`) branch from morphofield; GP branches from mapping; viewer consumes all available branches. Display changes invalidate only viewer when implementation and prior hashes match. Source/implementation changes conservatively invalidate all stages. Completed parents are immutable.
 
 V3 migration: set schema to v4, supply workflow and annotation group, replace morphofield.MaxIter with an explicitly chosen native max_iter (default 8, not 500), and decide full display versus caps. Previous stage filenames remain readable as data inputs, but old manifests do not silently count as equivalent new computations.
+
+For anatomically pre-oriented specimens, compare `nn_init: false` against the default; nearest-neighbor initialization can rotate a symmetric animal 180° and reverse dorsal/ventral tissues. `use_annotation: true` adds the configured annotation to expression-based registration; it requires compatible labels. Neither switch proves correct anatomy. Audit all-label and CNS QC before downstream interpretation.

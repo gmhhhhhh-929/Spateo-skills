@@ -1,13 +1,37 @@
 # Viewer contract
 
-The payload is versioned `spateo-4d-viewer/v1`. It contains stage statuses, frame unit, source/target labels, full aligned and original XYZ by observation ID, optional mapped endpoints/raw and fitted vectors, scalar features, trajectory seed IDs/time arrays, actual GLM curves and CSV tables, and QC summaries. It contains no full expression matrix.
+The payload is `spateo-4d-viewer/v1`: stage states, units, source/target labels, aligned and original XYZ by observation ID, optional mapping/field vectors, features, trajectory seed IDs/time arrays, actual GLM fits, full test CSVs and QC. No full expression matrix is embedded. `registrationReview` is optional for historical payloads and contains coordinate-only per-annotation diagnostics; state whether they use full cells or exported display samples.
 
-Capabilities drive tabs: registration always; mapping when mapped data exists; field only with a fitted field; trajectory only with a trajectory checkpoint; features only after feature computation. Disabled stages remain explicit in the evidence page. Imported field runs identify their mapping/field as imported, not newly computed.
+## Shared 3D visual language
 
-Coordinate values in the payload are preserved at Python float precision. Source and target share one scene with aspectmode=data. Before/after changes the display array without changing H5AD. Scientific raw displacement satisfies endpoint minus source coordinates. Fitted field is a separate vector source.
+Use the companion 3D reconstruction viewer's dark background (`#080e15`), compact header, left-side collapsible groups, independent layer visibility/opacity, reset camera and PNG export. Keep technical details in Run evidence. Preserve coordinate geometry and native aspect ratios. Surfaces, if requested, come from the 3D mesh subskill and need a verified matching frame; do not overlay untransformed original surfaces after registration.
 
-Arrow default factor = 0.04 × source bounding-box diagonal / positive vector-magnitude q95. The user multiplier scales this factor only. Render explicit shafts and arrowheads; camera/length controls never alter vector values, field fitting, or integration. Keep direction meaningful even when magnitudes vary. The notebook uses 0.015 of its model extent; this viewer's default is an intentional display choice and is not numerical equivalence to the notebook.
+Registration defaults to separate timepoints with the same axis ranges, manual physical aspect ratios and synchronized cameras. Offer a common-frame overlay and before/after overlays. Do not independently fit/rescale each specimen: that hides size differences. Both source and target need opacity controls, stable colors and tissue filtering. Dorsal, oblique and lateral camera presets are display choices. Label the selected scientific frame (rigid/nonrigid/imported); never silently display a nonrigid result while using rigid coordinates for downstream inference.
 
-Trajectory payload orientation is paths × time × XYZ from the audited native backend. Playback reveals prefixes of saved paths, not straight-line endpoint interpolation. Quantify source-envelope exits in QC. Current trajectory display uses an explicit deterministic seed cap; all scientific trajectories remain in H5AD/NPZ. Feature values and GLM curves come from their own checkpoint rather than recomputation in JavaScript.
+Capabilities drive tabs. Registration is always available; mapping, field, trajectories and features require their corresponding artifacts. Imported stages are not newly computed. A display-only change must reuse verified artifacts and must not refit science.
 
-A display-only request should use an existing payload or a verified parent; do not rebuild mapping. The legacy standalone dashboard remains separate. Mesh surface reconstruction is delegated to the 3D skill when requested; this default viewer is cell/field/trajectory based. A future imported surface must carry a verified matching frame before overlay; an original-frame surface cannot be casually reused after registration.
+## Arrows, paths and colors
+
+Use solid 3D cone heads and visible shafts. The default field/displacement display factor is `0.055 × source bounding-box diagonal / positive-magnitude q95`, multiplied by the user's length control. Arrow density is independent. Report scientific magnitudes in the color scale; display scaling never changes stored vectors, mapping or integration. This is not numerical equivalence to a PyVista notebook's glyph factor.
+
+Observed source and target cells keep one categorical color each in mapping/field/trajectory views. Inferred endpoints are a separate named diamond layer, disabled when changing tabs, and never presented as observed cells. Paths use model-time color and explicit heads in the direction of the saved integration order. Playback reveals saved path prefixes, not interpolated endpoint lines. Cell visibility and path visibility are independent.
+
+Feature mode colors source cells and paths by the same selected feature. Join paths to feature values by seed-cell ID. A constant seed-cell value is propagated along each displayed path and explicitly labeled as such: it is not evaluation of the feature at predicted locations. Missing seed values must not be invented. Keep arrows visible. Offer full-range and 2–98% color limits; clipping is color-only, never data deletion. Use explicit color stop arrays to avoid named-colormap fallbacks in Plotly JS.
+
+## Feature–gene interpretation
+
+Preserve actual Spateo fitted mean/95% mean-confidence bounds. The default log1p display transforms observations, mean and bounds together; fitting stays on normalized expression. Offer a linear display. Do not present the log of an expected value as an expected log-expression fit. Outliers remain present and no curve is cosmetically refitted.
+
+For every displayed candidate, show FDR q, full-cell Spearman rho, the screening family size, and whether the spline test selected it. FDR significance is not strong correlation. The exploratory `|rho| ≥ 0.3` table filter is labeled and adjustable; nonlinear associations can have low rho. If none meet the chosen cutoff, say so. A stored zero q means numerical underflow, not a literal zero probability. Gene symbols must be backed by a verified mapping; otherwise keep IDs.
+
+Explain the spline-versus-intercept NB2 test, mean confidence interval, limited candidate panel versus genome-wide search, spatial dependence and available biological replication. Association is not causation. CSV export retains all tests, including failures and nonsignificant results.
+
+## Verification
+
+Use real payloads to inspect split and overlay registration, tissue selection, independent cell opacity, solid arrowheads, trajectory playback, feature-colored paths, gene switching, expression scale and CSV export. Inspect console errors and screenshots. Check an alignment-only payload separately. Generic controls/notes must not hardcode timepoint labels. A usable viewer does not certify anatomical correctness: display observed registration concerns and keep downstream results exploratory until the scientific frame is accepted.
+
+## Reproducible registration comparison
+
+`viewer_payload.py --payload PAYLOAD --output NEW_HTML --comparison "Legacy default" BENCHMARK_DIR` can attach one or more completed `compare_registration.py` outputs. It verifies their coordinate-file hash, joins by unique cell ID, checks original coordinates and annotations, and shows the alternate rigid coordinates only in the registration tab. Mapping, fields, trajectories and genes stay attached to the current scientific run. Different units/original coordinate values fail the original-coordinate check. Do not imply that the result selector recomputes downstream analyses.
+
+Unavailable GLM predictions or confidence bounds export as JSON null and plot gaps, never zero. The viewer discloses missing-value counts and candidate-panel versus genome-wide scope. Stored curves prioritize FDR-selected genes then absolute Spearman correlation; CSV retains every requested gene.

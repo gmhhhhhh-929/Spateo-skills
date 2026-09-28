@@ -58,11 +58,24 @@ def alignment(config, directory):
             st.pp.log1p_layer(data, layer='normalized', out_layer=p['log_layer'], set_X=False, inplace=True)
         common = [g for g in a.var_names if g in set(b.var_names)]
         if not common: raise ValueError('No common genes')
+        # Explicit reference subsets avoid copying both full expression matrices
+        # merely to select reference cells. Native sampling semantics are kept.
+        from spateo._native import sample
+        count = min(p['n_sampling'], a.n_obs, b.n_obs)
+        references = [data[sample(arr=np.asarray(data.obs_names), n=count,
+                                  method=p['sampling_method'], X=data.obsm[p['spatial_key']])].copy()
+                      for data in (a,b)]
+        annotation = config['subset']['annotation_key']
+        if p['use_annotation'] and not all(annotation in d.obs for d in (a,b)):
+            raise ValueError('Annotation-informed alignment requires labels in both inputs')
+        rep_layer = [p['log_layer'], annotation] if p['use_annotation'] else p['log_layer']
+        rep_field = ['layer','obs'] if p['use_annotation'] else 'layer'
         aligned, _, _, _ = st.align.morpho_align_ref(
-            models=[a, b], rep_layer=p['log_layer'], rep_field='layer', spatial_key=p['spatial_key'],
+            models=[a, b], models_ref=references, rep_layer=rep_layer, rep_field=rep_field, spatial_key=p['spatial_key'],
             key_added=p['aligned_key'], genes=common, mode=p['mode'],
             n_sampling=min(p['n_sampling'], a.n_obs, b.n_obs), sampling_method=p['sampling_method'],
             max_iter=p['max_iter'], nonrigid_start_iter=p['nonrigid_start_iter'],
+            nn_init=p['nn_init'], iter_key_added=None,
             device=config['runtime']['device'], verbose=False)
     else:
         aligned = [a, b]
@@ -93,5 +106,17 @@ def alignment(config, directory):
         x,y = [np.asarray(d.obsm[key]) for d in aligned]
         da,db=cKDTree(y).query(x)[0],cKDTree(x).query(y)[0]
         qc[title]={'symmetric_nn_mean': float((da.mean()+db.mean())/2), 'source_to_target_p95': float(np.quantile(da,.95))}
+    from registration_qc import pair_qc
+    annotation = config['subset']['annotation_key']
+    if all(annotation in d.obs for d in aligned):
+        qc['annotation_qc'] = {
+            title: pair_qc(aligned[0].obsm[key], aligned[1].obsm[key],
+                           aligned[0].obs[annotation], aligned[1].obs[annotation])
+            for key, title in [(p['spatial_key'], 'before'), (p['aligned_key'], 'after')]
+        }
+    qc['anatomical_status'] = 'requires_review'
+    qc['analysis_coordinate_key'] = p['aligned_key']
+    qc['nn_init'] = p['nn_init']
+    qc['use_annotation'] = p['use_annotation']
     write_json(directory/'qc.json', qc)
     return {**save_pair(*aligned, directory), **outputs, 'qc': directory/'qc.json'}
