@@ -2,6 +2,8 @@
 
 Read only the relevant row, then inspect its source signature in source-api.md.
 
+For SeekSpace, BMKMANU S1000, Salus STS and Singleron space, read the exact native-file contracts and primary evidence in [domestic-platforms.md](domestic-platforms.md). Shared matrix storage alone does not identify a platform.
+
 | Platform | Core layout / key decisions |
 | --- | --- |
 | Visium | Feature H5 or MTX plus `spatial/tissue_positions*.csv`; XY is full-resolution pixel column/row, joined by barcode. Keep tissue flags and scalefactors. Simultaneous alternate matrix encodings need contract resolution, not an assumption of equivalence. |

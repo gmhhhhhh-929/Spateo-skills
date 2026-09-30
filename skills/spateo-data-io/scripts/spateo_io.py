@@ -10,7 +10,9 @@ from pathlib import Path
 import sys
 import uuid
 
-SOURCE_COMMIT = "615644f88613bea8ceb2e2df1e2391d16de55ec1"
+SOURCE_COMMIT = json.loads(
+    (Path(__file__).resolve().parents[1] / "references/source_manifest.json").read_text()
+)["commit"]
 READERS = [
     "read_h5ad",
     "read_10x_h5",
@@ -30,6 +32,10 @@ READERS = [
     "read_bgi_agg",
     "read_stereoseq",
     "read_seqscope",
+    "read_seekspace",
+    "read_bmkmanu",
+    "read_salus",
+    "read_singleron",
 ]
 
 
@@ -39,6 +45,20 @@ def sha256(path):
         for chunk in iter(lambda: stream.read(8 * 1024 * 1024), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def save_json_exclusive(payload, output):
+    """Publish complete JSON without replacing an existing report."""
+    output = Path(output)
+    temp = output.with_name("." + output.name + "." + uuid.uuid4().hex + ".tmp")
+    try:
+        with temp.open("x", encoding="utf-8") as stream:
+            json.dump(payload, stream, ensure_ascii=False, indent=2)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.link(temp, output)
+    finally:
+        temp.unlink(missing_ok=True)
 
 
 def assert_equal(before, after, location="adata"):
@@ -83,6 +103,7 @@ def save_checked(adata, output, audit, provenance):
         raise ValueError("Output must use .h5ad")
     output.parent.mkdir(parents=True, exist_ok=True)
     temp = output.with_name("." + output.name + "." + uuid.uuid4().hex + ".h5ad")
+    temp_manifest = sidecar.with_name("." + sidecar.name + "." + uuid.uuid4().hex)
     try:
         adata.write_h5ad(temp)
         loaded = ad.read_h5ad(temp)
@@ -111,11 +132,22 @@ def save_checked(adata, output, audit, provenance):
             "roundtrip": "pass",
             "output_sha256": sha256(temp),
         }
+        with temp_manifest.open("x", encoding="utf-8") as stream:
+            json.dump(manifest, stream, ensure_ascii=False, indent=2)
+            stream.flush()
+            os.fsync(stream.fileno())
         os.link(temp, output)
-        with sidecar.open("x") as stream:
-            json.dump(manifest, stream, indent=2)
+        try:
+            os.link(temp_manifest, sidecar)
+        except BaseException:
+            # Only remove the file this invocation actually published. A concurrent
+            # replacement is not ours and must be preserved.
+            if output.exists() and os.path.samefile(temp, output):
+                output.unlink()
+            raise
     finally:
         temp.unlink(missing_ok=True)
+        temp_manifest.unlink(missing_ok=True)
     return {"output": str(output), "manifest": str(sidecar)}
 
 
@@ -162,6 +194,10 @@ def main(argv=None):
         p.add_argument("--stereoseq-bin-size", type=int)
         p.add_argument("--stereoseq-chemistry", choices=["V1", "V2"])
         if name == "read":
+            p.add_argument(
+                "--lazy", action="store_true",
+                help="Discover first and materialize only selected entries during export; not out-of-core",
+            )
             p.add_argument("--output-dir", type=Path, required=True)
             p.add_argument(
                 "--dataset-key",
@@ -194,6 +230,16 @@ def main(argv=None):
     convert.add_argument("--require-spatial", action="store_true")
     convert.add_argument("--require-2d", action="store_true")
     args = parser.parse_args(argv)
+
+    # Refuse collisions before importing readers or touching a large input.
+    out = None
+    if args.command == "read":
+        out = args.output_dir.resolve()
+        out.mkdir(parents=True, exist_ok=False)
+    elif args.command == "convert":
+        output = args.output.resolve()
+        if output.exists() or output.with_name(output.name + ".manifest.json").exists():
+            raise FileExistsError("Refusing to overwrite output or manifest: " + str(output))
     import spateo as st
     from validate_anndata import validate
 
@@ -202,8 +248,9 @@ def main(argv=None):
         "source_commit_verified_by_cli": False,
         "spateo_version": str(st.__version__),
         "source": str(args.input.resolve()),
-        "input_file_sha256": sha256(args.input) if args.input.is_file() else None,
-        "directory_content_hashes_complete": args.input.is_file(),
+        "input_file_sha256": None,
+        "directory_content_hashes_complete": False,
+        "source_hashing": "not performed during discovery",
     }
     if args.command in ("discover", "read"):
         kwargs = {
@@ -218,10 +265,21 @@ def main(argv=None):
                 "stereoseq_chemistry",
             )
         }
-        with contextlib.redirect_stdout(sys.stderr):
-            result = st.io.read_spatial(
-                args.input, load=args.command == "read", **kwargs
-            )
+        if args.command == "read":
+            kwargs["lazy"] = args.lazy
+        try:
+            with contextlib.redirect_stdout(sys.stderr):
+                result = st.io.read_spatial(
+                    args.input, load=args.command == "read", **kwargs
+                )
+        except Exception as exc:
+            if out is not None:
+                save_json_exclusive({
+                    "status": "failed", "export_status": "incomplete", "exports": {},
+                    "cli": basis, "options": kwargs,
+                    "exception": {"type": type(exc).__name__, "message": str(exc)},
+                }, out / "read_report.json")
+            raise
         if args.command == "discover":
             print(json.dumps(result.report, indent=2))
             return (
@@ -231,15 +289,21 @@ def main(argv=None):
                 and all(e.status == "deferred" for e in result.datasets.values())
                 else 2
             )
-        out = args.output_dir.resolve()
-        out.mkdir(parents=True, exist_ok=False)
         selected = set(args.dataset_key or result.datasets)
         unknown = selected - set(result.datasets)
         exports, errors = {}, {}
         for key, entry in result.datasets.items():
-            if key not in selected or entry.status != "ready":
+            if key not in selected:
                 continue
             try:
+                if args.lazy and entry.status == "deferred":
+                    with contextlib.redirect_stdout(sys.stderr):
+                        entry.load()
+                if entry.status != "ready":
+                    continue
+                if args.input.is_file() and basis["input_file_sha256"] is None:
+                    basis.update(input_file_sha256=sha256(args.input), directory_content_hashes_complete=True,
+                                 source_hashing="complete input file after successful reading")
                 select_feature_ids(entry.adata, args.feature_id_column)
                 audit = validate(
                     entry.adata,
@@ -268,6 +332,8 @@ def main(argv=None):
                 errors[key] = str(exc)
         report = {
             **result.report,
+            "cli": basis,
+            "options": kwargs,
             "exports": exports,
             "export_errors": errors,
             "unknown_selected_keys": sorted(unknown),
@@ -277,7 +343,7 @@ def main(argv=None):
             if selected and set(exports) == selected and not errors and not unknown
             else "incomplete"
         )
-        (out / "read_report.json").write_text(json.dumps(report, indent=2))
+        save_json_exclusive(report, out / "read_report.json")
         print(json.dumps(report, indent=2))
         # Partial scope is never reported as overall success, even with selected successful entries.
         return (
@@ -297,6 +363,9 @@ def main(argv=None):
         data = reader(str(args.input), **kwargs)
     if not isinstance(data, ad.AnnData):
         raise TypeError("Explicit reader must return AnnData")
+    if args.input.is_file():
+        basis.update(input_file_sha256=sha256(args.input), directory_content_hashes_complete=True,
+                     source_hashing="complete input file after successful reading")
     select_feature_ids(data, args.feature_id_column)
     if args.reader == "read_bgi_agg":
         audit = {

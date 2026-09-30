@@ -12,6 +12,7 @@ Use `import spateo as st`. Current source is pinned in source_manifest.json.
 | CSV / TSV | `st.io.read(str(path))` or `st.io.read_csv(filepath_or_buffer=..., sep=...)` | DataFrame, not spatial AnnData; CSV helper accepts keyword arguments. |
 | Known platform, custom filenames | `st.io.read_<platform>(...)` | AnnData; direct readers retain their own format and loading semantics. Do not pass the unified automatic reader options indiscriminately. |
 | Stereo-seq | `st.io.read_stereoseq(path, ...)` | Native GEM/GEF core reader; inspect bin/cell representation and recorded units. |
+| SeekSpace / BMKMANU / Salus STS / Singleron space | `st.io.read_seekspace`, `read_bmkmanu`, `read_salus`, `read_singleron` | Explicit native-output readers return AnnData. Automatic directory discovery uses `read_spatial`; see [supported contracts](domestic-platforms.md). |
 | Legacy BGI aggregate | `st.io.read_bgi_agg(...)` | Spatial image grid; not expression-matrix input for QC/alignment. |
 
 `st.read_h5ad` is an AnnData compatibility export and differs from `st.io.read_h5ad`. `st.io.save/load` persist Python objects, not H5AD; use `adata.write_h5ad` for the pipeline. Read only trusted pickle files.
