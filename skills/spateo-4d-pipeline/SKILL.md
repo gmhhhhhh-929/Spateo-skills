@@ -38,7 +38,9 @@ python scripts/run_4d_pipeline.py --config /project/config.json --project /proje
 - Start at subskill 3: set `workflow.entry="field"` with compatible native field H5AD and target H5AD. No mapping or field refit.
 - Viewer only: use the viewer subskill directly; do not execute scientific stages.
 
-`--stop-after` is a low-level checkpoint/debug stop and deliberately does not promise a completed viewer. `--parent-manifest` enables hash-verified reuse; changed scientific settings invalidate dependent stages. [Run management](subskills/spateo-manage-runs/SKILL.md) and [config refinement](subskills/spateo-refine-analysis/SKILL.md) are supporting utilities, not additional scientific stages.
+When the user requests mapping review before downstream analysis, use `--stop-after mapping` and deliver a mapping-only review through the viewer subskill; the checkpoint command itself does not build a viewer. After approval, follow [resume after mapping review](subskills/spateo-manage-runs/SKILL.md#resume-after-mapping-review) to reuse that exact mapping in a new run. Ordinary full-analysis requests do not require this pause.
+
+`--parent-manifest` enables hash-verified reuse; changed scientific settings invalidate dependent stages. [Run management](subskills/spateo-manage-runs/SKILL.md) and [config refinement](subskills/spateo-refine-analysis/SKILL.md) are supporting utilities, not additional scientific stages.
 
 For local data, use the user-selected local conda environment and keep immutable run directories; record the imported library path and package versions. For remote data, verify SSH/workdir/data/environment from available configuration. Keep expression and H5AD on the server. Set `dashboard.write_html=false`, transfer only the final audited `viewer_payload.json` and small QC artifacts, then render HTML locally. Report visualization caps explicitly; the default point-cloud display includes every cell. Alignment reference sampling is recorded independently of full-cell coordinate export.
 

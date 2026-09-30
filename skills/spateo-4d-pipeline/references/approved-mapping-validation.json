@@ -1,0 +1,206 @@
+{
+  "date": "2026-09-30",
+  "run_id": "approved_mapping_full_v1",
+  "run_status": "completed",
+  "approved_mapping": {
+    "parent_run_id": "mapping_alpha_0p001_spatial",
+    "alpha": 0.001,
+    "initialization": "aligned_spatial",
+    "parent_manifest_sha256": "2adc624369f33a4966c50382d6877ba6d32390ac091bbb47e720b80cef58ca44",
+    "user_approved": true,
+    "output_paths_and_hashes_exactly_reused": true
+  },
+  "stage_status": {
+    "alignment": "reused",
+    "dashboard": "completed",
+    "gp": "skipped",
+    "mapping": "reused",
+    "metrics": "completed",
+    "morphofield": "completed",
+    "trajectory": "completed"
+  },
+  "implementation": {
+    "packages": {
+      "POT": "0.9.7.post1",
+      "anndata": "0.10.9",
+      "gpytorch": "1.15.2",
+      "numpy": "1.26.4",
+      "pandas": "2.2.3",
+      "plotly": "6.9.0",
+      "scipy": "1.13.1",
+      "statsmodels": "0.14.6",
+      "torch": "2.10.0"
+    },
+    "python": "3.10.21",
+    "skill_python_sha256": "fa2d9ffd197ac99e7c8495f39896527d30c18573001803d1c5d612de8ebbc76c",
+    "source_commit": "615644f88613bea8ceb2e2df1e2391d16de55ec1",
+    "spateo_python_sha256": "270338580d6f15bf7a9b48dffc255eef2c16c7973c11d67aecd5ef7e35e13258",
+    "spateo_version": "0.0+615644f",
+    "viewer_asset_sha256": "a49077ac6daa0fff3a73e929ba31d6735b192a795c4176243c966ced794ce7a3"
+  },
+  "verification": {
+    "checked_output_hashes": 86,
+    "all_output_hashes_match": true,
+    "full_cells": [
+      117290,
+      120473
+    ],
+    "mapped_cells": [
+      3291,
+      6725
+    ],
+    "transport_axes_match_cell_ids": true,
+    "transport_finite_nonnegative": true,
+    "transport_marginal_max_error_lt": 6e-11,
+    "mapping_and_aligned_coordinates_unchanged": true,
+    "mapping_endpoint_vector_max_error": 0,
+    "new_field_differs_from_previous_mapping_field": true,
+    "trajectory_shape": [
+      3291,
+      50,
+      3
+    ],
+    "trajectory_finite": true,
+    "trajectory_seed_max_error": 0,
+    "trajectory_time_monotonic": true,
+    "seven_features_finite": true,
+    "jacobian_trace_divergence_max_error": 0,
+    "jacobian_curl_max_error": 0,
+    "jacobian_velocity_acceleration_max_error_lt": 2.4e-13
+  },
+  "field_qc": {
+    "fitted_magnitude_quantiles": [
+      3.5079252439502797,
+      173.45925203610517,
+      654.4241545309376,
+      879.881442677476
+    ],
+    "implementation": "spateo-native-rbf",
+    "iterations": 8,
+    "median_cosine": 0.9890211230182736,
+    "raw_magnitude_quantiles": [
+      8.444405453379707,
+      159.7498904719977,
+      780.6803486709341,
+      858.9669199969225
+    ],
+    "rmse": 45.93351449807746
+  },
+  "trajectory_qc": {
+    "fraction_points_outside_source_box_plus_10_percent": 0.00023093284715891826,
+    "model_time_end": 1.0,
+    "model_time_is_not_days": true,
+    "n_paths": 3291
+  },
+  "gene_analysis": {
+    "scope": "48-gene candidate panel, not genome-wide",
+    "fdr_family": "BH correction separately for each feature",
+    "total_tested": 336,
+    "total_selected": 276,
+    "total_failed": 0,
+    "features": {
+      "speed": {
+        "tested": 48,
+        "selected": 45,
+        "failed": 0,
+        "max_absolute_spearman_rho_rounded": 0.356761
+      },
+      "acceleration": {
+        "tested": 48,
+        "selected": 41,
+        "failed": 0,
+        "max_absolute_spearman_rho_rounded": 0.181659
+      },
+      "curl": {
+        "tested": 48,
+        "selected": 37,
+        "failed": 0,
+        "max_absolute_spearman_rho_rounded": 0.093603
+      },
+      "divergence": {
+        "tested": 48,
+        "selected": 42,
+        "failed": 0,
+        "max_absolute_spearman_rho_rounded": 0.147231
+      },
+      "torsion": {
+        "tested": 48,
+        "selected": 38,
+        "failed": 0,
+        "max_absolute_spearman_rho_rounded": 0.299006
+      },
+      "curvature": {
+        "tested": 48,
+        "selected": 29,
+        "failed": 0,
+        "max_absolute_spearman_rho_rounded": 0.197043
+      },
+      "jacobian_frobenius": {
+        "tested": 48,
+        "selected": 44,
+        "failed": 0,
+        "max_absolute_spearman_rho_rounded": 0.126812
+      }
+    },
+    "exported_curves": 42,
+    "all_curve_means_finite": true,
+    "partial_confidence_intervals": [
+      {
+        "feature": "acceleration",
+        "gene": "SMESG000005578.1",
+        "missing_lower": 1483,
+        "missing_upper": 1499
+      },
+      {
+        "feature": "acceleration",
+        "gene": "SMESG000046043.1",
+        "missing_lower": 31,
+        "missing_upper": 1500
+      },
+      {
+        "feature": "torsion",
+        "gene": "SMESG000081078.1",
+        "missing_lower": 734,
+        "missing_upper": 1500
+      }
+    ],
+    "curve_points_each": 1500,
+    "missing_bounds_export": "null with unavailable counts and UI warning",
+    "interpretation": "GLM significance is not high correlation or causality."
+  },
+  "viewer_verification": {
+    "capabilities": [
+      "alignment",
+      "mapping",
+      "field",
+      "trajectory",
+      "features"
+    ],
+    "payload_matches_new_scientific_outputs": true,
+    "all_200_displayed_trajectories_match_full_new_paths": true,
+    "delivered_html_matches_dashboard": true,
+    "html_sha256": "ae48b2c9ce3a3b58c8db25a7d99761009235f4e435800b7c89b4a7d346a3e3b1",
+    "html_bytes": 34289014,
+    "javascript_syntax": "passed on delivered HTML script",
+    "live_browser_qa": "not performed: local file URL blocked by browser tool security policy; no workaround attempted",
+    "controls_retained": [
+      "compact directional arrowheads",
+      "mapping display-only Z spacing",
+      "seed-feature coloring on directional trajectories"
+    ]
+  },
+  "regression": {
+    "passed": 27,
+    "warnings": 34,
+    "elapsed_seconds": 33.3,
+    "scope": "Native 4D regression on the same scientific implementation, before this documentation and viewer-only update"
+  },
+  "limitations": [
+    "Numerical consistency does not prove biological trajectory accuracy.",
+    "One specimen per timepoint; spatial dependence limits inference.",
+    "Model time is not days; coordinate units are uncalibrated.",
+    "Gene screen is limited to a 48-gene candidate panel.",
+    "Three plotted fits have incomplete confidence bounds.",
+    "Live interaction of the new final HTML was not tested because browser navigation was blocked."
+  ]
+}
