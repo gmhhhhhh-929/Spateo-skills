@@ -7,7 +7,7 @@ description: Read spatial-platform outputs, including domestic platforms, with s
 
 Stage 2: environment → **IO** → slice quality (including its viewer) → 2D alignment → 3D pipeline → 4D pipeline. The current 3D implementation begins with a validated point-cloud VTK and can continue to full-body or annotation-specific surface meshes.
 
-Use the source-verified API at `gmhhhhhh-929/spateo-release`, pinned in [source_manifest.json](references/source_manifest.json). Read [API routing](references/api-routing.md) for explicit readers, [automatic outcomes](references/auto-and-errors.md) for lazy loading and recovery, and the relevant row in [platform contracts](references/platforms.md). Exact signatures and IO hashes are in [source-api.md](references/source-api.md). Check signatures again for another revision.
+Use the source-verified API at `gmhhhhhh-929/spateo-release`, pinned in [source_manifest.json](references/source_manifest.json). Read [API routing](references/api-routing.md) for explicit readers, [automatic outcomes](references/auto-and-errors.md) for lazy loading and recovery, and the relevant row in [platform contracts](references/platforms.md). When comparing automatic and direct outputs, first check [their feature, coordinate and asset conventions](references/platforms.md#comparing-automatic-and-direct-results). Exact signatures and IO hashes are in [source-api.md](references/source-api.md). Check signatures again for another revision.
 
 ## Choose the route
 

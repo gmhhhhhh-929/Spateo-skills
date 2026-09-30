@@ -11,8 +11,9 @@ Use `import spateo as st`. Current source is pinned in source_manifest.json.
 | 10x MTX | `st.io.read_10x_mtx(path, var_names='gene_symbols', make_unique=True, compressed=True)` | MTX, feature and barcode files; uncompressed v3 bundles need `compressed=False`. Preserve stable feature IDs if symbols change. |
 | CSV / TSV | `st.io.read(str(path))` or `st.io.read_csv(filepath_or_buffer=..., sep=...)` | DataFrame, not spatial AnnData; CSV helper accepts keyword arguments. |
 | Known platform, custom filenames | `st.io.read_<platform>(...)` | AnnData; direct readers retain their own format and loading semantics. Do not pass the unified automatic reader options indiscriminately. |
-| Stereo-seq | `st.io.read_stereoseq(path, ...)` | Native GEM/GEF core reader; inspect bin/cell representation and recorded units. |
+| Stereo-seq | `st.io.read_stereoseq(path, ...)` | Convenience wrapper around `read_spatial(..., technology="bgi")`, returning its unique AnnData. It is not an independent implementation; compare native source values or legacy `read_bgi` only where representations agree. |
 | SeekSpace / BMKMANU / Salus STS / Singleron space | `st.io.read_seekspace`, `read_bmkmanu`, `read_salus`, `read_singleron` | Independent `_seekspace.py`, `_bmkmanu.py`, `_salus.py`, `_singleron.py` readers return AnnData, or named results with `return_result=True`. Automatic directory reading calls the same native cores; see [supported contracts and implementation](domestic-platforms.md). |
+| Seq-Scope | `st.io.read_seqscope(matrix_dir, positions_path, binsize=None)` | Direct only; automatic discovery is unsupported. `None` preserves barcodes, while the default `binsize=1` aggregates spatial bins. |
 | Legacy BGI aggregate | `st.io.read_bgi_agg(...)` | Spatial image grid; not expression-matrix input for QC/alignment. |
 
 `st.read_h5ad` is an AnnData compatibility export and differs from `st.io.read_h5ad`. `st.io.save/load` persist Python objects, not H5AD; use `adata.write_h5ad` for the pipeline. Read only trusted pickle files.

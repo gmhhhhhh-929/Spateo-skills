@@ -1,6 +1,6 @@
 # Current IO source API
 
-Source commit: `82002ba0910a0fa29874f1da92e49a76bc9186a7`. Automatic APIs return SpatialReadResult.
+Source commit: `22b91af5888930838a1d4a46057404db86574ffa`. Automatic APIs return SpatialReadResult.
 Hashes cover every Python file under `spateo/io`; signatures below are generated from source AST.
 
 ## spateo/io/general/_serialization.py
@@ -78,6 +78,7 @@ def inventory(path: Path, max_files: int, max_depth: int)
 ```python
 def table(path, *, full=False, budget=512 * 1024 ** 2, positions=False)
 def integer_counts(values, technology)
+def table_values(frame, context, *, raw=True)
 ```
 
 ## spateo/io/spatial/_merfish.py
@@ -191,13 +192,13 @@ def read_singleron(path: Union[str, Path], *, load_images: bool=True, max_memory
 ## spateo/io/spatial/_slideseq.py
 
 ```python
-def read_slideseq(path: Union[str, Path], *, counts_file: str='MappedDGEForR.csv', bead_file: str='BeadLocationsForR.csv', load_images: bool=True)
+def read_slideseq(path: Union[str, Path], *, counts_file: Optional[str]=None, bead_file: Optional[str]=None, load_images: bool=True)
 ```
 
 ## spateo/io/spatial/_starmap_plus.py
 
 ```python
-def read_starmap_plus(path: Union[str, Path], *, counts_file: str, meta_file: str, spatial_file: str, reorient_xy: bool=False, dtype: str='float32')
+def read_starmap_plus(path: Union[str, Path], *, counts_file: str, meta_file: str, spatial_file: str, reorient_xy: bool=False, dtype: Optional[str]=None)
 ```
 
 ## spateo/io/spatial/_stereoseq.py
