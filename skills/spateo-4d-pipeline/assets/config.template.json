@@ -37,6 +37,7 @@
   "mapping": {
     "key": "cells_mapping",
     "alpha": 0.001,
+    "initialization": "uniform",
     "numItermax": 200,
     "numItermaxEmd": 100000,
     "target_sum": 10000.0,

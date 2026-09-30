@@ -65,8 +65,33 @@ def mapping(config, a, b, directory):
         if s["annotation_key"] not in data.obs:
             data.obs[s["annotation_key"]] = "all cells (display group)"
     import warnings
+    initialization = p.get('initialization', 'uniform')
+    initial_outputs, initial_qc, kwargs = {}, {'method': initialization}, {}
     with warnings.catch_warnings(record=True) as caught:
         warnings.simplefilter('always')
+        if initialization == 'aligned_spatial':
+            import ot
+            from scipy.spatial.distance import cdist
+            # Resolve symmetric FGW starts using the already registered frame.
+            # This changes only G_init, not the native FGW objective or endpoints.
+            cost = cdist(a.obsm[al['aligned_key']], b.obsm[al['aligned_key']])
+            mass_a, mass_b = np.full(a.n_obs, 1/a.n_obs), np.full(b.n_obs, 1/b.n_obs)
+            initial, log = ot.emd(mass_a, mass_b, cost, numItermax=p['numItermaxEmd'], log=True)
+            if log.get('warning'):
+                raise RuntimeError('Spatial mapping initialization failed: ' + str(log['warning']))
+            np.testing.assert_allclose(initial.sum(1), mass_a, atol=1e-9, rtol=1e-7)
+            np.testing.assert_allclose(initial.sum(0), mass_b, atol=1e-9, rtol=1e-7)
+            initial_qc.update(cost='Euclidean distance in the registered coordinate frame',
+                              transport_cost=float(np.sum(initial*cost)),
+                              total_mass=float(initial.sum()))
+            path = directory/'initial_transport.npz'
+            np.savez_compressed(path, pi=initial, source_ids=a.obs_names.to_numpy(dtype=str),
+                                target_ids=b.obs_names.to_numpy(dtype=str))
+            initial_outputs['initial_transport'] = path
+            kwargs['G_init'] = initial
+            del cost
+        elif initialization != 'uniform':
+            raise ValueError('Unknown mapping initialization: ' + initialization)
         _, pi = st.tdr.cell_directions(
             adataA=a,
             adataB=b,
@@ -78,6 +103,7 @@ def mapping(config, a, b, directory):
             numItermaxEmd=p["numItermaxEmd"],
             device=config["runtime"]["device"],
             inplace=True,
+            **kwargs,
         )
     messages=[str(w.message) for w in caught]
     write_json(directory/'mapping_warnings.json',messages)
@@ -88,6 +114,7 @@ def mapping(config, a, b, directory):
     if row_error > 1e-4/a.n_obs or col_error > 1e-4/b.n_obs:
         raise ValueError('Transport marginal constraints failed')
     write_json(directory/'mapping_qc.json', {'source_cells':a.n_obs,'target_cells':b.n_obs,
+        'alpha':p['alpha'], 'initialization':initial_qc,
         'shared_genes':len(common),'row_marginal_max_error':row_error,'column_marginal_max_error':col_error,
         'total_mass':float(pi.sum()),'warnings':messages})
     x, v = a.obsm["X_" + p["key"]], a.obsm["V_" + p["key"]]
@@ -117,6 +144,7 @@ def mapping(config, a, b, directory):
     )
     summary.to_csv(directory / "mapping_summary.csv")
     return {
+        **initial_outputs,
         **save_pair(a, b, directory),
         "stage1_pointcloud": save_cloud(a, al["aligned_key"], directory/"stage1.vtk", s["annotation_key"]),
         "stage2_pointcloud": save_cloud(b, al["aligned_key"], directory/"stage2.vtk", s["annotation_key"]),

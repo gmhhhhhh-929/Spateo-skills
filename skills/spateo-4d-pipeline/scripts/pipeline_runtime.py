@@ -58,6 +58,7 @@ DEFAULTS = {
     "mapping": {
         "key": "cells_mapping",
         "alpha": 0.001,
+        "initialization": "uniform",
         "numItermax": 200,
         "numItermaxEmd": 100000,
         "target_sum": 10000.0,
@@ -188,6 +189,8 @@ def canonical_config(path):
     if a["counts_layer"] == a["log_layer"] or a["counts_layer"] == "normalized":
         raise ValueError("Counts and derived layers must have different keys")
     m = config["mapping"]
+    if m["initialization"] not in ("uniform", "aligned_spatial"):
+        raise ValueError("mapping.initialization must be uniform or aligned_spatial")
     if (
         not 0 <= m["alpha"] <= 1
         or (m["target_sum"] is not None and m["target_sum"] <= 0)

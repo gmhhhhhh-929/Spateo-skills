@@ -9,7 +9,7 @@ The executable defaults and strict key validation live in `scripts/pipeline_runt
 | `labels` | Human-readable chronological stage names. No inferred elapsed biological time. |
 | `alignment` | Input spatial_key, distinct aligned_key, counts_layer or explicit x_is_counts, separate normalized/log layers; SN-S/SN-N, reference sample count, native iterations/device; nn_init (default true), use_annotation (default false). Export all input observations. |
 | `subset` | annotation_key and one exact group. Mapping requires a group; run labels independently. |
-| `mapping` | Native OT alpha/iterations, key and max_pairs guard. Source-to-target direction is fixed by input order. |
+| `mapping` | Native OT alpha/iterations, key and max_pairs guard. `initialization`: uniform (default native start) or aligned_spatial (balanced Euclidean OT in the registered frame passed as native G_init). The latter requires credible shared orientation; it is an initialization, not a distance cutoff or a replacement for FGW. Source-to-target direction is fixed by input order. |
 | `morphofield` | Native M, lambda_, beta, **max_iter**, tol and restart settings. Old MaxIter was ignored by the backend and is not accepted. |
 | `trajectory` | enabled, key, positive t_end, interpolation_num, forward/backward/both. Model time is distinct from biological time. |
 | `metrics` | enabled, selected scalar features, glm_metrics subset, glm_genes list or `"*"`, glm_min_cells, glm_top_plots, qval and optional llf thresholds. Complete test tables survive selection. |
