@@ -16,6 +16,7 @@ Use the source-verified API at `gmhhhhhh-929/spateo-release`, pinned in [source_
 - For on-demand materialization, use `st.io.read_spatial(path, lazy=True, load_images=False)`. Reports and iteration stay metadata-only; access `result.adata` for a unique complete scope, or call a selected `entry.materialize()`. This defers full loading; it is not backed or out-of-core AnnData.
 - For H5AD, use `anndata.read_h5ad` to preserve existing type/metadata. For 10x expression-only H5/MTX or a known nonstandard layout, use an explicit reader and inspect its signature. Expression matrices alone do not supply spatial coordinates.
 - Generic CSV/TSV reading returns a DataFrame. Join expression, metadata and coordinates by verified IDs before constructing AnnData; equal row counts do not establish identity.
+- For known SeekSpace, BMKMANU, Salus STS or CeleScope space bundles, each `st.io.read_<tech>` invokes its independent platform module. Automatic reading calls the same platform core. See [domestic reader routing](references/domestic-platforms.md#independent-readers-and-shared-core) when tracing implementation or comparing both routes.
 
 ## Inspect outcomes, then export
 

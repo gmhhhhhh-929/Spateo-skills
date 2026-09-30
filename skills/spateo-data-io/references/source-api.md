@@ -1,6 +1,6 @@
 # Current IO source API
 
-Source commit: `d884216b2f030bcb5616b01a8f950d31e1e6d833`. Automatic APIs return SpatialReadResult.
+Source commit: `82002ba0910a0fa29874f1da92e49a76bc9186a7`. Automatic APIs return SpatialReadResult.
 Hashes cover every Python file under `spateo/io`; signatures below are generated from source AST.
 
 ## spateo/io/general/_serialization.py
@@ -30,19 +30,26 @@ def read_10x_mtx(path, *, var_names: Literal['gene_symbols', 'gene_ids']='gene_s
 def read(path, backend='python', **kwargs)
 ```
 
+## spateo/io/spatial/_assets.py
+
+```python
+def load_assets(adata, candidate, enabled, budget, diagnostics, *, image_budget=32 * 1024 ** 2)
+```
+
 ## spateo/io/spatial/_atera.py
 
 ```python
 def read_atera(path: PathLike, *, library_id: Optional[str]=None, load_image: bool=True, image_key: str='dapi', image_max_dim: int=4096, load_boundaries: bool=True, load_nucleus_boundaries: bool=True, load_cell_groups: bool=True, cell_groups_csv: Optional[PathLike]=None, load_he_image: bool=False, he_image: Optional[PathLike]=None, he_alignment_csv: Optional[PathLike]=None, he_max_dim: int=4096, cache_file: Optional[PathLike]=None)
 ```
 
-## spateo/io/spatial/_domestic.py
+## spateo/io/spatial/_bmkmanu.py
 
 ```python
-def read_seekspace(path: Union[str, Path], *, load_images: bool=True, max_memory_bytes: int=1024 ** 3, return_result: bool=False)
+def discover(files, requested)
+def metadata(candidate, *, full=False, budget=512 * 1024 ** 2)
+def probe(candidate, budget)
+def read_core(candidate, budget)
 def read_bmkmanu(path: Union[str, Path], *, load_images: bool=True, max_memory_bytes: int=1024 ** 3, return_result: bool=False)
-def read_salus(path: Union[str, Path], *, load_images: bool=True, max_memory_bytes: int=1024 ** 3, return_result: bool=False)
-def read_singleron(path: Union[str, Path], *, load_images: bool=True, max_memory_bytes: int=1024 ** 3, return_result: bool=False)
 ```
 
 ## spateo/io/spatial/_geometry.py
@@ -59,6 +66,20 @@ def add_image_layer(adata: AnnData, img: np.ndarray, scale_factor: float, slice:
 def read_image(adata: AnnData, filename: str, scale_factor: float, slice: Optional[str]=None, img_layer: Optional[str]=None)
 ```
 
+## spateo/io/spatial/_layout.py
+
+```python
+def Candidate.identity(self)
+def inventory(path: Path, max_files: int, max_depth: int)
+```
+
+## spateo/io/spatial/_matrix.py
+
+```python
+def table(path, *, full=False, budget=512 * 1024 ** 2, positions=False)
+def integer_counts(values, technology)
+```
+
 ## spateo/io/spatial/_merfish.py
 
 ```python
@@ -71,11 +92,78 @@ def read_merfish(path: Union[str, Path], *, counts_file: str, meta_file: str, lo
 def read_nanostring(path: Union[str, Path], *, counts_file: str, meta_file: str, fov_file: Optional[str]=None)
 ```
 
+## spateo/io/spatial/_native_common.py
+
+```python
+def discover_mex(files, requested, technology, metadata_names, representation)
+def headerless_coordinates(path, technology, *, full=False, budget=512 * 1024 ** 2)
+def probe_native(candidate, budget, metadata_reader)
+def read_native(candidate, budget, metadata_reader, observation_type)
+def read_direct(path, module, load_images, max_memory_bytes, return_result)
+```
+
+## spateo/io/spatial/_native_readers.py
+
+```python
+def get_reader(technology)
+def discover_domestic(files, requested)
+```
+
 ## spateo/io/spatial/_provenance.py
 
 ```python
 def spatial_file_manifest(path: PathLike, *, max_files: int=10000)
 def record_spatial_io(adata: AnnData, *, technology: str, source: PathLike, reader: str, evidence: tuple[str, ...]=(), reader_kwargs: Optional[Mapping[str, Any]]=None, manifest: Optional[dict[str, Any]]=None, format_status: str='stable')
+```
+
+## spateo/io/spatial/_read_engine.py
+
+```python
+def run_reading(path, *, discover, probe, read_core, reader_name, technology=None, allowed=None, load=True, lazy=False, load_images=True, max_memory_bytes=1024 ** 3, max_files=10000, max_depth=4, prepare_candidate=None, group_candidates=None, resolve=_resolve, asset_loader=load_assets, explicit_platform=False)
+```
+
+## spateo/io/spatial/_read_result.py
+
+```python
+def SpatialDataset.load(self, *, max_memory_bytes: Optional[int]=None, retry: bool=False)
+def SpatialDataset.materialize(self, *, max_memory_bytes: Optional[int]=None, retry: bool=False)
+def SpatialDataset.to_dict(self)
+def SpatialReadResult.get(self, key, default=None)
+def SpatialReadResult.keys(self)
+def SpatialReadResult.values(self)
+def SpatialReadResult.items(self)
+def SpatialReadResult.load(self, key=None, *, max_memory_bytes: Optional[int]=None, retry: bool=False)
+def SpatialReadResult.status(self)
+def SpatialReadResult.adata(self)
+def SpatialReadResult.report(self)
+def SpatialReadResult.write_report(self, path)
+```
+
+## spateo/io/spatial/_recovery.py
+
+```python
+def required_paths(candidate)
+def diagnostic_report(diagnostic, *, technology=None, source=None, required_files=())
+```
+
+## spateo/io/spatial/_salus.py
+
+```python
+def discover(files, requested)
+def metadata(candidate, *, full=False, budget=512 * 1024 ** 2)
+def probe(candidate, budget)
+def read_core(candidate, budget)
+def read_salus(path: Union[str, Path], *, load_images: bool=True, max_memory_bytes: int=1024 ** 3, return_result: bool=False)
+```
+
+## spateo/io/spatial/_seekspace.py
+
+```python
+def discover(files, requested)
+def metadata(candidate, *, full=False, budget=512 * 1024 ** 2)
+def probe(candidate, budget)
+def read_core(candidate, budget)
+def read_seekspace(path: Union[str, Path], *, load_images: bool=True, max_memory_bytes: int=1024 ** 3, return_result: bool=False)
 ```
 
 ## spateo/io/spatial/_seqfish.py
@@ -88,6 +176,16 @@ def read_seqfish(path: Union[str, Path], *, counts_file: str, meta_file: str, lo
 
 ```python
 def read_seqscope(matrix_dir: PathLike, positions_path: PathLike, binsize: Optional[int]=1, add_props: bool=True)
+```
+
+## spateo/io/spatial/_singleron.py
+
+```python
+def discover(files, requested)
+def metadata(candidate, *, full=False, budget=512 * 1024 ** 2)
+def probe(candidate, budget)
+def read_core(candidate, budget)
+def read_singleron(path: Union[str, Path], *, load_images: bool=True, max_memory_bytes: int=1024 ** 3, return_result: bool=False)
 ```
 
 ## spateo/io/spatial/_slideseq.py
@@ -158,7 +256,6 @@ def read_spatial(path: Union[str, Path], *, technology: Optional[str]=None, load
 ## spateo/io/spatial/auto/_contracts.py
 
 ```python
-def table(path, *, full=False, budget=512 * 1024 ** 2, positions=False)
 def probe(candidate: Candidate, budget)
 def read_core(candidate: Candidate, budget)
 ```
@@ -166,42 +263,7 @@ def read_core(candidate: Candidate, budget)
 ## spateo/io/spatial/auto/_discovery.py
 
 ```python
-def Candidate.identity(self)
-def inventory(path: Path, max_files: int, max_depth: int)
 def discover(files: List[Path], requested: Path, technology=None, diagnostics=None)
-```
-
-## spateo/io/spatial/auto/_domestic.py
-
-```python
-def discover_domestic(files, requested)
-def metadata(candidate, *, full=False, budget=512 * 1024 ** 2)
-def integer_counts(values, technology)
-def finish(adata, candidate)
-```
-
-## spateo/io/spatial/auto/_recovery.py
-
-```python
-def required_paths(candidate)
-def diagnostic_report(diagnostic, *, technology=None, source=None, required_files=())
-```
-
-## spateo/io/spatial/auto/_result.py
-
-```python
-def SpatialDataset.load(self, *, max_memory_bytes: Optional[int]=None, retry: bool=False)
-def SpatialDataset.materialize(self, *, max_memory_bytes: Optional[int]=None, retry: bool=False)
-def SpatialDataset.to_dict(self)
-def SpatialReadResult.get(self, key, default=None)
-def SpatialReadResult.keys(self)
-def SpatialReadResult.values(self)
-def SpatialReadResult.items(self)
-def SpatialReadResult.load(self, key=None, *, max_memory_bytes: Optional[int]=None, retry: bool=False)
-def SpatialReadResult.status(self)
-def SpatialReadResult.adata(self)
-def SpatialReadResult.report(self)
-def SpatialReadResult.write_report(self, path)
 ```
 
 ## spateo/io/spatial/auto/_stereo.py

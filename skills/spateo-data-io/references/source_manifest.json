@@ -1,10 +1,10 @@
 {
   "repository": "https://github.com/gmhhhhhh-929/spateo-release",
-  "commit": "d884216b2f030bcb5616b01a8f950d31e1e6d833",
+  "commit": "82002ba0910a0fa29874f1da92e49a76bc9186a7",
   "files": [
     {
       "path": "spateo/io/__init__.py",
-      "sha256": "ba8b47153b7bd9c450f7bfa9fd3a2f7242f9e93bedf4c0bf2d10f7c456b543ef",
+      "sha256": "23ae81bda56164d508d00cdae08074b07952de48c95814ae5ca7eca08ee4f926",
       "signatures": []
     },
     {
@@ -50,8 +50,15 @@
     },
     {
       "path": "spateo/io/spatial/__init__.py",
-      "sha256": "1f4f685f9b31ca90da8fd86c0bf373693a6e607f14a92db62b5ff2e086dd1dd7",
+      "sha256": "c9d4252f31f85903a8139c7abb3871aa6c72943b0ad7e679fde94531196b8871",
       "signatures": []
+    },
+    {
+      "path": "spateo/io/spatial/_assets.py",
+      "sha256": "75462a96dc153d451b1fb2b287d82cc605c828e558b56c8ecb47e51d65090458",
+      "signatures": [
+        "def load_assets(adata, candidate, enabled, budget, diagnostics, *, image_budget=32 * 1024 ** 2)"
+      ]
     },
     {
       "path": "spateo/io/spatial/_atera.py",
@@ -61,14 +68,25 @@
       ]
     },
     {
-      "path": "spateo/io/spatial/_domestic.py",
-      "sha256": "e8f7ec1f3906a8bc4ced8967ececef290a529bb8f8eff9774d45274990fcac81",
+      "path": "spateo/io/spatial/_bmkmanu.py",
+      "sha256": "a835caf663d520d68dc25794b1a76a7a9fa7710d79aec8cbfa68f4722c3d0d47",
       "signatures": [
-        "def read_seekspace(path: Union[str, Path], *, load_images: bool=True, max_memory_bytes: int=1024 ** 3, return_result: bool=False)",
-        "def read_bmkmanu(path: Union[str, Path], *, load_images: bool=True, max_memory_bytes: int=1024 ** 3, return_result: bool=False)",
-        "def read_salus(path: Union[str, Path], *, load_images: bool=True, max_memory_bytes: int=1024 ** 3, return_result: bool=False)",
-        "def read_singleron(path: Union[str, Path], *, load_images: bool=True, max_memory_bytes: int=1024 ** 3, return_result: bool=False)"
+        "def discover(files, requested)",
+        "def metadata(candidate, *, full=False, budget=512 * 1024 ** 2)",
+        "def probe(candidate, budget)",
+        "def read_core(candidate, budget)",
+        "def read_bmkmanu(path: Union[str, Path], *, load_images: bool=True, max_memory_bytes: int=1024 ** 3, return_result: bool=False)"
       ]
+    },
+    {
+      "path": "spateo/io/spatial/_domestic.py",
+      "sha256": "8e29d04b3a2b3d8f5ad479c1acb7a43a6cf411cb46b25e3c30e0198944f2700c",
+      "signatures": []
+    },
+    {
+      "path": "spateo/io/spatial/_errors.py",
+      "sha256": "032dc1263a778eaa283987ccb4ba87e23ee93c5660f14ed239ca92d0d5631df4",
+      "signatures": []
     },
     {
       "path": "spateo/io/spatial/_geometry.py",
@@ -87,6 +105,22 @@
       ]
     },
     {
+      "path": "spateo/io/spatial/_layout.py",
+      "sha256": "b2969bea8a45341b763a9f38e914ef1e4cebb9ce49968bf05c6a3695becc70c7",
+      "signatures": [
+        "def Candidate.identity(self)",
+        "def inventory(path: Path, max_files: int, max_depth: int)"
+      ]
+    },
+    {
+      "path": "spateo/io/spatial/_matrix.py",
+      "sha256": "cd6eef32161bb1c61ae79b0e3330a264776e380c18fff80decaa8bd121f5d276",
+      "signatures": [
+        "def table(path, *, full=False, budget=512 * 1024 ** 2, positions=False)",
+        "def integer_counts(values, technology)"
+      ]
+    },
+    {
       "path": "spateo/io/spatial/_merfish.py",
       "sha256": "bea8ba62e2d4ac3b1024e7cb15792f955e3d3c9789d568a3904abea94ed07e20",
       "signatures": [
@@ -101,11 +135,85 @@
       ]
     },
     {
+      "path": "spateo/io/spatial/_native_common.py",
+      "sha256": "6f986f48a359f8be7960ff933253778bfe4668834e6f2065091f191f71399c68",
+      "signatures": [
+        "def discover_mex(files, requested, technology, metadata_names, representation)",
+        "def headerless_coordinates(path, technology, *, full=False, budget=512 * 1024 ** 2)",
+        "def probe_native(candidate, budget, metadata_reader)",
+        "def read_native(candidate, budget, metadata_reader, observation_type)",
+        "def read_direct(path, module, load_images, max_memory_bytes, return_result)"
+      ]
+    },
+    {
+      "path": "spateo/io/spatial/_native_readers.py",
+      "sha256": "6a0966444250aa44cd583ccff5888f6a0d249e0202bf53b4bddd0b48d1a324c2",
+      "signatures": [
+        "def get_reader(technology)",
+        "def discover_domestic(files, requested)"
+      ]
+    },
+    {
       "path": "spateo/io/spatial/_provenance.py",
       "sha256": "5f57b1f4796a803e05f5a11b89831aab6afa62257b801e5de52ceb28f14110fd",
       "signatures": [
         "def spatial_file_manifest(path: PathLike, *, max_files: int=10000)",
         "def record_spatial_io(adata: AnnData, *, technology: str, source: PathLike, reader: str, evidence: tuple[str, ...]=(), reader_kwargs: Optional[Mapping[str, Any]]=None, manifest: Optional[dict[str, Any]]=None, format_status: str='stable')"
+      ]
+    },
+    {
+      "path": "spateo/io/spatial/_read_engine.py",
+      "sha256": "373a24700c27f9bdbf3343ade4247610bcc45c91c37fad849c54d2124a3aba00",
+      "signatures": [
+        "def run_reading(path, *, discover, probe, read_core, reader_name, technology=None, allowed=None, load=True, lazy=False, load_images=True, max_memory_bytes=1024 ** 3, max_files=10000, max_depth=4, prepare_candidate=None, group_candidates=None, resolve=_resolve, asset_loader=load_assets, explicit_platform=False)"
+      ]
+    },
+    {
+      "path": "spateo/io/spatial/_read_result.py",
+      "sha256": "d0d5b203e23f68f4f6cac03b5c28ae616306b3319cc048bb33b08daa91a72976",
+      "signatures": [
+        "def SpatialDataset.load(self, *, max_memory_bytes: Optional[int]=None, retry: bool=False)",
+        "def SpatialDataset.materialize(self, *, max_memory_bytes: Optional[int]=None, retry: bool=False)",
+        "def SpatialDataset.to_dict(self)",
+        "def SpatialReadResult.get(self, key, default=None)",
+        "def SpatialReadResult.keys(self)",
+        "def SpatialReadResult.values(self)",
+        "def SpatialReadResult.items(self)",
+        "def SpatialReadResult.load(self, key=None, *, max_memory_bytes: Optional[int]=None, retry: bool=False)",
+        "def SpatialReadResult.status(self)",
+        "def SpatialReadResult.adata(self)",
+        "def SpatialReadResult.report(self)",
+        "def SpatialReadResult.write_report(self, path)"
+      ]
+    },
+    {
+      "path": "spateo/io/spatial/_recovery.py",
+      "sha256": "5e145e1c6799afe9afd3ad14d3ee9eecc4c2f93c1ae2e046868678f0d2163c6d",
+      "signatures": [
+        "def required_paths(candidate)",
+        "def diagnostic_report(diagnostic, *, technology=None, source=None, required_files=())"
+      ]
+    },
+    {
+      "path": "spateo/io/spatial/_salus.py",
+      "sha256": "891945f6e1e3185d2a126b724d48dbbc6b7c09e108f30c0eef3daa5d5375ea74",
+      "signatures": [
+        "def discover(files, requested)",
+        "def metadata(candidate, *, full=False, budget=512 * 1024 ** 2)",
+        "def probe(candidate, budget)",
+        "def read_core(candidate, budget)",
+        "def read_salus(path: Union[str, Path], *, load_images: bool=True, max_memory_bytes: int=1024 ** 3, return_result: bool=False)"
+      ]
+    },
+    {
+      "path": "spateo/io/spatial/_seekspace.py",
+      "sha256": "e7bba83d5d3bbd4b09af887f3a99814ae6947b150d4148bd9fdba9dd1b355a44",
+      "signatures": [
+        "def discover(files, requested)",
+        "def metadata(candidate, *, full=False, budget=512 * 1024 ** 2)",
+        "def probe(candidate, budget)",
+        "def read_core(candidate, budget)",
+        "def read_seekspace(path: Union[str, Path], *, load_images: bool=True, max_memory_bytes: int=1024 ** 3, return_result: bool=False)"
       ]
     },
     {
@@ -120,6 +228,17 @@
       "sha256": "db8e7c6a2f169fa564097953816b8fa7419ef318a8642c46ae79ec1c31581a05",
       "signatures": [
         "def read_seqscope(matrix_dir: PathLike, positions_path: PathLike, binsize: Optional[int]=1, add_props: bool=True)"
+      ]
+    },
+    {
+      "path": "spateo/io/spatial/_singleron.py",
+      "sha256": "f324928fd768b090683f6fddfadc32e053b6459faea2c21f1f9609dbd5aae99d",
+      "signatures": [
+        "def discover(files, requested)",
+        "def metadata(candidate, *, full=False, budget=512 * 1024 ** 2)",
+        "def probe(candidate, budget)",
+        "def read_core(candidate, budget)",
+        "def read_singleron(path: Union[str, Path], *, load_images: bool=True, max_memory_bytes: int=1024 ** 3, return_result: bool=False)"
       ]
     },
     {
@@ -195,42 +314,34 @@
     },
     {
       "path": "spateo/io/spatial/auto/_automatic.py",
-      "sha256": "e55cd30176477047b86b78136eb7ee36696e2aafbf6b8d00f31fe9915a2ec7be",
+      "sha256": "c4c241d6a771053c60757cd793de971b6e6c983379d88190f2d42e08f320ac41",
       "signatures": [
         "def read_spatial(path: Union[str, Path], *, technology: Optional[str]=None, load: bool=True, lazy: bool=False, load_images: bool=True, max_memory_bytes: int=_DEFAULT_MEMORY, max_files: int=10000, max_depth: int=4, stereoseq_bin_size: Optional[int]=None, stereoseq_chemistry: Optional[str]=None)"
       ]
     },
     {
       "path": "spateo/io/spatial/auto/_contracts.py",
-      "sha256": "700e9e515d2284a56dc8e8b95c052266ddf3d1feb3a4c76d784141b51d6ae48b",
+      "sha256": "5062d5eab4550e456279ccfa4500c2baebf87c6eaf641ccd4c3c960122fa6c4b",
       "signatures": [
-        "def table(path, *, full=False, budget=512 * 1024 ** 2, positions=False)",
         "def probe(candidate: Candidate, budget)",
         "def read_core(candidate: Candidate, budget)"
       ]
     },
     {
       "path": "spateo/io/spatial/auto/_discovery.py",
-      "sha256": "f6ade089bcb3ef0306b7094a68903a07fe9399cf3d68146779fa76d4c85f6f2d",
+      "sha256": "fc106b47e4871d2802bd950d7b7149aa41f20a9c4155c89feadb4f1a06042932",
       "signatures": [
-        "def Candidate.identity(self)",
-        "def inventory(path: Path, max_files: int, max_depth: int)",
         "def discover(files: List[Path], requested: Path, technology=None, diagnostics=None)"
       ]
     },
     {
       "path": "spateo/io/spatial/auto/_domestic.py",
-      "sha256": "87bcfc332327f0b2121103f26f62fabf972331dd877ee3bcd76baa1fb041e8f0",
-      "signatures": [
-        "def discover_domestic(files, requested)",
-        "def metadata(candidate, *, full=False, budget=512 * 1024 ** 2)",
-        "def integer_counts(values, technology)",
-        "def finish(adata, candidate)"
-      ]
+      "sha256": "853699bacf363d22e24d0436694b17bfa55dfc07bd730b280be6e85805a4ae51",
+      "signatures": []
     },
     {
       "path": "spateo/io/spatial/auto/_errors.py",
-      "sha256": "032dc1263a778eaa283987ccb4ba87e23ee93c5660f14ed239ca92d0d5631df4",
+      "sha256": "6df3b47520ee39fe97369e847686bb2ee0f99e504cd340b6f3f453dd9292f133",
       "signatures": []
     },
     {
@@ -240,29 +351,13 @@
     },
     {
       "path": "spateo/io/spatial/auto/_recovery.py",
-      "sha256": "fce1a04953cf869daaa63ba7359632d11fc04033a4c643857e52606cd14f4fe3",
-      "signatures": [
-        "def required_paths(candidate)",
-        "def diagnostic_report(diagnostic, *, technology=None, source=None, required_files=())"
-      ]
+      "sha256": "0aa4ead90edee086ea4ba77378a1b8ab890f71b94d0cf5905b0b76363c18beba",
+      "signatures": []
     },
     {
       "path": "spateo/io/spatial/auto/_result.py",
-      "sha256": "ac29635373b43f40a5508b4d23db7575565def1e678df5a23c869ccd9479b4b4",
-      "signatures": [
-        "def SpatialDataset.load(self, *, max_memory_bytes: Optional[int]=None, retry: bool=False)",
-        "def SpatialDataset.materialize(self, *, max_memory_bytes: Optional[int]=None, retry: bool=False)",
-        "def SpatialDataset.to_dict(self)",
-        "def SpatialReadResult.get(self, key, default=None)",
-        "def SpatialReadResult.keys(self)",
-        "def SpatialReadResult.values(self)",
-        "def SpatialReadResult.items(self)",
-        "def SpatialReadResult.load(self, key=None, *, max_memory_bytes: Optional[int]=None, retry: bool=False)",
-        "def SpatialReadResult.status(self)",
-        "def SpatialReadResult.adata(self)",
-        "def SpatialReadResult.report(self)",
-        "def SpatialReadResult.write_report(self, path)"
-      ]
+      "sha256": "dbe0c2bf2d69c906c2d4af1fa593493019ccf1c0616cc5989e093bf8d4ba4d4c",
+      "signatures": []
     },
     {
       "path": "spateo/io/spatial/auto/_stereo.py",
