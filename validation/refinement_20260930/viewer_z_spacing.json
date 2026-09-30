@@ -1,0 +1,27 @@
+{
+  "date": "2026-09-30",
+  "scope": "Display-only Cell mapping Z separation; no scientific recomputation",
+  "dataset": "7dpa1 / 10dpa1 CNS",
+  "payload_unchanged": true,
+  "payload_sha256": "72c0d95a2db0141d1b4e67ba1475924351d3d7b5a56219b910dd3791aa67fcd7",
+  "geometry_checks": {
+    "gaps": [
+      -1025,
+      0,
+      400,
+      1025
+    ],
+    "all_3291_source_endpoints_max_error": 0,
+    "input_arrays_unchanged": true
+  },
+  "browser_checks": [
+    "Positive and negative spacing",
+    "Exact offset labels",
+    "Reset to zero",
+    "Automatic top-to-oblique camera",
+    "Mapping offset excluded from Vector field page",
+    "No browser console errors"
+  ],
+  "javascript_syntax": "passed",
+  "installed_copy_matches": true
+}
