@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="3900pt" height="3200pt" viewBox="0 0 3900 3200" version="1.1">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="3900pt" height="4150pt" viewBox="0 0 3900 4150" version="1.1">
 <title>Spateo Referee — signal-dependent QC, window handling and binary decisions</title>
-<desc>Editable vector workflow. Joint review v2. Panels A–F contain current implementation branches; code function names in object descriptions provide traceability. All labels are live Arial text. No raster or embedded HTML.</desc>
-<rect x="0" y="0" width="3900" height="3200" fill="#FFFFFF"/>
+<desc>Editable vector workflow. Tissue loss v3. Panels A–F contain current implementation branches; code function names in object descriptions provide traceability. All labels are live Arial text. No raster or embedded HTML.</desc>
+<rect x="0" y="0" width="3900" height="4150" fill="#FFFFFF"/>
 
 <g id="title_and_reading_key"><title>title and reading key</title><desc></desc>
 <text x="60" y="66" font-family="Arial" font-size="49" font-weight="700" text-anchor="start" fill="#183047">Spateo Referee</text>
-<text x="60" y="110" font-family="Arial" font-size="28" font-weight="400" text-anchor="start" fill="#56697D">Signal-dependent slice QC • sliding windows • evidence aggregation • auditable keep / exclude</text>
-<text x="3840" y="54" font-family="Arial" font-size="24" font-weight="700" text-anchor="end" fill="#183047">Joint review v2  |  13 September 2026</text>
-<text x="3840" y="94" font-family="Arial" font-size="23" font-weight="400" text-anchor="end" fill="#56697D">Metric-stress tested; independent biological validation incomplete</text>
+<text x="60" y="110" font-family="Arial" font-size="28" font-weight="400" text-anchor="start" fill="#56697D">Signal-dependent slice QC • sliding windows • evidence aggregation • auditable retain / exclude</text>
+<text x="3840" y="54" font-family="Arial" font-size="24" font-weight="700" text-anchor="end" fill="#183047">Tissue loss v3  |  28 September 2026</text>
+<text x="3840" y="94" font-family="Arial" font-size="23" font-weight="400" text-anchor="end" fill="#56697D">Experimental; no independent biological certification</text>
 </g>
 <g id="panel_A" inkscape:groupmode="layer" inkscape:label="A - Input contracts &amp; signal routing" transform="translate(60,160)">
 <rect x="0" y="0" width="1200" height="1410" rx="20" fill="#FFFFFF" stroke="#C3D0DD" stroke-width="2"/>
@@ -505,26 +505,26 @@
 <polyline points="600,694 600,733" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
 <path d="M600,733 L595.0,720.0 L605.0,720.0 Z" fill="#657B91"/>
 </g>
-<g id="d_protection"><title>d protection</title><desc>_score_metrics: density_only OR taper_like</desc>
+<g id="d_protection"><title>d protection</title><desc>_score_metrics: legacy geometry candidate AND anatomy_smooth_taper_evidence AND no independent loss</desc>
 <path d="M 600 906.5 L 847.5 969 L 600 1031.5 L 352.5 969 Z" fill="#EEE9F7" stroke="#657B91" stroke-width="2"/>
-<text x="600" y="977.0" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Anatomical protection?</text>
+<text x="600" y="977.0" font-family="Arial" font-size="23" font-weight="700" text-anchor="middle" fill="#183047">Smooth anatomy supported?</text>
 </g>
 <g id="connector_48"><title>connector 48</title><desc></desc>
 <polyline points="600,877 600,906.5" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
 <path d="M600,906.5 L595.0,893.5 L605.0,893.5 Z" fill="#657B91"/>
 </g>
-<g id="d_guard_rule"><title>d guard rule</title><desc>_score_metrics: density_only; taper_like</desc>
+<g id="d_guard_rule"><title>d guard rule</title><desc>_score_metrics: anatomy_smooth_taper_evidence; geometry_loss_candidate; capture_loss_candidate</desc>
 <rect x="25" y="1068" width="680" height="166" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
-<text x="365.0" y="1102" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Protection conditions (either suffices)</text>
-<text x="365.0" y="1135" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">D≥.48, X&lt;.32, M&lt;.38, C&lt;.45; OR</text>
-<text x="365.0" y="1164" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">amount anomaly≥.45, density anomaly&lt;.30,</text>
-<text x="365.0" y="1193" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">hole anomaly&lt;.30, X&lt;.35</text>
+<text x="365.0" y="1102" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Positive transition evidence required</text>
+<text x="365.0" y="1135" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Legacy geometry-looking candidate AND</text>
+<text x="365.0" y="1164" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">actual count + area between immediate neighbors</text>
+<text x="365.0" y="1193" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">normal molecular/continuity; no bilateral loss</text>
 </g>
 <g id="d_guard_yes"><title>d guard yes</title><desc></desc>
 <rect x="785" y="1070" width="390" height="130" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
 <text x="980.0" y="1104" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Protected</text>
 <text x="980.0" y="1137" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">S ← min(S₀, .62)</text>
-<text x="980.0" y="1166" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Block automatic exclusion</text>
+<text x="980.0" y="1166" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Protect only supported transition</text>
 </g>
 <g id="connector_49"><title>connector 49</title><desc></desc>
 <polyline points="847.5,969 980,969 980,1070" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
@@ -553,13 +553,13 @@
 <path d="M460,1004 L465.0,1017.0 L455.0,1017.0 Z" fill="#657B91"/>
 </g>
 </g>
-<g id="panel_E" inkscape:groupmode="layer" inkscape:label="E - Two-stage filtering" transform="translate(1350,1640)">
+<g id="panel_E" inkscape:groupmode="layer" inkscape:label="E - Legacy score route" transform="translate(1350,1640)">
 <rect x="0" y="0" width="1200" height="1410" rx="20" fill="#FFFFFF" stroke="#C3D0DD" stroke-width="2"/>
 <path d="M20 0 H1180 Q1200 0 1200 20 V112 H0 V20 Q0 0 20 0" fill="#F1F5F9"/>
 <circle cx="52" cy="47" r="27" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
 <text x="52" y="55" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">E</text>
-<text x="101" y="45" font-family="Arial" font-size="32" font-weight="700" text-anchor="start" fill="#183047">Two-stage filtering</text>
-<text x="101" y="83" font-family="Arial" font-size="22" font-weight="400" text-anchor="start" fill="#56697D">Only keep / exclude are public; all review routes remain in the audit</text>
+<text x="101" y="45" font-family="Arial" font-size="32" font-weight="700" text-anchor="start" fill="#183047">Legacy score route</text>
+<text x="101" y="83" font-family="Arial" font-size="22" font-weight="400" text-anchor="start" fill="#56697D">Parallel with G; retain is provisional until every exclusion route is evaluated</text>
 <g id="e_detector"><title>e detector</title><desc>_score_metrics: recommendations</desc>
 <rect x="25" y="145" width="1150" height="185" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
 <text x="600.0" y="179" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Internal detector (distinct from final thresholds)</text>
@@ -666,7 +666,7 @@
 </g>
 <g id="e_keep"><title>e keep</title><desc></desc>
 <rect x="125" y="1310" width="380" height="68" rx="12" fill="#E5F3E8" stroke="#657B91" stroke-width="1.8"/>
-<text x="315.0" y="1344" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">KEEP</text>
+<text x="315.0" y="1344" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">RETAIN CANDIDATE</text>
 </g>
 <g id="e_exclude"><title>e exclude</title><desc></desc>
 <rect x="695" y="1310" width="380" height="68" rx="12" fill="#FBE6E8" stroke="#657B91" stroke-width="1.8"/>
@@ -694,7 +694,7 @@
 <rect x="1034.0" y="850" width="112" height="30" fill="white"/>
 <text x="1090" y="873" font-family="Arial" font-size="22" font-weight="700" text-anchor="middle" fill="#56697D">all pass</text>
 </g>
-<text x="600" y="1400" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#56697D">Non-finite score / insufficient evidence → conservative keep + recorded diagnostics.</text>
+<text x="600" y="1400" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#56697D">Score route alone is not final: combine with G using OR; retain only if both fail.</text>
 </g>
 <g id="panel_F" inkscape:groupmode="layer" inkscape:label="F - Audit, display &amp; exact ROI" transform="translate(2640,1640)">
 <rect x="0" y="0" width="1200" height="1410" rx="20" fill="#FFFFFF" stroke="#C3D0DD" stroke-width="2"/>
@@ -707,7 +707,7 @@
 <rect x="25" y="148" width="1150" height="140" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
 <text x="600.0" y="182" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Save one audit row per original slice</text>
 <text x="600.0" y="215" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Raw score, detector call, stage-1 route, stage-2 tier, window checks, failed gates, final_call</text>
-<text x="600.0" y="244" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Freeze policy + hashes; experimental_policy clears certification. Keep ≠ proven healthy.</text>
+<text x="600.0" y="244" font-family="Arial" font-size="21" font-weight="400" text-anchor="middle" fill="#183047">Also save loss deficits, route and window confirmations. Retain ≠ proven healthy.</text>
 </g>
 <g id="connector_67"><title>connector 67</title><desc></desc>
 <polyline points="600,288 600,348" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
@@ -836,9 +836,81 @@
 </g>
 <g id="figure_notes"><title>figure notes</title><desc></desc>
 <text x="60" y="3103" font-family="Arial" font-size="22" font-weight="700" text-anchor="start" fill="#183047">READING KEY</text>
-<text x="250" y="3103" font-family="Arial" font-size="23" font-weight="400" text-anchor="start" fill="#183047">A → B → C → D → E → F; availability branches in A may operate in parallel.</text>
+<text x="250" y="3103" font-family="Arial" font-size="23" font-weight="400" text-anchor="start" fill="#183047">A → B → C → D → E; raw bilateral loss route G runs in parallel; (E OR G) → F.</text>
 <text x="60" y="3142" font-family="Arial" font-size="22" font-weight="700" text-anchor="start" fill="#183047">Frozen policy:</text>
 <text x="250" y="3142" font-family="Arial" font-size="23" font-weight="400" text-anchor="start" fill="#183047">K=0.129; split=0.540; E=0.700; strongest domain low/high=0.65/0.60. Local references can adapt; these policy values do not.</text>
 <text x="60" y="3179" font-family="Arial" font-size="22" font-weight="700" text-anchor="start" fill="#183047">Traceability:</text>
 <text x="250" y="3179" font-family="Arial" font-size="23" font-weight="400" text-anchor="start" fill="#183047">Named SVG groups contain source-function descriptions. Full metric limits, score mappings and validation scope: companion methods document.</text>
-</g></svg>
+</g>
+<g id="panel_G" inkscape:groupmode="layer" inkscape:label="G - Bilateral loss route" transform="translate(60,3250)">
+<rect width="3780" height="840" rx="20" fill="#FFFFFF" stroke="#C3D0DD" stroke-width="2"/>
+<circle cx="52" cy="47" r="27" fill="#EAF2FB" stroke="#657B91" stroke-width="2"/>
+<text x="52" y="55" font-family="Arial" font-size="24" font-weight="700" text-anchor="middle" fill="#183047">G</text>
+<text x="101" y="45" font-family="Arial" font-size="32" font-weight="700" text-anchor="start" fill="#183047">Bilateral tissue / capture loss → independent exclusion route</text>
+<text x="101" y="85" font-family="Arial" font-size="24" font-weight="400" text-anchor="start" fill="#56697D">Raw measurement deficits; no second anomaly domain, no old score cutoff; experimental mechanism, not biological certification</text>
+<g id="g_reference"><title>g reference</title><desc>_bilateral_loss_evidence; _score_metrics</desc>
+<rect x="35" y="155" width="820" height="180" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="445.0" y="189" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Conservative bilateral reference</text>
+<text x="445.0" y="222" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">At each available 3 / 5 / 7 window:</text>
+<text x="445.0" y="251" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">reference = min(median(left), median(right))</text>
+<text x="445.0" y="280" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">deficit = max(0, 1 − observed / reference)</text>
+<text x="445.0" y="309" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Both sides finite and positive; exclude focal slice</text>
+</g>
+<g id="g_geometry"><title>g geometry</title><desc>point_loss_fraction; area_loss_fraction; density_loss_fraction; geometry_loss_candidate</desc>
+<rect x="1025" y="135" width="970" height="185" rx="12" fill="#E3F3F0" stroke="#657B91" stroke-width="1.8"/>
+<text x="1510.0" y="169" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Geometry route</text>
+<text x="1510.0" y="202" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Locations deficit ≥50%</text>
+<text x="1510.0" y="231" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">AND (area deficit ≥35% OR density deficit ≥35%)</text>
+<text x="1510.0" y="260" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Correlated physical corroboration, not independent domains</text>
+</g>
+<g id="g_capture"><title>g capture</title><desc>capture_count_loss_fraction; capture_gene_loss_fraction; capture_loss_candidate</desc>
+<rect x="1025" y="380" width="970" height="185" rx="12" fill="#EAF2FB" stroke="#657B91" stroke-width="1.8"/>
+<text x="1510.0" y="414" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Measured capture route</text>
+<text x="1510.0" y="447" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Captured-count deficit ≥50% AND genes deficit ≥30%</text>
+<text x="1510.0" y="476" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Explicit capture_loss_evidence_available required</text>
+<text x="1510.0" y="505" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Missing / normalized / one-hot proxies cannot substitute</text>
+</g>
+<g id="connector_83"><title>connector 83</title><desc></desc>
+<polyline points="855,220 1025,220" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1025,220 L1012.0,225.0 L1012.0,215.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_84"><title>connector 84</title><desc></desc>
+<polyline points="855,280 920,280 920,470 1025,470" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1025,470 L1012.0,475.0 L1012.0,465.0 Z" fill="#657B91"/>
+</g>
+<g id="g_confirm"><title>g confirm</title><desc>apply_high_confidence_policy: tissue_loss_exclusion_gate; tissue_loss_window_support</desc>
+<rect x="2180" y="210" width="900" height="220" rx="12" fill="#EEE9F7" stroke="#657B91" stroke-width="1.8"/>
+<text x="2630.0" y="244" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Confirm the same route across windows</text>
+<text x="2630.0" y="277" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Primary window must support the route</text>
+<text x="2630.0" y="306" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">≥min(2, available windows) confirmations in total</text>
+<text x="2630.0" y="335" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Matching primary-window scale counts toward that total</text>
+<text x="2630.0" y="364" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">No aggregate score or two-domain prerequisite</text>
+<text x="2630.0" y="393" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Record counts, failed reasons and complete window evidence</text>
+</g>
+<g id="connector_85"><title>connector 85</title><desc></desc>
+<polyline points="1995,227 2080,227 2080,280 2180,280" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M2180,280 L2167.0,285.0 L2167.0,275.0 Z" fill="#657B91"/>
+</g>
+<g id="connector_86"><title>connector 86</title><desc></desc>
+<polyline points="1995,470 2080,470 2080,365 2180,365" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M2180,365 L2167.0,370.0 L2167.0,360.0 Z" fill="#657B91"/>
+</g>
+<g id="g_final"><title>g final</title><desc>apply_high_confidence_policy: final_call; write_high_confidence_outputs</desc>
+<rect x="3250" y="220" width="475" height="170" rx="12" fill="#FBE6E8" stroke="#657B91" stroke-width="1.8"/>
+<text x="3487.5" y="254" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Final action</text>
+<text x="3487.5" y="287" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">EXCLUDE if E OR G passes</text>
+<text x="3487.5" y="316" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">otherwise RETAIN</text>
+<text x="3487.5" y="345" font-family="Arial" font-size="22" font-weight="400" text-anchor="middle" fill="#183047">Engine retain alias = keep</text>
+</g>
+<g id="connector_87"><title>connector 87</title><desc></desc>
+<polyline points="3080,310 3250,310" fill="none" stroke="#657B91" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M3250,310 L3237.0,315.0 L3237.0,305.0 Z" fill="#657B91"/>
+</g>
+<g id="g_limits"><title>g limits</title><desc>methods.md: ability boundaries; experimental_policy</desc>
+<rect x="35" y="650" width="3690" height="130" rx="12" fill="#FFF3D9" stroke="#657B91" stroke-width="1.8"/>
+<text x="1880.0" y="684" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle" fill="#183047">Limits to report, not hide</text>
+<text x="1880.0" y="717" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">Endpoints lack bilateral reference; whole-series or long consecutive degradation may remain missed.</text>
+<text x="1880.0" y="746" font-family="Arial" font-size="23" font-weight="400" text-anchor="middle" fill="#183047">Do not label simulated detection as real-data accuracy. Preserve controls, anatomical transitions and all failures.</text>
+</g>
+</g>
+</svg>

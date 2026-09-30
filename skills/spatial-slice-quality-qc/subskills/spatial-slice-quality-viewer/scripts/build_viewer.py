@@ -17,7 +17,8 @@ def main():
     parser.add_argument('--qc-skill', default=str(Path(__file__).resolve().parents[3]))
     parser.add_argument('--spateo-source')
     parser.add_argument('--policy', help='Optional existing frozen policy; run complete two-stage publication before rendering')
-    parser.add_argument('--application-scope', choices=['certified','new_input_unvalidated','experimental_policy'], default='certified')
+    parser.add_argument('--allow-unvalidated-policy', action='store_true', help='Explicit development consent to apply an unvalidated policy; never grants certification.')
+    parser.add_argument('--application-scope', choices=['certified','new_input_unvalidated','experimental_policy'], default='experimental_policy')
     parser.add_argument('--title', default='Spateo Referee')
     parser.add_argument('--language', choices=['en', 'zh'], default='en')
     parser.add_argument('--display-window', type=int, choices=[3, 5], default=5)
@@ -32,6 +33,11 @@ def main():
         parser.error('Batch input directory names must be distinct.')
     if args.source_h5ad and len(inputs) != 1:
         parser.error('--source-h5ad applies to one dataset; batch uses recorded source contracts/caches.')
+    if args.policy:
+        supplied = json.loads(Path(args.policy).read_text())
+        supplied = supplied.get('policy', supplied)
+        if supplied.get('enable_tissue_loss_resolver') and args.application_scope != 'experimental_policy':
+            parser.error('Tissue-loss v3 has no independent biological certification; use --application-scope experimental_policy.')
     scripts = Path(args.qc_skill).expanduser().resolve() / 'scripts'
     if not (scripts/'slice_quality_visualization.py').is_file():
         parser.error('The canonical QC skill renderer was not found: '+str(scripts))
@@ -63,7 +69,7 @@ def main():
             (dest/'display_preregistration').symlink_to(directory/'display_preregistration',target_is_directory=True)
         if args.policy:
             from run_slice_quality_qc import run_publish
-            run_publish(SimpleNamespace(input_dir=str(directory),output_dir=str(dest),policy=args.policy,complete_binary=True,allow_unvalidated_policy=False,application_scope=args.application_scope))
+            run_publish(SimpleNamespace(input_dir=str(directory),output_dir=str(dest),policy=args.policy,complete_binary=True,allow_unvalidated_policy=args.allow_unvalidated_policy,application_scope=args.application_scope))
         expected=pd.read_csv(dest/'slice_quality_metrics.csv',dtype={'slice_id':str}).sort_values('slice_index')
         audit=pd.read_csv(dest/'slice_quality_binary_audit.csv',dtype={'slice_id':str}).sort_values('slice_index')
         if audit.slice_id.duplicated().any() or audit.slice_id.tolist()!=expected.slice_id.tolist():
@@ -77,12 +83,19 @@ def main():
         ledger.append({'input_dir':str(directory),'output':result,'binary_audit_sha256':hashlib.sha256((dest/'slice_quality_binary_audit.csv').read_bytes()).hexdigest(),'full_roi_replay_input':str(directory)})
     if len(runs)>1:
         write_slice_quality_collection_report(runs,output/'index.html',title=args.title,binary_only=True)
+        index=output/'index.html'
+        content=index.read_text()
+        # Presentation aliases only; records and filters retain the engine's keep value.
+        content=content.replace('<span>${k}</span>', "<span>${k==='keep'?'retain':k}</span>")
+        content=content.replace('${R[j].recommendation})', "${R[j].recommendation==='keep'?'retain':R[j].recommendation})")
+        content=content.replace("decision+=' · all slices failing an enabled exclusion route are kept'", "if(p.enable_tissue_loss_resolver)decision+=' · parallel bilateral-loss route: point loss ≥50% plus area/density loss ≥35%, or measured counts loss ≥50% plus genes loss ≥30%; primary and required confirming windows; no aggregate-score floor';decision+=' · slices failing every exclusion route are retained'")
+        index.write_text(content)
         if any(item['output'].get('application_scope') == 'new_input_unvalidated' for item in ledger):
             index=output/'index.html'
             index.write_text(index.read_text().replace('</header>', '<p><b>Frozen-policy application to new inputs; these inputs have not been independently validated.</b></p></header>'))
         if any(item['output'].get('application_scope') == 'experimental_policy' for item in ledger):
             index=output/'index.html'
-            index.write_text(index.read_text().replace('</header>', '<p><b>Experimental joint-review policy: metric-stress evaluation only; no independent biological validation of this policy or these inputs.</b></p></header>'))
+            index.write_text(index.read_text().replace('</header>', '<p><b>Experimental policy: no independent biological certification of this policy or these inputs. Historical v2 validation is not v3 validation. Public states are retain / exclude; the audit uses keep as the retain alias.</b></p></header>'))
     provenance={'renderer':'slice_quality_visualization.render_binary_slice_quality_appendix','qc_skill':str(scripts.parent),'scripts':{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in [scripts/'slice_quality_visualization.py',scripts/'slice_quality_detail_roi.js',Path(__file__)]},'runs':ledger,'source_h5ad_modified':False}
     (output/'viewer_workflow.json').write_text(json.dumps(provenance,ensure_ascii=False,indent=2))
     print(json.dumps({'viewer':str(output/'index.html'),'datasets':len(runs),'provenance':str(output/'viewer_workflow.json')},ensure_ascii=False))

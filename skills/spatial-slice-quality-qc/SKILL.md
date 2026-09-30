@@ -1,6 +1,6 @@
 ---
 name: spatial-slice-quality-qc
-description: Quality-control ordered spatial-transcriptomics slices before alignment, using expression and morphology evidence, full low- and high-score review, display-only rigid preregistration, and traceable keep/exclude outputs. Use with the companion spatial-slice-quality-viewer for the current multi-panel report.
+description: Quality-control ordered spatial-transcriptomics slices before alignment, using bilateral tissue-loss and capture-loss evidence, multi-domain review, display-only rigid preregistration, and traceable retain/exclude outputs. Use with the companion spatial-slice-quality-viewer for the current multi-panel report.
 ---
 
 # Spateo Referee QC
@@ -13,11 +13,22 @@ thresholds, modifying the policy or preparing scientific methods text.
 For questions about individual workflow controls or ambiguous input/output, use
 [the node-by-node Chinese guide](references/NODE_EXPLANATIONS.md) or
 [the clickable diagram](references/workflow_explained.html). Node IDs link the
-61 explanations to the editable SVG; regenerate these together after diagram edits.
+explanations to the editable SVG; regenerate these together after diagram edits.
 
 ## Current decision contract
 
-The packaged joint-review policy keeps stage-1 thresholds K=0.129 and E=0.700.
+Use `policies/tissue_loss_v3.json` for new v3 runs. The v3 resolver adds a
+separate bilateral loss route to the retained joint-review v2 score route.
+Point loss must be supported by area or density loss; capture loss requires
+both count and gene deficits with explicit capture-evidence availability.
+The primary window and at least `min(2, available windows)` must confirm the
+same loss route. Do not require a second evidence domain or an aggregate-score
+threshold for this separate route. See methods for exact definitions.
+
+Anatomical protection requires positive evidence of a smooth local transition
+in both point count and area, normal molecular/continuity evidence, and no
+independent loss evidence. Normal expression alone is not proof of intact tissue.
+The legacy joint-review route keeps stage-1 thresholds K=0.129 and E=0.700.
 High-score direct exclusion requires detector `exclude`, two-sided neighborhood
 and no anatomical protection; otherwise the row enters internal review.
 The review boundary is 0.540. **Both bands execute evidence checks.**
@@ -28,12 +39,14 @@ must be no weaker than those of the higher score band. The runtime validates
 this relation. Say "higher/lower exclusion-evidence threshold", rather than an
 ambiguous "stricter QC".
 
-This joint policy has metric-stress evidence, not independent raw-matrix or
-biological certification. Apply it using `--application-scope experimental_policy`.
+This v3 policy is experimental; historical v2 metric-stress results do not
+validate v3. Apply it using `--application-scope experimental_policy`.
 That scope clears certified calls and labels the audit and viewer accordingly.
 Do not set independent-validation flags or reuse historical certification for it.
-Final actions are keep/exclude; internal review and each failed condition remain
-in the audit. Keep means evidence did not justify exclusion, not proven health.
+Public actions are retain/exclude; the engine and audit use `keep` as the retain
+alias. Internal review and each failed condition remain in the audit. Retain
+means evidence did not justify exclusion, not proven health. Endpoints,
+whole-series degradation and missing reference measurements can remain missed.
 
 ## Runtime and inputs
 
@@ -49,6 +62,11 @@ use `--manifest` with path/order when it differs. Multiple specimens must not
 share one artificial neighbor sequence. Verify count semantics: annotation
 one-hot is not measured expression; normalized X is not raw captured counts.
 Missing expression stays missing and cannot support capture evidence.
+For v3, rescan raw inputs or explicitly rescore a complete metric cache carrying
+the original geometry and measured-capture availability contract. A legacy audit
+without `loss_evidence_version=bilateral-v3` is not a v3 recalculation. Do not
+invent availability from finite normalized proxies. `SliceQCConfig` enables
+`tissue_loss_enabled` by default; set it false only for a labeled legacy replay.
 
 ## Run the current workflow
 
@@ -83,14 +101,20 @@ Publish and render through the companion viewer skill:
 ```bash
 python subskills/spatial-slice-quality-viewer/scripts/build_viewer.py \
   --input-dir /path/to/qc_run --output-dir /path/to/new_report \
-  --policy policies/joint_review_v2.json --application-scope experimental_policy \
+  --policy policies/tissue_loss_v3.json --allow-unvalidated-policy \
+  --application-scope experimental_policy \
   --language en
 ```
 
 This runs the existing publication function with complete binary resolution,
 then the existing detailed renderer. For a batch, supply several input
 folders with distinct basenames. To publish tables without rendering, use
-`publish --complete-binary --policy ... --application-scope experimental_policy`.
+`publish --complete-binary --policy ... --allow-unvalidated-policy --application-scope experimental_policy`.
+The explicit `--allow-unvalidated-policy` flag consents to experimental use,
+not certification. Its default is false; do not silently bypass a validation
+failure. Alternatively omit `--policy` to render an existing complete v3 audit
+without changing its decisions. Primary and confirming rows must carry the
+same `loss_evidence_config` as the supplied policy; mismatches require rescoring.
 
 ## Verify and hand off
 
@@ -98,9 +122,14 @@ Check every original slice appears exactly once; every internal review has a
 matched tier, complete window diagnostics and a recorded outcome. Confirm both
 score bands are enabled in the actual policy. Compare any new exclusions with
 the prior audit; preserve score, source and coordinate provenance.
+Also verify `tissue_loss_exclusion_gate`, route, bilateral deficit fractions,
+primary-window confirmation, confirming/available windows and failed reasons.
+Do not count initial review candidates as final detections. For known injected
+defects, detection is final exclude; report real-data exclusion counts separately
+from sensitivity or accuracy, which require ground-truth labels.
 
 The viewer must show the current multi-panel evidence page and only final
-keep/exclude states. It must retain preregistration warnings and experimental
+retain/exclude states. It must retain preregistration warnings and experimental
 policy scope. Do not describe a completed fit as anatomical correspondence.
 
 For an exported display ROI, replay on full cached points:

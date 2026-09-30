@@ -321,6 +321,46 @@ add('f_roi','准确框选并追溯原始点',
  '每片选中的原始行号/obs身份、坐标、计数、frame_id和原始ROI多边形。',
  '交付可追溯选区；它不回到D/E重新改变QC。','旋转后的展示矩形在原始坐标里是斜四边形，不能用其轴对齐外接框代替精确选区。','相同frame范围不保证完全相同的解剖区域；抽样点数量也不等于全量ROI点数量。')
 
+
+# v3 revisions: E remains an auditable legacy route; G can independently exclude.
+nodes['d_protection'].update(input='原有几何异常候选、实际点数和面积、紧邻片及分子/连续性与独立缺失证据。', operation='不仅检查旧版密度/收窄候选；还要求实际点数和面积均在前后紧邻片数值之间，分子/损伤/连续性相对正常，且没有独立组织/捕获损失候选。', caution='表达正常或残片致密本身不再足以获得保护；末端无双侧证据不等于自然解剖已确认。')
+nodes['d_guard_rule'].update(input='实际点数、实际覆盖面积、紧邻片测量和异常域。', operation='旧版几何保护候选 AND 点数与面积均为紧邻片间平滑过渡 AND 正常分子/损伤/连续性 AND 无独立损失。', example='若当前点数骤降到前后两侧之下，即使残余密度和表达正常，也不满足自然收窄证据。')
+nodes['e_keep_candidate'].update(output='多域路线的保留候选；仍需并行评估G。', next='沿左侧线进入e_keep；并行组织损失路线g_final合并最终动作。', caution='低总分不是组织完整性保证；不会使G提前返回。')
+nodes['e_keep'].update(title='多域路线未支持排除', operation='记录旧评分路线不足以自动排除的原因；G仍可独立支持排除。', output='多域保留候选，不是对G的否决。', next='与G结果在g_final按OR合并，再进入f_audit。')
+nodes['e_exclude'].update(title='多域路线支持排除', next='与G结果在g_final按OR合并，再进入f_audit。')
+nodes['e_all_gates']['caution'] += '这些条件只约束多域路线，不能额外施加给G的组织损失路线。'
+nodes['f_audit'].update(input='每片原始指标、总分、旧路线与v3路线、双侧缺失比例、确认窗口及最终动作。', example='公开retain/exclude；引擎keep是retain兼容别名。缺失比例是相对邻片观测值，不是模拟注入剂量。')
+add('g_reference','建立保守的双侧缺失参照',
+ '原始组织点数、面积、密度和明确可用的捕获计数/检出基因；有序邻片。',
+ '在每个可用窗口分别求左右邻片中位数，以较低者为参照，deficit=max(0,1-observed/reference)。两侧均须有限且参照为正；不使用焦点片自身。',
+ '逐指标双侧参照、缺失比例与可用性。',
+ '分流至g_geometry与g_capture。','前后点数1000/1200而焦点300，以1000为参照，观测缺失70%。','缺失比例不是注入真值；平滑单调收窄通常不低于两侧。')
+add('g_geometry','识别组织量与覆盖缺失',
+ '双侧点数、面积、密度缺失比例。',
+ '点数缺失至少50%，同时面积或密度缺失至少35%。边缘截断常降低面积，随机缺失/内部撕裂常降低密度；不强求表达同步受损。',
+ 'geometry_loss_candidate与原始缺失比例。',
+ '进入g_confirm。','残片仍然致密，但组织量与面积一起骤减时，面积支路仍可支持组织缺失。','三项指标具有物理相关性，不是三个统计独立的证据域；并不承诺所有程度都可检出。')
+add('g_capture','识别实测捕获损失',
+ '有明确可用性契约的捕获计数与检出基因双侧缺失比例。',
+ '计数中位数缺失至少50%，同时检出基因中位数缺失至少30%；capture_loss_evidence_available必须明确可用。',
+ 'capture_loss_candidate与可用性记录。',
+ '进入g_confirm。','归一化X的有限行和不能自动当作实测原始计数。','one-hot或来源不明代理量不构成实测捕获支持；没有表达证据不是表达正常。')
+add('g_confirm','确认主窗口和跨窗口证据',
+ '主窗口与可用3/5/7窗口各自的同一路线候选。',
+ '主窗口必须通过，同时至少min(2,available windows)个可用确认窗口通过；没有有效窗口不能通过。几何和捕获路线分别确认。',
+ 'tissue_loss_exclusion_gate、route、reason和JSON窗口支持记录。',
+ '进入g_final。','三个可用窗口有两个支持且主窗口支持，可通过；仅宽窗口支持而主窗口不支持不能通过。','不施加旧总分门槛、第二异常域或内部检测器标签前提。')
+add('g_final','合并并公开二元动作',
+ '多域路线E以及独立组织/捕获路线G的排除门控。',
+ '任一路线通过则exclude；全部不通过则retain。引擎final_call仍以keep表示retain，报告仅改变这个兼容名称，不把review改名为exclude。',
+ '唯一的最终retain/exclude动作与各路线审计。',
+ '进入f_audit并生成报告。','低总分但组织量/覆盖骤降且跨窗口确认的切片可合法排除。','retain不等于真实健康；exclude不是实验原因诊断，不自动删除源数据。')
+add('g_limits','明确实验范围与漏检边界',
+ '参照可用性、系列结构、真实标签与注入实验记录。',
+ '分别报告每类缺陷、剂量、对照、天然解剖过渡及所有失败。模拟检出率只统计最终exclude，不把review候选率当成最终检出率。',
+ '实验范围、不能判定的情况与诚实的性能指标。',
+ '随f_audit交付，不改变科学判定。','整条序列同时降质可能没有正常邻域作为参照。','端点、长连续缺损、缺失测量可能漏检；未经专家标注的真实数据排除率不是准确率。')
+
 # Match explanations to real editable SVG objects, not an independently redrawn figure.
 objects=json.loads(OBJECTS.read_text())
 objects.insert(next(i for i,o in enumerate(objects) if o['id']=='b_context'),dict(panel='B',id='b_sliding_window_example',type='illustration',x=115,y=540,w=1000,h=200,source='_local_expected; _choose_window'))
@@ -332,7 +372,7 @@ for obj in objects:
  counts[obj['panel']]+=1;code=f"{obj['panel']}{counts[obj['panel']]:02d}"
  row={**obj,**nodes[obj['id']],'code':code}
  g=groups[obj['id']];text=g.find('s:text',ns);row['label']=text.text if text is not None else row['title']
- if not row['source']:row['source']={'A':'_extract_one_file','B':'_choose_window','C':'_metric_anomaly','D':'_score_metrics','E':'apply_high_confidence_policy; _evaluate_review_tier_row','F':'slice_preregistration.py; slice_quality_visualization.py'}[row['panel']]
+ if not row['source']:row['source']={'A':'_extract_one_file','B':'_choose_window','C':'_metric_anomaly','D':'_score_metrics','E':'apply_high_confidence_policy; _evaluate_review_tier_row','F':'slice_preregistration.py; slice_quality_visualization.py','G':'apply_high_confidence_policy; _score_metrics'}[row['panel']]
  rows.append(row)
 by_id={r['id']:r for r in rows}
 # Replace identifier mentions with human-facing code + short Chinese names.
@@ -359,13 +399,13 @@ annotated=annotated.replace('</svg>','</svg>')
 
 intro='''# Spateo Referee：逐节点输入、操作与输出说明
 
-本说明覆盖完整流程图的60个处理/判断节点，以及1个滑动窗口示意控件，共61项。编号与[带编号SVG](spateo_referee_annotated.svg)及[可点击对照页面](workflow_explained.html)一致；原始未编号SVG保留不动。
+本说明覆盖完整流程图的全部处理、判断及滑动窗口示意控件。编号与[带编号SVG](spateo_referee_annotated.svg)及[可点击对照页面](workflow_explained.html)一致；原始未编号SVG保留不动。
 
 ## 先明确图中流动的是什么
 
-A输出原始测量和输入来源；B为每片确定比较对象；C把每个测量的偏离程度转为异常证据；D聚合为四域和总分；E产生最终keep/exclude；F把证据、坐标和决策组织为报告。大区箭头表示这些信息的依赖，不表示每一区只执行一次：C会被B的主/支持窗口调用，第二阶段确认窗口也会重复相应评分。
+A输出原始测量和输入来源；B为每片确定比较对象；C把每个测量的偏离程度转为异常证据；D聚合为四域和总分；E产生旧评分路线候选；G并行检查双侧组织/捕获损失，E或G任一路线通过即可排除；F把证据、坐标和最终retain/exclude组织为报告。大区箭头表示这些信息的依赖，不表示每一区只执行一次：C会被B的主/支持窗口调用，第二阶段确认窗口也会重复相应评分。
 
-图中的矩形一般表示处理或数据结果，菱形表示选择/判断；A的可用信号是并行分流，非互斥三选一。实线表示信息流或判断后的去向；带yes/no、all pass/any fails的线表示条件成立/失败；D的虚线是规则定义指向判断，不是额外处理。跨区C/D圆标只是续接位置，没有计算功能。浅绿色keep与红色exclude才是公开动作，其余颜色帮助分组，不是独立阈值。
+图中的矩形一般表示处理或数据结果，菱形表示选择/判断；A的可用信号是并行分流，非互斥三选一。实线表示信息流或判断后的去向；带yes/no、all pass/any fails的线表示条件成立/失败；D的虚线是规则定义指向判断，不是额外处理。跨区C/D圆标只是续接位置，没有计算功能。浅绿色retain与红色exclude是公开动作（E的retain仍需合并G），其余颜色帮助分组，不是独立阈值。
 
 ## 常用词与符号
 
@@ -392,10 +432,10 @@ A输出原始测量和输入来源；B为每片确定比较对象；C把每个�
 
 ## 一条示例贯穿流程（仅用于说明，并非新增实验）
 
-假设一张内部切片有可靠计数和双侧邻居。某指标期望计数1000、当前400，则相对下降m=.60；计数效应映射R约.946，但这仍要结合残差、上下文和其他证据，不能直接当最终总分。若最终四域为D=.65、X=.65、M=.10、C=.20，则S₀=.503；没有保护且双侧时S=.503。第一阶段进review，第二阶段选低分tier，要求2个域≥.45、最强域≥.65及所有其他门控。主窗口和全部可用确认窗口均通过才exclude；任一必要窗口失败则keep。示例没有指定真实切片，也不构成性能结果。
+假设一张内部切片有可靠计数和双侧邻居。某指标期望计数1000、当前400，则相对下降m=.60；计数效应映射R约.946，但这仍要结合残差、上下文和其他证据，不能直接当最终总分。若最终四域为D=.65、X=.65、M=.10、C=.20，则S₀=.503；没有保护且双侧时S=.503。第一阶段进review，第二阶段选低分tier，要求2个域≥.45、最强域≥.65及所有其他门控。主窗口和全部可用确认窗口均通过才exclude；任一必要窗口失败则旧路线未通过，但G仍独立评估。示例没有指定真实切片，也不构成性能结果。
 
 '''
-md=[intro];panel_names={'A':'输入与信号选择','B':'窗口与边界','C':'单指标标准化','D':'域聚合与保护','E':'两阶段筛选','F':'审计、展示与ROI'}
+md=[intro];panel_names={'A':'输入与信号选择','B':'窗口与边界','C':'单指标标准化','D':'域聚合与保护','E':'两阶段筛选','F':'审计、展示与ROI','G':'双侧组织/捕获损失'}
 last=None
 for row in rows:
  if row['panel']!=last:md.append(f"\n## {row['panel']}区：{panel_names[row['panel']]}\n");last=row['panel']
@@ -411,7 +451,7 @@ for row in rows:svg_inline=svg_inline.replace('<g id="'+row['id']+'"', '<g data-
 encoded=json.dumps(rows,ensure_ascii=False).replace('</','<\\/')
 page='''<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>Spateo Referee · 逐节点说明</title><style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,"PingFang SC",sans-serif;color:#183047;background:#f2f5f8}header{padding:18px 24px;background:white;border-bottom:1px solid #cad5e0}h1{font-size:23px;margin:0 0 8px}header p{margin:7px 0;font-size:14px;color:#53697d}a{color:#245dab}nav{display:flex;gap:20px;font-size:14px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 455px;height:calc(100vh - 130px)}.canvas{overflow:auto;padding:18px;position:relative}.canvas svg{display:block;width:1800px;height:auto;background:white}.tools{position:sticky;top:0;left:0;z-index:2;display:flex;gap:8px;width:max-content;padding:8px;background:#fff;border:1px solid #ccd6df;border-radius:8px}button,select,input{font:inherit;padding:8px;border:1px solid #b9cad8;border-radius:6px;background:white;color:#183047}button{cursor:pointer}.sidebar{background:white;border-left:1px solid #ccd6df;overflow:auto;padding:22px}.sidebar h2{font-size:23px;line-height:1.5;margin:15px 0 4px}.english{font-size:13px;color:#617489;overflow-wrap:anywhere}.sidebar label{font-weight:700;display:block;margin-top:18px}.sidebar p{font-size:15px;line-height:1.8;margin:6px 0;overflow-wrap:anywhere}.sidebar select,.sidebar input{width:100%;margin-bottom:8px}.source{font-size:12px!important;background:#f3f6f9;padding:10px;border-radius:6px}.warning{border-left:3px solid #dca541;padding-left:12px}.route button{margin:5px 5px 0 0;font-size:13px}.pager{display:flex;justify-content:space-between;margin-top:20px}g[data-guide]{cursor:pointer}g[data-guide]:hover>rect,g[data-guide]:hover>path{stroke:#2575a9;stroke-width:4}g[data-guide].selected>rect,g[data-guide].selected>path{stroke:#ce7228;stroke-width:5}g[data-guide]:focus{outline:none}g[data-guide]:focus>rect,g[data-guide]:focus>path{stroke:#2575a9;stroke-width:5}@media(max-width:950px){.layout{grid-template-columns:1fr;height:auto}.canvas{height:55vh}.sidebar{height:45vh}.canvas svg{width:1700px}}@media print{header,.canvas,.tools,.pager,input,select{display:none}.layout{display:block;height:auto}.sidebar{overflow:visible;border:0}}
-</style><header><h1>流程图逐节点说明</h1><p>点击任一节点查看“输入 → 操作 → 输出 → 下一步”。共61项。图中编号与文字版一致，原始QC参数和结果未修改。</p><nav><a href="spateo_referee_annotated.svg" download>带编号可编辑SVG</a><a href="NODE_EXPLANATIONS.md">完整文字说明与符号表</a><a href="index.html">返回整图</a></nav></header><div class="layout"><div class="canvas" id="canvas"><div class="tools"><button id="smaller">缩小</button><button id="larger">放大</button><button id="fit">适合宽度</button><span>橙色描边＝当前节点</span></div>__SVG__</div><aside class="sidebar"><input id="search" placeholder="搜索编号、名称、输入或输出" aria-label="搜索节点"><select id="nodeSelect" aria-label="选择节点"></select><div id="detail" aria-live="polite"></div><div class="pager"><button id="previous">上一个</button><button id="locate">定位图中节点</button><button id="next">下一个</button></div></aside></div><script id="guide-data" type="application/json">__DATA__</script><script>
+</style><header><h1>流程图逐节点说明</h1><p>点击任一节点查看“输入 → 操作 → 输出 → 下一步”。覆盖v3与保留的多域路线。图中编号与文字版一致；没有原始生物学认证承诺。</p><nav><a href="spateo_referee_annotated.svg" download>带编号可编辑SVG</a><a href="NODE_EXPLANATIONS.md">完整文字说明与符号表</a><a href="index.html">返回整图</a></nav></header><div class="layout"><div class="canvas" id="canvas"><div class="tools"><button id="smaller">缩小</button><button id="larger">放大</button><button id="fit">适合宽度</button><span>橙色描边＝当前节点</span></div>__SVG__</div><aside class="sidebar"><input id="search" placeholder="搜索编号、名称、输入或输出" aria-label="搜索节点"><select id="nodeSelect" aria-label="选择节点"></select><div id="detail" aria-live="polite"></div><div class="pager"><button id="previous">上一个</button><button id="locate">定位图中节点</button><button id="next">下一个</button></div></aside></div><script id="guide-data" type="application/json">__DATA__</script><script>
 const rows=JSON.parse(document.getElementById('guide-data').textContent), byId=Object.fromEntries(rows.map(r=>[r.id,r]));
 const select=document.getElementById('nodeSelect'),detail=document.getElementById('detail');let active=rows[0].id;
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}

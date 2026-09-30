@@ -6,15 +6,15 @@ from pathlib import Path
 import argparse, json, math
 from xml.sax.saxutils import escape
 
-p=argparse.ArgumentParser();p.add_argument('--policy',type=Path,default=Path(__file__).resolve().parents[1]/'policies/joint_review_v2.json');p.add_argument('--output',type=Path,default=Path(__file__).with_name('workflow.svg' if Path(__file__).parent.name=='references' else 'spateo_referee_complete_editable.svg'));a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--policy',type=Path,default=Path(__file__).resolve().parents[1]/'policies/tissue_loss_v3.json');p.add_argument('--output',type=Path,default=Path(__file__).with_name('workflow.svg' if Path(__file__).parent.name=='references' else 'spateo_referee_complete_editable.svg'));a=p.parse_args()
 P=json.loads(a.policy.read_text())['policy'];L,H=P['review_exclusion_tiers'];K=P['keep_max_score'];E=P['exclude_min_score'];B=L['max_score']
-W,HEIGHT=3900,3200
+W,HEIGHT=3900,4150
 C={'ink':'#183047','muted':'#56697D','line':'#657B91','blue':'#EAF2FB','teal':'#E3F3F0','purple':'#EEE9F7','amber':'#FFF3D9','red':'#FBE6E8','green':'#E5F3E8','white':'#FFFFFF'}
 parts=[f'''<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="{W}pt" height="{HEIGHT}pt" viewBox="0 0 {W} {HEIGHT}" version="1.1">
 <title>Spateo Referee — signal-dependent QC, window handling and binary decisions</title>
-<desc>Editable vector workflow. Joint review v2. Panels A–F contain current implementation branches; code function names in object descriptions provide traceability. All labels are live Arial text. No raster or embedded HTML.</desc>
-<rect x="0" y="0" width="3900" height="3200" fill="#FFFFFF"/>
+<desc>Editable vector workflow. Tissue loss v3. Panels A–F contain current implementation branches; code function names in object descriptions provide traceability. All labels are live Arial text. No raster or embedded HTML.</desc>
+<rect x="0" y="0" width="3900" height="4150" fill="#FFFFFF"/>
 ''']
 objects=[];panel=None;ox=oy=0;serial=0
 
@@ -64,8 +64,8 @@ def note(y,lines):
  for i,s in enumerate(lines):txt(600,y+27*i,s,21,color='muted')
 
 # Overall title and non-linear panel routing.
-group('title_and_reading_key');txt(60,66,'Spateo Referee',49,True,'start');txt(60,110,'Signal-dependent slice QC • sliding windows • evidence aggregation • auditable keep / exclude',28,False,'start','muted')
-txt(3840,54,'Joint review v2  |  13 September 2026',24,True,'end');txt(3840,94,'Metric-stress tested; independent biological validation incomplete',23,False,'end','muted');parts.append('</g>')
+group('title_and_reading_key');txt(60,66,'Spateo Referee',49,True,'start');txt(60,110,'Signal-dependent slice QC • sliding windows • evidence aggregation • auditable retain / exclude',28,False,'start','muted')
+txt(3840,54,'Tissue loss v3  |  28 September 2026',24,True,'end');txt(3840,94,'Experimental; no independent biological certification',23,False,'end','muted');parts.append('</g>')
 
 # A: three input branches plus distinct signal routes.
 begin('A',60,160,'Input contracts & signal routing','One biological series at a time; preserve raw coordinates and identities')
@@ -158,17 +158,17 @@ for x,y in [(300,355),(900,355)]:arrow([(x,y),(600,y),(600,582),(x,582),(x,602)]
 arrow([(300,557),(300,602)]);arrow([(900,557),(900,602)])
 box('d_rawscore',25,733,1150,144,'Aggregate anomaly score S₀',['S₀ = max(.31D + .39X + .12M + .18C, clip(.48 + .78(max(D,X,M,C) − .68), 0, 1))','Supporting-domain count = number of domains ≥.45'],fill='purple',size=21,source='_score_metrics: raw_score; corroborating_domains')
 arrow([(600,694),(600,733)])
-diamond('d_protection',600,969,495,125,['Anatomical protection?'],'_score_metrics: density_only OR taper_like')
+diamond('d_protection',600,969,495,125,['Smooth anatomy supported?'],'_score_metrics: legacy geometry candidate AND anatomy_smooth_taper_evidence AND no independent loss')
 arrow([(600,877),(600,906.5)])
-box('d_guard_rule',25,1068,680,166,'Protection conditions (either suffices)',['D≥.48, X<.32, M<.38, C<.45; OR','amount anomaly≥.45, density anomaly<.30,','hole anomaly<.30, X<.35'],fill='amber',size=22,source='_score_metrics: density_only; taper_like')
-box('d_guard_yes',785,1070,390,130,'Protected',['S ← min(S₀, .62)','Block automatic exclusion'],fill='amber',size=22)
+box('d_guard_rule',25,1068,680,166,'Positive transition evidence required',['Legacy geometry-looking candidate AND','actual count + area between immediate neighbors','normal molecular/continuity; no bilateral loss'],fill='amber',size=22,source='_score_metrics: anatomy_smooth_taper_evidence; geometry_loss_candidate; capture_loss_candidate')
+box('d_guard_yes',785,1070,390,130,'Protected',['S ← min(S₀, .62)','Protect only supported transition'],fill='amber',size=22)
 arrow([(847.5,969),(980,969),(980,1070)],'yes',(1020,1022));arrow([(352.5,969),(12,969),(12,1286),(60,1286)],'no: S = S₀',(141,951))
 box('d_endpoint',60,1260,1080,110,'Final score and boundary status',['If one-sided: S ← .82 × S. Otherwise keep S. Clip final score to [0,1].','Pass S, domain scores, context and protection flag to E.'],fill='teal',size=22,source='_score_metrics: final_score; window_context; score_confidence')
 arrow([(980,1200),(980,1260)]);arrow([(365,1068),(365,1045),(460,1045),(460,1004)],dash=True)
 end()
 
 # E: multiple branches, reviewed tiers, AND gate and binary exits.
-begin('E',1350,1640,'Two-stage filtering','Only keep / exclude are public; all review routes remain in the audit')
+begin('E',1350,1640,'Legacy score route','Parallel with G; retain is provisional until every exclusion route is evaluated')
 box('e_detector',25,145,1150,185,'Internal detector (distinct from final thresholds)',['With two sides + no protection: exclude if (S≥.64 AND ≥2 strong domains),','OR X≥.78, OR (D≥.82 AND holes≥.55 AND C≥.42).','Else review if S≥.38, any domain≥.45, any severe domain≥.78,','any metric≥.75 or protection; otherwise detector keep.'],size=21,source='_score_metrics: recommendations')
 diamond('e_stage1',600,424,520,124,[f'Stage 1: compare S',f'K = {K:.3f}     E = {E:.3f}'],'apply_high_confidence_policy')
 arrow([(600,330),(600,362)])
@@ -184,16 +184,16 @@ box('e_high_tier',650,922,495,132,'Higher-score review',[f'S ≥ {B:.3f}; includ
 arrow([(350,789),(302,789),(302,922)],'yes',(310,885));arrow([(850,789),(897,789),(897,922)],'no',(910,885))
 box('e_all_gates',140,1098,920,150,'AND: every required evidence condition passes',['Detector review/exclude + two-sided + no protection + confidence≥.90','Every available 3/5/7 window: same guards, domain count / severity,','and selected tier floor (.129 or .540); no window details → fail.'],fill='amber',size=21,source='_evaluate_review_tier_row: primary confidence only; all-window support=1.0; upper tier bound applies to primary only')
 arrow([(302,1054),(302,1098)]);arrow([(897,1054),(897,1098)])
-box('e_keep',125,1310,380,68,'KEEP',fill='green');box('e_exclude',695,1310,380,68,'EXCLUDE',fill='red')
+box('e_keep',125,1310,380,68,'RETAIN CANDIDATE',fill='green');box('e_exclude',695,1310,380,68,'EXCLUDE',fill='red')
 arrow([(380,1248),(380,1310)],'any fails',(287,1289));arrow([(820,1248),(820,1310)],'all pass',(913,1289))
 arrow([(175,660),(13,660),(13,1344),(125,1344)])
 arrow([(1175,610),(1188,610),(1188,1344),(1075,1344)],'all pass',(1090,873))
-note(1400,['Non-finite score / insufficient evidence → conservative keep + recorded diagnostics.'])
+note(1400,['Score route alone is not final: combine with G using OR; retain only if both fail.'])
 end()
 
 # F: separate display lane, decision audit and ROI output.
 begin('F',2640,1640,'Audit, display & exact ROI','Display transforms never feed back into QC scores or decisions')
-box('f_audit',25,148,1150,140,'Save one audit row per original slice',['Raw score, detector call, stage-1 route, stage-2 tier, window checks, failed gates, final_call','Freeze policy + hashes; experimental_policy clears certification. Keep ≠ proven healthy.'],fill='teal',size=21,source='write_high_confidence_outputs; run_publish')
+box('f_audit',25,148,1150,140,'Save one audit row per original slice',['Raw score, detector call, stage-1 route, stage-2 tier, window checks, failed gates, final_call','Also save loss deficits, route and window confirmations. Retain ≠ proven healthy.'],fill='teal',size=21,source='write_high_confidence_outputs; run_publish')
 arrow([(600,288),(600,348)])
 diamond('f_prereg_request',600,421,530,146,['Shared-coordinate','comparison requested?'],'run_preregister')
 box('f_raw_only',30,575,355,129,'Raw-only view',['Keep original coordinates','No shared-anatomy claim'],fill='amber',size=22)
@@ -219,10 +219,29 @@ badge(125,1600,'C','purple');arrow([(125,1627),(125,1640)])
 txt(3420,1608,'Continue in D',22,True,color='muted');txt(350,1608,'From C: normalized evidence',22,True,color='muted')
 parts.append('</g>')
 group('figure_notes')
-txt(60,3103,'READING KEY',22,True,'start');txt(250,3103,'A → B → C → D → E → F; availability branches in A may operate in parallel.',23,False,'start')
+txt(60,3103,'READING KEY',22,True,'start');txt(250,3103,'A → B → C → D → E; raw bilateral loss route G runs in parallel; (E OR G) → F.',23,False,'start')
 txt(60,3142,'Frozen policy:',22,True,'start');txt(250,3142,f'K={K:.3f}; split={B:.3f}; E={E:.3f}; strongest domain low/high={L["severe_domain_threshold"]:.2f}/{H["severe_domain_threshold"]:.2f}. Local references can adapt; these policy values do not.',23,False,'start')
 txt(60,3179,'Traceability:',22,True,'start');txt(250,3179,'Named SVG groups contain source-function descriptions. Full metric limits, score mappings and validation scope: companion methods document.',23,False,'start')
-parts.append('</g></svg>')
+parts.append('</g>')
+
+# G: independent physical-loss route; no legacy aggregate-score prerequisite.
+panel='G'
+parts.append('<g id="panel_G" inkscape:groupmode="layer" inkscape:label="G - Bilateral loss route" transform="translate(60,3250)">')
+parts.append('<rect width="3780" height="840" rx="20" fill="#FFFFFF" stroke="#C3D0DD" stroke-width="2"/>')
+badge(52,47,'G','blue');txt(101,45,'Bilateral tissue / capture loss → independent exclusion route',32,True,'start')
+txt(101,85,'Raw measurement deficits; no second anomaly domain, no old score cutoff; experimental mechanism, not biological certification',24,False,'start','muted')
+box('g_reference',35,155,820,180,'Conservative bilateral reference',['At each available 3 / 5 / 7 window:','reference = min(median(left), median(right))','deficit = max(0, 1 − observed / reference)','Both sides finite and positive; exclude focal slice'],fill='blue',size=22,source='_bilateral_loss_evidence; _score_metrics')
+box('g_geometry',1025,135,970,185,'Geometry route',['Locations deficit ≥50%','AND (area deficit ≥35% OR density deficit ≥35%)','Correlated physical corroboration, not independent domains'],fill='teal',size=22,source='point_loss_fraction; area_loss_fraction; density_loss_fraction; geometry_loss_candidate')
+box('g_capture',1025,380,970,185,'Measured capture route',['Captured-count deficit ≥50% AND genes deficit ≥30%','Explicit capture_loss_evidence_available required','Missing / normalized / one-hot proxies cannot substitute'],fill='blue',size=22,source='capture_count_loss_fraction; capture_gene_loss_fraction; capture_loss_candidate')
+arrow([(855,220),(1025,220)]);arrow([(855,280),(920,280),(920,470),(1025,470)])
+box('g_confirm',2180,210,900,220,'Confirm the same route across windows',['Primary window must support the route','≥min(2, available windows) confirmations in total','Matching primary-window scale counts toward that total','No aggregate score or two-domain prerequisite','Record counts, failed reasons and complete window evidence'],fill='purple',size=22,source='apply_high_confidence_policy: tissue_loss_exclusion_gate; tissue_loss_window_support')
+arrow([(1995,227),(2080,227),(2080,280),(2180,280)]);arrow([(1995,470),(2080,470),(2080,365),(2180,365)])
+box('g_final',3250,220,475,170,'Final action',['EXCLUDE if E OR G passes','otherwise RETAIN','Engine retain alias = keep'],fill='red',size=22,source='apply_high_confidence_policy: final_call; write_high_confidence_outputs')
+arrow([(3080,310),(3250,310)])
+box('g_limits',35,650,3690,130,'Limits to report, not hide',['Endpoints lack bilateral reference; whole-series or long consecutive degradation may remain missed.','Do not label simulated detection as real-data accuracy. Preserve controls, anatomical transitions and all failures.'],fill='amber',size=23,source='methods.md: ability boundaries; experimental_policy')
+parts.append('</g>')
+
+parts.append('</svg>')
 a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text('\n'.join(parts))
 a.output.with_suffix('.objects.json').write_text(json.dumps(objects,indent=2))
 print(a.output)

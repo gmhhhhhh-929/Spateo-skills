@@ -367,7 +367,7 @@
     "y": 906.5,
     "w": 495,
     "h": 125,
-    "source": "_score_metrics: density_only OR taper_like"
+    "source": "_score_metrics: legacy geometry candidate AND anatomy_smooth_taper_evidence AND no independent loss"
   },
   {
     "panel": "D",
@@ -377,7 +377,7 @@
     "y": 1068,
     "w": 680,
     "h": 166,
-    "source": "_score_metrics: density_only; taper_like"
+    "source": "_score_metrics: anatomy_smooth_taper_evidence; geometry_loss_candidate; capture_loss_candidate"
   },
   {
     "panel": "D",
@@ -598,5 +598,65 @@
     "w": 1150,
     "h": 82,
     "source": "slice_quality_detail_roi.js; export-roi: frame_id, source_row, obs_name, full-cache hashes; never use raw axis-aligned bounding box as exact inverse"
+  },
+  {
+    "panel": "G",
+    "id": "g_reference",
+    "type": "box",
+    "x": 35,
+    "y": 155,
+    "w": 820,
+    "h": 180,
+    "source": "_bilateral_loss_evidence; _score_metrics"
+  },
+  {
+    "panel": "G",
+    "id": "g_geometry",
+    "type": "box",
+    "x": 1025,
+    "y": 135,
+    "w": 970,
+    "h": 185,
+    "source": "point_loss_fraction; area_loss_fraction; density_loss_fraction; geometry_loss_candidate"
+  },
+  {
+    "panel": "G",
+    "id": "g_capture",
+    "type": "box",
+    "x": 1025,
+    "y": 380,
+    "w": 970,
+    "h": 185,
+    "source": "capture_count_loss_fraction; capture_gene_loss_fraction; capture_loss_candidate"
+  },
+  {
+    "panel": "G",
+    "id": "g_confirm",
+    "type": "box",
+    "x": 2180,
+    "y": 210,
+    "w": 900,
+    "h": 220,
+    "source": "apply_high_confidence_policy: tissue_loss_exclusion_gate; tissue_loss_window_support"
+  },
+  {
+    "panel": "G",
+    "id": "g_final",
+    "type": "box",
+    "x": 3250,
+    "y": 220,
+    "w": 475,
+    "h": 170,
+    "source": "apply_high_confidence_policy: final_call; write_high_confidence_outputs"
+  },
+  {
+    "panel": "G",
+    "id": "g_limits",
+    "type": "box",
+    "x": 35,
+    "y": 650,
+    "w": 3690,
+    "h": 130,
+    "source": "methods.md: ability boundaries; experimental_policy"
   }
 ]

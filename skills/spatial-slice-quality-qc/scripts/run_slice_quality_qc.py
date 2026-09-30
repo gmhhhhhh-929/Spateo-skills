@@ -692,6 +692,7 @@ def run_publish(args: argparse.Namespace) -> None:
         HighConfidencePolicy,
         SliceQCConfig,
         add_multiscale_exclusion_evidence,
+        _score_metrics,
         write_high_confidence_outputs,
     )
 
@@ -714,7 +715,14 @@ def run_publish(args: argparse.Namespace) -> None:
     )
     application_scope = getattr(args, "application_scope", "certified")
     experimental_metric_application = application_scope == "experimental_policy"
-    if experimental_metric_application and not benchmark.get("metric_stress_validation_passed", False):
+    loss_enabled = bool(policy_payload.get("enable_tissue_loss_resolver", False))
+    if loss_enabled and application_scope != "experimental_policy":
+        raise SystemExit("Bilateral-v3 requires --application-scope experimental_policy; it is not independently certified.")
+    if loss_enabled and (not args.output_dir or Path(args.output_dir).expanduser().resolve() == input_dir):
+        raise SystemExit("Bilateral-v3 rescoring requires a distinct --output-dir; preserve the source QC run unchanged.")
+    stress_passed = (benchmark.get("raw_matrix_stress_validation_passed", False) if loss_enabled
+                     else benchmark.get("metric_stress_validation_passed", False))
+    if experimental_metric_application and not stress_passed and not args.allow_unvalidated_policy:
         raise SystemExit("Experimental-policy application requires a passed, frozen metric-stress evaluation; it does not establish biological certification.")
     if not resolver_validation_passed and application_scope == "new_input_unvalidated":
         raise SystemExit("new_input_unvalidated transfers a historically validated policy. Use experimental_policy for a new metric-tested resolver.")
@@ -743,7 +751,7 @@ def run_publish(args: argparse.Namespace) -> None:
     if args.complete_binary:
         resolver_configured = bool(policy_payload.get("review_exclusion_tiers")) or (
             policy_payload.get("adaptive_exclude_min_score") is not None
-        )
+        ) or loss_enabled
         if not resolver_configured:
             raise SystemExit(
                 "Complete two-stage publication requires calibrated review_exclusion_tiers "
@@ -766,8 +774,9 @@ def run_publish(args: argparse.Namespace) -> None:
         else {"adaptive_window_stability", "adaptive_min_score_across_windows"}
     )
     if (
-        tiered or policy.adaptive_exclude_min_score is not None
-    ) and not adaptive_required.issubset(metrics.columns):
+        loss_enabled or ((tiered or policy.adaptive_exclude_min_score is not None)
+                         and not adaptive_required.issubset(metrics.columns))
+    ):
         manifest_path = input_dir / "slice_quality_manifest.json"
         if not manifest_path.exists():
             raise SystemExit(
@@ -783,7 +792,22 @@ def run_publish(args: argparse.Namespace) -> None:
         for key in ("window_candidates", "mito_prefixes"):
             if key in config_values:
                 config_values[key] = tuple(config_values[key])
+        if loss_enabled:
+            config_values.update(tissue_loss_enabled=True, window=3)
+            loss_config = benchmark.get("loss_config", {})
+            for key, value in loss_config.items():
+                if key not in allowed:
+                    raise SystemExit(f"Unknown frozen loss configuration: {key}")
+                config_values[key] = value
         config = SliceQCConfig(**config_values)
+        if loss_enabled:
+            required_raw = {"n_locations", "hull_area", "cell_density"}
+            if not required_raw.issubset(metrics.columns):
+                raise SystemExit("Bilateral-v3 requires complete saved raw geometry metrics; run a new scan first.")
+            # Always recompute versioned evidence; old multi-window caches are
+            # never permission to publish the new scientific route. Missing
+            # measured-capture provenance conservatively disables that route.
+            metrics = _score_metrics(metrics, None, {}, config, 3)
         adaptive_summary = policy.benchmark_summary.get("adaptive_extension", {})
         windows = tuple(
             int(value) for value in adaptive_summary.get("windows", (3, 5, 7))
@@ -819,10 +843,26 @@ def run_publish(args: argparse.Namespace) -> None:
             minimum_corroborating_domains=minimum_domains,
             severe_domain_threshold=severe_threshold,
         )
+    output_dir = Path(args.output_dir).expanduser().resolve() if args.output_dir else input_dir
+    if loss_enabled:
+        from dataclasses import asdict
+        import hashlib
+        output_dir.mkdir(parents=True, exist_ok=True)
+        parent_metrics_sha = hashlib.sha256(metrics_path.read_bytes()).hexdigest()
+        metrics.to_csv(output_dir / "slice_quality_metrics.csv", index=False)
+        manifest["config"] = asdict(config)
+        manifest["selected_window"] = 3
+        manifest["loss_rescore"] = {"evidence_version":"bilateral-v3", "parent_metrics_sha256":parent_metrics_sha,
+                                    "raw_matrix_reextracted":False, "capture_provenance_required":True}
+        (output_dir / "slice_quality_manifest.json").write_text(json.dumps(manifest, indent=2))
+        import shutil
+        display = input_dir / "slice_quality_display_payload.json"
+        if display.is_file():
+            shutil.copy2(display, output_dir / display.name)
     outputs = write_high_confidence_outputs(
         metrics,
         policy,
-        Path(args.output_dir).expanduser().resolve() if args.output_dir else input_dir,
+        output_dir,
         application_scope=application_scope,
     )
     import hashlib

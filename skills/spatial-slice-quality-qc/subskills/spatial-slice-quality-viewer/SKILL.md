@@ -1,6 +1,6 @@
 ---
 name: spatial-slice-quality-viewer
-description: Generate the current Spateo Referee keep/exclude report with overview, statistics, multi-metric slice evidence, all slices, methods, and shared-frame ROI. Supports one QC run or a dataset collection and reuses the companion QC skill's renderer and joint low/high review policy.
+description: Generate the current Spateo Referee retain/exclude report with overview, statistics, multi-metric and bilateral-loss evidence, all slices, methods, and shared-frame ROI. Supports one QC run or a dataset collection using the companion QC skill's canonical renderer.
 ---
 
 # Spateo Referee Viewer
@@ -14,17 +14,25 @@ templates into a second viewer or convert review labels in presentation code.
 ```bash
 python scripts/build_viewer.py \
   --input-dir /path/to/qc_run --output-dir /path/to/new_report \
-  --policy ../../policies/joint_review_v2.json \
+  --policy ../../policies/tissue_loss_v3.json \
+  --allow-unvalidated-policy \
   --application-scope experimental_policy --language en
 ```
 
-The joint policy executes low- and high-score evidence checks. Its validation
-scope is metric-stress testing only; the report must display this limitation.
+The v3 policy evaluates bilateral tissue/capture losses in parallel with the
+legacy low- and high-score evidence checks. Historical v2 validation is not v3
+validation; the experimental policy has no independent biological certification.
+The report must display route, actual deficit fractions, primary/confirming
+window evidence, missing-evidence limitations and retain/exclude public labels.
+The audit and engine retain their compatible `keep` alias; do not relabel review.
 The current gate values, score branches and source functions are defined in
 [the QC methods](../../references/methods.md).
 Do not describe the low band as keep-only, or mark the new policy independently
 certified. Preserve a historical input audit only when the user requests that
 policy; omitting `--policy` renders its existing complete decisions unchanged.
+The explicit development flag does not grant biological certification. V3
+requires both primary and confirming evidence configuration to match its policy;
+rendering cannot manufacture missing evidence or repair a configuration mismatch.
 
 Accept metrics, manifest and display payload. Without `--policy`, require a
 complete binary audit matching every input slice and its original order.
@@ -46,7 +54,9 @@ Unavailable values stay unavailable; sample-only calculations are disclosed.
 Methods must show actual per-band gate values, not stale hardcoded thresholds.
 
 Verify final calls against the generated audit; low-band review is fully checked
-when the joint policy is supplied. Review remains internal. Confirm experimental
+when the joint policy is supplied. With v3, verify the additional tissue-loss
+gate against the audit even for low-score slices; it does not require a second
+anomaly domain. Review remains internal. Confirm experimental
 policy and input-validation limitations appear in each report and collection.
 
 Check raw/display switching, shared coordinate extents, focal-slice ROI dragging
