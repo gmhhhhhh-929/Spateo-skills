@@ -23,5 +23,17 @@
     "No browser console errors"
   ],
   "javascript_syntax": "passed",
-  "installed_copy_matches": true
+  "installed_copy_matches": true,
+  "native_4d_regression": {
+    "passed": 25,
+    "warnings": 34,
+    "elapsed_seconds": 22.95,
+    "tests": [
+      "tests/native_skills/test_4d.py",
+      "tests/native_skills/test_4d_modular.py",
+      "validation/refinement_20260928/test_comparison_identity.py",
+      "validation/refinement_20260928/test_fit_export.py",
+      "validation/refinement_20260928/test_registration_qc.py"
+    ]
+  }
 }

@@ -189,5 +189,3 @@ def trajectory(config, a, b, directory):
         'fraction_points_outside_source_box_plus_10_percent': float(outside.mean()),
         'model_time_is_not_days': True})
     return {**save_pair(a,b,directory), 'trajectories': directory/'trajectories.npz', 'trajectory_qc': directory/'trajectory_qc.json'}
-
-

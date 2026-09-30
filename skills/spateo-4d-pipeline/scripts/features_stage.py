@@ -120,4 +120,3 @@ def gp(config, a, b, directory):
         raise ValueError("GP produced nonfinite expression")
     result.write_h5ad(directory / "gene_interpolation.h5ad")
     return {"gene_interpolation": directory / "gene_interpolation.h5ad"}
-
