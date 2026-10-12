@@ -1,11 +1,23 @@
 ---
 name: setup-spateo-environment
-description: Create, diagnose, and verify a Spateo Python environment from a separate source checkout. Use for Spateo installation, dependency or binary conflicts, and environment preparation for IO, preprocessing, alignment, and native morphogenesis.
+description: Create or diagnose a Spateo environment from a separate source checkout, discover existing environments, document their directory trees and downstream capabilities, or compare environment reports.
 ---
 
 # Setup Spateo Environment
 
-Prepare a reproducible environment for the supported Spateo source profile. This skill contains setup guidance and a verifier; the Skills repository is not an installable Spateo package.
+Prepare a reproducible environment for the supported Spateo source profile, or inspect an existing installation. The Skills repository is not an installable Spateo package. Install this complete directory, including its nested subskills and shared scripts.
+
+## Route by request
+
+| Request | Route |
+| --- | --- |
+| Find a previously created local or server environment | [spateo-environment-discovery](subskills/spateo-environment-discovery/SKILL.md) |
+| Document the environment's directories, interpreter and editable source | [spateo-environment-tree](subskills/spateo-environment-tree/SKILL.md) |
+| Explain environment health and which downstream tasks have evidence of support | [spateo-environment-report](subskills/spateo-environment-report/SKILL.md) |
+| Detect changes since an earlier report, or compare local and server environments | [spateo-environment-compare](subskills/spateo-environment-compare/SKILL.md) |
+| Create, install or repair an environment | Continue with the installation contract below. |
+
+Inspection routes do not install packages or repair the environment. They write new audit artifacts and use synthetic probe data; a failed check is evidence to report, not authorization to change the environment. After setup, use the report route for a documented handoff. A directory-only request does not require runtime probes.
 
 ## Establish the installation target
 
@@ -42,6 +54,6 @@ For development changes, run the relevant source tests in that checkout after in
 
 ## Handoff and scope
 
-Report the selected source commit, Python executable, dependency check, requested smoke-test outcomes, and remaining untested capabilities. Keep machine paths in the user's local report, not in reusable skill files.
+Report the selected source commit, Python executable, dependency check, requested smoke-test outcomes, and remaining untested capabilities. The report subskill adds a reusable Markdown document, JSON evidence, package snapshot and bounded directory tree. Keep machine paths in the user's local report, not in reusable skill files or public repository examples.
 
 This is stage 1 of the ordered collection: environment → IO → slice quality with viewer → 2D alignment → 3D pipeline → native 4D pipeline. The current 3D implementation covers point-cloud VTKs and selectable surface-mesh VTKs; later voxel, reconstructed-cell, backbone, and interpolation models remain pending. The IO, 3D, and 4D skills specify their verified source revision; use that revision when preparing their environment. Check each downstream skill's input/runtime contracts. Environment smoke tests do not establish full pipeline execution or biological accuracy.

@@ -10,7 +10,7 @@
 
 | Order | Entrypoint | Scope and handoff | Status |
 | --- | --- | --- | --- |
-| 1 | [setup-spateo-environment](skills/setup-spateo-environment/SKILL.md) | Prepare/verify a separate native Spateo environment. | Existing |
+| 1 | [setup-spateo-environment](skills/setup-spateo-environment/SKILL.md) | Prepare/verify an environment; discover, document, audit and compare existing installations. | Four environment subskills |
 | 2 | [spateo-data-io](skills/spateo-data-io/SKILL.md) | Contract-based spatial reading → named AnnData outputs and diagnostics. | Rewritten in English for current IO |
 | 3 | [spatial-slice-quality-qc](skills/spatial-slice-quality-qc/SKILL.md) | Slice QC → keep/exclude evidence; includes [slice-quality-viewer](skills/spatial-slice-quality-qc/subskills/spatial-slice-quality-viewer/SKILL.md). | Existing runtime, viewer nested here |
 | 4 | [spateo-2d-alignment](skills/spateo-2d-alignment/SKILL.md) | Serial 2D alignment → aligned sections, QC, replay and provenance. | Existing two pipelines and 14 subskills |
@@ -27,11 +27,12 @@ flowchart LR
   EXTERNAL[Validated external 3D H5AD pair] --> FOUR
 ```
 
-当前共有 **6 个顶层入口**和 **30 个 SKILL.md**。3D 父 skill 包含 `spateo-reconstruct-point-cloud`、`spateo-reconstruct-mesh` 和 [spateo-render-3d-viewer](skills/spateo-3d-pipeline/subskills/spateo-render-3d-viewer/SKILL.md) 三个已实现子 skill。Viewer 可直接导入已有 VTK mesh 和可选点云，生成离线英文交互检查页面，无需重新重建；voxel、重建细胞、backbone 和空间插值仍待补充。4D 的四个分析子 skill（跨时间点配准、同注释映射/流场/轨迹、features/GLM、可适配的离线 viewer）位于 `spateo-4d-pipeline/subskills/`，另保留运行管理和参数修改两个辅助 skill；QC viewer 位于 QC 目录内。安装时应保留完整顶层目录，父入口会显式路由到嵌套子 skill。
+当前共有 **6 个顶层入口**和 **34 个 SKILL.md**。环境父 skill 新增四个只读检查子 skill：已有环境查找、目录树文档、健康状态与下游能力报告、环境报告对比。3D 父 skill 包含 `spateo-reconstruct-point-cloud`、`spateo-reconstruct-mesh` 和 [spateo-render-3d-viewer](skills/spateo-3d-pipeline/subskills/spateo-render-3d-viewer/SKILL.md) 三个已实现子 skill。Viewer 可直接导入已有 VTK mesh 和可选点云，生成离线英文交互检查页面，无需重新重建；voxel、重建细胞、backbone 和空间插值仍待补充。4D 的四个分析子 skill（跨时间点配准、同注释映射/流场/轨迹、features/GLM、可适配的离线 viewer）位于 `spateo-4d-pipeline/subskills/`，另保留运行管理和参数修改两个辅助 skill；QC viewer 位于 QC 目录内。安装时应保留完整顶层目录，父入口会显式路由到嵌套子 skill。
 
 ```text
 skills/
 ├── setup-spateo-environment/
+│   └── subskills/{spateo-environment-discovery,spateo-environment-tree,spateo-environment-report,spateo-environment-compare}/
 ├── spateo-data-io/
 ├── spatial-slice-quality-qc/
 │   └── subskills/spatial-slice-quality-viewer/
@@ -62,7 +63,7 @@ continuity-guided 的兼容默认值仍是 **`--profile legacy`**。显式选择
 
 ## 使用顺序
 
-1. `$setup-spateo-environment`：准备独立 Spateo 环境。
+1. `$setup-spateo-environment`：准备独立 Spateo 环境，或查找已有本机/服务器环境，生成目录树、健康与下游能力报告，再与历史报告比较。
 2. `$spateo-data-io`：按新版 `SpatialReadResult` 契约读取与核验数据。
 3. `$spatial-slice-quality-qc`：质量检查、keep/exclude 审计及其内部 viewer。
 4. `$spateo-2d-alignment`：在同一生物样本内明确表征与切片顺序后配准。
