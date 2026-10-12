@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spateo Environment Discovery"
+  short_description: "Find existing local or server Spateo environments"
+  default_prompt: "Use $spateo-environment-discovery to find the Spateo environment from my earlier setup and record the evidence for each candidate."

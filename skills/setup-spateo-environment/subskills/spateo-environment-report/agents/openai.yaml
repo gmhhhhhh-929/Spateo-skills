@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spateo Environment Report"
+  short_description: "Report environment health and downstream capabilities"
+  default_prompt: "Use $spateo-environment-report to audit my existing environment and explain which downstream tasks have passed checks and which remain untested."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spateo Environment Tree"
+  short_description: "Document environment and editable-source directories"
+  default_prompt: "Use $spateo-environment-tree to create a readable directory-tree document for my selected Spateo environment."

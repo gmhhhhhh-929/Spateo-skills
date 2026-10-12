@@ -1,0 +1,4 @@
+interface:
+  display_name: "Spateo Environment Compare"
+  short_description: "Compare packages, source and capability evidence"
+  default_prompt: "Use $spateo-environment-compare to compare these two saved environment reports and explain meaningful changes and differences in test coverage."

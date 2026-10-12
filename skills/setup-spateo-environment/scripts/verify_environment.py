@@ -71,7 +71,7 @@ def _checkout_details(checkout: Path) -> dict[str, object]:
             result["commit"] = head
             result["matches_skill_source_commit"] = head == SOURCE_COMMIT
             result["tracked_files_modified"] = bool(subprocess.run(
-                ["git", "-C", str(checkout), "status", "--porcelain", "--untracked-files=no"],
+                ["git", "--no-optional-locks", "-C", str(checkout), "status", "--porcelain", "--untracked-files=no"],
                 capture_output=True, text=True, timeout=10, check=True,
             ).stdout.strip())
         except (OSError, subprocess.SubprocessError) as exc:
